@@ -1,0 +1,24 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Gauge.EaseOfImplementation;
+
+<div class="gauge-container" style="margin-bottom: 1rem;">
+
+    @Html.Raw(Model.Paper.SVG)
+    
+
+    <div class="gauge-content">
+        <div class="gauge-value">@Model.Value.ToString("#0")@Model.ValueUnits</div>
+        @foreach (var title in Model.ValueTitle)
+        {
+            <div class="gauge-title">@title</div>
+        }
+    </div>
+
+
+    <div class="gauge-title-tile">
+        @foreach (var title in Model.Title)
+        {
+            <div class="gauge-title">@title</div>
+        }
+        <div style="color: @Model.Colour; font-weight: 600;">@Model.Difficulty</div>
+    </div>
+</div>

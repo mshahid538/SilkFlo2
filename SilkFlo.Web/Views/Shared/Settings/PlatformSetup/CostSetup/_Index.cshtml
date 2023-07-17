@@ -1,0 +1,144 @@
+@model SilkFlo.Web.ViewModels.Settings.PlatformSetup
+
+<div id="Settings.PlatformSetup.CostSetup">
+    
+    @{
+        const string clsInActive = "silkflo-tab-label";
+        const string clsActive = clsInActive + " active";
+
+        string cls;
+
+
+        const string displayBlock = "";
+        const string displayNone = "style=\"display: none\"";
+
+        string displaySoftwareVendor;
+        string displayInitialCosts;
+        string displayRunningCosts;
+        string displayOtherRunningCosts;
+
+        const string pathPrefix = "Settings/tenant/Platform-Setup/Cost-Setup/";
+    }
+
+    <div class="silkflo-tab">
+        
+        @if (Model.Tab.ToLower() == "software-vendor")
+        {
+            cls = clsActive;
+            displaySoftwareVendor = displayBlock;
+        }
+        else
+        {
+            cls = clsInActive;
+            displaySoftwareVendor = displayNone;
+        }
+        
+        @{ var path = pathPrefix + "Software-Vendor"; }
+
+
+        <h3 class="@cls"
+            name="Settings.PlatformSetup.CostSetup.SoftwareVendor.Tab"
+            displayPath="@path"
+            parentId="Settings.PlatformSetup.CostSetup">
+            Software Vendors
+        </h3>
+        
+        
+        @if (Model.Tab.ToLower() == "initial-costs")
+        {
+            cls = clsActive;
+            displayInitialCosts = displayBlock;
+        }
+        else
+        {
+            cls = clsInActive;
+            displayInitialCosts = displayNone;
+        }
+        
+        @{ path = pathPrefix + "Initial-Costs"; }
+
+        
+        <h3 class="@cls"
+            name="Settings.PlatformSetup.CostSetup.InitialCosts.Tab"
+            displayPath="@path"
+            parentId="Settings.PlatformSetup.CostSetup">
+            Initial Costs
+        </h3>
+
+        
+        
+        @if (Model.Tab.ToLower() == "running-costs")
+        {
+            cls = clsActive;
+            displayRunningCosts = displayBlock;
+        }
+        else
+        {
+            cls = clsInActive;
+            displayRunningCosts = displayNone;
+        }
+        
+        
+        @{ path = pathPrefix + "Running-Costs"; }
+
+        
+        <h3 class="@cls"
+            name="Settings.PlatformSetup.CostSetup.RunningCosts.Tab"
+            displayPath="@path"
+            parentId="Settings.PlatformSetup.CostSetup">
+            Running Costs
+        </h3>
+        
+        
+        @if (Model.Tab.ToLower() == "other-running-costs")
+        {
+            cls = clsActive;
+            displayOtherRunningCosts = displayBlock;
+        }
+        else
+        {
+            cls = clsInActive;
+            displayOtherRunningCosts = displayNone;
+        }
+        
+        
+        @{ path = pathPrefix + "Other-Running-Costs"; }
+
+        
+        <h3 class="@cls"
+            name="Settings.PlatformSetup.CostSetup.OtherRunningCosts.Tab"
+            displayPath="@path"
+            parentId="Settings.PlatformSetup.CostSetup">
+            Other Running Costs
+        </h3>
+
+
+    </div>
+    
+    <div name="container">
+        @{
+            const string apiPrefix = "Settings/tenant/PlatformSetup/CostSetup/";
+        }
+
+        @{ path = apiPrefix + "SoftwareVendor/Summary"; }
+        <div name="Settings.PlatformSetup.CostSetup.SoftwareVendor.Content"
+             @Html.Raw(displaySoftwareVendor)
+             silkflo-url="@path">Loading Software Vendor Content</div>
+
+        @{ path = apiPrefix + "InitialCosts/Summary"; }
+        <div name="Settings.PlatformSetup.CostSetup.InitialCosts.Content"
+             @Html.Raw(displayInitialCosts)
+             silkflo-url="@path">Loading Content</div>
+
+        @{ path = apiPrefix + "RunningCosts/Summary"; }
+        <div name="Settings.PlatformSetup.CostSetup.RunningCosts.Content"
+             @Html.Raw(displayRunningCosts)
+             silkflo-url="@path">Loading Content</div>
+
+        @{ path = apiPrefix + "OtherRunningCosts/Summary"; }
+        <div name="Settings.PlatformSetup.CostSetup.OtherRunningCosts.Content"
+             @Html.Raw(displayOtherRunningCosts)
+             silkflo-url="@path">Loading Content</div>
+
+    </div>
+</div>

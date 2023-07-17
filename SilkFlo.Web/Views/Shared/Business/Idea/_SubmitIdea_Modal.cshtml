@@ -1,0 +1,558 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+
+<div class="modal-header">
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+
+<div id="FormModal_BusinessIdea">
+
+
+    <div id="ModelSubmitIdeaContainer">
+
+        <div id="ModalSubmitIdeaPages"
+             class="ModalSubmitIdeaPages transition">
+
+
+            <div id="page0" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+                    <div>
+                        <h1 class="text-center">
+                            Have an idea for a process that<br />you want automated?
+                        </h1>
+                    </div>
+
+
+                    <div>
+                        <img class="IdeaBulb" src="\Icons\Idea Bulb.svg" />
+                    </div>
+
+
+                    <div>
+                        <p class="text-center">
+                            <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage ();"
+                                    onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);"
+                                    name="NextPage0"
+                                    class="btn btn-warning">Let's get started</button>
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer ModalSubmitIdeaFooter"
+                     style="justify-content: center; display: none;">
+                    <a class="ModalSubmitIdeaBtnBack noSelect">
+                        Not sure? Learn about automation <img src="\Icons\Arrow Right.svg" />
+                    </a>
+                </div>
+            </div>
+
+
+            <div id="page1" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+                    <div>
+                        <h1>Please enter the name of the task/process</h1>
+
+                        @await Html.PartialAsync("Elements/_LabeledInput",
+                          new SilkFlo.Web.ViewModels.Element
+                          {
+                              Title = "Process Name",
+                              Name = "Business.Idea.Name",
+                              Value = Model.Name,
+                              InvalidFeedback = "Required",
+                              IsFloatingLabel = true,
+                              IsInvalid = false,
+                              IsReadOnly = false,
+                              MaximumLength = 100,
+                          })
+                    </div>
+
+
+                    <div>
+
+                        <h1>
+                            Please provide a short description of the task/process that you would like to propose
+                        </h1>
+
+                        @await Html.PartialAsync("Elements/_LabeledTextArea",
+              new SilkFlo.Web.ViewModels.Element
+              {
+                  Title = "Description",
+                  Name = "Business.Idea.Summary",
+                  Value = Model.Summary,
+                  InvalidFeedback = "Required",
+                  IsFloatingLabel = true,
+                  IsInvalid = false,
+                  IsReadOnly = false,
+                  MaxHeight = "200px",
+              })
+                    </div>
+                </div>
+
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);"
+                            name="NextPage1"
+                            class="btn btn-warning">Next</button>
+                </div>
+            </div>
+
+
+            @if (Model.Departments.Count > 1)
+            {
+                @* Please categorise your idea *@
+                <div id="page2" name="ModalPage">
+                    <div class="modal-body ModalSubmitIdeaBody">
+
+                        <h1>Please categorise your idea</h1>
+
+
+                        @*Business Department*@
+                        @await Html.PartialAsync("Elements/_LabeledSelect",
+                             new SilkFlo.Web.ViewModels.Element
+                             {
+                                 Title = "Business Unit",
+                                 Name = "Business.Idea.DepartmentId",
+                                 Value = Model.DepartmentId,
+                                 InvalidFeedback = "Required",
+                                 IsFloatingLabel = false,
+                                 IsReadOnly = false,
+                                 JavaScriptOnKeyDown = "SilkFlo.ViewModels.Business.Idea.Modal.PreviousPageOnKeyDown(event)",
+                                 JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.GetBusinessTeam('FormModal_BusinessIdea', this);",
+                                 SelectList = new SelectList(Model.Departments,
+                                                             "Id",
+                                                             "DisplayText"),
+                             })
+
+
+
+                        @*Business Team*@
+                        @await Html.PartialAsync("Elements/_LabeledSelect",
+                            new SilkFlo.Web.ViewModels.Element
+                            {
+                                Title = "Area",
+                                Name = "Business.Idea.TeamId",
+                                Value = Model.TeamId,
+                                InvalidFeedback = "",
+                                IsFloatingLabel = false,
+                                IsReadOnly = false,
+                                JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.GetBusinessProcess('FormModal_BusinessIdea', this);",
+                                SelectList = new SelectList(Model.Teams,
+                                                                 "Id",
+                                                                 "Name"),
+                            })
+
+
+
+
+                        @await Html.PartialAsync("Elements/_LabeledSelect",
+                            new SilkFlo.Web.ViewModels.Element
+                            {
+                                Title = "Sub-Area",
+                                Name = "Business.Idea.ProcessId",
+                                Value = Model.ProcessId,
+                                InvalidFeedback = "",
+                                IsFloatingLabel = false,
+                                IsReadOnly = false,
+                                SelectList = new SelectList(Model.Processes,
+                                                                 "Id",
+                                                                 "Name"),
+                            })
+
+                    </div>
+
+
+                    <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                        <a class="ModalSubmitIdeaBtnBack noSelect" 
+                           onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                           onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage ();">
+                            <img src="\Icons\Arrow Left.svg" /> Back
+                        </a>
+
+                        <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                                onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);"
+                                name="NextPage2"
+                                class="btn btn-warning">Next</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input name="Business.Idea.noDepartments" type="hidden" />
+                <input name="Business.Idea.DepartmentId" type="hidden" />
+                <input name="Business.Idea.TeamId" type="hidden" />
+                <input name="Business.Idea.ProcessId" type="hidden" />
+            }
+
+            @* Page 3 - How rule-based is your task? *@
+            <div id="page3" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+                    <div>
+                        <h1 class="text-center">How rule-based is your task?</h1>
+
+                        <div style="margin-left: auto; margin-right: auto; display: flex;justify-content: center;">
+                            @await Html.PartialAsync("Elements/_Slider",
+                                          new SilkFlo.Web.ViewModels.Element
+                                          {
+                                              Name = "Business.Idea.RuleId",
+                                              Value = Model.RuleId,
+                                              SelectWeightedList = Model.Rules
+                                          })
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <h1 class="text-center">Describe the input data for your process?</h1>
+
+                        <div style="margin-left: auto; margin-right: auto; display: flex;justify-content: center;">
+                            @await Html.PartialAsync("Elements/_Slider",
+                                  new SilkFlo.Web.ViewModels.Element
+                                  {
+                                      Name = "Business.Idea.InputId",
+                                      Value = Model.InputId,
+                                      SelectWeightedList = Model.Inputs
+                                  })
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage ();"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);"
+                            name="NextPage3"
+                            class="btn btn-warning">Next</button>
+                </div>
+            </div>
+
+
+            @* Page 4 - How structured is the input data? *@
+            <div id="page4" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+
+                    <div>
+                        <h1 class="text-center" silkflo-hotspot="How-structured-is-the-input-data">How structured is the input data?</h1>
+
+                        <div style="margin-left: auto; margin-right: auto; display: flex;justify-content: center;">
+                            @await Html.PartialAsync("Elements/_Slider",
+                                          new SilkFlo.Web.ViewModels.Element
+                                          {
+                                              Name = "Business.Idea.InputDataStructureId",
+                                              Value = Model.InputDataStructureId,
+                                              SelectWeightedList = Model.InputDataStructures
+                                          })
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <h1 silkflo-hotspot="Are-there-any-upcoming-changes-to-the-process-within-6-months">
+                            Are there any upcoming changes to the<br>process within 6 months?
+                        </h1>
+
+                        <div style="margin-left: auto; margin-right: auto; display: flex;justify-content: center;">
+                            @await Html.PartialAsync("Elements/_Slider",
+                                new SilkFlo.Web.ViewModels.Element
+                                {
+                                    Name = "Business.Idea.ProcessStabilityId",
+                                    Value = Model.ProcessStabilityId,
+                                    SelectWeightedList = Model.ProcessStabilities
+                                })
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button class="btn btn-warning"
+                            name="NextPage4"
+                            onclick="SilkFlo.ViewModels.Business.Idea.Modal.UpdateRatingScreen(); SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);">Next</button>
+                </div>
+            </div>
+
+
+            @* Page 5- How satisfied are you with the current manual process for ”{process name}”? *@
+            <div id="page5" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+                    <div>
+                        <h1 silkflo-hotspot="How-satisfied-are-you-with-the-current-manual-process-for"><span>How satisfied are you with the current manual process for "</span><span name="Business.Idea.DisplayName" style="color: var(--bs-gray-lighter)">{process name}</span><span>"?</span></h1>
+
+
+                        <div style="margin-left: auto; margin-right: auto; display: flex;justify-content: center;">
+                            <div name="Business.Idea.Rating" style="max-width: 100%;">
+                                <option id="0"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Strongly displeased' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#E73A3A" Slider-Colour="#E73A3A">
+                                    <img src="~/Icons/Ratings/1.svg" />
+                                </option>
+                                <option id="1"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Displeased' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#EF5527" Slider-Colour="#EF5527">
+                                    <img src="~/Icons/Ratings/2.svg" />
+                                </option>
+                                <option id="2"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Slightly displeased' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#F76F13" Slider-Colour="#F76F13">
+                                    <img src="~/Icons/Ratings/3.svg" />
+                                </option>
+                                <option id="3"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Neither displeased nor satisfied' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#FF8A00" Slider-Colour="#FF8A00">
+                                    <img src="~/Icons/Ratings/4.svg" />
+                                </option>
+                                <option id="4"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Somewhat satisfied' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#B9A329" Slider-Colour="#B9A329">
+                                    <img src="~/Icons/Ratings/5.svg" />
+                                </option>
+                                <option id="5"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Satisfied' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#74BB51" Slider-Colour="#74BB51">
+                                    <img src="~/Icons/Ratings/6.svg" />
+                                </option>
+                                <option id="6"
+                                        onmousemove="Delaney.UI.ToolTip.Show ( event, 'Strongly satisfied' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                                        Slider-Background="#2ED47A" Slider-Colour="#2ED47A">
+                                    <img src="~/Icons/Ratings/7.svg" />
+                                </option>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);"
+                            name="NextPage5"
+                            class="btn btn-warning">Next</button>
+                </div>
+            </div>
+
+
+            <div id="page6" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+                    <div>
+                        <h1>Do you have any documentation for this process?</h1>
+                        <div style="margin-left: auto; margin-right: auto; display: flex;justify-content: center;">
+                            @await Html.PartialAsync("Elements/_Slider",
+                                new SilkFlo.Web.ViewModels.Element
+                                {
+                                    Name = "Business.Idea.DocumentationPresentId",
+                                    Value = Model.DocumentationPresentId,
+                                    SelectWeightedList = Model.DocumentationPresents
+                                })
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button class="btn btn-warning"
+                            name="NextPage6"
+                            onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);">Next</button>
+                </div>
+            </div>
+
+
+
+            @* Page 7 - Who is the process owner? *@
+            <div id="page7" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody" style="overflow-y: auto;">
+
+                    <div>
+                        <h1>Who is the process owner?</h1>
+                            @{
+                                const string searchProcessOwnerModal = "SearchProcessOwner_Modal";
+                                const string targetFullnameId = "Modal.ProcessOwner";
+                                const string targetIdId = "Modal.ProcessOwnerId";
+                                const string targetEmailId = "Modal.ProcessOwnerEmail";
+                            }
+
+                            @await Html.PartialAsync(
+                                "Business/Idea/Edit/ProcessOwner/_Detail",
+                                new SilkFlo.Web.ViewModels.Business.Idea.ProcessOwner
+                                {
+                                    Idea = Model,
+                                    ModalId = searchProcessOwnerModal,
+                                    TargetFullnameId = targetFullnameId,
+                                    TargetIdId = targetIdId,
+                                    TargetIdName = "Business.Idea.ProcessOwnerId",
+                                    TargetEmailId = targetEmailId
+                                })
+                    </div>
+                </div>
+
+
+
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageOnKeyDown (event);"
+                            name="NextPage7"
+                            class="btn btn-warning">Next</button>
+                </div>
+            </div>
+
+            @* Page 8 - Are there any other contributors to this process? *@
+            <div id="page8" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody" style="overflow-y: auto;">
+                    <div>
+                        <h1 style="margin: 0 0 1rem 0 !important;">Are there any other contributors to this process?</h1>
+
+                           
+                        @await Html.PartialAsync(
+                            "Business/Idea/Edit/_Collaborator",
+                            new SilkFlo.Web.ViewModels.Business.Idea.ManageCollaborator.CollaboratorList
+                            {
+                                Idea = Model,
+                                CollaboratorLimit = Model.CollaboratorLimit,
+                                CollaboratingUsers = Model.CollaboratingUsers,
+                                ParentFormId = "ModelSubmitIdeaContainer",
+                                CanScroll = false
+                            })
+                    </div>
+                </div>
+
+                <div class="modal-footer_SpaceBetween ModalSubmitIdeaFooter">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+
+                    <button onclick="SilkFlo.Models2.Business.Idea.GetFeasibilityGaugeComponent(); SilkFlo.Models2.Business.Idea.GetReadinessGaugeComponent(); SilkFlo.Models2.Business.Idea.GetIdeaGaugeComponent(); SilkFlo.ViewModels.Business.Idea.Modal.NextPage();"
+                            onkeydown="SilkFlo.ViewModels.Business.Idea.Modal.NextPageGetGaugeComponentOnKeyDown (event);"
+                            name="NextPage8"
+                            class="btn btn-warning">Next</button>
+                </div>
+            </div>
+
+
+            @* Page 9 - Well Done! *@
+            <div id="page9" name="ModalPage">
+                <div class="modal-body ModalSubmitIdeaBody">
+
+
+                    <h1>Well Done!</h1>
+                    <p>The process you've picked has been submitted<br>for approval from the CoE.</p>
+
+                    <div class="d-flex-guttered justify-content-around gx-2"
+                         style="margin-bottom:1.5rem;">
+                        <div class="d-flex justify-content-center detail_gauge_container"
+                             id="FeasibilityGaugeComponent">
+                            Feasibility
+                        </div>
+
+                        <div class="d-flex justify-content-center detail_gauge_container"
+                             id="ReadinessGaugeComponent">
+                            Readiness
+                        </div>
+
+                        <div class="d-flex justify-content-center detail_gauge_container"
+                             silkflo-hotspot="Idea Score Gauge"
+                             id="IdeaGaugeComponent">
+                            Idea Score
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="ModalSubmitIdeaFooter"
+                     style="display: flex;
+                            flex-direction: row;
+                            flex-wrap: nowrap;
+                            justify-content: space-between;
+                            align-content: stretch;
+                            align-items: center;">
+                    <a class="ModalSubmitIdeaBtnBack noSelect"
+                       style="flex: 0 1 auto;
+                              align-self: auto;"
+                       onclick="SilkFlo.ViewModels.Business.Idea.Modal.PreviousPage();">
+                        <img src="\Icons\Arrow Left.svg" /> Back
+                    </a>
+                    <div name="Message"
+                         style="flex: 1 1 auto; padding-left: 0.5rem; padding-right: 0.5rem;
+                                align-self: auto;"></div>
+                    <button onclick="SilkFlo.ViewModels.Business.Idea.Modal.Save(); location.reload();"
+                            class="btn btn-warning"
+                            name="btnFinish"
+                            style="flex: 0 1 auto;
+                                   align-self: auto;">Finish</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@await Html.PartialAsync("Elements/_ModalSearch",
+    new SilkFlo.Web.ViewModels.ModalSearch
+    {
+        ModalId = searchProcessOwnerModal,
+        Title = "Search Process Owner",
+        SearchUrl = "/api/user/SearchProcessOwner/",
+        TargetFullnameId = targetFullnameId,
+        TargetIdId = targetIdId,
+        TargetEmailId = targetEmailId,
+        TargetStatusId = "Modal.ProcessOwnerStatus"
+    })

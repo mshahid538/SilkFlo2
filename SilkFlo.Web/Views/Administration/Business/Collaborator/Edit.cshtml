@@ -1,0 +1,191 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Business.Collaborator
+
+<div class="container">
+
+    <form asp-action="Edit"
+          method="post">
+        <div class="TitleBar">
+            <h1>Edit Collaborator</h1>
+
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.UpdatedById)
+
+        @Html.HiddenFor(x => x.IdeaString)
+        @Html.HiddenFor(x => x.InvitedByString)
+        @Html.HiddenFor(x => x.UserString)
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Collaborator/Edit"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Save</button>
+                    <button formaction="/Administration/Business/Collaborator/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Collaborator">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+
+        <!-- Form Collaborator -->
+        <!-- Date -->
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Date Modified",
+                Id = "DateTimeDisplayed",
+                Value = Model.DateTimeDisplayed,
+                ElementType = "text",
+                IsReadOnly = true,
+                InvalidFeedback = ""
+            })
+
+            <!-- Id Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Id",
+                    Id = "Id",
+                    Name = "Id",
+                    Value = Model.Id,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Id_ErrorMessage,
+                    IsInvalid = Model.Id_IsInValid
+                })
+
+            <!-- IsInvitationConfirmed checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsInvitationConfirmed,
+                                  new { @class = "form-check-input", @id = "IsInvitationConfirmed" })
+                <label class="form-check-label"
+                       for="IsInvitationConfirmed">Invitation Confirmed</label>
+            </div>
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Invited By",
+            Id = "InvitedById",
+            Name = "InvitedById",
+            Value = Model.InvitedById,
+            SelectList = new SelectList(Model.InvitedBies,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Collaborator",
+            Id = "UserId",
+            Name = "UserId",
+            Value = Model.UserId,
+            SelectList = new SelectList(Model.Users,
+                                                 "Id",
+                                                 "Name")
+        })
+            <!-- IdeaId Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Idea",
+                    Id = "IdeaId",
+                    Name = "IdeaId",
+                    Value = Model.IdeaId,
+                    IsReadOnly = true,
+                    ElementType = "text",
+                })
+            <!-- CreatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created By",
+                    Id = "CreatedBy",
+                    Value = Model.CreatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            <!-- CreatedDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created Date",
+                    Id = "CreatedDateString",
+                    Value = Model.CreatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+
+            <!-- UpdatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated By",
+                    Id = "UpdatedBy",
+                    Value = Model.UpdatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+            <!-- UpdateDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated Date",
+                    Id = "UpdatedDateString",
+                    Value = Model.UpdatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            @if (@Model.IsDeleted)
+            {
+                <!-- Is Deleted Input -->
+                <div class="flex_grid">
+                    <label>
+                        @Html.CheckBoxFor(m => m.IsDeleted)
+                        Is Deleted
+                    </label>
+                </div>
+            }
+
+
+        @if(Model.AllRoles_For_CollaboratorRoles.Count > 0)
+        {
+            <h1>Collaborator Roles</h1>
+            @for (var i = 0; i < Model.AllRoles_For_CollaboratorRoles.Count; i++)
+            {
+                <div class="form-check form-switch">
+                    @Html.CheckBoxFor(m => m.AllRoles_For_CollaboratorRoles[i].IsSelected, new { @class = "form-check-input" })
+
+                    <div class="form-check-label">
+                        <h2>@Model.AllRoles_For_CollaboratorRoles[i].Name</h2>
+                        @Html.Raw(Model.AllRoles_For_CollaboratorRoles[i].Description)
+                    </div>
+                </div>  
+            }
+        }
+    </form>
+</div>

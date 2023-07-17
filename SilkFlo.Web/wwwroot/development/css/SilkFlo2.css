@@ -1,0 +1,1888 @@
+﻿:root {
+    --column-gap: calc(var(--margin)*9);
+    --row-gap: calc(var(--margin)*9);
+    --content-height: calc(100% - var(--header_height) + 0px);
+    --menu-width: 220px;
+    --idea-width: 310px;
+    /* New */
+    --silkflo_header: 67px;
+    --silkflo_content_padding: 20px;
+    --silkflo_shadow: 0 0 15px 5px rgba(0,0,0, 0.1);
+}
+
+
+/* Remove Arrows/Spinners:  Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove Arrows/Spinners: Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+
+.noSelect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+
+
+
+
+.silkFloFooter {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    z-index: 200;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 100%;
+    border-top: solid 1px var(--bs-gray-lighter);
+}
+
+    .silkFloFooter p {
+        margin: 3px var(--silkflo_content_padding);
+        text-align: end;
+        font-size: 0.8rem;
+    }
+
+
+*.mandatory:after {
+    content: "*";
+    margin-left: 6px;
+    color: var(--bs-danger);
+}
+
+form textarea {
+    overflow-y: auto;
+}
+
+
+form h3 {
+    margin-top: 3rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+form h4,
+form h5 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem !important;
+}
+
+.silkFlo_submitIdea {
+    padding-bottom: 50px;
+}
+
+    .silkFlo_submitIdea .form_mandatory .form-control,
+    .silkFlo_submitIdea .form_mandatory .form-select {
+        margin-bottom: 0;
+    }
+
+    .silkFlo_submitIdea label {
+        margin-bottom: 0.25rem;
+        ;
+        display: block;
+    }
+
+
+
+.inputAndButton a,
+.inputAndButton button {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+    vertical-align: central;
+    color: var(--bs-white) !important;
+    background-color: var(--navbar_background) !important;
+    border-color: var(--navbar_background) !important;
+}
+
+    .inputAndButton a:hover,
+    .inputAndButton button:hover {
+        color: var(--bs-white) !important;
+        background-color: #3b6fc9 !important;
+        border-color: #3768bd;
+    }
+
+.btn-silkflo {
+    color: var(--bs-white) !important;
+    background-color: var(--navbar_background) !important;
+    border-color: var(--navbar_background);
+}
+
+    .btn-silkflo:hover {
+        color: var(--bs-white) !important;
+        background-color: #3b6fc9 !important;
+        border-color: #3768bd;
+    }
+
+    .btn-silkflo:disabled, .btn-silkflo.disabled {
+        color: var(--bs-white) !important;
+        background-color: var(--bs-primary) !important;
+        border-color: var(--bs-primary);
+    }
+
+.inputAndButton select,
+.inputAndButton input {
+    border-radius: 0.25rem 0 0.25rem 0 !important;
+}
+
+.subLabel {
+    color: #979898;
+}
+
+.silkFlo_submitIdea .calculation {
+    margin-bottom: 2.5rem;
+}
+
+
+.calculation_result {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+}
+
+    .calculation_result * {
+        margin: 0 !important;
+    }
+
+
+.rotate180 {
+    -webkit-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+}
+
+.rotateY180 {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.transition {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+.silkflo_tile_container > .row {
+    margin-bottom: 1rem;
+    ;
+}
+
+.silkflo_tile_light {
+    padding: 1rem;
+    background: white;
+    border-radius: var(--tile-radius);
+    overflow: hidden;
+}
+
+
+
+    .silkflo_tile_light th {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        background: var(--bs-gray-lightest);
+    }
+
+    .silkflo_tile_light td {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+
+
+.silkflo_tile {
+    box-shadow: 0 100px 80px #eeeeee, 0 41.7776px 33.4221px #eeeeee, 0 22.3363px 17.869px #eeeeee, 0 12.5216px 10.0172px #eeeeee, 0 6.6501px 5.32008px #eeeeee, 0 2.76726px 2.21381px #eeeeee;
+    box-shadow: 0 100px 80px rgba(238, 238, 238, 0.11), 0 41.7776px 33.4221px rgba(238, 238, 238, 0.079074), 0 22.3363px 17.869px rgba(238, 238, 238, 0.0655718), 0 12.5216px 10.0172px rgba(238, 238, 238, 0.055), 0 6.6501px 5.32008px rgba(238, 238, 238, 0.0444282), 0 2.76726px 2.21381px rgba(238, 238, 238, 0.030926);
+    border-radius: var(--tile-radius);
+}
+
+
+    /*.silkflo_tile thead > tr {
+        border-bottom: 1.2px solid var(--bs-background);
+    }*/
+
+    .silkflo_tile thead > tr > td {
+        font-family: var(--bs-font-sans-serif);
+        font-style: normal;
+        font-weight: 500;
+        font-size: 1rem;
+        line-height: 1.2rem;
+        color: #000000;
+        padding-bottom: 17px;
+    }
+
+
+
+.btn_square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+}
+
+
+
+
+.silkFlo_spark_percent_up {
+    background: var(--bs-green-lightist);
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 8px;
+    margin-left: 0.5rem;
+}
+
+.silkFlo_spark_percent_down {
+    background: var(--bs-red-lightist);
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border-radius: 8px;
+    margin-left: 0.5rem;
+}
+
+.silkFlo_spark_line {
+    width: 1.5rem;
+}
+
+
+
+
+
+.silkFlo_Pin {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    border-radius: 3px;
+}
+
+.silkFlo_Pin_Label {
+    font-family: var(--bs-font-sans-serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin: 0;
+    color: var(--bs-gray-light);
+}
+
+.silkFlo_Pin_Value {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0;
+    color: #606173;
+}
+
+
+.Invitations .silkFlo_Pin_Label {
+    color: var(--bs-black);
+}
+
+
+
+.silkFlo_select {
+    display: block;
+    width: 100%;
+    padding: 3px 2.2rem 3px 1.1rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--bs-dark);
+    background-color: var(--bs-white);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1.1rem center;
+    background-size: 16px 12px;
+    border: 1px solid var(--bs-gray-lightest);
+    border-radius: 8px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 30px;
+}
+
+    .silkFlo_select:hover {
+        border: 1px solid var(--bs-gray-lighter);
+    }
+
+    .silkFlo_select:focus,
+    .silkFlo_select:active,
+    .silkFlo_select:focus-visible {
+        border: 1px solid var(--bs-gray-lighter);
+        outline-color: var(--bs-gray-lighter);
+    }
+
+.silkFlo_Brand_TopLeft {
+    left: calc(var(--silkFlo_logo_width)*2);
+    height: calc(var(--silkFlo_logo_width)*2);
+}
+
+
+
+
+
+
+
+.Icon_Part_dark {
+    fill: var(--bs-gray-light);
+    stroke: var(--bs-gray-light);
+}
+
+a:hover .Icon_Part_dark {
+    fill: var(--bs-gray-dark);
+    stroke: var(--bs-gray-dark);
+}
+
+
+.Icon_Part_Selected {
+    fill: transparent;
+}
+
+a:hover .Icon_Part_Selected {
+    fill: var(--bs-danger);
+}
+
+
+
+
+
+.lineAfter {
+    position: relative;
+}
+
+    .lineAfter span {
+        background-color: var(--bs-background);
+        padding-right: 10px;
+    }
+
+    .lineAfter:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 0.7em;
+        border-top: 1px solid var(--bs-gray-lighter);
+        z-index: -1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#tooltip {
+    background: white;
+    border: 2px solid var(--bs-gray-lightest);
+    border-radius: 5px;
+    z-index: 10000;
+    padding: 5px;
+    box-shadow: 0 0 15px 5px #000000;
+    box-shadow: 0 0 15px 5px rgba(0,0,0,0.10);
+    margin: 1rem;
+}
+
+
+.pill {
+    display: inline-block;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--bs-dark);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--border-radius);
+}
+
+.pill-warning {
+    color: var(--bs-white) !important;
+    background-color: var(--bs-warning-lighter);
+    border-color: var(--bs-warning-lighter);
+}
+
+.pill-dark {
+    color: var(--bs-white) !important;
+    background-color: var(--bs-gray-lighter);
+    border-color: var(--bs-gray-lighter);
+}
+
+
+
+.pill-danger {
+    color: var(--bs-white) !important;
+    background-color: var(--bs-red-lighter);
+    border-color: var(--bs-red-lighter);
+}
+
+.pill-info {
+    color: var(--bs-white) !important;
+    background-color: var(--bs-info);
+    border-color: var(--bs-info);
+}
+
+.pill-success {
+    color: var(--bs-white) !important;
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+}
+
+
+.idea_summary_context_menu {
+    display: none;
+    width: 160px;
+    background: white;
+    z-index: 2000;
+    box-shadow: 0 0 15px 5px #000000;
+    box-shadow: 0 0 15px 5px rgba(0,0,0, 0.1);
+}
+
+.contextMenu {
+    display: none;
+    background: white;
+    z-index: 2000;
+    box-shadow: 0 0 15px 5px #000000;
+    box-shadow: 0 0 15px 5px rgba(0,0,0, 0.1);
+    font-size: 0.9625rem;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: 8px;
+}
+
+.contextMenu_Brand {
+    height: 7px;
+    width: 100%;
+    background: var(--bs-warning);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.contextMenu:first-child {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.contextMenu:last-child {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+
+
+
+#ModelSubmitIdeaContainer {
+    overflow: hidden;
+}
+
+
+.ModalSubmitIdeaBtnBack {
+    color: var(--bs-danger);
+    cursor: pointer;
+}
+
+    .ModalSubmitIdeaBtnBack:hover {
+        color: var(--bs-red-lightist);
+    }
+
+    .ModalSubmitIdeaBtnBack > * {
+        fill: var(--bs-danger)
+    }
+
+    .ModalSubmitIdeaBtnBack:hover > * {
+        fill: var(--bs-red-lightist)
+    }
+
+.ModalSubmitIdeaPages {
+    display: flex;
+}
+
+    .ModalSubmitIdeaPages > * {
+        min-width: 798px;
+    }
+
+
+
+
+
+.ModalSubmitIdeaBody {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: 80%;
+    height: 400px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
+}
+
+    .ModalSubmitIdeaBody > * {
+        width: 100%;
+    }
+
+        .ModalSubmitIdeaBody > * > * {
+            margin-top: 0 !important;
+            margin-bottom: 6px !important;
+        }
+
+
+.ModalSubmitIdeaFooter {
+    height: 100px;
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+
+
+.IdeaBulb {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.modal-footer_SpaceBetween {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: end;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-bottom-right-radius: var(--modal-radius);
+    border-bottom-left-radius: var(--modal-radius);
+}
+
+
+
+.detail_gauge_container > * {
+    background: #EDF0F2;
+    border: 1px solid #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.modal_gauge_container > * {
+    background: white;
+    border: 1px solid #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px 5px #000000;
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.profileButton {
+    cursor: pointer;
+}
+
+
+    .profileButton .bar {
+        height: 6px;
+        width: 100%;
+        background: transparent;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        -ms-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    .profileButton:hover .bar {
+        display: block;
+        background: var(--bs-danger);
+    }
+
+
+.ideaCard {
+    min-width: 360px;
+    max-width: 360px;
+    height: 320px;
+    padding-top: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.noIdeaCardDeployed {
+    border-radius: var(--modal-radius);
+    min-width: 595px;
+    max-width: 595px;
+    height: 420px;
+    padding-top: calc(var(--margin)* 9);
+    background: white;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+    .ideaCard h1,
+    .noIdeaCardDeployed h1 {
+        line-height: 1.5;
+    }
+
+.ideaCard > * {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.noIdeaCardDeployed > * {
+    width: 100%;
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.ideaCard .text {
+    font-size: 0.75rem;
+}
+
+.ideaCard .summary {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 70px;
+}
+
+.ideaCard .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-right: 0;
+}
+
+
+
+
+
+.ideaCard .button {
+    background: var(--bs-gray-even-lightest);
+    cursor: pointer;
+    height: 36px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+    transition: 0.3s ease-in-out;
+}
+
+.likes button {
+    margin-right: calc(var(--margin)*4);
+}
+
+
+
+    .ideaCard .button svg,
+    .likes button svg {
+        margin-right: 10px;
+        width: 15px;
+    }
+
+.ideaCard .button span {
+    display: inline-flex;
+    align-items: center;
+}
+
+
+.ideaCard .follow,
+.likes .follow {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    stroke: var(--bs-orange);
+    fill: transparent;
+}
+
+    .ideaCard .follow.selected,
+    .likes .follow.selected {
+        fill: var(--bs-orange);
+    }
+
+    .ideaCard .follow:hover,
+    .likes .follow:hover {
+        stroke: var(--bs-orange-lighter);
+        fill: var(--bs-orange-lighter);
+    }
+
+.ideaCard .vote {
+    border-top-left-radius: var(--border-radius);
+}
+
+    .ideaCard .vote .shine,
+    .likes .vote .shine {
+        fill: transparent;
+        transition: 0.3s ease-in-out;
+    }
+
+    .ideaCard .vote:hover .shine,
+    .ideaCard .vote.selected .shine,
+    .likes .vote:hover .shine,
+    .likes .vote.selected .shine {
+        fill: #fff;
+    }
+
+
+    .ideaCard .vote .heart,
+    .likes .vote .heart {
+        fill: transparent;
+        stroke: #eb0749;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .ideaCard .vote:hover .heart,
+    .likes .vote:hover .heart {
+        fill: #eb0749;
+        stroke: #eb0749;
+    }
+
+    .ideaCard .vote.selected .heart,
+    .likes .vote.selected .heart {
+        fill: #eb0749;
+        stroke: #eb0749;
+    }
+
+.likes svg {
+    width: 15px;
+}
+
+
+
+
+
+
+.shadow-off-bottom {
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    box-shadow: 0 -2.5em 2.5em -1em var(--bs-gray-even-lightest2) inset;
+    margin-left: calc(var(--margin)* 9);
+    margin-right: calc(var(--margin)* 9);
+}
+
+
+
+
+
+.hero-component {
+    background: linear-gradient(90deg, #DE6262 0, #FFB88C 100%);
+    padding: 2rem;
+}
+
+
+
+
+.InvitationCard-btn {
+    display: flex !important;
+    ;
+    justify-content: space-between !important;
+    ;
+    border-radius: var(--border-radius);
+    background: var(--bs-gray-lightest);
+    padding: 1rem;
+    transition: all 0.15s ease-in-out;
+    fill: var(--bs-info);
+}
+
+    .InvitationCard-btn:hover {
+        background: var(--bs-gray-even-lightest);
+    }
+
+    .InvitationCard-btn > * {
+        cursor: pointer;
+    }
+
+    .InvitationCard-btn:hover * {
+        color: var(--bs-gray-light) !important;
+    }
+
+    .InvitationCard-btn .mail {
+        background: white;
+        width: 35px;
+        height: 35px;
+        line-height: 32px;
+        border-radius: 18px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+        .InvitationCard-btn .mail > svg {
+            width: 18px;
+            height: 16px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+.Collaborator_Selected {
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    align-items: stretch;
+}
+
+
+.Collaborators_Potential {
+    background: white;
+    overflow: hidden;
+    height: 100%;
+    border-radius: var(--border-radius);
+    border: 1px solid #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    align-items: stretch;
+}
+
+
+    .Collaborator_Selected .Label,
+    .Collaborators_Potential .Label {
+        cursor: pointer;
+    }
+
+
+.Collaborator_Selected .collaborator,
+.Collaborators .collaborator {
+    border-radius: var(--border-radius);
+    border: 1px solid #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.Collaborators .collaborator {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background: white;
+}
+
+.Collaborators_Potential div:hover {
+    background: var(--bs-gray-lightest);
+}
+
+.Collaborator_Selected .Label .Right,
+.Collaborators_Potential .Label .Right {
+    display: none;
+}
+
+.Collaborators_Potential .Remove,
+.Collaborators_Potential .Roles {
+    display: none;
+}
+
+.Remove {
+    color: var(--bs-danger);
+    flex: 0 1 auto;
+    align-self: auto;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+}
+
+    .Remove:hover {
+        background: var(--bs-red-lightist)
+    }
+
+.Collaborators_Potential .collaborator .Right svg {
+    height: 1rem;
+}
+
+.Collaborators_Potential .collaborator:hover .Right {
+    display: block;
+}
+
+
+
+.areaSelect {
+    cursor: pointer;
+}
+
+    .areaSelect:hover {
+        background: #000000;
+        background: rgba(0, 0, 0, 0.075);
+        color: var(--bs-dark);
+    }
+
+
+
+
+
+.Search {
+    border: 1px solid #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    width: 100%;
+    padding: 0.5rem 0 0 0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-dark);
+    background-color: var(--bs-white);
+    overflow: hidden;
+    margin-right: 0.5rem;
+}
+
+    .Search .inputLine {
+        display: flex;
+        padding: 0 0.5rem 0.5rem 1.1rem;
+    }
+
+    .Search .icon {
+        stroke: var(--bs-gray-light);
+        flex: 0 1 auto;
+    }
+
+    .Search input,
+    .Search:focus-visible input {
+        flex: 1 1 auto;
+        margin-left: 0.5rem;
+        border: none;
+        outline: none;
+    }
+
+::placeholder,
+::-webkit-input-placeholder {
+    color: var(--bs-gray-light);
+}
+
+.pulse-background-green {
+    animation: pulse-green 2s
+}
+
+@keyframes pulse-green {
+    0% {
+        background-color: transparent;
+    }
+
+    50% {
+        background-color: var(--bs-green-lightist);
+    }
+
+    100% {
+        background-color: transparent;
+    }
+}
+
+
+
+.pulse-background-red {
+    animation: pulse-red 2s
+}
+
+@keyframes pulse-red {
+    0% {
+        background-color: transparent;
+    }
+
+    50% {
+        background-color: var(--bs-red-lightist);
+    }
+
+    100% {
+        background-color: transparent;
+    }
+}
+
+.glow-border-red {
+    animation: glow-border-red-frames 1s
+}
+
+@keyframes glow-border-red-frames {
+    0% {
+        border: 4px transparent;
+    }
+
+    100% {
+        border: 4px var(--bs-red-lightist);
+    }
+}
+
+
+
+
+.glow-background-red {
+    animation: glow-red 1s;
+}
+
+@keyframes glow-red {
+    0% {
+        background-color: transparent;
+    }
+
+    100% {
+        background-color: var(--bs-red-lightist);
+    }
+}
+
+
+
+.pulse-font-weight {
+    animation: pulse-font-weight-400-800 1s;
+}
+
+@keyframes pulse-font-weight-400-800 {
+    0% {
+        font-weight: 400;
+    }
+
+    50% {
+        font-weight: 600;
+    }
+
+    100% {
+        font-weight: 400;
+    }
+}
+
+
+
+
+
+
+.silkflo-tab {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: start;
+    border-bottom: 0.5rem solid var(--bs-gray-even-lightest);
+}
+
+    .silkflo-tab > .silkflo-tab-label {
+        margin: 1rem 1rem;
+        padding-bottom: 0.25rem;
+        cursor: pointer;
+        position: relative;
+    }
+
+
+
+        .silkflo-tab > .silkflo-tab-label::after {
+            top: 100%;
+            position: absolute;
+            left: 50%;
+            height: 4px;
+            width: 0;
+            background: var(--bs-brand-fallback);
+            background: var(--bs-brand);
+            content: "";
+            transition: all 0.3s ease-out;
+        }
+
+        .silkflo-tab > .silkflo-tab-label:hover::after,
+        .silkflo-tab > .active.silkflo-tab-label::after {
+            left: 0;
+            width: 100%;
+        }
+
+
+
+
+.numberCircle {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    background: var(--bs-gray-lightest);
+}
+
+
+
+
+.grow-wrap {
+    /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
+    display: grid;
+}
+
+    .grow-wrap::after {
+        /* Note the weird space! Needed to preventy jumpy behavior */
+        content: attr(data-replicated-value) " ";
+        /* This is how textarea text behaves */
+        white-space: pre-wrap;
+        /* Hidden from view, clicks, and screen readers */
+        visibility: hidden;
+    }
+
+    .grow-wrap > textarea {
+        /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+        resize: none;
+        /* Firefox shows scrollbar on growth, you can hide like this. */
+        overflow: hidden;
+    }
+
+    .grow-wrap > textarea,
+    .grow-wrap::after {
+        /* Identical styling required!! */
+        padding: 0.5rem;
+        font: inherit;
+        /* Place on top of each other */
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+.automationGoal td:nth-child(2) {
+    text-align: end;
+}
+
+
+.tile_grid_auto_1fr {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.tile_grid_auto_auto_auto_auto {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+
+
+.tile_topleft {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-top-left-radius: var(--tile-radius);
+    border-top: 1px solid #ddd !important;
+    border-left: 1px solid #ddd !important;
+}
+
+.tile_topMiddle {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-top: 1px solid #ddd !important;
+}
+
+.tile_topRight {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-top-right-radius: var(--tile-radius);
+    border-top: 1px solid #ddd !important;
+    border-right: 1px solid #ddd !important;
+}
+
+.tile_middleleft {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-left: 1px solid #ddd !important;
+}
+
+.tile_middle {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+}
+
+.tile_bottomleft {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-bottom-left-radius: var(--tile-radius);
+    border-left: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+    margin-bottom: 1rem;
+}
+
+.tile_middleRight {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-right: 1px solid #ddd !important;
+}
+
+.tile_bottomMiddle {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-bottom: 1px solid #ddd !important;
+    margin-bottom: 1rem;
+}
+
+.tile_bottomRight {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: white;
+    border-bottom-right-radius: var(--tile-radius);
+    border-right: 1px solid #ddd !important;
+    border-bottom: 1px solid #ddd !important;
+    margin-bottom: 1rem;
+}
+
+.tile_heading {
+    background: var(--bs-gray-lightest);
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] > div {
+    border: solid 2px var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+}
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"] {
+    border-bottom: solid 2px var(--border-color);
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    flex: 0 1 auto;
+    align-self: auto;
+    cursor: pointer;
+}
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select,
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select {
+        background: var(--bs-gray-even-lightest);
+    }
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div.edit {
+    background: white;
+    outline: 2px solid var(--bs-gray-light);
+    outline-offset: -2px;
+    cursor: text;
+}
+
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department"].select,
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Team"].select,
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Process"].select {
+    background: var(--bs-gray-light);
+    color: white;
+}
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Department"].select,
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Team"].select,
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Process"].select {
+    background: var(--bs-gray);
+    color: white;
+}
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]:hover {
+    background: var(--bs-gray-light);
+    color: white;
+}
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] {
+    border-bottom: solid 1px var(--border-color);
+    flex: 1 0 auto;
+    align-self: auto;
+}
+
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+    }
+
+        div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover {
+            background: var(--bs-gray-light);
+            color: white;
+        }
+
+
+div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable] {
+    display: inline-block;
+    width: 100%;
+    height: 1.5rem;
+    outline: none;
+}
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable]:hover {
+        color: black;
+    }
+
+
+.table-silkflo thead tr,
+.table-silkflo-display thead tr {
+    border-top: 1px solid var(--border-color);
+}
+
+.table-silkflo thead th,
+.table-silkflo-display thead th {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.table-silkflo tr:not(.edit):first-child,
+.table-silkflo-display tr:first-child {
+    border-top: solid 1px var(--border-color)
+}
+
+.table-silkflo td {
+    vertical-align: middle;
+    padding: 0 !important;
+}
+
+
+.table-silkflo tbody tr {
+    cursor: pointer;
+}
+
+.table-silkflo tr.select:not(.edit),
+.table-silkflo tr.select:not(.edit):hover,
+.table tr.select:not(.edit),
+.table tr.select:not(.edit):hover {
+    background: var(--row-selected-background);
+    color: var(--row-selected-color);
+    --bs-table-accent-bg: var(--row-selected-background);
+}
+
+    .table-silkflo tr.select:not(.edit) a,
+    .table tr.select:not(.edit) a {
+        color: var(--bs-red-lightist);
+    }
+
+table[name="Business.RoleCosts"] .form-group,
+table[name="Business.RunningCosts"] .form-group,
+table[name="Business.OtherRunningCosts"] .form-group,
+table[name="Business.IdeaRunningCosts"] .form-group,
+table[name="Business.IdeaOtherRunningCosts"] .form-group,
+table[name="Business.ImplementationCosts"] .form-group {
+    margin: 0.5rem !important;
+}
+
+
+
+    table[name="Business.RoleCosts"] .form-group > *,
+    table[name="Business.RunningCosts"] .form-group > *,
+    table[name="Business.OtherRunningCosts"] .form-group > *,
+    table[name="Business.IdeaRunningCosts"] .form-group > *,
+    table[name="Business.IdeaOtherRunningCosts"] .form-group > *,
+    table[name="Business.ImplementationCosts"] .form-group > * {
+        padding: 0;
+    }
+
+table[name="Business.RoleCosts"] .form-control,
+table[name="Business.RoleCosts"] .form-select,
+table[name="Business.RunningCosts"] .form-control,
+table[name="Business.RunningCosts"] .form-select,
+table[name="Business.OtherRunningCosts"] .form-control,
+table[name="Business.OtherRunningCosts"] .form-select,
+table[name="Business.IdeaRunningCosts"] .form-control,
+table[name="Business.IdeaRunningCosts"] .form-select,
+table[name="Business.IdeaOtherRunningCosts"] .form-control,
+table[name="Business.IdeaOtherRunningCosts"] .form-select,
+table[name="Business.ImplementationCosts"] .form-control,
+table[name="Business.ImplementationCosts"] .form-select {
+    font-size: 0.8rem !important;
+}
+
+table[name="Business.RoleCosts"] .form-select,
+table[name="Business.RunningCosts"] .form-select,
+table[name="Business.OtherRunningCosts"] .form-select,
+table[name="Business.IdeaRunningCosts"] .form-select,
+table[name="Business.IdeaOtherRunningCosts"] .form-select,
+table[name="Business.ImplementationCosts"] .form-select {
+    padding-right: 0 !important;
+    padding-left: 0.25rem !important;
+    height: 2rem !important;
+    background-position: right 0.25rem center !important;
+}
+
+
+table[name="Business.RoleCosts"] .form-control,
+table[name="Business.RunningCosts"] .form-control,
+table[name="Business.OtherRunningCosts"] .form-control,
+table[name="Business.IdeaRunningCosts"] .form-control,
+table[name="Business.IdeaOtherRunningCosts"] .form-control,
+table[name="Business.ImplementationCosts"] .form-control {
+    padding-right: 0.25rem !important;
+    padding-left: 0.25rem !important;
+    height: 32px !important;
+}
+
+
+
+table[name="Business.Versions"] tr:not(.edit):first-child,
+table[name="Business.SoftwareVenders"] tr:not(.edit):first-child,
+table[name="Business.RoleCosts"] tr:not(.edit):first-child,
+table[name="Business.RunningCosts"] tr:not(.edit):first-child,
+table[name="Business.OtherRunningCosts"] tr:not(.edit):first-child {
+    border-top: solid 1px var(--border-color)
+}
+
+
+
+
+table[name="Business.Versions"] tr.edit,
+table[name="Business.Versions"] tr.edit:hover,
+table[name="Business.SoftwareVenders"] tr.edit,
+table[name="Business.SoftwareVenders"] tr.edit:hover,
+table[name="Business.RoleCosts"] tr.edit,
+table[name="Business.RoleCosts"] tr.edit:hover,
+table[name="Business.RunningCosts"] tr.edit,
+table[name="Business.RunningCosts"] tr.edit:hover {
+    --bs-table-accent-bg: white;
+    outline: 1px solid var(--border-color);
+    outline-offset: -1px;
+}
+
+
+
+
+    table[name="Business.Versions"] tr.edit td:not(:last-child),
+    table[name="Business.SoftwareVenders"] tr.edit td:not(:last-child),
+    table[name="Business.RoleCosts"] tr.edit td:not(:last-child),
+    table[name="Business.RunningCosts"] tr.edit td:not(:last-child),
+    table[name="Business.OtherRunningCosts"] tr.edit td:not(:last-child),
+    table[name="Business.IdeaRunningCosts"] tr.edit td:not(:last-child),
+    table[name="Business.IdeaOtherRunningCosts"] tr.edit td:not(:last-child) {
+        border-right: 1px solid var(--border-color);
+    }
+
+    table[name="Business.Versions"] tr.edit td:last-child {
+        background: var(--row-selected-background) !important;
+        box-shadow: none;
+        color: white;
+        cursor: default;
+    }
+
+
+    table[name="Business.Versions"] tr.edit div[role="textbox"],
+    table[name="Business.SoftwareVenders"] tr.edit div[role="textbox"],
+    table[name="Business.RoleCosts"] tr.edit div[role="textbox"],
+    table[name="Business.RunningCosts"] tr.edit div[role="textbox"],
+    table[name="Business.OtherRunningCosts"] tr.edit div[role="textbox"],
+    table[name="Business.IdeaRunningCosts"] tr.edit div[role="textbox"],
+    table[name="Business.IdeaOtherRunningCosts"] tr.edit div[role="textbox"],
+    table[name="Business.ImplementationCosts"] tr.edit div[role="textbox"] {
+        cursor: text;
+    }
+
+        table[name="Business.Versions"] tr.edit div[role="textbox"]:focus-visible,
+        table[name="Business.SoftwareVenders"] tr.edit div[role="textbox"]:focus-visible,
+        table[name="Business.RoleCosts"] tr.edit div[role="textbox"]:focus-visible,
+        table[name="Business.RunningCosts"] tr.edit div[role="textbox"]:focus-visible,
+        table[name="Business.OtherRunningCosts"] tr.edit div[role="textbox"]:focus-visible,
+        table[name="Business.IdeaRunningCosts"] tr.edit div[role="textbox"]:focus-visible,
+        table[name="Business.IdeaOtherRunningCosts"] tr.edit div[role="textbox"]:focus-visible {
+            outline: none;
+        }
+
+
+.displayField {
+    padding: 0.5rem;
+}
+
+.selector {
+    width: 0.5rem;
+    background: var(--bs-danger);
+    display: none;
+}
+
+.select .selector {
+    display: block;
+}
+
+table[name="Business.Versions"] tr.edit .editField,
+table[name="Business.SoftwareVenders"] tr.edit .editField,
+table[name="Business.RoleCosts"] tr.edit .editField,
+table[name="Business.RunningCosts"] tr.edit .editField,
+table[name="Business.OtherRunningCosts"] tr.edit .editField,
+table[name="Business.IdeaRunningCosts"] tr.edit .editField,
+table[name="Business.IdeaOtherRunningCosts"] tr.edit .editField,
+table[name="Business.ImplementationCosts"] tr.edit .editField {
+    display: block;
+}
+
+tr.edit .editFlexField {
+    display: flex;
+}
+
+table[name="Business.SoftwareVenders"] tr.edit .displayField,
+table[name="Business.RoleCosts"] tr.edit .displayField,
+table[name="Business.RunningCosts"] tr.edit .displayField,
+table[name="Business.OtherRunningCosts"] tr.edit .displayField,
+table[name="Business.ImplementationCosts"] tr.edit .displayField {
+    display: none;
+}
+
+
+
+
+
+table[name="Business.Versions"] tr:not(.edit) .editField,
+table[name="Business.SoftwareVenders"] tr:not(.edit) .editField,
+table[name="Business.RoleCosts"] tr:not(.edit) .editField,
+table[name="Business.RunningCosts"] tr:not(.edit) .editField,
+table[name="Business.OtherRunningCosts"] tr:not(.edit) .editField,
+table[name="Business.ImplementationCosts"] tr:not(.edit) .editField,
+tr:not(.edit) .editFlexField {
+    display: none;
+}
+
+
+
+
+table[name="Business.Versions"] tr:not(.edit) .displayField,
+table[name="Business.SoftwareVenders"] tr:not(.edit) .displayField,
+table[name="Business.RoleCosts"] tr:not(.edit) .displayField,
+table[name="Business.RunningCosts"] tr:not(.edit) .displayField,
+table[name="Business.OtherRunningCosts"] tr:not(.edit) .displayField,
+table[name="Business.ImplementationCosts"] tr:not(.edit) .displayField {
+    display: block;
+}
+
+
+table[name="Business.Idea.VolumeSplitEstimations"] div[role="textbox"] {
+    width: 100%;
+}
+
+    table[name="Business.Idea.VolumeSplitEstimations"] div[role="textbox"]:focus-visible {
+        outline: none;
+    }
+
+
+tr > td.readOnly,
+tr span.readOnly {
+    background: var(--readOnly-background)
+}
+
+tr:hover span.readOnly {
+    background: var(--bs-table-hover-bg) !important;
+}
+
+
+table.table-hover tbody tr:not(.select, .total):hover > td.readOnly,
+table.table-hover tbody tr:not(.select, .total):hover {
+    background: var(--bs-table-hover-bg) !important;
+}
+
+.form h1 {
+    margin-top: 3rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.form h2 {
+    margin-top: 2rem !important;
+}
+
+tr.total {
+    border-top: 2px solid var(--border-color);
+}
+
+    tr.total:hover {
+        --bs-table-accent-bg: transparent !important;
+        cursor: default !important;
+    }
+
+.table-bordered-silkflo .edit {
+    background: white;
+}
+
+/*.table-silkflo.table-hover tr:hover div:not(.selector),
+.table-silkflo.table-hover tr:hover div.edit,
+.table-silkflo.table-hover tr:hover select
+{
+    background: var(--bs-gray-even-lightest)
+}*/
+
+.table-bordered-silkflo tbody td,
+.table-bordered-header-silkflo th {
+    border-style: solid;
+    border-width: 1px 1px;
+    border-right: -1px;
+}
+
+
+
+.table-bordered-silkflo select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+    border-radius: 0;
+}
+
+    .table-bordered-silkflo div:focus-visible,
+    .table-bordered-silkflo select:focus-visible {
+        outline: none;
+    }
+
+.transformOrigin {
+    transform-origin: center;
+}
+
+.bubbleGrow:hover {
+    stroke-width: 20;
+}
+
+spanPrimary {
+    display: inline-block;
+    color: var(--bs-primary)
+}
+
+
+.generator {
+    fill: white;
+}
+
+.btn:hover .generator {
+    transform-origin: center;
+    animation-name: rotate;
+    animation-duration: 0.75s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.clickMe:hover {
+    filter: brightness(1.1);
+    cursor: pointer;
+    filter: var(--svgFilter);
+}
+
+.clickMe:active {
+    filter: brightness(1.05) var(--svgFilter);
+}
+
+
+
+
+
+.rules {
+    animation: 1s linear 0s 1 normal none running gKTHBZ;
+}
+
+    .rules ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .rules .Message {
+        font-size: 1rem;
+        line-height: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .rules .isInValid {
+        font-size: 0.8rem;
+        line-height: 1rem;
+        padding-left: 1.5rem;
+    }
+
+
+
+
+    .rules .isValid {
+        font-size: 0.8rem;
+        line-height: 1rem;
+        padding-left: 1.5rem;
+        background-image: url(/Icons/Tick.svg);
+        background-repeat: no-repeat;
+        background-position: left top;
+    }
+
+
+.grecaptcha-badge {
+    bottom: 50px !important;
+    right: 10px;
+}
+
+
+ul.tickList {
+    list-style: none;
+    padding-left: 0;
+}
+
+    ul.tickList li {
+        font-size: 1rem;
+        background-image: url(/Icons/Tick.svg);
+        background-repeat: no-repeat;
+        background-position: left top;
+        padding-left: 1.5rem;
+        line-height: 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+
+.Toolbar.FilterRightside {
+    border: 1px solid var(--bs-gray-lighter);
+    border-top-right-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+}
+
+    .Toolbar.FilterRightside:focus-visible {
+        outline: 1px solid var(--bs-gray-light);
+    }
+
+.QuestionIcon {
+    width: 16px;
+    margin-left: 0.5rem;
+    fill: var(--bs-gray-light);
+}
+
+.QuestionIconLight {
+    width: 16px;
+    margin-left: 0.5rem;
+    fill: white;
+}
+
+    .QuestionIcon:hover,
+    .QuestionIconLight:hover {
+        animation: pulse-size 1.5s;
+        animation-iteration-count: infinite;
+    }
+
+        .QuestionIcon:hover path,
+        .QuestionIconLight:hover path {
+            fill: var(--bs-info);
+            animation: pulse-QuestionIcon 1.5s;
+            animation-iteration-count: infinite;
+        }
+
+@keyframes pulse-QuestionIcon {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse-size {
+    0% {
+        transform: scale(1.1);
+    }
+
+    50% {
+        transform: scale(2);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.HotSpotCard {
+    box-shadow: var(--silkflo_shadow);
+    left: 2rem;
+    top: 0.25rem;
+    z-index: 10000;
+    font-size: 0.8rem;
+}
+
+.HotSpotHeader {
+    display: flex;
+    justify-content: end;
+    padding-top: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.HotSpotContent {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    color: var(--bs-dark);
+}
+
+
+
+.SilkFloFilter label {
+    font-size: 0.9rem;
+}
+
+.billing-plan-active {
+    border: 1px solid #FF8A00 !important;
+
+}

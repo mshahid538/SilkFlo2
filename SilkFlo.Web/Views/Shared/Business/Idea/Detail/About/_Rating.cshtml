@@ -1,0 +1,65 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<div class="border silkflo_tile_light"
+     style="padding: 0; margin-bottom: 1rem;">
+
+    <label style="padding: 1rem 1rem 0 1rem;">Employee Satisfaction<span style="font-size: 0.85rem;"> (Pre&#8239;Automation)</span></label>
+
+    @if (Model.Rating != null)
+    {
+
+        <div style="margin-left: auto; margin-right: auto; display: flex; justify-content: center;">
+            <div isReadOnly
+                 name="Business.Idea.Rating"
+                 style="max-width: 100%;"
+                 value="@Model.Rating">
+                <option id="0"
+                        Slider-Background="#E73A3A"
+                        Slider-Colour="#E73A3A">
+                    <img src="~/Icons/Ratings/1.svg"
+                         style="width: 30px"/>
+                </option>
+                <option id="1"
+                        Slider-Background="#EF5527"
+                        Slider-Colour="#EF5527">
+                    <img src="~/Icons/Ratings/2.svg"
+                         style="width: 30px"/>
+                </option>
+                <option id="2"
+                        Slider-Background="#F76F13"
+                        Slider-Colour="#F76F13">
+                    <img src="~/Icons/Ratings/3.svg"
+                         style="width: 30px"/>
+                </option>
+                <option id="3"
+                        Slider-Background="#FF8A00"
+                        Slider-Colour="#FF8A00">
+                    <img src="~/Icons/Ratings/4.svg"
+                         style="width: 30px"/>
+                </option>
+                <option id="4"
+                        Slider-Background="#B9A329"
+                        Slider-Colour="#B9A329">
+                    <img src="~/Icons/Ratings/5.svg"
+                         style="width: 30px"/>
+                </option>
+                <option id="5"
+                        Slider-Background="#74BB51"
+                        Slider-Colour="#74BB51">
+                    <img src="~/Icons/Ratings/6.svg"
+                         style="width: 30px"/>
+                </option>
+                <option id="6"
+                        Slider-Background="#2ED47A"
+                        Slider-Colour="#2ED47A">
+                    <img src="~/Icons/Ratings/7.svg"
+                         style="width: 30px"/>
+                </option>
+            </div>
+        </div>
+    }
+    else
+    {
+        <label style="padding: 1rem;">No Rating given</label>
+    }
+    </div>

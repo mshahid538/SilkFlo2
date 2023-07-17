@@ -1,0 +1,189 @@
+.silkFlo_flex_wrap_spaced {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.silkFlo_flex_wrap_left {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+}
+
+
+.silkFlo_flex_wrap_right {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: end;
+}
+
+.vertical-align-top {
+    align-self: flex-start;
+}
+
+.lbl-Right {
+    /* Your custom styles here */
+    text-align: right;
+}
+
+.lbl-Center {
+    text-align: center;
+}
+
+.lbl-Left {
+    text-align: left;
+}
+
+.billingtable tbody tr {
+    /* Your custom styles here */
+    text-align: center;
+}
+
+.lblBold {
+    font-weight: 700;
+    font-size: .89rem;
+    color: #383838;
+}
+
+.lblDate {
+    color: #b8b8c2;
+    font-weight: 700;
+    font-size: .8rem;
+}
+
+.billingtable tr, td {
+    border: none;
+}
+
+.spanStatus {
+    margin-left: 5px;
+}
+
+.btnSuccess.bg-success {
+    background-color: #8ce1b38f !important;
+    color: #45d888 !important;
+    font-size: .8rem !important;
+    margin: 10px 0px 10px 0px !important;
+    font-weight: 700 !important;
+    width: 79px;
+}
+
+.btnFailed.bg-danger {
+    background-color: #f3c9c9fa !important;
+    color: #d84545 !important;
+    font-size: .8rem !important;
+    margin: 10px 0px 10px 0px !important;
+    font-weight: 700 !important;
+    width: 79px;
+}
+
+
+.vertical-align-bottom {
+    align-self: flex-end;
+}
+
+
+.flex_Vertical_Stretch {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: stretch;
+}
+
+
+.flex_Horizontal_Centre_Wrap {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+
+
+/*
+    <div class="container_gutter_10">
+        <gutter class="d-flex flex-wrap">
+            content...
+        </gutter>
+    </dic>
+*/
+
+.container_gutter_10 {
+    overflow: hidden;
+}
+    .container_gutter_10 > gutter {
+        margin: -10px;
+    }
+        .container_gutter_10 > gutter > * {
+            margin: 10px;
+        }
+
+
+/*
+    <div class="container_gutter_20">
+        <gutter class="d-flex flex-wrap">
+            content...
+        </gutter>
+    </dic>
+*/
+.container_gutter_20 {
+    overflow: hidden;
+}
+    .container_gutter_20 > gutter {
+        margin: -20px;
+    }
+        .container_gutter_20 > gutter > * {
+            margin: 20px;
+        }
+
+
+/*
+    <div class="container_gutter_30">
+        <gutter class="d-flex flex-wrap">
+            content...
+        </gutter>
+    </dic>
+*/
+.container_gutter_30 {
+    overflow: hidden;
+}
+
+    .container_gutter_30 > gutter {
+        margin: -30px;
+    }
+
+        .container_gutter_30 > gutter > * {
+            margin: 30px;
+        }

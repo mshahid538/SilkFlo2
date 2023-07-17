@@ -1,0 +1,44 @@
+@model SilkFlo.Web.ViewModels.Explore.People
+
+
+<div id="Explore.People.Table">
+        <table delaney-ui-grid
+               delaney-ui-top="300px"
+               delaney-ui-bottom="4rem"
+               style="display: none"
+               class="noSelect table table-silkflo-display">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Job Title</th>
+                @if (!Model.NoBusinessUnits)
+                {
+                    <th>Business Unit</th>
+                }
+                <th>Ideas</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td value="@user.Fullname">@user.Fullname</td>
+                    <td value="user.Email">
+                        @if (!string.IsNullOrWhiteSpace(user.Email))
+                        {
+                            <a href="mailto:@user.Email">@user.Email</a>
+                        }
+                    </td>
+                    <td value="@user.JobTitle">@user.JobTitle</td>
+                    @if (!Model.NoBusinessUnits)
+                    {
+                        <td value="@user.Department?.Name">@user.Department?.Name</td>
+                    }
+                    <td value="@user.Ideas.Count">@user.Ideas.Count</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+</div>

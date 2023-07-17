@@ -1,0 +1,46 @@
+@using SilkFlo.Web.ViewModels.Elements.ToolBar
+@model SilkFlo.Web.ViewModels.Business.OtherRunningCosts.Summary
+
+<div asp-policy="Manage Tenant Settings"
+     id="Settings.PlatformSetup.PlatformSetup.CostSetup.OtherRunningCosts.Container">
+
+    <h3>Here you can set up one-time initial investment costs to get each idea up and running. This is based on the cost of people needed for implementation.</h3>
+
+    <input name="Business.OtherRunningCosts.Currency"
+           type="hidden"
+           value="@Model.Currency?.Symbol"/>
+
+
+    <div class="p-3 bg-light border silkflo_tile">
+
+        @await Html.PartialAsync("Elements/_ToolBar", new Bar
+        {
+            SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.OtherRunningCosts.Search(null, null, 'Settings.PlatformSetup.CostSetup.OtherRunningCosts');",
+            SearchId = "Settings.PlatformSetup.CostSetup.OtherRunningCosts.Search",
+            EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.OtherRunningCosts.Edit_Click();",
+            EditName = "EditButton",
+            SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.OtherRunningCosts.Save_Click ();",
+            SaveName = "SaveButton",
+            CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.OtherRunningCosts.Cancel_Click ();",
+            CancelName = "CancelButton",
+            DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.OtherRunningCosts.Delete_Click ();",
+            DeleteName = "DeleteButton",
+            NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.OtherRunningCosts.New_Click ();",
+            NewName = "NewButton"
+        })
+
+
+        <div style="overflow-x: auto; padding: 2px;">
+            <div id="Settings.PlatformSetup.CostSetup.OtherRunningCosts">
+
+                @await Html.PartialAsync("Settings/PlatformSetup/CostSetup/OtherRunningCosts/_Table", Model)
+
+            </div>
+        </div>
+    </div>
+
+    @await Html.PartialAsync(
+        "Elements/_FooterStatusMessage",
+        "Message")
+
+</div>

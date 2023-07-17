@@ -1,0 +1,19 @@
+@model SilkFlo.Web.ViewModels.Business.SoftwareVender.Summary
+
+<table class="table table-silkflo table-hover table-responsive"
+       name="Business.SoftwareVenders">
+    <thead>
+        <tr>
+            <th scope="col">Software Vender</th>
+            <th scope="col" style="width: 1%">Live</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var softwareVender in Model.SoftwareVenders)
+        {
+            @await Html.PartialAsync(
+                "Settings/PlatformSetup/CostSetup/SoftwareVender/_Row",
+                softwareVender)
+        }
+    </tbody>
+</table>

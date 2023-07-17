@@ -1,0 +1,146 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.Services.Models.Account.SignUp
+
+@{
+    var onFocusOutValidate = $"SilkFlo.ViewModels.Subscribe.AccountDetails.ValidateEmail(" + 
+                             "'Account.SignUp.Email', " +
+                             "'Account.SignUp.EmailConfirmation', " +
+                             "'Account.SignUp.Email_InvalidFeedback', " + 
+                             $"'/account/signin?ReturnUrl=');";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="d-flex" style="flex-direction: column;
+                                   flex-wrap: nowrap; justify-content: space-between;
+                                   height: 100%">
+            <div>
+                <h3>Account Owner</h3>
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new Element
+                    {
+                        Title = "First Name",
+                        Name = "Account.SignUp.FirstName",
+                        Autocomplete = "given-name",
+                        Value = Model.FirstName,
+                        MaximumLength = 100,
+                        ElementType = "text",
+                        InvalidFeedback = "Required",
+                    })
+
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new Element
+                    {
+                        Title = "Last Name",
+                        Name = "Account.SignUp.LastName",
+                        Value = Model.LastName,
+                        Autocomplete = "family-name",
+                        MaximumLength = 100,
+                        ElementType = "text",
+                        InvalidFeedback = "Required",
+                    })
+
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new Element
+                    {
+                        Title = "Email",
+                        Name = "Account.SignUp.Email",
+                        Value = Model.Email,
+                        MaximumLength = 256,
+                        ElementType = "text",
+                        Autocomplete = "email",
+                        InvalidFeedback = "Required",
+                        JavaScriptOnFocusOut = onFocusOutValidate,
+                        JavaScriptOnInput = "SilkFlo.ViewModels.Subscribe.AccountDetails.ValidateDomain();"
+                    })
+                    
+
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new Element
+                    {
+                        Title = "Confirm Email",
+                        Name = "Account.SignUp.EmailConfirmation",
+                        Value = Model.EmailConfirmation,
+                        MaximumLength = 256,
+                        ElementType = "text",
+                        Autocomplete = "off",
+                        InvalidFeedback = "Required",
+                        JavaScriptOnFocusOut = onFocusOutValidate,
+                    })
+
+                
+                <div class="card rules"
+                     style="padding: 0.5rem; margin-bottom: 1.5rem; min-height: calc(3.5rem + 2px);">
+                    <ul>
+                        <li aria-invalid="true"
+                            class="isInValid"
+                            name="EmailRule">
+                            The email domain matches the company website.
+                        </li>
+                    </ul>
+                </div>
+                
+                @if (Model.ShowAddress)
+                {
+                    @await Html.PartialAsync("../Shared/Shop/Subscription/_PasswordStatusCard")
+                }
+            </div>
+
+        </div>
+    </div>
+        
+    <div class="col-sm-6">
+        @if (Model.ShowAddress)
+        {
+            <h3>Billing Address</h3>
+            @await Html.PartialAsync("../Shared/Business/Client/_BillingAddress",
+                new SilkFlo.Web.ViewModels.Business.Client.BillingAddress
+                {
+                    Name = Model.Name,
+                    Address1 = Model.Address1,
+                    Address2 = Model.Address2,
+                    City = Model.City,
+                    State = Model.State,
+                    PostCode = Model.PostCode,
+                    CountryId = Model.CountryId,
+                    Countries = Model.Countries,
+                    ElementNamePrefix = "Account.SignUp."
+                })
+        }
+        else
+        {
+            <h3>Company Name</h3>
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new Element
+                {
+                    Title = "",
+                    Name = "Account.SignUp.Name",
+                    Autocomplete = "organization",
+                    ElementType = "text",
+                    InvalidFeedback = "Required"
+                })
+
+        }
+        <div class="d-flex vertical-center" style="margin-top: 3px;">
+            <label style="margin-bottom: 1.5rem; margin-right: 0.5rem;">www.</label>
+
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new Element
+                {
+                    Title = "Website",
+                    Name = "Account.SignUp.Website",
+                    Value = Model.Website,
+                    Autocomplete = "url",
+                    ElementType = "text",
+                    InvalidFeedback = "Required",
+                    CustomStylesContainer = "flex: 1 1 auto; margin-top: 0;",
+                    JavaScriptOnInput = "SilkFlo.ViewModels.Subscribe.AccountDetails.ValidateDomain();"
+                })
+        </div>
+        
+        @if (!Model.ShowAddress)
+        {
+            @await Html.PartialAsync("../Shared/Shop/Subscription/_PasswordStatusCard")
+        }
+    </div>
+</div>

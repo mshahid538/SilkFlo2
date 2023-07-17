@@ -1,0 +1,30 @@
+﻿@model SilkFlo.Web.Models.Business.Client
+
+<table class="table noSelect">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Cancelled</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subscription in Model.TenantSubscriptions)
+        {
+            <tr>
+                <td>@subscription.Name</td>
+                <td>@subscription.DateStart.ToString(SilkFlo.Data.Core.Settings.DateFormatShort)</td>
+                <td>@subscription.DateEnd?.ToString(SilkFlo.Data.Core.Settings.DateFormatShort)</td>
+                <td>
+                    @if (subscription.DateCancelled != null)
+                    {
+                        <img src="~/Icons/Cancelled.svg"/>
+                        <br/>
+                        <span style="font-size: 0.6rem; line-height: 0.7rem;">Cancelled: @((DateTime) subscription.DateCancelled).ToString(SilkFlo.Data.Core.Settings.DateFormatShort)</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

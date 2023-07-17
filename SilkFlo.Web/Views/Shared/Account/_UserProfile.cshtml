@@ -1,0 +1,190 @@
+@model SilkFlo.Web.ViewModels.Account.UserProfile
+
+    <div class="modal-header">
+        <h5 class="modal-title">User Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+
+        <div class="container">
+            <form id="UserProfile.User">
+
+                <!-- Email Input -->
+                @if (Model.AllowGuestEmail)
+                {
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Email",
+                            Id = "UserProfile.User.EmailNewPrefix",
+                            Name = "UserProfile.User.EmailNewPrefix",
+                            Value = Model.User.Email,
+                            ElementType = "text",
+                            InvalidFeedback = "Required",
+                            MaximumLength = 100
+                        })
+
+                }
+                else
+                {
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Email",
+                            Id = "UserProfile.User.EmailNewPrefix",
+                            Name = "UserProfile.User.EmailNewPrefix",
+                            Value = Model.User.EmailNewPrefix,
+                            ElementType = "text",
+                            InvalidFeedback = "Required",
+                            MaximumLength = 100,
+                            Suffix = "@" + (Model.User.Client == null? "silkflo.com" : Model.User.Client?.Website)
+                        })
+                }
+
+
+
+                <!-- FirstName Input -->
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "First Name",
+                        Id = "UserProfile.User.FirstName",
+                        Name = "UserProfile.User.FirstName",
+                        Value = Model.User.FirstName,
+                        ElementType = "text",
+                        InvalidFeedback = "Required",
+                        MaximumLength = 100,
+                    })
+
+
+
+                <!-- LastName Input -->
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "Last Name",
+                        Id = "UserProfile.User.LastName",
+                        Name = "UserProfile.User.LastName",
+                        Value = Model.User.LastName,
+                        ElementType = "text",
+                        InvalidFeedback = "Required",
+                        MaximumLength = 100,
+                    })
+
+                <!-- JobTitle Input -->
+                @await Html.PartialAsync("Elements/_LabeledInput",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "Job Title",
+                        Id = "UserProfile.User.JobTitle",
+                        Name = "UserProfile.User.JobTitle",
+                        Value = Model.User.JobTitle,
+                        ElementType = "text",
+                        InvalidFeedback = "",
+                        MaximumLength = 100,
+                    })
+
+
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "Manager",
+                        Id = "UserProfile.User.ManagerId",
+                        Name = "UserProfile.User.ManagerId",
+                        Value = Model.User.ManagerId,
+                        InvalidFeedback = "",
+                        SelectList = new SelectList(Model.User.Managers,
+                                                                "Id",
+                                                                "Name")
+                    })
+
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "Business Unit",
+                        Id = "UserProfile.User.DepartmentId",
+                        Name = "UserProfile.User.DepartmentId",
+                        Value = Model.User.DepartmentId,
+                        InvalidFeedback = "",
+                        SelectList = new SelectList(Model.User.Departments,
+                                                             "Id",
+                                                             "Name")
+                    })
+
+
+                <!-- LocationId Input -->
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "Location",
+                        Id = "UserProfile.User.LocationId",
+                        Name = "UserProfile.User.LocationId",
+                        Value = Model.User.LocationId,
+                        ElementType = "text",
+                        InvalidFeedback = "",
+                        SelectList = new SelectList(Model.User.Locations,
+                                                             "Id",
+                                                             "Name")
+                    })
+
+
+                <!-- About Input -->
+                @await Html.PartialAsync("Elements/_LabeledTextArea",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "Your Biography",
+                        Id = "UserProfile.User.About",
+                        Name = "UserProfile.User.About",
+                        Value = Model.User.About,
+                        ElementType = "text",
+                        InvalidFeedback = ""
+                    })
+
+                <div name="Message"></div>
+                <!-- Id Hidden -->
+                <input id="UserProfile.User.Id"
+                       name="UserProfile.User.Id"
+                       type="hidden"
+                       value="@Model.User.Id" />
+
+                <input id="UserProfile.User.EmailPrefix"
+                       name="UserProfile.User.EmailPrefix"
+                       type="hidden"
+                       value="@Model.User.EmailPrefix" />
+
+                <div id="UserProfile.User.Errors">
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="modal-footer"
+         style="justify-content: space-between;">
+
+
+        <a class="btn btn-primary"
+           style="margin-right: calc(var(--margin)*6)"
+           onclick="if(HotSpot.Card){ HotSpot.Card.Close();}"
+           data-bs-target="#ModalChangePassword"
+           data-bs-toggle="modal"
+           data-bs-dismiss="modal">Change Password</a>
+
+
+        <div class="d-flex">
+            <button class="btn btn-primary"
+                    style="margin-right: calc(var(--margin)*2)"
+                    onclick="SilkFlo.ViewModels.UserProfile.Save();">
+                Save
+            </button>
+
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                Cancel
+            </button>
+        </div>
+
+
+    </div>

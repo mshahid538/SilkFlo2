@@ -1,0 +1,92 @@
+@using SilkFlo.Web.Models
+@model SilkFlo.Web.ViewModels.Business.Idea.ProcessOwner
+@{
+    var processOwnerStyle = "";
+    if (Model.Idea.ProcessOwnerId_IsInValid)
+    {
+        processOwnerStyle = "style = \"border: 1px solid var(--bs-danger); border-radius: var(--border-radius); padding-left: 0.5rem;\"";
+    }
+}
+
+
+<div class="align-items-center d-flex justify-content-between" @Html.Raw(processOwnerStyle)>
+
+    <h2 style="margin: 0">
+        <span>Process Owner: </span>
+        @{
+            var id = $"id=\"{Model.TargetFullnameId}\"";
+        }
+        <span class="text-primary"
+              name="Business.Idea.ProcessOwnerFullname"
+              @Html.Raw(id)>
+            @Model.Idea.ProcessOwner?.Fullname
+        </span>
+        @{
+            var iconPath = Model.Idea.ProcessOwner?.Status switch
+            {
+                Status.Active => "/Icons/Active.svg",
+                Status.Pending => "/Icons/Pending.svg",
+                Status.Inactive => "/Icons/Inactive.svg",
+                _ => ""
+                };
+
+            var display = "";
+            if (string.IsNullOrWhiteSpace(iconPath))
+            {
+                display = "display: none;";
+            }
+
+            <img alt=""
+                 id="Modal.ProcessOwnerStatus"
+                 ignore="ignore"
+                 src="@iconPath"
+                 style="Transform: scale(1.2); margin-left: 1rem; @display"/>
+        }
+    </h2>
+
+    @{
+        var buttonText = "Assign different process owner...";
+        var onClick = $"onclick=\"$('#{Model.ModalId}').modal('show')\"";
+    }
+
+    @if (Model.Idea.ProcessOwner == null)
+    {
+        buttonText = "Assign process owner...";
+    }
+
+    <button class="btn btn-primary d-print-none"
+            name="AssignProcessOwner"
+            @Html.Raw(onClick)
+            type="button">
+        @buttonText
+    </button>
+</div>
+
+@if (Model.Idea.ProcessOwnerId_IsInValid)
+{
+    <div style="margin-top: 0.25rem; font-size: 0.875em; color: var(--bs-danger);">Required</div>
+}
+
+@{
+    id = $"id=\"{Model.TargetIdId}\"";
+    var name = $"name=\"{Model.TargetIdName}\"";
+    var nameInvalidFeedback = $"name=\"{Model.TargetIdName}_InvalidFeedback\"";
+
+}
+
+<div>
+<input type="hidden"
+       @Html.Raw(id)
+       @Html.Raw(name)
+       value="@Model.Idea.ProcessOwnerId" />
+
+<div class="invalid-feedback"
+     @Html.Raw(nameInvalidFeedback)>Required</div>
+
+@{
+    id = $"id=\"{Model.TargetEmailId}\"";
+}
+
+<input type="hidden"
+       @Html.Raw(id)/>
+</div>

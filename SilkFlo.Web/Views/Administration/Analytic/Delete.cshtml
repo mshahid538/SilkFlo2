@@ -1,0 +1,108 @@
+@model SilkFlo.Web.Models.Analytic
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Analytic</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Analytic/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Analytic/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Analytic">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.Action)
+        @Html.HiddenFor(x => x.Date)
+        @Html.HiddenFor(x => x.Language)
+        @Html.HiddenFor(x => x.Platform)
+        @Html.HiddenFor(x => x.SessionTracker)
+        @Html.HiddenFor(x => x.TimeZone)
+        @Html.HiddenFor(x => x.URL)
+        @Html.HiddenFor(x => x.UserAgent)
+        @Html.HiddenFor(x => x.UserColour)
+        @Html.HiddenFor(x => x.UserId)
+        @Html.HiddenFor(x => x.UserTracker)
+        <div class="grid_auto_1fr">
+
+            <!-- Date -->
+            <div>@Html.DisplayNameFor(x => x.Date)</div>
+            <div>@Html.DisplayFor(x => x.Date)</div>
+
+            <!-- TimeZone -->
+            <div>@Html.DisplayNameFor(x => x.TimeZone)</div>
+            <div>@Html.DisplayFor(x => x.TimeZone)</div>
+
+            <!-- UserTracker -->
+            <div>@Html.DisplayNameFor(x => x.UserTracker)</div>
+            <div>@Html.DisplayFor(x => x.UserTracker)</div>
+
+            <!-- URL -->
+            <div>@Html.DisplayNameFor(x => x.URL)</div>
+            <div>@Html.DisplayFor(x => x.URL)</div>
+
+            <!-- Action -->
+            <div>@Html.DisplayNameFor(x => x.Action)</div>
+            <div>@Html.DisplayFor(x => x.Action)</div>
+
+            <!-- SessionTracker -->
+            <div>@Html.DisplayNameFor(x => x.SessionTracker)</div>
+            <div>@Html.DisplayFor(x => x.SessionTracker)</div>
+
+            <!-- UserAgent -->
+            <div>@Html.DisplayNameFor(x => x.UserAgent)</div>
+            <div>@Html.DisplayFor(x => x.UserAgent)</div>
+
+            <!-- Platform -->
+            <div>@Html.DisplayNameFor(x => x.Platform)</div>
+            <div>@Html.DisplayFor(x => x.Platform)</div>
+
+            <!-- Language -->
+            <div>@Html.DisplayNameFor(x => x.Language)</div>
+            <div>@Html.DisplayFor(x => x.Language)</div>
+
+            <!-- UserColour -->
+            <div>@Html.DisplayNameFor(x => x.UserColour)</div>
+            <div>@Html.DisplayFor(x => x.UserColour)</div>
+
+            <!-- UserString -->
+            <div>@Html.DisplayNameFor(x => x.UserString)</div>
+            <div>@Html.DisplayFor(x => x.UserString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

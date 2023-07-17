@@ -1,0 +1,145 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{
+    var elementClass = "form-group ";
+
+
+    if (!string.IsNullOrWhiteSpace(Model.ContainerClass))
+    {
+        elementClass += Model.ContainerClass + " ";
+    }
+
+
+    var labelName = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        labelName = $" name=\"{Model.Name}_Label\" ";
+    }
+
+
+
+
+
+
+
+    var containerId = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        containerId = " id=\"" + Model.Id + "_Container\"";
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        containerId = " id=\"" + Model.Name + "_Container\"";
+    }
+
+    var containerName = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        containerName = " name=\"" + Model.Name + "_Container\"";
+    }
+
+    var inputAttribute = " onpaste=\"const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;\" ";
+
+    var suffixName = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        suffixName = $"name=\"{Model.Name}_Suffix\"";
+        inputAttribute += $" name=\"{Model.Name}\"";
+    }
+
+    var suffixId = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        suffixId = $"name=\"{Model.Id}_Suffix\"";
+        inputAttribute += $" name=\"{Model.Id}\"";
+    }
+
+
+    var style = "height: 2.8rem;";
+    if (Model.IsReadOnly)
+    {
+        inputAttribute += " tabindex=\"-1\" ";
+        style += "background-color: var(--readOnly-background);";
+    }
+    else
+    {
+        inputAttribute += " contenteditable=\"\"";
+        inputAttribute += " tabindex=\"0\" ";
+    }
+
+
+    if (!string.IsNullOrWhiteSpace(Model.Suffix))
+    {
+        style += " border-top-right-radius: 0; border-bottom-right-radius: 0";
+    }
+
+
+    if (!string.IsNullOrWhiteSpace(style))
+    {
+        style = $" style=\"{style}\"";
+        inputAttribute += style;
+    }
+
+    var cls = "form-control ";
+    if (!string.IsNullOrWhiteSpace(Model.InputClass))
+    {
+        cls += Model.InputClass;
+    }
+
+
+
+    if (!string.IsNullOrWhiteSpace(cls))
+    {
+        cls = $" class=\"{cls}\"";
+        inputAttribute += cls;
+    }
+
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnKeyDown))
+    {
+        inputAttribute += $" onkeydown=\"{Model.JavaScriptOnKeyDown}\"";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnInput))
+    {
+        inputAttribute += $" oninput=\"{Model.JavaScriptOnInput}\"";
+    }
+
+
+    var value = " ";
+    if (!string.IsNullOrWhiteSpace(Model.Value))
+    {
+        value = Model.Value;
+    }
+
+    var styleContainer = "";
+    if (!string.IsNullOrWhiteSpace(Model.Suffix))
+    {
+        styleContainer = "display: grid; grid-template-columns: 1fr auto;";
+    }
+
+    if (!string.IsNullOrWhiteSpace(styleContainer))
+    {
+        styleContainer = $" style=\"{styleContainer}\"";
+    }
+}
+<div class="@elementClass" @Html.Raw(Model.StylesContainer) @containerId @containerName>
+
+    <label @Html.Raw(labelName)>@Model.Title</label>
+    <div @styleContainer>
+        <div @inputAttribute @Model.Attributes>@value</div>
+        @if (!string.IsNullOrWhiteSpace(Model.Suffix))
+        {
+            <div style="color: var(--bs-gray-dark);
+                        display: flex;
+                        align-items: center;
+                        padding: 0 0.5rem 0 3px;
+                        background: var(--bs-gray-lightest);
+                        border-top: 1px solid var(--bs-gray-lightest);
+                        border-right: 1px solid var(--bs-gray-lightest);
+                        border-bottom: 1px solid var(--bs-gray-lightest);
+                        border-top-right-radius: var(--border-radius);
+                        border-bottom-right-radius: var(--border-radius);" @suffixName @suffixId>@Model.Suffix</div>
+                    }
+    </div>
+</div>

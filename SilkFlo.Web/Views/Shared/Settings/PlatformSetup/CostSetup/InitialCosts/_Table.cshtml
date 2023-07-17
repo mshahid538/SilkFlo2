@@ -1,0 +1,22 @@
+@model SilkFlo.Web.ViewModels.Business.InitialCosts.Summary
+
+<table class="table table-silkflo table-hover table-responsive table-bordered-silkflo"
+       name="Business.RoleCosts">
+    <thead>
+        <tr>
+            <th scope="col">User&nbsp;Role</th>
+            <th scope="col" style="width: 1%">Cost/Day</th>
+            <th scope="col" style="width: 1%">Cost/Month</th>
+            <th scope="col" style="width: 1%">Annual&nbsp;Cost</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var roleCost in Model.RoleCosts)
+        {
+            @await Html.PartialAsync(
+                "Settings/PlatformSetup/CostSetup/InitialCosts/_Row",
+                roleCost)
+        }
+    </tbody>
+</table>

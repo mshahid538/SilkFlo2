@@ -1,0 +1,410 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Cards
+
+
+<div class="align-items-center d-flex flex-wrap justify-content-between TitleBar">
+@if (Model.ShowNoIdeasCard || Model.Ideas.Count > 0)
+{
+    var hotspotId = "";
+    if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotspotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+    <h1 style="margin-bottom: 1rem;" @Html.Raw(hotspotId)>@Model.Title</h1>
+}
+
+@if (Model.Ideas.Count > 0)
+{
+    const string maxListHeight = "260px";
+    <div class="d-flex d-flex-guttered flex-wrap"
+         style="margin-bottom: 1rem;">
+    @if (Model.ShowSort)
+    {
+        <div DelaneysDropDown-container=""
+             style="z-index: 204">
+            <button class="btn btn-dropDown"
+                    DelaneysDropDown-CloseOnLostFocus="true"
+                    id="SortBy"
+                    onclick="DelaneysDropDown_Main ( this );"
+                    style="min-width: 260px;"
+                    value="NameAtoZ">
+                <span id="SortByText">Sorted By: Date (newest first)</span>&nbsp;
+                <img name="icon"
+                     src="~/Icons/Arrow Down - simple.svg"/>
+            </button>
+            <div class="btn-dropDown_List"
+                 id="sort-List"
+                 name="list">
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="DateNewestFirst">
+                    Date (newest first)
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="DateOldestFirst">
+                    Date (oldest first)
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="NameAtoZ">
+                    Name (A to Z)
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer; background: var(--bs-gray-even-lightest);"
+                     value="NameZtoA">
+                    Name (Z to A)
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="OwnerAtoZ">
+                    Owner (A to Z)
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="OwnerZtoA">
+                    Owner (Z to A)
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="FollowedFirst">
+                    Followed First
+                </div>
+                <div class="noSelect"
+                     name="selector"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Sort ( event );return false;"
+                     style="cursor: pointer"
+                     value="LikedFirst">
+                    Liked First
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowFilter)
+    {
+        <button class="btn btn-warning"
+                type="button"
+             id="filter"
+             onclick="SilkFlo.ToggleFilter ( event )">
+        <img src="~/Icons/Filter.svg"
+             style="height: 14px"/>
+        <span>Filter Options</span>
+        <div class="card p-3 SilkFloFilter"
+             name="filterContainer"
+             style="box-shadow: var(--silkflo_shadow); max-width: 1500px; min-width: 450px; color: var(--bs-dark); z-index: 1010; display: none;">
+        <div style="position: relative;">
+
+
+
+
+        @* Lists *@
+        <div class="d-flex-guttered flex-wrap"
+             name='lists'
+             style="overflow-x: hidden; margin-top: 3rem;">
+
+        @* Business Units *@
+        <div>
+            <h2>Business Units</h2>
+            <div id="filterDepartments"
+                 style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                @if (Model.Departments.Count == 0)
+                {
+                    <label>No Business Units</label>
+                }
+                else
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               displayName="All"
+                               id="toggleFilterDepartment"
+                               onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
+                               type="checkbox">
+                        <label class="form-check-label"
+                               for="toggleFilterDepartment"
+                               style="white-space: nowrap;">
+                            <i>Select All</i>
+                        </label>
+                    </div>
+                }
+
+
+                @foreach (var item in Model.Departments)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               displayName="@item.Name"
+                               id="@item.Id"
+                               name="filterDepartment"
+                               onclick="SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements ();SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterDepartment' );"
+                               type="checkbox">
+                        <label class="form-check-label"
+                               for="@item.Id"
+                               style="white-space: nowrap;">
+                            @item.Name
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        @*Teams*@
+        <div>
+            <h2>Teams</h2>
+            <div id="filterTeams"
+                 style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                <label>Select a Business Unit first</label>
+            </div>
+        </div>
+
+        @*Submission Path*@
+        <div>
+            <h2>Submission Path</h2>
+            <div id="filterSubmissionPaths"
+                 style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                @if (Model.SubmissionPaths.Count > 0)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               displayName="All"
+                               id="toggleFilterSubmissionPath"
+                               onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterSubmissionPath' );"
+                               type="checkbox">
+                        <label class="form-check-label"
+                               for="toggleFilterSubmissionPath"
+                               style="white-space: nowrap;">
+                            <i>Select All</i>
+                        </label>
+                    </div>
+                }
+
+                @foreach (var item in Model.SubmissionPaths)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               displayName="@item.Name"
+                               id="@item.Id"
+                               name="filterSubmissionPath"
+                               onclick="SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterSubmissionPath' );"
+                               type="checkbox">
+                        <label class="form-check-label"
+                               for="@item.Id"
+                               style="white-space: nowrap;">
+                            @item.Name
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @*Applications*@
+        <div>
+            <h2>Applications</h2>
+            <div id="filterVersions"
+                 style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                @if (Model.Versions.Count == 0)
+                {
+                    <label>No Applications Present</label>
+                }
+                else
+                {
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               displayName="All"
+                               id="toggleFilterVersion"
+                               onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterVersion' );"
+                               type="checkbox">
+                        <label class="form-check-label"
+                               for="toggleFilterVersion"
+                               style="white-space: nowrap;">
+                            <i>Select All</i>
+                        </label>
+                    </div>
+                }
+
+
+                @foreach (var item in Model.Versions)
+                {
+                    var name = item.Application.Name + " " + item.Name;
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               displayName="@item.Name"
+                               id="@item.Id"
+                               name="filterVersion"
+                               onclick="SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterVersion' );"
+                               type="checkbox">
+                        <label class="form-check-label"
+                               for="@item.Id"
+                               style="white-space: nowrap;">
+                            @name
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+        @if (!Model.FilterCriteria.IsDeployedOnly)
+        {
+                @*Stage*@
+            <div>
+                <h2>Stages</h2>
+                <div id="filterStages"
+                     style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                    @if (Model.Stages.Count > 0)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   displayName="All"
+                                   id="toggleFilterStage"
+                                   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterStage', SilkFlo.Pages.Cards.Shared.Stage.GetStatuses );"
+                                   type="checkbox">
+                            <label class="form-check-label"
+                                   for="toggleFilterStage"
+                                   style="white-space: nowrap;">
+                                <i>Select All</i>
+                            </label>
+                        </div>
+                    }
+
+                    @foreach (var item in Model.Stages)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   displayName="@item.Name"
+                                   id="@item.Id"
+                                   name="filterStage"
+                                   onclick="SilkFlo.Pages.Cards.Shared.Stage.GetStatuses ();SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterStage' );"
+                                   type="checkbox">
+                            <label class="form-check-label"
+                                   for="@item.Id"
+                                   style="white-space: nowrap;">
+                                @item.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+                @* Deployed Statuses *@
+            <div>
+                <h2>Deployed Statuses</h2>
+                <div id="filterStatuses"
+                     style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                    @if (Model.DeployedStatuses.Count == 0)
+                    {
+                        <label>Select a Stage first</label>
+                    }
+                    else
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   displayName="All"
+                                   id="toggleFilterStatus"
+                                   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterStatus' );"
+                                   type="checkbox">
+                            <label class="form-check-label"
+                                   for="toggleFilterStatus"
+                                   style="white-space: nowrap;">
+                                <i>Select All</i>
+                            </label>
+                        </div>
+                    }
+
+                    @foreach (var item in Model.DeployedStatuses)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   displayName="@item.Name"
+                                   id="@item.Id"
+                                   name="filterStatus"
+                                   onclick="SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterStatus' );"
+                                   type="checkbox">
+                            <label class="form-check-label"
+                                   for="@item.Id"
+                                   style="white-space: nowrap;">
+                                @item.Name
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            @* Status *@
+            <div>
+                <h2>Statuses</h2>
+                <div id="filterStatuses"
+                     style="max-height: @maxListHeight; overflow-y: auto; overflow-x: hidden">
+                    <label>No Statuses Present</label>
+                </div>
+            </div>
+        }
+
+
+
+        </div>
+
+
+        @* First Line *@
+        @* This at the end of the HTML to elevate its z-index, so that it is above the list.
+           relative/absolute is used to set its position.*@
+        <div class="align-items-stretch d-flex"
+             style="margin-bottom: 1rem; background: var(--bs-white); position: absolute; top: 0; width: 100%">
+            @* Text Search *@
+            <div class="input-group">
+            <input class="form-control"
+                   id="filterSearch"
+                   name="filterSearch"
+                   placeholder="Search Text Fields"
+                   style="padding: 3px 6px 3px 6px; margin-right: calc(1.5rem / 2);"
+                   type="text">
+
+              <sub id="filterSearchInvalidFeedback" style="position: absolute; top: 48px; color: red"></sub>
+            </div>
+
+             <div class="d-flex-guttered">
+
+                <div class="btn btn-gray"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.DeselectAll ();">
+                    Deselect&nbsp;All
+                </div>
+                <div class="btn btn-gray"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Close (event);">
+                    Cancel
+                </div>
+                <div class="btn btn-warning"
+                     onclick="SilkFlo.Pages.Cards.FilterCriteria.Run (event)"
+                     style="">
+                    Apply
+                </div>
+
+            </div>
+        </div>
+  
+        </div>
+        </div>
+        </button>
+    }
+    </div>
+}
+</div>
+
+<div id="ideaCards">
+    @await Html.PartialAsync("Business/Idea/_Cards", Model)
+</div>

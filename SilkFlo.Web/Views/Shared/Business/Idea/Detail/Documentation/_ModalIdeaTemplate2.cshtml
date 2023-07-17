@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="modal fade"
+	 id="myModalDocUpld"
+	 tabindex="-1"
+	 aria-labelledby="myModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog modal-content" style="border-radius:3px;padding: 25px;max-width: 580px">
+		<form class="row" style="margin-top:0 !important">
+			<div class="col-12">
+				<button type="button"
+						class="btn-close"
+						style="float: right"
+						data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				<h2 class="modal-title"
+					id="myModalLabel"
+					style="font-weight: bold;font-size: 1rem; margin-bottom: 16px;">
+					Add new file
+				</h2>
+			</div>
+			<div class="col-12">
+				<label for="usrOptTemplateSelect" class="form-label" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Template Name</label>
+				<select id="usrOptTemplateSelect" class="form-select" style="border-radius:0">
+					<option value="" selected>Open this select menu</option>
+					<option value="DetailedWorkInstructions">Work Instructions</option>
+					<option value="StandardOperatingProcedure">Standard Operating Procedure</option>
+					<option value="ProcessmapsORflowcharts">Process maps / flowcharts</option>
+					<option value="InputFiles(examples)">Input Files (examples)</option>
+					<option value="OutputFiles(examples)">Output Files (examples)</option>
+					<option value="Recordings">Recordings</option>
+					<option value="Misc">Misc</option>
+					<option value="SolutionDesignDocument">Solution Design Document </option>
+					<option value="ProcessDefinitionDocument">Process Definition Document </option>
+				</select>
+				<div id="usrOptTemplateSelect-error-message"></div>
+			</div>
+			<div class="col-12" style="margin-top: 25px;">
+				<div id="dropZone" style="margin-inline: auto; margin-top: 0; flex: 0.5; height: 200px;" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+					<div>
+						<svg width="82"
+							 height="82"
+							 viewBox="0 0 82 82"
+							 fill="none"
+							 xmlns="http://www.w3.org/2000/svg">
+							<path d="M6.83301 41.0002H13.6663V58.0835H68.333V41.0002H75.1663V58.0835C75.1663 61.876 72.1255
+                        64.9168 68.333 64.9168H13.6663C11.854 64.9168 10.1159 64.1969 8.83444
+                        62.9154C7.55295 61.6339 6.83301 59.8958 6.83301 58.0835V41.0002ZM40.9997
+                        6.8335L22.0713 25.4885L26.923 30.3402L37.583 19.646V51.2502H44.4163V19.646L55.1105
+                        30.3402L59.9622 25.4543L40.9997 6.8335Z"
+								  fill="#FF8A00" />
+						</svg>
+						<h3 class="dropZoneTitle">Browse your files here..</h3>
+						<div class="browse-btn-container">
+							<input id="tFileElem" type="file" style="display: none;" onchange="onTFileElemChange()" multiple="multiple" />
+							<label id="btn-label" for="tFileElem">Browse</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
+					<button type="button"
+							id="btnTFilesUpload"
+							onclick="documentUpload()"
+							class="btn btn-primary"
+							style="background: #ff8a00; border: 0; border-radius: 8px">
+						Save
+					</button>
+				</div>
+			</div>
+			<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
+			</div>
+			<div id="filesContainer" style="display: none;" class="table-responsive" style="margin-top:20px">
+				<table class="table table-hover .table-sm .table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Enter File Name</th>
+							<th scope="col">File</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody id="templatesTempViewer">
+					</tbody>
+				</table>
+			</div>
+
+			<div id="noTextTDiv">
+				<b>No files selected</b>
+			</div>
+
+			<div id="usrAlrtBlobInfo"></div>
+		</form>
+	</div>
+</div>

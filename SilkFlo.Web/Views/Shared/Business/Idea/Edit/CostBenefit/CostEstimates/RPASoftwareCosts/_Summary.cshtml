@@ -1,0 +1,32 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.RPASoftwareCosts
+
+@{
+    const string javascriptNamespace = "SilkFlo.ViewModels.Business.Idea.Edit.RPSSoftwareCosts.";
+}
+
+<div class="p-3 bg-light border silkflo_tile"
+     style="margin-bottom: 2rem;"
+     id="Business.Idea.CostBenefit.CostEstimates.RPASoftwareCosts">
+
+    @if (Model.RunningCosts.Any())
+    {
+        @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+        {
+            Title = "RPA Software Costs",
+            DeleteOnClick = javascriptNamespace + "Delete_Click ();",
+            DeleteName = "DeleteButton",
+
+            NewOnClick = javascriptNamespace + "New_Click ();",
+            NewName = "NewButton"
+        })
+
+        <div style="overflow-x: auto; padding: 2px;">
+            @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/RPASoftwareCosts/_Table", Model)
+        </div>
+    }
+    else
+    {
+        <h2 style="margin-top:0 !important;">RPA Software Costs</h2>
+        @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/RPASoftwareCosts/_NoRows")
+    }
+</div>

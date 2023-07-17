@@ -1,0 +1,59 @@
+﻿
+
+<style>
+    ::-webkit-input-placeholder {
+        text-align: center;
+        font-size: 15px;
+    }
+
+    :-moz-placeholder {
+        text-align: center;
+        font-size: 15px;
+    }
+</style>
+<div class="account account_SignIn">
+
+     @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right ">
+        <div>
+            <div class="panel-heading header-center">
+                <img src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1>Check your email</h1>
+                <p style="margin-bottom:0px !important">We sent you a one time code to:</p>
+                <p style="margin-bottom:0px !important"><strong>your email@youremail.com</strong></p>
+                <hr />
+
+            </div>
+
+            <div class="panel-body">
+                <form action="~" method="post">
+                    <!-- OTP Input -->
+                    <div class="form-group frm-group" id="OTP_Container" name="OTP_Container">
+                        <input id="OTP" name="OTP" type="text" class="form-control input has-validation" oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" maxlength="100" placeholder=" Enter one time Code " style="align-items: end;">
+                       
+                    </div>
+                   
+                    <button style="width:100%" class="btn  btn_Login">Continue</button>
+
+                    <div class="or">
+                        <h2>
+                            <span>
+                                or
+                            </span>
+                        </h2>
+                    </div>
+                    <button style="width:100%" class="btn  btn-Microsoft">
+                        
+                        <span>Resend Code</span>
+                    </button>
+                    
+                    <div style="justify-content: center">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,992 @@
+@model SilkFlo.Web.Models.Business.Idea
+@using Microsoft.AspNetCore.Authorization
+@using SilkFlo.Web.ViewModels
+@using SilkFlo.Web.ViewModels.Business.Application
+@inject IAuthorizationService _authorizationService
+
+@{
+    var currency = "&pound;";
+    if (!string.IsNullOrWhiteSpace(Model.Client?.Currency?.Symbol))
+    {
+        currency = Model.Client.Currency.Symbol;
+    }
+
+    var locale = "en-gb";
+    if (!string.IsNullOrWhiteSpace(Model.Client?.LanguageId))
+    {
+        locale = Model.Client.LanguageId;
+    }
+}
+
+
+<input id="Currency"
+       name="Currency"
+       type="hidden"
+       value="@Html.Raw(currency)"/>
+
+<input id="Locale"
+       name="Locale"
+       type="hidden"
+       value="@locale"/>
+
+
+<h1 style="margin-top: 3rem;">Detailed Assessment</h1>
+
+@await Html.PartialAsync("Elements/_LabeledSelect",
+    new Element
+    {
+        Title = "Automation Goal",
+        Name = "Business.Idea.AutomationGoalId",
+        Value = Model.AutomationGoalId,
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectList = new SelectList(Model.AutomationGoals,
+            "Id",
+            "DisplayText"),
+        IsInvalid = Model.AutomationGoalId_IsInValid,
+        HotSpotId="Automation-Goal"
+    })
+
+
+<h2>Environmental Stability</h2>
+
+
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Applications Stability",
+        Prompt = "Applications Changes Expected in the Next 6 Months",
+        Name = "Business.Idea.ApplicationStabilityId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.ApplicationStabilityId,
+        CommentId = "BusinessIdeaApplicationStabilityComment",
+        CommentName = "Business.Idea.ApplicationStabilityComment",
+        CommentValue = Model.ApplicationStabilityComment,
+        CommentErrorMessage = Model.ApplicationStabilityComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.ApplicationStabilityComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.ApplicationStabilityComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.ApplicationStabilities,
+        IsInvalid = Model.ApplicationStabilityId_IsInValid
+    })
+
+
+<h2>Employee Profile</h2>
+
+@*Average Working Days/Year*@
+@{
+    var averageWorkingDay = Model.AverageWorkingDay;
+
+    if (averageWorkingDay == null || averageWorkingDay == 0)
+    {
+        if (Model.Client != null)
+        {
+            averageWorkingDay = Model.Client.AverageWorkingDay;
+        }
+    }
+}
+
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Working Days/Year",
+        SubTitle = "",
+        IsMandatory = true,
+        Name = "Business.Idea.AverageWorkingDay",
+        ElementType = "number",
+        MinimumValue = "1",
+        MaximumValue = "365",
+        Step = "1",
+        Value = averageWorkingDay.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaAverageWorkingDayComment",
+        CommentName = "Business.Idea.AverageWorkingDayComment",
+        CommentValue = Model.AverageWorkingDayComment,
+        CommentErrorMessage = Model.AverageWorkingDayComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageWorkingDayComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageWorkingDayComment_ErrorMessage),
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        IsFloatingLabel = false,
+        Suffix = "Days/Year"
+    })
+
+
+
+@*Working Hours/Day*@
+@{
+    var averageWorkingHour = Model.WorkingHour;
+
+    if (averageWorkingHour == null || averageWorkingHour == 0)
+    {
+        if (Model.Client != null)
+        {
+            averageWorkingHour = Model.Client.AverageWorkingHour;
+        }
+    }
+}
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Working Hours/Day",
+        SubTitle = "",
+        IsMandatory = true,
+        Name = "Business.Idea.WorkingHour",
+        ElementType = "number",
+        MinimumValue = "1",
+        MaximumValue = "24",
+        Value = averageWorkingHour.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaWorkingHourComment",
+        CommentName = "Business.Idea.WorkingHourComment",
+        CommentValue = Model.WorkingHourComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.WorkingHourComment_ErrorMessage),
+        CommentErrorMessage = Model.WorkingHourComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.WorkingHourComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea');",
+        JavaScriptOnKeyDown = "KeyPressPositiveDecimalOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "Hours/Day"
+    })
+
+
+
+@*Average Employee Full Cost/Year*@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Employee Full Cost/Year",
+        SubTitle = "",
+        IsMandatory = false,
+        Name = "Business.Idea.AverageEmployeeFullCost",
+        ElementType = "number",
+        MinimumValue = "0",
+        Value = Model.AverageEmployeeFullCost.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaAverageEmployeeFullCostComment",
+        CommentName = "Business.Idea.AverageEmployeeFullCostComment",
+        CommentValue = Model.AverageEmployeeFullCostComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageEmployeeFullCostComment_ErrorMessage),
+        CommentErrorMessage = Model.AverageEmployeeFullCostComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageEmployeeFullCostComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea');",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "Cost/Year"
+    })
+
+@*Number of Employees Performing the Task*@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Number of Employees Performing the Task",
+        SubTitle = "",
+        IsMandatory = true,
+        Name = "Business.Idea.EmployeeCount",
+        ElementType = "number",
+        MinimumValue = "1",
+        Value = Model.EmployeeCount.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaEmployeeCountComment",
+        CommentName = "Business.Idea.EmployeeCountComment",
+        CommentValue = Model.EmployeeCountComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.EmployeeCountComment_ErrorMessage),
+        CommentErrorMessage = Model.EmployeeCountComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.EmployeeCountComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "Employees",
+        IsInvalid = Model.EmployeeCount_IsInValid
+    })
+
+
+<h2>Process Volumetry</h2>
+@*Task/Process Frequency*@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Task/Process Frequency",
+        Prompt = "",
+        Name = "Business.Idea.TaskFrequencyId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this) ",
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea')",
+        Value = Model.TaskFrequencyId,
+        CommentId = "BusinessIdeaTaskFrequencyComment",
+        CommentName = "Business.Idea.TaskFrequencyComment",
+        CommentValue = Model.TaskFrequencyComment,
+        CommentErrorMessage = Model.TaskFrequencyComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.TaskFrequencyComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.TaskFrequencyComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectList = new SelectList(Model.TaskFrequencies,
+            "Id",
+            "DisplayText"),
+        IsInvalid = Model.TaskFrequencyId_IsInValid,
+        HotSpotId="Task-Process-Frequency"
+    })
+
+
+
+
+
+
+
+@*Activity Volume Average*@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Activity Volume Average",
+        IsMandatory = true,
+        Name = "Business.Idea.ActivityVolumeAverage",
+        ElementType = "number",
+        MinimumValue = "0",
+        Value = Model.ActivityVolumeAverage.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaActivityVolumeAverageComment",
+        CommentName = "Business.Idea.ActivityVolumeAverageComment",
+        CommentValue = Model.ActivityVolumeAverageComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.ActivityVolumeAverageComment_ErrorMessage),
+        CommentErrorMessage = Model.ActivityVolumeAverageComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.ActivityVolumeAverageComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "per selected frequency",
+        InvalidFeedback = "Required",
+        IsInvalid = Model.ActivityVolumeAverage_IsInValid,
+        HotSpotId="Activity-Volume-Average"
+    })
+
+
+
+@* Average Processing Time/Transaction *@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Processing Time/Transaction",
+        IsMandatory = true,
+        Name = "Business.Idea.AverageProcessingTime",
+        ElementType = "number",
+        MinimumValue = "1",
+        Value = Model.AverageProcessingTime.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaAverageProcessingTimeComment",
+        CommentName = "Business.Idea.AverageProcessingTimeComment",
+        CommentValue = Model.AverageProcessingTimeComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageProcessingTimeComment_ErrorMessage),
+        CommentErrorMessage = Model.AverageProcessingTimeComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageProcessingTimeComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "minutes",
+        InvalidFeedback = "Required",
+        IsInvalid = Model.AverageProcessingTime_IsInValid,
+        HotSpotId="Average-Processing-Time-Transaction"
+    })
+
+
+@* Total Processing Time *@
+<label>Total Processing Time <span class="subLabel">(hours/year)</span></label>
+<input class="calculation form-control"
+       id="TotalProcessingTime"
+       readonly
+       type="text"
+       value="@Model.TotalProcessingTime hours/year">
+
+
+<h2>Error Rate</h2>
+
+@* Average Error Rate *@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Error Rate",
+        IsMandatory = false,
+        Name = "Business.Idea.AverageErrorRate",
+        ElementType = "number",
+        MinimumValue = "0",
+        MaximumValue = "100",
+        Value = Model.AverageErrorRate.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaAverageErrorRateComment",
+        CommentName = "Business.Idea.AverageErrorRateComment",
+        CommentValue = Model.AverageErrorRateComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageErrorRateComment_ErrorMessage),
+        CommentErrorMessage = Model.AverageErrorRateComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageErrorRateComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "% of Total Volume",
+        HotSpotId="Average-Error-Rate"
+    })
+
+@* Average Rework Time/Transaction *@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Rework Time/Transaction",
+        IsMandatory = false,
+        Name = "Business.Idea.AverageReworkTime",
+        ElementType = "number",
+        MinimumValue = "0",
+        Value = Model.AverageReworkTime.ToString(),
+        IsReadOnly = Model.IsReadOnly,
+        CommentId = "BusinessIdeaAverageReworkTimeComment",
+        CommentName = "Business.Idea.AverageReworkTimeComment",
+        CommentValue = Model.AverageReworkTimeComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageReworkTimeComment_ErrorMessage),
+        CommentErrorMessage = Model.AverageReworkTimeComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageReworkTimeComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "minutes",
+        HotSpotId="Average-Rework-Time"
+    })
+
+@*Total Rework Time*@
+<label>Total Rework Time <span class="subLabel">(hours/year)</span></label>
+<input class="calculation form-control"
+       id="TotalReworkTime"
+       readonly
+       type="text"
+       value="@Model.TotalReworkTime hours/year">
+
+
+<h2>Review/Audit</h2>
+
+@* Average Work to be Reviewed/Audited *@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Work to be Reviewed/Audited",
+        IsMandatory = false,
+        Name = "Business.Idea.AverageWorkToBeReviewed",
+        ElementType = "number",
+        IsReadOnly = Model.IsReadOnly,
+        MinimumValue = "0",
+        MaximumValue = "100",
+        Value = Model.AverageWorkToBeReviewed.ToString(),
+        CommentId = "BusinessIdeaAverageWorkToBeReviewedComment",
+        CommentName = "Business.Idea.AverageWorkToBeReviewedComment",
+        CommentValue = Model.AverageWorkToBeReviewedComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageWorkToBeReviewedComment_ErrorMessage),
+        CommentErrorMessage = Model.AverageWorkToBeReviewedComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageWorkToBeReviewedComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "% of Total Volume",
+        HotSpotId="Average-Work-to-be-Reviewed"
+    })
+
+
+@* Average Review Or Audit Time/Transaction *@
+@await Html.PartialAsync("Elements/_LabeledInputAndComment",
+    new Element_InputWithComment
+    {
+        Title = "Average Review or Audit Time/Transaction",
+        IsMandatory = false,
+        Name = "Business.Idea.AverageReviewTime",
+        ElementType = "number",
+        IsReadOnly = Model.IsReadOnly,
+        MinimumValue = "0",
+        Value = Model.AverageReviewTime.ToString(),
+        CommentId = "BusinessIdeaAverageReviewTimeComment",
+        CommentName = "Business.Idea.AverageReviewTimeComment",
+        CommentValue = Model.AverageReviewTimeComment,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageReviewTimeComment_ErrorMessage),
+        CommentErrorMessage = Model.AverageReviewTimeComment_ErrorMessage,
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageReviewTimeComment_ErrorMessage),
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+        IsFloatingLabel = false,
+        Suffix = "minutes",
+        HotSpotId="Average-Review-or-Audit-Time-Transaction"
+    })
+
+@*>Total Review/Audit Time*@
+<label>Total Review/Audit Time</label>
+<span class="subLabel">(hours/year)</span>
+<input class="calculation form-control"
+       id="TotalReviewTime"
+       readonly
+       value="@Model.TotalReviewTime hours/year">
+
+
+<h2>Summary of Time and Cost before Automation</h2>
+
+@*>Total Time Needed to Perform the Work - As is Process*@
+<label style="margin-bottom: 6px">Total Time Needed to Perform Work without Automation <span class="subLabel">(hours/year)</span></label>
+<input class="calculation form-control"
+       id="TotalTimeNeededToPerformWorkWithoutAutomation"
+       readonly
+       value="@Model.TotalTimeNeededToPerformWorkWithoutAutomation hours/year">
+
+
+<div class="row">
+    <div class="col-lg-6">
+
+        @* Full Time Equivalents Required *@
+        <label>Full Time Equivalents Required</label>
+        <input class="calculation form-control"
+               id="FullTimeEquivalentsRequired"
+               readonly
+               value="@Model.FullTimeEquivalentsRequired">
+    </div>
+
+    <div class="col-lg-6">
+
+        @* Cost/Year for Process AS IS *@
+        @{
+            var costPerYearForProcessBeforeAutomation = Model.CostPerYearForProcessBeforeAutomation();
+        }
+        <label>Cost/Year for Process Before Automation</label>
+        <input class="calculation form-control"
+               id="CostPerYear"
+               readonly
+               value="@Html.Raw(Model.Currency + costPerYearForProcessBeforeAutomation)">
+    </div>
+</div>
+
+<h2>Process Ways of Working</h2>
+
+@* Process Peaks *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Process Peaks",
+        Prompt = "",
+        Name = "Business.Idea.ProcessPeakId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.ProcessPeakId,
+        CommentId = "BusinessIdeaProcessPeakComment",
+        CommentName = "Business.Idea.ProcessPeakComment",
+        CommentValue = Model.ProcessPeakComment,
+        CommentErrorMessage = Model.ProcessPeakComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.ProcessPeakComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.ProcessPeakComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.ProcessPeaks,
+        IsInvalid = Model.ProcessPeakId_IsInValid
+    })
+
+
+
+
+@* Average Number of Steps *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Average Number of Steps",
+        Prompt = "",
+        Name = "Business.Idea.AverageNumberOfStepId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); ",
+        Value = Model.AverageNumberOfStepId,
+        CommentId = "BusinessIdeaAverageNumberOfStepComment",
+        CommentName = "Business.Idea.AverageNumberOfStepComment",
+        CommentValue = Model.AverageNumberOfStepComment,
+        CommentErrorMessage = Model.AverageNumberOfStepComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.AverageNumberOfStepComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.AverageNumberOfStepComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.AverageNumberOfSteps,
+        IsInvalid = Model.AverageNumberOfStepId_IsInValid
+    })
+
+
+
+
+@* NumberOfWaysToCompleteProcess *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Number of Ways To Complete Process",
+        Prompt = "",
+        Name = "Business.Idea.NumberOfWaysToCompleteProcessId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); ",
+        Value = Model.NumberOfWaysToCompleteProcessId,
+        CommentId = "BusinessIdeaNumberOfWaysToCompleteProcessComment",
+        CommentName = "Business.Idea.NumberOfWaysToCompleteProcessComment",
+        CommentValue = Model.NumberOfWaysToCompleteProcessComment,
+        CommentErrorMessage = Model.NumberOfWaysToCompleteProcessComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.NumberOfWaysToCompleteProcessComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.NumberOfWaysToCompleteProcessComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.NumberOfWaysToCompleteProcesses,
+        IsInvalid = Model.NumberOfWaysToCompleteProcessId_IsInValid
+    })
+
+
+<h2>Data Input</h2>
+
+
+@* % of Structured Digital Data Input *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Percentage of Structured Digital Data Input",
+        Prompt = "",
+        Name = "Business.Idea.DataInputPercentOfStructuredId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.DataInputPercentOfStructuredId,
+        CommentId = "BusinessIdeaDataInputPercentOfStructuredComment",
+        CommentName = "Business.Idea.DataInputPercentOfStructuredComment",
+        CommentValue = Model.DataInputPercentOfStructuredComment,
+        CommentErrorMessage = Model.DataInputPercentOfStructuredComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.DataInputPercentOfStructuredComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.DataInputPercentOfStructuredComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.DataInputPercentOfStructureds,
+        IsInvalid = Model.DataInputPercentOfStructuredId_IsInValid
+    })
+
+
+
+
+
+
+@* DecisionCount *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Decision Count",
+        Prompt = "How many decisions are made during the process?",
+        Name = "Business.Idea.DecisionCountId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');  SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); ",
+        Value = Model.DecisionCountId,
+        CommentId = "BusinessIdeaDecisionCountComment",
+        CommentName = "Business.Idea.DecisionCountComment",
+        CommentValue = Model.DecisionCountComment,
+        CommentErrorMessage = Model.DecisionCountComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.DecisionCountComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.DecisionCountComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.DecisionCounts,
+        IsInvalid = Model.DecisionCountId_IsInValid
+    })
+
+
+
+@* DecisionDifficulty *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "How difficult are the decisions that you must take to complete the process?",
+        Prompt = "",
+        Name = "Business.Idea.DecisionDifficultyId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); ",
+        Value = Model.DecisionDifficultyId,
+        CommentId = "BusinessIdeaDecisionDifficultyComment",
+        CommentName = "Business.Idea.DecisionDifficultyComment",
+        CommentValue = Model.DecisionDifficultyComment,
+        CommentErrorMessage = Model.DecisionDifficultyComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.DecisionDifficultyComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.DecisionDifficultyComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.DecisionDifficulties,
+        IsInvalid = Model.DecisionDifficultyId_IsInValid
+    })
+
+
+<h2>Potential Fines</h2>
+<div class="prompt">Is this process decreasing the chances of incurring a fine? Please indicate the potential fine amount and probability.</div>
+<div class="row"
+     style="margin-bottom: 1.5rem">
+
+    <div class="col-lg-6">
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new Element
+            {
+                Title = "Amount",
+                Name = "Business.Idea.PotentialFineAmount",
+                JavaScriptOnFocusOut = "SilkFlo.IsInRange(this, 0); ",
+                JavaScriptOnInput = "SilkFlo.IsInRange(this, 0); ",
+                Value = Model.PotentialFineAmount?.ToString(),
+                ElementType = "number",
+                MinimumValue = "0",
+                IsReadOnly = Model.IsReadOnly,
+                JavaScriptOnKeyDown = "KeyPressPositiveDecimalOnly(event)",
+                InvalidFeedback = "",
+                MaximumLength = 100
+            })
+
+    </div>
+
+    <div class="col-lg-6">
+
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new Element
+            {
+                Title = "Probability",
+                Name = "Business.Idea.PotentialFineProbability",
+                JavaScriptOnFocusOut = "SilkFlo.IsInRange(this, 0, 100); ",
+                JavaScriptOnInput = "SilkFlo.IsInRange(this, 0, 100); ",
+                JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+                Value = Model.PotentialFineProbability?.ToString(),
+                ElementType = "number",
+                IsReadOnly = Model.IsReadOnly,
+                InvalidFeedback = "",
+                MinimumValue = "0",
+                MaximumValue = "100",
+                MaximumLength = 100
+            })
+
+    </div>
+
+</div>
+
+
+@{
+    const string isHighRiskPrompt = "Will the robot access high-risk / high-exposure IT systems?";
+    const string isDataSensitivePrompt = "Will the robot access or process sensitive personal data?";
+    const string isAlternativePrompt = "Are there alternative solutions except for a robot?";
+    const string isHostUpgradePrompt = "Are the automation systems due for major upgrade or decommission in the next 1 year?";
+    const string isDataInputScannedPrompt = "Scanned Data Input?";
+}
+
+
+@{
+    var isHighRisk = "";
+    if (Model.IsHighRisk)
+    {
+        isHighRisk = "checked";
+    }
+}
+
+<div class="form-check form-switch">
+    <input class="form-check-input"
+           @isHighRisk
+           data-val="@Model.IsHighRisk.ToString()"
+           data-val-required="@isHighRiskPrompt"
+           id="Business.Idea.IsHighRisk"
+           name="Business.Idea.IsHighRisk"
+           oninput="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); "
+           type="checkbox">
+
+    <label class="form-check-label"
+           for="Business.Idea.IsHighRisk">
+        @isHighRiskPrompt
+    </label>
+</div>
+
+
+<div class="form-check form-switch">
+    @Html.CheckBoxFor(model => model.IsDataSensitive,
+        new
+        {
+            @class = "form-check-input",
+            name = "Business.Idea.IsDataSensitive",
+            oninput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');" +
+                      "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); "
+        })
+
+    @{
+        var isDataSensitive = "";
+        if (Model.IsDataSensitive)
+        {
+            isDataSensitive = "checked";
+        }
+    }
+
+
+    <input class="form-check-input"
+           @isDataSensitive
+           data-val="true"
+           data-val-required="The Will the RPA access or process sensitive personal data? field is required."
+           id="Business.Idea.IsDataSensitive"
+           name="Business.Idea.IsDataSensitive"
+           oninput="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); "
+           type="checkbox"
+           value="true">
+
+    <label class="form-check-label"
+           for="Business.Idea.IsDataSensitive">
+        @isDataSensitivePrompt
+    </label>
+</div>
+
+
+<div class="form-check form-switch">
+    @Html.CheckBoxFor(model => model.IsAlternative,
+        new
+        {
+            @class = "form-check-input",
+            name = "Business.Idea.IsAlternative",
+            oninput = "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');" +
+                      "SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea');" +
+                      ""
+        })
+
+
+    @{
+        var isAlternative = "";
+        if (Model.IsAlternative)
+        {
+            isAlternative = "checked";
+        }
+    }
+
+    <input class="form-check-input"
+           data-val="true"
+           @isAlternative
+           data-val-required="The Alternative Solutions except for RPA field is required."
+           id="Business.Idea.IsAlternative"
+           name="Business.Idea.IsAlternative"
+           oninput="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea');"
+           type="checkbox">
+
+    <label class="form-check-label"
+           for="Business.Idea.IsAlternative">
+        @isAlternativePrompt
+    </label>
+</div>
+@{
+    var isHostUpgrade = "";
+    if (Model.IsHostUpgrade)
+    {
+        isHostUpgrade = "checked";
+    }
+}
+
+<div class="form-check form-switch">
+    <input class="form-check-input"
+           data-val="true"
+           @isHostUpgrade
+           data-val-required="The Will the automation tough systems due for major up field is required."
+           id="Business.Idea.IsHostUpgrade"
+           name="Business.Idea.IsHostUpgrade"
+           oninput="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea');SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea');"
+           type="checkbox"
+           value="true">
+
+    <label class="form-check-label"
+           for="Business.Idea.IsHostUpgrade">
+        @isHostUpgradePrompt
+    </label>
+</div>
+
+<div class="grid_1fr_auto">
+    <div class="form-check form-switch"
+         style="display: inline-block">
+
+        @{
+            var isDataInputScanned = "";
+            if (Model.IsDataInputScanned)
+            {
+                isDataInputScanned = "checked";
+            }
+        }
+
+        <input class="form-check-input"
+               data-val="true"
+               @isDataInputScanned
+               data-val-required="The Is Scanned Data Input field is required."
+               id="Business.Idea.IsDataInputScanned"
+               name="Business.Idea.IsDataInputScanned"
+               oninput="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea');SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); "
+               type="checkbox">
+
+        <label class="form-check-label"
+               for="Business.Idea.IsDataInputScanned">
+            @isDataInputScannedPrompt
+        </label>
+    </div>
+
+    <button aria-controls="dataInputScannedComment"
+            aria-expanded="false"
+            class="btn d-print-none"
+            data-bs-target="#dataInputScannedComment"
+            data-bs-toggle="collapse"
+            style="display: inline-block; color: var(--bs-white); background-color: var(--navbar_background); border-color: var(--navbar_background);"
+            type="button">
+        Comment...
+    </button>
+</div>
+<div class="collapse"
+     id="dataInputScannedComment">
+
+    <label>Comment</label>
+    <textarea class="form-control textArea_sans_serif"
+                                  name="Business.Idea.DataInputScannedComment"
+                                  style="min-height: 200px;">@Model.DataInputScannedComment</textarea>
+</div>
+
+
+@*@{
+    int pageSize = 5;
+    int pageIndex = 0;
+}*@
+
+
+<h2 class="mandatory"
+    style="margin-top: 18px;">
+    Applications Used
+</h2>
+
+
+@await Html.PartialAsync(
+    "Business/Idea/_ApplicationsTable",
+    new Summary(Model.Applications, Model.Languages))
+
+<h2 style="margin-top: 2rem;">Estimated Benefit</h2>
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+<div class="row">
+    <div class="calculation_result col-md-4">
+        <label>Automation Potential</label>
+        <input class="calculation form-control"
+               id="AutomationPotential"
+               readonly
+               value="@Model.AutomationPotential %">
+    </div>
+
+    <div class="calculation_result col-md-4">
+        <label>Ease of Implementation</label>
+        <input class="calculation form-control"
+               id="EaseOfImplementation"
+               readonly
+               value="@Model.EaseOfImplementation %">
+    </div>
+
+    <div class="calculation_result col-md-4">
+        <label>Feasibility Score</label>
+        <input class="calculation form-control"
+               id="FeasibilityScore"
+               readonly
+               value="@Model.FeasibilityScore %">
+    </div>
+</div>
+
+
+@if (!Model.IsReadOnly)
+{
+    <div class="row">
+        <div class="calculation_result col-md-4">
+            <label>Primed Score</label>
+            <input class="calculation form-control"
+                   id="PrimedScore"
+                   readonly
+                   value="@Model.PrimedScore %">
+        </div>
+
+        <div class="calculation_result col-md-4">
+            <label>Fitness Score</label>
+            <input class="calculation form-control"
+                   id="FitnessScore"
+                   readonly
+                   value="@Model.FitnessScore %">
+        </div>
+
+        <div class="calculation_result col-md-4">
+            <label>Idea Score</label>
+            <input class="calculation form-control"
+                   id="IdeaScore"
+                   readonly
+                   value="@Model.IdeaScore %">
+        </div>
+    </div>
+}
+
+<div class="row">
+
+    <div class="calculation_result col-md-4">
+        <label>Benefit per company<br><span class="subLabel">(hours saved/year)</span></label>
+        @{
+            var value = await Model.GetEstimateAsync(Model.BenefitPerCompanyHoursValue);
+        }
+
+        <input class="calculation form-control"
+               id="EstimatedBenefitPerCompany_Hours"
+               readonly
+               value="@value.ToString("#,##0.00")">
+    </div>
+
+    <div class="calculation_result col-md-4">
+        <label>Benefit per company<br><span class="subLabel">(cost/year)</span></label>
+        @{
+            value = await Model.GetEstimateAsync(Model.BenefitPerCompanyCurrencyValue);
+        }
+
+        <input class="calculation form-control"
+               id="BenefitPerCompany_Currency"
+               readonly
+               value="@Html.Raw(Model.Currency + value.ToString("#,##0.00"))">
+    </div>
+
+    <div class="calculation_result col-md-4">
+        <label>Benefit per company<br><span class="subLabel">(FTEs)</span></label>
+        <input class="calculation form-control"
+               id="EstimatedBenefitPerCompany_FTE"
+               readonly
+               value="@Model.EstimatedBenefitPerCompanyFte">
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="calculation_result col-md-4">
+        <label>Benefit per employee<br><span class="subLabel">(hours saved/year)</span></label>
+        @{
+            value = await Model.GetEstimateAsync(Model.BenefitPerEmployeeHoursValue);
+        }
+        <input class="calculation form-control"
+               id="EstimatedBenefitPerEmployee_Hours"
+               readonly
+               value="@value.ToString("#,##0.00")">
+    </div>
+
+    <div class="calculation_result col-md-4">
+        <label>Benefit per employee<br><span class="subLabel">(cost/year)</span></label>
+        @{
+            value = await Model.GetEstimateAsync(Model.BenefitPerEmployeeCurrencyValue);
+        }
+        <input class="calculation form-control"
+               id="BenefitPerEmployee_Currency"
+               readonly
+               value="@Html.Raw(Model.Currency + value.ToString("#,##0.00"))">
+    </div>
+
+    <div class="calculation_result col-md-4">
+        <label>Benefit per employee<br><span class="subLabel">(FTEs)</span></label>
+        <input class="calculation form-control"
+               id="EstimatedBenefitPerEmployee_FTE"
+               readonly
+               value="@Model.BenefitPerEmployeeFte">
+    </div>
+</div>

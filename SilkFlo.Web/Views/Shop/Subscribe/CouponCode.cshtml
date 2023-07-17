@@ -1,0 +1,31 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.ViewModels.Shop.Subscribe
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex vertical-center align-content-between"
+             style="flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: space-between;">
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new Element
+                {
+                    Title = "Coupon Code",
+                    Name = "Account.SignUp.CouponCode",
+                    Value = Model.Coupon,
+                    ElementType = "text",
+                    InvalidFeedback = "",
+                    JavaScriptOnKeyPress = "SilkFlo.ViewModels.Subscribe.UpdateCoupon_OnInput(event)",
+                    CustomStylesContainer = "margin-right: 1rem; margin-bottom: 0; flex: 1 1 auto;"
+                })
+
+            <button class="btn btn-brand"
+                    style="display: flex"
+                    onclick="SilkFlo.ViewModels.Subscribe.UpdateCoupon();"
+                    type="button">Update</button>
+        </div>
+        <span class="text-success"
+              style="display: none;"
+              name = "Account.SignUp.CouponCodeMessage"></span>
+    </div>
+</div>

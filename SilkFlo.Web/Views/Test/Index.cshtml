@@ -1,0 +1,85 @@
+﻿<div class="TitleBar">
+    <h1 class="showtooltip">Dashboard</h1>
+    <div class="hide_div">
+        <div class="silkflo_tooltip" id="tooltip1">
+            <h2 class="silkflo_tooltip-title"><img src="/Icons/info.png" />Main Dashboard</h2>
+            <p class="silkflo_tooltip-content">This is where you can see entier program performance, by ideas, project in build and automations deployed.</p>
+            <a class="silkflo_tooltip-close" onclick="hideTooltip()">×</a>
+        </div>
+
+
+    </div>
+
+
+
+    <div class="silkflo-tab">
+        <h3 class="active silkflo-tab-label" name="Dashboard.Personal.Tab" parentid="dashboard" displaypath="Dashboard/Personal">Personal</h3><h3 class="silkflo-tab-label" name="Dashboard.Performance.Tab" parentid="dashboard" displaypath="Dashboard/Performance" getOnSelect="">Performance</h3><h3 class="silkflo-tab-label" name="Dashboard.Reseller.Tab" parentid="dashboard" displaypath="Dashboard/Reseller" getOnSelect="">Agency</h3>
+    </div>
+
+</div>
+@*@Html.Partial("_silkfloModal")*@
+@Html.Partial("Subscription/_ModalEndNotification")
+@Html.Partial("Subscription/_ModalFreeTrail")
+@Html.Partial("Subscription/_ModalGracePeriod")
+@Html.Partial("Subscription/_ModalPreEnd2day")
+@Html.Partial("Subscription/_ModalPreEnd7day")
+@Html.Partial("Subscription/_ModalPreEndLast")
+@Html.Partial("_silkFloModal")
+<script>
+
+    $(document).ready(function () {
+        var url = window.location.href;
+        link = url.split("?")[1]
+        if (link == "end") {
+            $('#Modalend').modal('show');
+        }
+        if (link == "grace") {
+            $('#ModalGrace').modal('show');
+        }
+        if (link == "2day") {
+            $('#Modal2day').modal('show');
+        }
+        if (link == "7day") {
+            $('#Modal7day').modal('show');
+        }
+        if (link == "last") {
+            $('#ModalLast').modal('show');
+        }
+        if (link == "free") {
+            $('#freetrial').modal('show');
+        }
+        if (link == "silkFlo") {
+            $('#SilkfloModal').modal('show');
+        }
+
+     
+
+        $('.showtooltip').mouseover(function () {
+
+            $('#tooltip1').show();
+        });
+    });
+
+    function hideTooltip() {
+        $('#tooltip1').hide();
+    }
+    function showModal() {
+
+        $('#SilkfloModal').modal('show');
+    }
+
+    function hideModal() {
+        $('#SilkfloModal').modal('hide');
+        $('#freetrial').modal('hide');
+    }
+</script>
+
+<div name="container">
+    <div silkflo-url="Dashboard/Personal"
+         parentid="dashboard" displayPath="Dashboard/Personal" silkflo-loadOnce="" name="Dashboard.Personal.Content"></div>
+    <div silkflo-url="Dashboard/Performance"
+         silkflo-getManually="" parentid="dashboard" displayPath="Dashboard/Performance" silkflo-loadOnce="" name="Dashboard.Performance.Content"></div>
+    <div silkflo-url="Dashboard/Reseller"
+         silkflo-getManually="" parentid="dashboard" displayPath="Dashboard/Reseller" silkflo-loadOnce="" name="Dashboard.Reseller.Content"></div>
+</div>
+

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 256.00 256.00" enable-background="new 0 0 256.00 256.00" xml:space="preserve">
+	<g>
+		<ellipse fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" cx="128" cy="128" rx="128" ry="128"/>
+		<ellipse fill="#1AA1E2" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" cx="128" cy="128" rx="113.778" ry="113.778"/>
+		<rect x="113.778" y="49.7778" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" width="28.4444" height="28.4445"/>
+		<rect x="113.778" y="106.667" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" width="28.4444" height="99.5556"/>
+	</g>
+</svg>

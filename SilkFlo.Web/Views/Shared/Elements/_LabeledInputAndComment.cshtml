@@ -1,0 +1,169 @@
+@model SilkFlo.Web.ViewModels.Element_InputWithComment
+
+
+@{
+
+    string commentContainerId = "";
+    if (!String.IsNullOrWhiteSpace(Model.CommentId))
+    {
+        commentContainerId = $"{Model.CommentId}_Container";
+    }
+}
+
+
+
+
+@Html.Raw(Model.Line1)
+@if (Model.IsReadOnly)
+{
+    <div @Html.Raw(Model.ContainerAttributes)>
+
+        <input @Html.Raw(Model.InputElementAttributes)>
+
+        @if (!string.IsNullOrWhiteSpace(Model.CommentValue))
+        {
+            string text = $"<p>{Model.CommentValue}</p>";
+            text = text.Replace("\r\n", "</p><p>");
+
+            <div class="Silkflo_readOnlyComment">
+                <label>Comments</label>
+                @Html.Raw(text)
+            </div>
+        }
+    </div>
+}
+else
+{
+    string buttonClass = "btn d-print-none";
+    string containerClass = "collapse d-print-block";
+    if (!Model.CommentShow)
+    {
+        buttonClass += " collapsed";
+    }
+    else
+    {
+        buttonClass += " show";
+        containerClass += " show";
+    }
+
+
+    string textareaClass = "form-control textArea_sans_serif";
+    if (Model.CommentShowError)
+    {
+        textareaClass += " is-invalid";
+    }
+
+    string align;
+    string padding;
+    @if (Model.IsFloatingLabel)
+    {
+        align = "end";
+        padding = "0 0.5rem 2px 3px";
+    }
+    else
+    {
+        align = "center";
+        padding = "0 0.5rem 0 3px";
+    }
+
+    string colorSuffix = "var(--bs-gray-dark)";
+    string backgroundSuffix = "var(--bs-gray-lightest)";
+
+    string prefixId = Model.Id ?? Model.Name + "_prefix";
+    string suffixId = Model.Id ?? Model.Name + "_Suffix";
+
+    <div style="margin-bottom: 1.5rem;">
+        <div @Html.Raw(Model.ContainerAttributes)>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Prefix))
+            {
+                <div id="@prefixId" style="color: @Html.Raw(colorSuffix); display: flex; align-items: @align; padding: @padding; background: @Html.Raw(backgroundSuffix); border-top: 1px solid #000000; border-top: 1px solid rgba(0, 0, 0, 0.1); border-left: 1px solid #000000; border-left: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid #000000; border-bottom: 1px solid rgba(0, 0, 0, 0.1); border-top-left-radius: var(--border-radius); border-bottom-left-radius: var(--border-radius);">@Model.Prefix</div>
+            }
+
+
+            <input @Html.Raw(Model.InputElementAttributes)>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Suffix))
+            {
+                <div id="@suffixId" style="color: @Html.Raw(colorSuffix); display: flex; align-items: @align; padding: @padding; background: @Html.Raw(backgroundSuffix); border-top: 1px solid #000000; border-top: 1px solid rgba(0, 0, 0, 0.1); border-right: 1px solid #000000; border-right: 1px solid rgba(0, 0, 0, 0.1); border-bottom: 1px solid #000000; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">@Model.Suffix</div>
+            }
+
+
+            <button class="@buttonClass"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#@commentContainerId"
+                    aria-expanded="false"
+                    aria-controls="@commentContainerId">
+                Comment...
+            </button>
+            @if (Model.IsMandatory || Model.MinimumValue.Length > 0 || Model.MaximumValue.Length > 0)
+            {
+                var invalidFeedbackIdLocal = "";
+                if (!string.IsNullOrWhiteSpace(Model.Id))
+                {
+                    invalidFeedbackIdLocal = " id=\"" + Model.Id + "_InvalidFeedback\"";
+                }
+
+                var invalidFeedbackNameLocal = "";
+                if (!string.IsNullOrWhiteSpace(Model.Name))
+                {
+                    invalidFeedbackNameLocal = " name=\"" + Model.Name + "_InvalidFeedback\"";
+                }
+                <div @Html.Raw(invalidFeedbackIdLocal)
+                    @Html.Raw(invalidFeedbackNameLocal) class="invalid-feedback" silkFlo-feedback="">
+                @Html.Raw(Model.InvalidFeedback)
+                </div>
+            }
+        </div>
+        <div class="@containerClass"
+             id="@commentContainerId">
+            <label>Comment</label>
+
+            @{
+                string commentMaxlength = "";
+                string onkeyup = "";
+                if (Model.CommentMaximumLength > 0)
+                {
+                    commentMaxlength = $"maxlength=\"{Model.CommentMaximumLength}\"";
+                    onkeyup = "onkeyup=\"SilkFlo.CharacterCount(this);\"";
+                }
+            }
+
+            <textarea name="@Model.CommentName"
+                      id="@Model.CommentId"
+                      style="min-height: 200px;"
+                      @Html.Raw(commentMaxlength)
+                      @Html.Raw(onkeyup)
+                      class="@textareaClass">@Model.CommentValue</textarea>
+
+            @if (Model.CommentMaximumLength > 0)
+            {
+                <div name="characterCounter"
+                     style="font-size: 0.8rem; float: right;">
+                    <span name="current">@Model.CommentValue?.Length</span>
+                    <span name="maximum">/ @Model.CommentMaximumLength</span>
+                </div>
+            }
+
+            @{
+                var invalidFeedbackId = "";
+                if (!string.IsNullOrWhiteSpace(Model.Id))
+                {
+                    invalidFeedbackId = " id=\"" + Model.Id + "_InvalidFeedback\"";
+                }
+
+                var invalidFeedbackName = "";
+                if (!string.IsNullOrWhiteSpace(Model.Name))
+                {
+                    invalidFeedbackName = " name=\"" + Model.Name + "_InvalidFeedback\"";
+                }
+            }
+            <div @Html.Raw(invalidFeedbackId)
+                @Html.Raw(invalidFeedbackName) class="invalid-feedback" silkFlo-feedback="">
+                @Html.Raw(Model.InvalidFeedback)
+            </div>
+
+        </div>
+    </div>
+    }

@@ -1,0 +1,15 @@
+@model SilkFlo.Web.Models.User
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-3">Mute Email</h1>
+        @if(Model == null)
+        {
+            <h1 class="text-danger">Could not find the user.</h1>
+        }
+        else
+        {
+            <h1 class="text-success">@Model.Fullname (@Model.Email) is muted</h1>
+        }
+    </div>
+</div>

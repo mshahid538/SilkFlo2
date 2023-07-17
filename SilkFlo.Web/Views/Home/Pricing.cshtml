@@ -1,0 +1,25 @@
+﻿@model SilkFlo.Web.ViewModels.Subscriptions
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+@{
+    var path = "https://www.silkflo.com";
+
+    if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.Subscriber)).Succeeded)
+    {
+        path = "/";
+    }
+}
+
+
+<div class="container" style="margin-top: 2rem; margin-bottom: 0.5rem;">
+    <a href="@path"
+       style="display: inline-block">
+        <img ignore="ignore"
+             style="height: 3rem; padding-bottom: 0.5rem;"
+         src="~/Icons/Logo and SilkFlo Coloured and Black.svg"/>
+    </a>
+
+</div>
+
+@await Html.PartialAsync("~/Views/Shared/Shop/Product/_Products.cshtml", Model)

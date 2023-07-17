@@ -1,0 +1,160 @@
+@model SilkFlo.Web.Models.Shop.Product
+
+
+@{
+    var amount = Model.Price?.Amount??0;
+    var price = Model.Price?.Currency?.Symbol + "&nbsp;" + amount.ToString("##.00");
+    var amountTotal = amount - Model.Refund;
+    var priceTotal = Model.Price?.Currency?.Symbol + "&nbsp;" + amountTotal.ToString("##.00");
+}
+
+<div class="card mb-3">
+
+
+    <input name="OrderSummary.Price"
+           type="hidden"
+           value="@amountTotal"/>
+    <input name="OrderSummary.Symbol"
+           type="hidden"
+           value="@Model.Price?.Currency?.Symbol"/>
+
+
+    <div class="card-body">
+        <h2>Summary</h2>
+        <div class="d-flex justify-content-between">
+            <h3>
+                <b>Plan</b>
+            </h3>
+            <h3>
+                <b>Price</b>
+            </h3>
+        </div>
+        <div class="d-flex justify-content-between">
+            <label>@Model.Name</label>
+
+            @if (Model.Price?.Amount != null)
+            {
+                <label>@Html.Raw(price) / @Model.Price?.Period.Name.ToLower()</label>
+            }
+        </div>
+
+        <ul class="tickList">
+            @if (!string.IsNullOrWhiteSpace(Model.AdminUserText))
+            {
+                <li>@Model.AdminUserText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.StandardUserText))
+            {
+                <li>@Model.StandardUserText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.CollaboratorText))
+            {
+                <li>@Model.CollaboratorText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.IdeaText))
+            {
+                <li>@Model.IdeaText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.StorageText))
+            {
+                <li>@Model.StorageText</li>
+            }
+
+
+
+
+
+            @{
+                var sTrialDays = "";
+                var trialDAttributes = "style=\"display: none\"";
+                if (Model.TrialDays > 0)
+                {
+                    sTrialDays = Model.TrialDays + " days free trial";
+                    trialDAttributes = "style=\"margin-top: 1rem; font-weight: bold; font-size: 1.3rem;\" class=\"text-success\"";
+                }
+            }
+
+
+           
+            <li name="OrderSummary.TrialDays" @Html.Raw(trialDAttributes)>@Html.Raw(sTrialDays)</li>
+        </ul>
+        
+        <input name="OrderSummary.TrialDaysDefault"
+               type="hidden"
+               value="@Html.Raw(sTrialDays)"/>
+
+
+        @if (!string.IsNullOrWhiteSpace(Model.Note))
+        {
+            <div class="feature">@Html.Raw(Model.Note)</div>
+        }
+
+
+        <div style="border-bottom: 1px solid var(--bs-gray-lighter); margin-top: 1rem; margin-bottom: 1rem;">
+        </div>
+        
+        @if (Model.Refund != 0)
+        {
+            var refund = "- " +  Model.Price?.Currency?.Symbol + " " + (Model.Refund).ToString("##.00");
+            <div class="d-flex justify-content-between"
+                 name="OrderSummary.RefundRow">
+                <label>
+                    <b>Refund</b>
+                </label>
+                <label>
+                    <b name="OrderSummary.Refund">@Html.Raw(refund)</b>
+                </label>
+            </div>
+        }
+
+        <div class="justify-content-between"
+             name="OrderSummary.DiscountRow"
+             style="display: none;">
+            <label>
+                <b>Discount</b>
+            </label>
+            <label>
+                <b class="text-success"
+                   name="OrderSummary.Discount">
+                </b>
+            </label>
+        </div>
+        @if (Model.TrialDays == 0)
+        {
+            <div class="d-flex justify-content-between">
+                <label>
+                    <b>Total due today</b>
+                </label>
+                <label>
+                    <b name="OrderSummary.Total">@Html.Raw(priceTotal)</b>
+                </label>
+            </div>
+        }
+        else
+        {
+            var now = DateTime.Now;
+            now = now.AddDays(Model.TrialDays);
+            <div class="d-flex justify-content-between">
+                <label>
+                    <b>Billed Now</b>
+                </label>
+                <label>
+                    <b>&pound;&nbsp;0</b>
+                </label>
+            </div>
+            <div class="d-flex justify-content-between">
+                <label>
+                    <b>Trial ends on @now.ToString(SilkFlo.Data.Core.Settings.DateFormatShort) then pay</b>
+                </label>
+                <label>
+                    <b name="OrderSummary.Total">@Html.Raw(price)</b>
+                </label>
+            </div>
+        }
+
+    </div>
+</div>

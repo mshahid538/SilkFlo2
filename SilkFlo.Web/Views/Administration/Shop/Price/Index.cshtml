@@ -1,0 +1,164 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Shop.Price>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Prices Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.ProductId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.PeriodId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.CurrencyId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Amount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.IsLive)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.IsActive)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/Shop/Price/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Shop/Price/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @if(item.Product == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathProduct = "/Administration/Shop/Product/edit/" + item.ProductId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Product?.ToString()"<span class="text-muted"><a href="@pathProduct">@item.Product?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Product?.ToString()"><a href="@pathProduct">@item.Product?.ToString()</a></td>
+                            }
+                        }
+
+                        @if(item.Period == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathPeriod = "/Administration/Shared/Period/edit/" + item.PeriodId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Period?.ToString()"<span class="text-muted"><a href="@pathPeriod">@item.Period?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Period?.ToString()"><a href="@pathPeriod">@item.Period?.ToString()</a></td>
+                            }
+                        }
+
+                        @if(item.Currency == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathCurrency = "/Administration/Shop/Currency/edit/" + item.CurrencyId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Currency?.ToString()"<span class="text-muted"><a href="@pathCurrency">@item.Currency?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Currency?.ToString()"><a href="@pathCurrency">@item.Currency?.ToString()</a></td>
+                            }
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Amount)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Amount)"><span>@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                        }
+
+                        @if (item.IsLive)
+                        {
+                            if (item.IsDeleted)
+                            {
+                            <td value="item.IsLive"><img src="~/Icons/CheckBox.svg" /></td>
+                            }
+                            else
+                            {
+                            <td value="item.IsLive"><img class="icon" src="~/Icons/CheckBox.svg" /></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (item.IsActive)
+                        {
+                            if (item.IsDeleted)
+                            {
+                            <td value="item.IsActive"><img src="~/Icons/CheckBox.svg" /></td>
+                            }
+                            else
+                            {
+                            <td value="item.IsActive"><img class="icon" src="~/Icons/CheckBox.svg" /></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

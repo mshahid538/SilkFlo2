@@ -1,0 +1,66 @@
+@model SilkFlo.Web.Models.User
+
+    <div class="collaborator"
+         name="User"
+         id="@Model.Id">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+
+            <div>
+                <span name="User.Fullname">@Model.Fullname</span>
+                <span name="User.Status">
+                    @if (Model.Id == "{id}")
+                    {
+                        @Html.Raw("{status}")
+                    }
+                    else
+                    {
+                        @if (Model.Status == SilkFlo.Web.Models.Status.Active)
+                        {
+                            <img src="~/Icons/Active.svg" />
+                        }
+                        else if (Model.Status == SilkFlo.Web.Models.Status.Pending)
+                        {
+                            <img src="~/Icons/Pending.svg" />
+                        }
+                        else if (Model.Status == SilkFlo.Web.Models.Status.Inactive)
+                        {
+                            <img src="~/Icons/Inactive.svg" />
+                        }
+                    }
+                </span>
+            </div>
+
+            <input type="hidden" name="User.Id" value="@Model.Id" />
+            <input type="hidden" name="User.FirstName" value="@Model.FirstName" />
+            <input type="hidden" name="User.LastName" value="@Model.LastName" />
+
+            @{
+                var onClick = $"SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Remove('{Model.Id}', '{Model.Fullname}')";
+            }
+            <span class="Remove noSelect"
+                  onclick="@onClick">Remove</span>
+        </div>
+
+        <div style="line-height: 0.8rem; margin-bottom: 1rem;">
+            <span name="User.Email" style="font-size: 0.8rem;">                        
+               @if (!string.IsNullOrWhiteSpace(Model.Email))
+               {
+                   var hRef = $"mailto:{@Model.Email}";
+                   <a href="@hRef">@Model.Email</a>
+               }</span>
+        </div>
+
+        <div name="Business.Roles" class="d-flex-guttered" style="flex-wrap: wrap;">
+            @if (Model.BusinessRoles.Count == 0)
+            {
+            <span>roles</span>
+            }
+            else
+            {
+                foreach (var role in Model.BusinessRoles)
+                {
+                    @await Html.PartialAsync("Business/Idea/ManageCollaborators/_BusinessRole", role)
+                }
+            }
+        </div>
+    </div>

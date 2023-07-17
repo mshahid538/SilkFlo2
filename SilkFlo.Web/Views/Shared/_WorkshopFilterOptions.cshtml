@@ -1,0 +1,198 @@
+﻿@model SilkFlo.Web.ViewModels.Business.Idea.Summary
+
+<!-- Button trigger modal -->
+<div style="margin-bottom: 1rem">
+	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#workshopFilterModal" onclick="showWorkshopModal()">
+		<img src="~/Icons/Filter.svg"
+	style="height: 14px" />
+		<span>Filter Options</span>
+	</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="workshopFilterModal" tabindex="-1" role="dialog" aria-labelledby="workshopFilterModalTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="min-height:0x !important; display: flex; justify-content: center" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Quick filters</h5>
+				<button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close" onclick="hideWorkshopModal()">
+					<span aria-hidden="true"></span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div style="margin-right: 3rem;">
+						<h3>Filter by Date</h3>
+						<div id="filterByDates" class="d-flex" style="margin-top: 1%">
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="yearRadio" type="radio" value="YEAR" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="yearRadio" style="white-space: nowrap;">
+									<i>Year</i>
+								</label>
+							</div>
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="monthRadio" type="radio" value="MONTH" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="monthRadio" style="white-space: nowrap;">
+									<i>Month</i>
+								</label>
+							</div>
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="weekRadio" type="radio" value="WEEK" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="weekRadio" style="white-space: nowrap;">
+									<i>Week</i>
+								</label>
+							</div>
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="weekRadio" type="radio" value="DATERANGE" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="weekRadio" style="white-space: nowrap;">
+									<i>By Date Range</i>
+								</label>
+							</div>
+							<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -15px;">
+								<div>
+									Start Date: <input class="form-control" type="date" id="startDatepicker" disabled />
+								</div>
+								<div style="margin-left:15px">
+									End Date: <input class="form-control" type="date" id="endDatepicker" disabled />
+								</div>
+							</div>
+							<br />
+						</div>
+
+					</div>
+
+
+					<div class="d-flex-guttered"
+						 name='lists'
+						 style="margin-top: 1rem;">
+						<div>
+							<h2>Business Units</h2>
+							<div id="filterDepartments"
+								 style="max-height: 10rem; overflow-y: auto; overflow-x: hidden; width: 15rem;">
+								@if (Model.Departments.Count == 0)
+								{
+									<label>No Business Units</label>
+								}
+								else
+								{
+									<div class="form-check">
+										<input class="form-check-input"
+											   displayName="All"
+											   id="toggleFilterDepartment"
+											   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
+											   type="checkbox">
+										<label class="form-check-label"
+											   for="toggleFilterDepartment"
+											   style="white-space: nowrap;">
+											<i>Select All</i>
+										</label>
+									</div>
+								}
+
+
+								@foreach (var item in Model.Departments)
+								{
+									<div class="form-check">
+										<input class="form-check-input"
+											   displayName="@item.Name"
+											   id="@item.Id"
+											   name="filterDepartment"
+											   onclick="SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements ();SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterDepartment' );"
+											   type="checkbox">
+										<label class="form-check-label"
+											   for="@item.Id"
+											   style="white-space: nowrap;">
+											@item.Name
+										</label>
+									</div>
+								}
+							</div>
+						</div>
+						<div>
+							<h2>Teams</h2>
+							<div id="filterTeams"
+								 style="max-height: 10rem; overflow-y: auto; overflow-x: hidden; width: 20rem;">
+								<label>Select a Business Unit first</label>
+							</div>
+						</div>
+
+
+						<div style="margin-right: 3rem;">
+							<h2>Idea Submitter</h2>
+							<div id="filterSubmissionPaths" style="height:200px; overflow-y: auto; overflow-x: hidden">
+								<div class="form-check">
+									<input class="form-check-input"
+										   displayName="All"
+										   type="checkbox">
+									<label class="form-check-label"
+										   style="white-space: nowrap;">
+										<i>Select All</i>
+									</label>
+								</div>
+
+								@if (Model.ISList != null && Model.ISList.Count > 0)
+								{
+									foreach (var isl in Model.ISList)
+									{
+										<div class="form-check">
+											<input class="form-check-input" name="ISListCheckbox" type="checkbox" value="@isl.Value">
+											<label class="form-check-label" style="white-space: nowrap;">
+												<i>@isl.Key</i>
+											</label>
+										</div>
+									}
+								}
+							</div>
+						</div>
+
+						<div style="margin-right: 3rem;">
+							<h2>Process Owner</h2>
+							<div id="filterVersions"
+								 style="overflow-y: auto; overflow-x: hidden; height:200px;">
+								<div class="form-check">
+									<input class="form-check-input"
+										   displayName="All"
+										   type="checkbox">
+									<label class="form-check-label"
+										   style="white-space: nowrap;">
+										<i>Select All</i>
+									</label>
+								</div>
+
+								@if (Model.POList != null && Model.POList.Count > 0)
+								{
+									foreach (var po in Model.POList)
+									{
+										<div class="form-check">
+											<input class="form-check-input" name="POListCheckbox" type="checkbox" value="@po.Value">
+											<label class="form-check-label" style="white-space: nowrap;">
+												<i>@po.Key</i>
+											</label>
+										</div>
+									}
+								}
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div id="quickFilter-loader" style="margin-right: 6rem;"></div>
+					<div class="btn btn-gray"
+						 onclick="clearAllFiltersAndAdjustDataIntoCurrentView();">
+						Reset
+					</div>
+					<div class="btn btn-gray"
+						 onclick="hideWorkshopModal()">
+						Cancel
+					</div>
+					<div class="btn btn-warning"
+						 onclick="applyFiltersAndAdjustWorkshopCurrentView()"
+						 style="">
+						Apply
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

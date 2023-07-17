@@ -1,0 +1,95 @@
+@model SilkFlo.Web.Models.Business.Role
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Role</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Role/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/Role/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Role">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.ClientId)
+        @Html.HiddenFor(x => x.Description)
+        @Html.HiddenFor(x => x.IsBuiltIn)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.Sort)
+        <div class="grid_auto_1fr">
+
+            <!-- IsBuiltIn -->
+            <div>@Html.DisplayNameFor(x => x.IsBuiltIn)</div>
+            <div>@Html.DisplayFor(x => x.IsBuiltIn)</div>
+
+            <!-- Sort -->
+            <div>@Html.DisplayNameFor(x => x.Sort)</div>
+            <div>@Html.DisplayFor(x => x.Sort)</div>
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- Description -->
+            <div>@Html.DisplayNameFor(x => x.Description)</div>
+            <div>@Html.DisplayFor(x => x.Description)</div>
+
+            <!-- ClientString -->
+            <div>@Html.DisplayNameFor(x => x.ClientString)</div>
+            <div>@Html.DisplayFor(x => x.ClientString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    <h2>Assigned Collaborators</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMBusinessCollaborator_For_CollaboratorRole = "";
+            foreach (var collaboratorRole in Model.CollaboratorRoles)
+            {
+                 if (collaboratorRole != null)
+                 {
+                    if (collaboratorRole.Collaborator != null)
+                    {
+                        linkMMBusinessCollaborator_For_CollaboratorRole = "/Business/Collaborator/Detail/" + collaboratorRole.Collaborator.Id;
+             <a href=@linkMMBusinessCollaborator_For_CollaboratorRole class="btn btn-secondary">@collaboratorRole.Collaborator.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    </form>
+</div>

@@ -1,0 +1,184 @@
+@model SilkFlo.Web.ViewModels.Shop.Subscribe
+
+@* Inspired by Pluralsight 2021 *@
+
+
+<div class="container">
+    <img class="brand"
+         onclick="SilkFlo.Redirect ( '/' )"
+         src="~/Icons/Logo and SilkFlo Coloured and Black.svg"
+         style="width: 200px; margin-top: calc(20px - 0.5rem) !important;"/>
+</div>
+
+
+<div id="subscribe">
+    
+<input type="hidden" value="@Model.ReferrerCode" name="Account.SignUp.ReferrerCode"/>
+
+<div style="overflow-y: auto;">
+<div class="modal-body"
+     style="padding-top: 0;">
+@* Body *@
+
+
+<div class="container"
+     style="margin-bottom: 3rem;">
+<p style="margin-top: 1rem;">
+    <a href="/Pricing">&lt; Back to pricing</a>
+</p>
+<div class="row">
+
+@* Wizard *@
+<div class="col-lg-7">
+
+<div class="card mb-3">
+
+<div class="card-body">
+<fieldset name="Account.SignUp.Fieldset">
+
+@await Html.PartialAsync("../Shared/Shop/Subscription/_BillingAddress", Model)
+
+
+@{
+    var buttonName = "";
+    var onclick = "";
+}
+@if (Model.IsSignedIn)
+{
+    buttonName = "Account.SignUp.BillingAddressContinue";
+    onclick = "SilkFlo.ViewModels.Subscribe.Continue_Click (this);";
+}
+else
+{
+    buttonName = "Account.SignUp.AccountDetailsContinue";
+    onclick = "SilkFlo.ViewModels.Subscribe.AccountDetails.Save_Click ( event );";
+}
+
+    <div class="d-flex justify-content-between vertical-center"
+         style="margin-top: 1rem;">
+        <div name="Message"></div>
+        <button class="btn btn-brand"
+                name="@Html.Raw(buttonName)"
+                onclick="@Html.Raw(onclick)"
+                type="button">
+            Continue
+        </button>
+    </div>
+
+</fieldset>
+</div> @* card-body END *@
+
+
+</div> @* Card END*@
+
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="silkFlo_flex_wrap_spaced">
+            <div class="silkFlo_flex_wrap_left">
+                <div class="circle">2</div>
+                <h2 style="margin-left: 1rem;">Enter Your Payment Details</h2>
+            </div>
+        </div>
+        <div>
+            <form id="payment-form" style="display: none;">
+                <div id="payment-element"><!--Stripe.js injects the Payment Element--></div>
+                <div class="d-flex justify-content-between vertical-center"
+                     style="margin-top: 1rem;">
+                    <div id="error-message"><!-- Display error message to your customers here --></div>
+                    <button type="submit" class="btn btn-brand">Subscribe</button>
+                                            @*onclick="SilkFlo.ViewModels.Subscribe.Stripe.Form_OnSubmit( event )"*@
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+
+@* Order Summary (Wide Mode) *@
+<div class="col-lg-5 subscribe-desktop"
+     name="Account.SignUp.OrderSummary">
+
+    @await Html.PartialAsync(
+        "/Views/Shop/Subscribe/CouponCode.cshtml",
+        Model)
+
+    @await Html.PartialAsync("/Views/Shop/Subscribe/OrderSummary.cshtml", Model.Product)
+</div>
+
+<input name="Account.SignUp.ClientId"
+       type="hidden"
+       value="@Model.ClientId"/>
+
+<input name="Account.SignUp.PriceId"
+       type="hidden"
+       value="@Model.Product?.Price?.Id"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+@* Terms Modal *@
+<div aria-hidden="true"
+     aria-labelledby="Terms of Use"
+     class="fade modal"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     id="ModalTerms"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Terms of Use</h4>
+                <button aria-label="Close"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        silkflo-action="Cancel"
+                        type="button">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                @Html.Raw(Model.Terms)
+            </div>
+
+
+            <div class="modal-footer"
+                 style="justify-content: end;">
+                <button class="btn btn-brand"
+                        data-bs-dismiss="modal"
+                        type="button">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<environment exclude="Development">*@
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ldpx1IfAAAAAPe-KeEQw7z2sB_wmwqkD6AKEGpV"></script>
+@*</environment>*@
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    window.addEventListener (
+        'DOMContentLoaded',
+        function ()
+        {
+            const logPrefix = 'SDOMContentLoaded: ';
+            console.log ( logPrefix );
+
+            SilkFlo.ViewModels.Subscribe.Stripe.Object = Stripe ( '@Model.StripePublicKey' );
+
+            // Guard Clause
+            if (!SilkFlo.ViewModels.Subscribe.Stripe.Object)
+            {
+                console.log(`${logPrefix}SilkFlo.ViewModels.Subscribe.Stripe.Object missing`);
+                return;
+            }
+        } );
+</script>

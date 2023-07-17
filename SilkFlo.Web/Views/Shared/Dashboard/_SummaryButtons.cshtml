@@ -1,0 +1,46 @@
+@model SilkFlo.Web.ViewModels.Dashboard.Tenant
+
+<div class="flex-wrap row"
+     style="margin-top: -1rem;">
+    <div id="filterOptions" style="justify-content: flex-end;display: flex;">
+        @await Html.PartialAsync("/Views/Shared/_FilterOptions.cshtml", Model)
+    </div>
+    <div class="col-auto"
+         style="flex: 1 1 auto;">
+        <div class="flex-wrap row">
+
+            <div class="col-auto gy-4"
+                 style="flex: 1 1 auto;">
+                <div id="totalIdeas"
+                     silkflo-url="Dashboard/GetTotalIdeas"></div>
+            </div>
+
+            <div class="col-auto gy-4"
+                 style="flex: 1 1 auto;">
+                <div id="totalInBuild"
+                     silkflo-url="Dashboard/GetTotalInBuild"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-auto"
+         style="flex: 1 1 auto;">
+        <div class="flex-wrap row">
+
+            <div class="col-auto gy-4"
+                 style="flex: 1 1 auto;">
+                <div id="totalDeployed"
+                     silkflo-url="Dashboard/GetTotalDeployed"></div>
+            </div>
+
+            <div class="col-auto gy-4"
+                 style="flex: 1 1 auto;">
+                <div id="totalDeploymentBenefits"
+                     silkflo-url="Dashboard/GetTotalDeploymentBenefits"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

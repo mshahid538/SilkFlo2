@@ -1,0 +1,63 @@
+@model SilkFlo.Web.ViewModels.MessageBox
+
+@{ 
+    if(string.IsNullOrWhiteSpace(Model.Yes_Javascript))
+    {
+        Model.Yes_Javascript = "$('#" + Model.Id + "').modal('show')";
+    }
+
+    if (string.IsNullOrWhiteSpace(Model.No_Javascript))
+    {
+        Model.No_Javascript = "$('#" + Model.Id + "').modal('hide')";
+    }
+}
+
+<div class="modal fade"
+     id="@Model.Id"
+     tabindex="-1"
+     style="z-index: 10000"
+     aria-labelledby="@Model.Title Message Box"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 name="Title" class="modal-title text-primary">@Model.Title</h2>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        name="Close"
+                        onclick="@Model.No_Javascript;"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body" name="Message">
+                @Html.Raw(Model.Message)
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        data-bs-dismiss="modal"
+                        name="OK"
+                        onclick="@Model.Yes_Javascript;"
+                        class="btn btn-primary">
+                    @Model.TrueLabel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*
+    Example:
+    @await Html.PartialAsync("MessageBoxes/_Ok",
+                             new SilkFlo.Web.ViewModels.MessageBox
+                             {
+                                 Id = "",
+                                 Title = "",
+                                 Message = "",
+                                 Yes_Javascript = "",
+                                 TrueLabel = "",
+                             })
+
+    $('#myModal').modal('show')
+    $('#myModal').modal('hide')
+
+*@

@@ -1,0 +1,13 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+<p>Please add some Running Costs to the system before assigning RPA Software Costs to your idea.</p>
+
+@if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageTenantSettings)).Succeeded)
+{
+    <p><a href="/Settings/tenant/Platform-Setup/Cost-Setup/Running-Costs">Settings &gt; Platform Setup &gt; Cost Setup  &gt; Running Costs</a></p>
+}
+else
+{
+<p>Contact a colleague who to manage platform setup</p>
+}

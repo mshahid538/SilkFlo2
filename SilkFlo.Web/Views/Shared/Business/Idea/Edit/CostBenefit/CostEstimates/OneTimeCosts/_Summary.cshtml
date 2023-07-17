@@ -1,0 +1,25 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.OneTimeCosts
+
+@{
+    var javascriptNamespace = "SilkFlo.ViewModels.Business.Idea.Edit.OneTimeCosts.";
+}
+
+<div class="p-3 border bg-light silkflo_tile"
+     id="Business.Idea.CostBenefit.CostEstimates.OneTimeCosts">
+    
+    @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+    {
+        Title = "One Time Costs - Implementation People Costs",
+        DeleteOnClick = javascriptNamespace + "Delete_Click ();",
+        DeleteName = "DeleteButton",
+        NewOnClick = javascriptNamespace + $"New_Click ('{Model.IdeaId}');",
+        NewName = "NewButton"
+    })
+
+    <div style="overflow-x: auto; padding: 2px;">
+        <div id="Business.Idea.CostBenefit.CostEstimates.OneTimeCosts">
+            @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/OneTimeCosts/_Table", Model)
+        </div>
+    </div>
+
+</div>

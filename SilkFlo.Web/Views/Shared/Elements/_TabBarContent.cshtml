@@ -1,0 +1,44 @@
+@model SilkFlo.Web.ViewModels.Elements.TabBar.Bar
+
+@if (Model == null)
+{
+    <h1 class="text-danger">Tab list is missing</h1>
+}
+else
+{
+    if (Model.Tabs.Count > 0)
+    {
+        <div name="container">
+            @foreach (var tab in Model.Tabs)
+            {
+                var attributes = "";
+                if (tab.GetOnSelect)
+                {
+                    attributes += " silkflo-getManually = \"\"";
+                }
+                else
+                {
+                    if (!tab.IsActive)
+                    {
+                        attributes += " style=\"display:none;\"";
+                    }
+                }
+
+
+                if (!string.IsNullOrWhiteSpace(tab.ParentId))
+                    attributes += $" parentid=\"{tab.ParentId}\"";
+
+                if (!string.IsNullOrWhiteSpace(tab.DisplayPath))
+                    attributes += $" displayPath=\"{tab.DisplayPath}\"";
+
+                if (tab.LoadOnce)
+                    attributes += " silkflo-loadOnce=\"\" ";
+
+                attributes += $" name=\"{tab.Name}.Content\"";
+
+                <div silkflo-url="@Html.Raw(tab.DisplayPath)"
+                     @Html.Raw(attributes)></div>
+            }
+        </div>
+    }
+}

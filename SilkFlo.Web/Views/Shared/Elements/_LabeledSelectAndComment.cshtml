@@ -1,0 +1,359 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{var inputType = Model.ElementType;
+    if (inputType.Length == 0)
+    {
+        inputType = "text";
+    }
+
+    var elementClass = "form-group ";
+    if (Model.IsFloatingLabel)
+    {
+        elementClass += "form-floating ";
+    }
+
+    var labelClass = "";
+    var onfocusoutEvent = "";
+    var oninputEvent = "";
+
+    var hotSpotId = "";
+    if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotSpotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback))
+    {
+        elementClass += "has-validation";
+        oninputEvent = "SilkFlo.IsRequired(this);";
+        onfocusoutEvent = "SilkFlo.IsRequired(this);";
+        labelClass = "mandatory";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnInput))
+    {
+        oninputEvent += " " + Model.JavaScriptOnInput + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnFocusOut))
+    {
+        onfocusoutEvent += " " + Model.JavaScriptOnFocusOut + "; ";
+    }
+
+
+    if (!string.IsNullOrWhiteSpace(oninputEvent))
+    {
+        oninputEvent = $"oninput=\"{oninputEvent};return false;\"";
+    }
+
+    if (!string.IsNullOrWhiteSpace(onfocusoutEvent))
+    {
+        onfocusoutEvent = $"onfocusout=\"{onfocusoutEvent};return false;\"";
+    }
+
+    var contianerId = Model.CommentId + "_Container";
+
+
+    var id = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        id = $"id=\"{Model.Id}\"";
+    }
+
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        name = $"name=\"{Model.Name}\"";
+    }
+}
+
+
+@if (Model.IsReadOnly)
+{
+    var displayName = "<Empty>";
+
+    @if (Model.SelectList != null)
+    {
+        foreach (var item in Model.SelectList)
+        {
+            if (item.Value == Model.Value)
+            {
+                displayName = item.Text;
+                break;
+            }
+        }
+    }
+    else if (Model.SelectWeightedList != null)
+    {
+        foreach (var item in Model.SelectWeightedList)
+        {
+            if (item.Id == Model.Value)
+            {
+                displayName = item.DisplayText;
+                break;
+            }
+        }
+    }
+
+    var readOnlyGroupStyle = "";
+    @if (!string.IsNullOrWhiteSpace(Model.CommentValue))
+    {
+        readOnlyGroupStyle = " style=\"margin-bottom: 0;\"";
+    }
+
+    <div class="form-group"
+         @Html.Raw(readOnlyGroupStyle)>
+
+        @{
+            var style = "";
+            @if (!string.IsNullOrWhiteSpace(Model.CommentValue))
+            {
+                style = " style=\"border-bottom-left-radius: 0; border-bottom-right-radius: 0;\" ";
+            }
+        }
+
+        <input type="hidden"
+               @Html.Raw(id)
+               @Html.Raw(name)
+               value="@Model.Value"/>
+        @if (string.IsNullOrWhiteSpace(hotSpotId))
+        {
+            <label class="@labelClass">@Model.Title</label>
+        }
+        else
+        {
+            <span @Html.Raw(hotSpotId) style="display: flex;">
+                <label class="@labelClass">@Model.Title</label>
+            </span>
+        }
+        <div class="prompt">@Model.Prompt</div>
+        <input disabled
+               @Html.Raw(style)
+               class="form-control"
+               readonly
+               type="text"
+               value="@displayName"/>
+
+
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.CommentValue))
+    {
+        var text = $"<p>{Model.CommentValue}</p>";
+        text = text.Replace("\r\n", "</p><p>");
+
+
+        <div class="Silkflo_readOnlyComment">
+            <label>Comments</label>
+            @Html.Raw(text)
+        </div>
+    }
+}
+else
+{
+    var buttonClass = "btn d-print-none";
+    var containerClass = "collapse d-print-block";
+    if (!Model.CommentShow)
+    {
+        buttonClass += " collapsed";
+    }
+    else
+    {
+        buttonClass += " show";
+        containerClass += " show";
+    }
+
+
+    var textareaClass = "form-control textArea_sans_serif";
+    if (Model.CommentShowError)
+    {
+        textareaClass += " is-invalid";
+    }
+
+
+    <div class="@elementClass">
+        @if (!Model.IsFloatingLabel)
+        {
+            @if (string.IsNullOrWhiteSpace(hotSpotId))
+            {
+                <label class="@labelClass">@Model.Title</label>
+            }
+            else
+            {
+                <span @Html.Raw(hotSpotId) style="display: flex;">
+                    <label class="@labelClass">@Model.Title</label>
+                </span>
+            }
+
+            if (!string.IsNullOrWhiteSpace(Model.Prompt))
+            {
+                <div class="prompt">@Model.Prompt</div>
+            }
+        }
+
+        @{
+            var selectClass = "form-select";
+            if (Model.IsInvalid)
+            {
+                selectClass += " is-invalid";
+            }
+        }
+
+        <div class="inputAndButton"
+             style="display: grid; grid-template-columns: 1fr auto; margin-bottom: 0.5rem;">
+            <select class="@Html.Raw(selectClass)"
+                    @Html.Raw(id)
+                    @Html.Raw(name)
+                    style="margin-bottom: 0; margin-bottom: 0; border-top-left-radius: var(--border-radius) !important; border-bottom-left-radius: var(--border-radius) !important;"
+                    value="@Model.Value"
+                    @Html.Raw(onfocusoutEvent)
+                    @Html.Raw(oninputEvent)>
+                @if (Model.SelectList != null)
+                {
+                    foreach (var item in Model.SelectList)
+                    {
+                        if (string.IsNullOrWhiteSpace(item.Value))
+                        {
+                            <option value="">Select...</option>
+                        }
+                        else if (item.Value == Model.Value)
+                        {
+                            <option selected
+                                    value="@item.Value">
+                                @item.Text
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                }
+                else if (Model.SelectWeightedList != null)
+                {
+                    foreach (var item in Model.SelectWeightedList)
+                    {
+                        if (string.IsNullOrWhiteSpace(item.Id))
+                        {
+                            <option value="">&lt;Empty&gt;</option>
+                        }
+                        else if (item.Id == Model.Value)
+                        {
+                            var value = item.Id;
+                            <option selected
+                                    value="@value"
+                                    weighting="@item.Weighting">
+                                @item.DisplayText
+                            </option>
+                        }
+                        else
+                        {
+                            var value = item.Id;
+                            <option value="@value"
+                                    weighting="@item.Weighting">
+                                @item.DisplayText
+                            </option>
+                        }
+                    }
+                }
+            </select>
+
+
+            <button aria-controls="@contianerId"
+                    aria-expanded="false"
+                    class="@buttonClass"
+                    data-bs-target="#@contianerId"
+                    data-bs-toggle="collapse"
+                    type="button">
+                Comment...
+            </button>
+
+
+            @if (Model.IsFloatingLabel)
+            {
+                @if (string.IsNullOrWhiteSpace(hotSpotId))
+                {
+                    <label class="@labelClass"
+                           for="@Model.Id">
+                        @Model.Title
+                    </label>
+                }
+                else
+                {
+                    <span @Html.Raw(hotSpotId) style="display: flex;">
+                        <label class="@labelClass"
+                               for="@Model.Id">
+                            @Model.Title
+                        </label>
+                    </span>
+                }
+
+                if (!string.IsNullOrWhiteSpace(Model.Prompt))
+                {
+                    <div class="prompt">@Model.Prompt</div>
+                }
+            }
+
+
+
+            @{
+                var invalidFeedbackId = "";
+                if (!string.IsNullOrWhiteSpace(Model.Id))
+                {
+                    invalidFeedbackId = " id=\"" + Model.Id + "_InvalidFeedback\"";
+                }
+
+                var invalidFeedbackName = "";
+                if (!string.IsNullOrWhiteSpace(Model.Name))
+                {
+                    invalidFeedbackName = " name=\"" + Model.Name + "_InvalidFeedback\"";
+                }
+            }
+            <div @Html.Raw(invalidFeedbackId)
+                @Html.Raw(invalidFeedbackName) class="invalid-feedback" silkFlo-feedback="">
+                @Html.Raw(Model.InvalidFeedback)
+            </div>
+        </div>
+
+
+        @if (!Model.IsReadOnly)
+        {
+            var commentId = "";
+            if (!string.IsNullOrWhiteSpace(Model.CommentId))
+            {
+                commentId = $"id=\"{Model.CommentId}\"";
+            }
+
+            var commentName = "";
+            if (!string.IsNullOrWhiteSpace(Model.CommentName))
+            {
+                commentName = $"name=\"{Model.CommentName}\"";
+            }
+
+            var onkeyup = "";
+            if (Model.MaximumLength > 0)
+            {
+                onkeyup = "onkeyup=\"SilkFlo.CharacterCount(this);\"";
+            }
+
+
+            <div class="@containerClass"
+                 id="@contianerId">
+
+                <label>Comment</label>
+                <textarea class="@textareaClass"
+                  @Html.Raw(commentId)
+                  @Html.Raw(commentName)
+                  @Html.Raw(onkeyup)
+                  style="min-height: @Model.MinHeight">@Model.CommentValue</textarea>
+                @if (Model.MaximumLength > 0)
+                {
+                    <div name="characterCounter"
+                         style="font-size: 0.8rem; float: right;">
+                        <span name="current">@Model.CommentValue?.Length</span>
+                        <span name="maximum">/ @Model.MaximumLength</span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}

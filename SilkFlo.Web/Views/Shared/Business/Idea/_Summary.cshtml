@@ -1,0 +1,303 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Summary
+
+<div class="p-3 border bg-light silkflo_tile"
+     style="position: relative">
+
+    @if (Context.Request.Path.Value.Contains("All"))
+    {
+        <div id="workshopfilterOptions" style="justify-content: flex-end;display: flex;">
+            @await Html.PartialAsync("/Views/Shared/_WorkshopFilterOptions.cshtml", Model)
+        </div>
+    }
+
+   
+@if (!string.IsNullOrWhiteSpace(Model.TargetUrl))
+{
+    const string onClick = $"SilkFlo.Models2.Business.Idea.ResetSummary('Business.Idea.Summary')";
+    <div class="d-flex justify-content-end">
+        <button onclick="@onClick" class="btn btn-warning">Remove Filter</button>
+    </div>
+}
+
+@* Context Menu *@
+@await Html.PartialAsync("Business/Idea/_ContextMenu",
+                         new SilkFlo.Web.ViewModels.Business.Idea.ContextMenu
+                         {
+                             ShowManageStagesMenuItem = Model.ShowManageStagesMenuItem,
+                             ShowViewDetailsMenuItem = Model.ShowViewDetailsMenuItem,
+                             ShowEditMenuItem = Model.ShowEditMenuItem,
+                             ShowDeleteMenuItem = Model.ShowDeleteMenuItem
+                         })
+
+
+<div style="overflow-x: auto;">
+
+
+<table class="table table-hover"
+       delaney-ui-grid
+       delaney-ui-grid-sticky-column="0"
+       delaney-ui-top="@Html.Raw(Model.MarginTop)"
+       delaney-ui-bottom="50px">
+        <thead>
+        <tr>
+            <th style="min-width: 38px; background: var(--bs-gray-even-lightest2);"></th>
+            @if (Model.Name)
+            {
+                <th>Automation Name</th>
+            }
+            
+            <th>Idea Submitter</th>
+            <th>Process Owner</th>
+
+            @if (Model.Department)
+            {
+                <th>Business Unit</th>
+            }
+
+            @if (Model.Team)
+            {
+                <th>Area</th>
+            }
+
+            @if (Model.Stage)
+            {
+                <th>Stage</th>
+            }
+
+            <th style="width: 1px;">Status</th>
+
+            @if (Model.Benefit)
+            {
+                <th style="width: 1px;">Benefit&nbsp;Score</th>
+            }
+
+            @if (Model.BenefitHours)
+            {
+                <th style="width: 1px;">Benefit&nbsp;(hrs)</th>
+            }
+
+            @if (Model.IdeaScore)
+            {
+                <th style="width: 1px;">Idea&nbsp;Score&nbsp;(%)</th>
+            }
+                    @if (Model.Benefit)
+                    {
+                        <th style="width: 1px;">Benefit&nbsp;(Currency)</th>
+                    }
+
+            @if (Model.Goal)
+            {
+                <th>Goal</th>
+            }
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var idea in Model.Ideas)
+        {
+
+
+            var htmlToolTips = "";
+                    var name = "";
+                    var status = "";
+
+                    if (idea.IdeaStages.Any())
+            {
+                htmlToolTips = "<b>Completed Stages: </b><table class={{table}}><thead><tr><th>Name</th><th>Start</th><th>End</th></tr></thead><tbody>";
+                foreach (var ideaStage in idea.IdeaStages)
+                {
+                    if (!ideaStage.IsInWorkFlow)
+                        continue;
+
+
+                            var dateStart = ideaStage.DateStart ?? ideaStage.DateStartEstimate;
+                    var dateEnd = ideaStage.DateEnd ?? ideaStage.DateEndEstimate ?? dateStart;
+
+                  @*  if (ideaStage.Stage.StageGroupId == SilkFlo.Data.Core.Enumerators.StageGroup.n04_Deployed.ToString())
+                        dateEnd = dateStart;*@
+
+
+                            name = ideaStage.Stage.Name;
+                            status = ideaStage.Status?.ToString();
+                            if (!string.IsNullOrEmpty(name))
+                            {
+                                var sDateStart = dateStart.ToString(SilkFlo.Data.Core.Settings.DateFormatShort);
+                                var sDateEnd = dateEnd.ToString(SilkFlo.Data.Core.Settings.DateFormatShort);
+
+                                if (ideaStage.Stage.StageGroupId == SilkFlo.Data.Core.Enumerators.StageGroup.n04_Deployed.ToString())
+                                {
+                                    sDateEnd = "";
+                                }
+
+                                htmlToolTips += "<tr><td><ul class={{tickList}}><li style={{margin: 0;}}>" + name + "</li></ul></td><td>" + sDateStart + "</td><td>" + sDateEnd + "</td></tr>";
+                            }
+                        }
+
+                        htmlToolTips += "</tbody></table>";
+                    }
+
+            <tr id="@idea.Id"
+                class="align-middle">
+                <td style="width: 1px; white-space: nowrap; min-width: 38px; background: var(--bs-gray-even-lightest2);">
+                    @if (idea.Show)
+                    {
+                    <a nodecoration=""
+                       onclick="SilkFlo.Business.Idea.Summary.ContextMenu.Show ( this, '@idea.Id', @idea.IsDraft.ToString().ToLower() )">
+                        <svg class="icon"
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 19.77 22">
+                            <circle class="Icon_Part_Selected"
+                                    cx="13.5"
+                                    cy="15.5"
+                                    r="6.5"/>
+                            <line class="Icon_Part_dark"
+                                  x1="0.77"
+                                  y1="6.15"
+                                  x2="18.77"
+                                  y2="6.15"/>
+                            <line class="Icon_Part_dark"
+                                  x1="0.77"
+                                  y1="11.23"
+                                  x2="18.77"
+                                  y2="11.23"/>
+                            <line class="Icon_Part_dark"
+                                  x1="0.77"
+                                  y1="16.31"
+                                  x2="18.77"
+                                  y2="16.31"/>
+                        </svg>
+                    </a>
+                    }
+                </td>
+                @if (Model.Name)
+                {
+                    var draft = "";
+                    if (idea.IsDraft)
+                    {
+                        draft = "<i class=\"text-warning\" style=\"margin-left: 0.5rem;\">Draft</i>";
+                    }
+                    <td value="@idea.Name">@idea.Name@Html.Raw(draft)</td>
+                }
+                
+                @if (string.IsNullOrWhiteSpace(idea.CreatedBy))
+                {
+                    <td value="@idea.ProcessOwner?.Fullname">@idea.ProcessOwner?.Fullname</td>
+                }
+                else
+                {
+                            <td value="@idea.CreatedBy">@idea.CreatedBy</td>
+                }
+
+                        <td value="@idea.ProcessOwner?.Fullname">@idea.ProcessOwner?.Fullname</td>
+
+                @if (Model.Department)
+                {
+                            <td value="@idea.Department?.Name">@idea.Department?.Name</td>
+                }
+                @if (Model.Team)
+                {
+                            <td value="@idea.Team?.Name">@idea.Team?.Name</td>
+                }
+
+                @if (Model.Stage)
+                {
+                    // the contents of variables stageCell_# and url
+                    // are both used by SilkFlo.VieModels.Business.ManageStageAndStatus.Save_Callback
+
+
+                    var stageCell = $"StageCell_{idea.Id}";
+                    var url = $"Business/Idea/GetStageName/{idea.Id}";
+                    <td id="@stageCell"
+                        onmousemove="Delaney.UI.ToolTip.Show ( event, '@Html.Raw(htmlToolTips)' );"
+                        onmouseout="Delaney.UI.ToolTip.Hide ();"
+                        silkflo-json="@url"
+                        silkflo-callback="SilkFlo.Business.Idea.Summary.UpdateStageValue">
+                               @name
+                    </td>
+                }
+
+                @{
+                    // the contents of variables statusCell_# and urlStatus
+                    // are both used by SilkFlo.VieModels.Business.ManageStageAndStatus.Save_Callback
+
+
+                    var statusCell = $"StatusCell_{idea.Id}";
+                    var urlStatus = $"Business/Idea/GetStatusName/{idea.Id}";
+                    <td id="@statusCell"
+                        silkflo-json="@urlStatus"
+                        silkflo-callback="SilkFlo.Business.Idea.Summary.UpdateStatusValue">
+                        @status
+                        @{
+                            var result = await idea.GetIdeaStatusByIdAsync(idea.Id);
+                            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(result);
+                            @Html.Raw(obj?.content ?? "");
+                        }
+                        </td>
+                }
+
+
+                @if (Model.Benefit)
+                {
+                    if (!string.IsNullOrWhiteSpace(idea.BenefitScore))
+                    {
+                        var btn = idea.BenefitScore switch
+                        {
+                            "Low" => "pill-danger",
+                            "Medium" => "pill-warning",
+                            "High" => "pill-info",
+                            _ => "pill-success"
+                            };
+
+                                <td value="@idea.BenefitScore">
+                            <div class="pill @btn">@idea.BenefitScore</div></td>
+                    }
+                    else
+                    {
+                        <td value="" onmousemove="Delaney.UI.ToolTip.Show(event, '@Html.Raw(htmlToolTips)');" onmouseout="Delaney.UI.ToolTip.Hide();"></td>
+                    }
+                }
+
+                @if (Model.BenefitHours)
+                        {
+                            var value1 = await idea.GetEstimateAsync(idea.GetBenefitPerCompany_Hours());
+                            <td style="text-align:center" value="@value1.ToString("#,##0.00")">@Html.Raw(@value1.ToString("#,##0.00"))</td>
+                }
+
+                @if (Model.IdeaScore)
+                {
+                    var ideaScore = ((await idea.GetIdeaScoreModalAsync()) ?? 0).ToString("##");
+                            <td value="@ideaScore" align="right">@ideaScore</td>
+                }
+
+                @if (Model.Benefit)
+                {
+                            var value = await idea.GetEstimateAsync(idea.GetBenefitPerCompany_Currency());
+                            <td style="text-align:center" value="@value.ToString("#,##0.00")">@Html.Raw(@idea.Currency+@value.ToString("#,##0.00"))</td>
+                }
+                @if (Model.Goal)
+                {
+                            <td value="@idea.AutomationGoal?.Name">@idea.AutomationGoal?.Name</td>
+                }
+
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+
+
+@* Delete Confirmation Message *@
+@await Html.PartialAsync("MessageBoxes/_YesNo",
+                         new SilkFlo.Web.ViewModels.MessageBox
+                         {
+                             Id = "DeleteConfirmation",
+                             Title = "Delete Idea",
+                             Message = "Are you sure you would like to delete the idea?",
+                             Yes_Javascript = "SilkFlo.Business.Idea.Summary.Delete_Yes()",
+                             No_Javascript = "SilkFlo.Business.Idea.Summary.Delete_No()",
+                         })
+
+
+@await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Container")

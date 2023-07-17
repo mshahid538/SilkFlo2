@@ -1,0 +1,88 @@
+@model SilkFlo.Web.Models.Shared.IdeaStatus
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Idea Status</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shared/IdeaStatus/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shared/IdeaStatus/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shared/IdeaStatus">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.ButtonClass)
+        @Html.HiddenFor(x => x.IsPathToSuccess)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.RequireIdeaStageField)
+        @Html.HiddenFor(x => x.Sort)
+        @Html.HiddenFor(x => x.StageId)
+        @Html.HiddenFor(x => x.TextClass)
+        <div class="grid_auto_1fr">
+
+            <!-- ButtonClass -->
+            <div>@Html.DisplayNameFor(x => x.ButtonClass)</div>
+            <div>@Html.DisplayFor(x => x.ButtonClass)</div>
+
+            <!-- IsPathToSuccess -->
+            <div>@Html.DisplayNameFor(x => x.IsPathToSuccess)</div>
+            <div>@Html.DisplayFor(x => x.IsPathToSuccess)</div>
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- RequireIdeaStageField -->
+            <div>@Html.DisplayNameFor(x => x.RequireIdeaStageField)</div>
+            <div>@Html.DisplayFor(x => x.RequireIdeaStageField)</div>
+
+            <!-- Sort -->
+            <div>@Html.DisplayNameFor(x => x.Sort)</div>
+            <div>@Html.DisplayFor(x => x.Sort)</div>
+
+            <!-- TextClass -->
+            <div>@Html.DisplayNameFor(x => x.TextClass)</div>
+            <div>@Html.DisplayFor(x => x.TextClass)</div>
+
+            <!-- StageString -->
+            <div>@Html.DisplayNameFor(x => x.StageString)</div>
+            <div>@Html.DisplayFor(x => x.StageString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

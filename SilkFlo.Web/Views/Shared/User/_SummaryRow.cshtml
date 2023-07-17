@@ -1,0 +1,10 @@
+@model SilkFlo.Web.Models.User
+
+
+<tr id="@Model.Id"
+    onclick="SettingsPeopleRowClick(this)"
+    data-bs-toggle="modal"
+    class="pointer"
+    data-bs-target="#modelManageUser">
+    @await Html.PartialAsync("User/_SummaryRowContent", Model)
+</tr>

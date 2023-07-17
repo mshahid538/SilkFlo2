@@ -1,0 +1,118 @@
+@model SilkFlo.Web.Services.Models.Account.SignUpShort
+
+
+
+<div class="account account_SignUp">
+
+    @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right">
+        <div>
+            <div class="panel-heading">
+                <h1>Sign Up</h1>
+                <p>Register take charge of your Automation journey</p>
+            </div>
+
+
+            <div class="panel-body">
+                <form asp-action="SignUpShort" id="SignUpShort">
+
+                    <input type="hidden"
+                           name="SignUpShort.Id"
+                           value="@Model.Id" />
+                    
+                    <div class="d-flex justify-content-center">
+                        <h2 style="margin-bottom: 1rem;">@Model.Email</h2>
+                    </div>
+
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "First Name",
+                            Name = "FirstName",
+                            Value = Model.FirstName,
+                            ElementType = "text",
+                            MaximumLength = 100,
+                            JavaScriptOnInput = "SilkFlo.SignUpShort.ToggleButtonState();",
+                            Autocomplete = "off",
+                        })
+
+
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Last Name",
+                            Name = "LastName",
+                            Value = Model.LastName,
+                            ElementType = "text",
+                            MaximumLength = 100,
+                            JavaScriptOnInput = "SilkFlo.SignUpShort.ToggleButtonState();",
+                            Autocomplete = "off",
+                        })
+
+
+                    <!-- Password Input -->
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Password",
+                            Name = "Password",
+                            Value = Model.Password,
+                            ElementType = "password",
+                            InvalidFeedback = "Required.",
+                            JavaScriptOnInput = "SilkFlo.ValidatePassword(this); SilkFlo.SignUpShort.ToggleButtonState();",
+                            MaximumLength = 100,
+                        })
+
+
+                    <!-- Confirm Password Input -->
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Confirm Password",
+                            Name = "ConfirmPassword",
+                            Value = Model.ConfirmPassword,
+                            ElementType = "password",
+                            InvalidFeedback = "Required.",
+                            JavaScriptOnInput = "SilkFlo.SignUpShort.ToggleButtonState();",
+                            MaximumLength = 100,
+                        })
+                    
+                    
+                    
+                    <div class="silkFlo_flex_wrap_spaced">
+                        <div class="form-check form-switch" style="margin-right: 9px;">
+                            @Html.CheckBoxFor(model => model.RememberMe,
+                                new { @class = "form-check-input", @id = "RememberMe" })
+                            <label class="form-check-label"
+                                   for="RememberMe">Remember Me</label>
+                        </div>
+                        
+                        <div class="form-check form-switch">
+                            @Html.CheckBoxFor(model => model.StaySignedIn,
+                                new { @class = "form-check-input", @id = "StaySignedIn" })
+                            <label class="form-check-label"
+                                   for="StaySignedIn">Keep me signed in</label>
+                        </div>
+                    </div>
+
+
+                    @if (!ViewContext.ModelState.IsValid)
+                    {
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                    }
+                    <button style="width:100%"
+                            Name = "Button"
+                            class="btn btn-brand btn-lg disabled"
+                            type="submit">
+                        Get Started
+                    </button>
+                    
+                    @await Html.PartialAsync("Elements/_PasswordRules")
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>

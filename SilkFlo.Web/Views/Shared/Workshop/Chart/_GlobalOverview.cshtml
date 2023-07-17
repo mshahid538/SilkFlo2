@@ -1,0 +1,18 @@
+@model SilkFlo.Web.ViewModels.Workshop.PipeLine
+
+
+<div class="gauge-container">
+    @{
+        var svg = (await Model.GetDoughnutChartAsync()).SVG;
+    }
+
+    @Html.Raw(@Html.Raw(svg))
+
+    <div class="d-flex justify-content-between"
+         style="width: 100%;">
+        @foreach (var chartKey in Model.PieChartKeys)
+        {
+            @await Html.PartialAsync("Dashboard/_PieChartkey", chartKey)
+        }
+    </div>
+</div>

@@ -1,0 +1,25 @@
+@model SilkFlo.Web.ViewModels.Business.ClientSearchResult
+
+
+<div style="overflow-x: auto">
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th asp-authorize
+                    asp-policy="Administrator">Type</th>
+                <th>Industry</th>
+                <th>Licence</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+                <th>Subscriptions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model.Clients)
+            {
+                @await Html.PartialAsync("Business/Client/_SummaryRow", client)
+            }
+        </tbody>
+    </table>
+</div>

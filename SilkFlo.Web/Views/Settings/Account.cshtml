@@ -1,0 +1,438 @@
+@using System.Globalization
+@using SilkFlo.Data.Core
+@using SilkFlo.Web.ViewModels
+@using SilkFlo.Web.ViewModels.User
+@model SilkFlo.Web.Models.Business.Client
+
+
+
+@{
+    var title = "Settings";
+    if (Model.IsAgency)
+    {
+        title = "Agency " + title;
+    }
+    const string searchProcessOwnerModal = "modelManageAccountOwner";
+
+    
+        const string clsInactive = "silkflo-tab-label";
+        const string clsActive = clsInactive + " active";
+        const string displayBlock = "";
+        const string displayNone = "style=\"display: none\"";
+        var displayCompanyDetails = "";
+        var displaySubscriptions = displayNone;
+        const string pathPrefix = "Settings/tenant/Account/";
+    
+}
+<div class="TitleBar">
+    <h3 style="margin-bottom: 2rem; color:#FF8A00;">@title > Account</h3>
+    <div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+        <h1 style="margin-bottom: 1rem;font-weight: bold;">Account</h1>
+    </div>
+    
+    @if (!Model.IsAgency && !Model.IsPractice)
+    {
+    <div class="silkflo-tab">
+        @{
+            string cls;
+            var path = pathPrefix + "Company-Details";
+            if (Model.Tab.ToLower() == "company-details")
+            {
+                cls = clsActive;
+                displayCompanyDetails = displayBlock;
+            }
+            else
+            {
+                cls = clsInactive;
+                displayCompanyDetails = displayNone;
+            }
+        }
+        <h3 class="@cls"
+            name="Business.Client.Account.CompanyDetails.Tab"
+            displayPath="@path"
+            parentId="Business.Client.Account">
+            Company Details
+        </h3>
+        
+
+        @{
+            path = pathPrefix + "Subscriptions";
+            if (Model.Tab.ToLower() == "subscriptions")
+            {
+                cls = clsActive;
+                displaySubscriptions = displayBlock;
+            }
+            else
+            {
+                cls = clsInactive;
+                displaySubscriptions = displayNone;
+            }
+        }
+        <h3 class="@cls"
+            name="Business.Client.Account.Subscriptions.Tab"
+            displayPath="@path"
+            parentId="Business.Client.Account">
+            Subscriptions
+        </h3>
+    </div>
+    }
+    else
+    {
+        <h2>Company Details</h2>
+    }
+
+</div>
+
+<div id="Business.Client.Account"
+     style="padding-bottom: 55px;">
+
+@if (Model.TypeId == Enumerators.ClientType.ReferrerAgency41.ToString())
+{
+    <div style="margin-bottom: 1rem;">
+
+        <h2>SilkFlo Affiliate Link</h2>
+        <div class="bg-light border p-3 silkflo_tile">
+            <p>As a referrer agency you can use this link within your website or email messages.</p>
+            <p>You will receive a finders fee when a customer signs up using one of these links.</p>
+            <div class="align-items-center d-flex-guttered flex-wrap"
+                 style="margin-bottom: 1rem;">
+                <span class="btn-brand"
+                      name="Business.Client.AffiliateURL"
+                      style="font-size: 0.9rem; padding: 0.5rem; border-radius: var(--border-radius);">
+                    @Model.AffiliateURL
+                </span>
+                <button class="btn btn-success"
+                        onclick="SilkFlo.Models2.Business.Client.CopyAffiliateURL ();">
+                    Copy Link
+                </button>
+            </div>
+            <div class="align-items-center d-flex-guttered flex-wrap">
+                <span class="btn-brand"
+                      name="Business.Client.AffiliateLink"
+                      style="font-size: 0.9rem; padding: 0.5rem; border-radius: var(--border-radius);">
+                    @Model.AffiliateLink
+                </span>
+                <button class="btn btn-success"
+                        onclick="SilkFlo.Models2.Business.Client.CopyAffiliateLink ();">
+                    Copy Link
+                </button>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+
+@if (Model.IsAgency)
+{
+    <h2>Agency Details</h2>
+}
+
+
+
+<div name="container">
+<div name="Business.Client.Account.CompanyDetails.Content"
+     @Html.Raw(displayCompanyDetails)>
+
+    <div class="bg-light border p-3 silkflo_tile"
+         style="margin-bottom: 1rem;">
+        @if (Model.IsPractice)
+        {
+            <h3>Practice accounts are read only.</h3>
+        }
+        <h3>Billing Address</h3>
+        <div class="d-flex-guttered flex-wrap">
+
+            <div>
+                @await Html.PartialAsync("../Shared/Business/Client/_BillingAddress",
+                    new SilkFlo.Web.ViewModels.Business.Client.BillingAddress
+                    {
+                        Name = Model.Name,
+                        Address1 = Model.Address1,
+                        Address2 = Model.Address2,
+                        City = Model.City,
+                        State = Model.State,
+                        PostCode = Model.PostCode,
+                        CountryId = Model.CountryId,
+                        Countries = Model.Countries,
+                        ElementNamePrefix = "Business.Client.",
+                        IsReadOnly = Model.IsPractice
+                    })
+            </div>
+            
+            <div>
+                <input name="Business.Client.Id"
+                       type="hidden"
+                       value="@Model.Id"/>
+
+
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new Element
+                    {
+                        Title = "Industry",
+                        Id = "Business.Client.IndustryId",
+                        Name = "Business.Client.IndustryId",
+                        InvalidFeedback = Model.IndustryId_ErrorMessage,
+                        IsInvalid = Model.IndustryId_IsInValid,
+                        Value = Model.IndustryId,
+                        IsReadOnly = Model.IsPractice,
+                        SelectList = new SelectList(Model.Industries,
+                            "Id",
+                            "Name")
+                    })
+
+@if (Model.TypeId == Enumerators.ClientType.ReferrerAgency41.ToString())
+{
+    <input type="hidden" name="Business.Client.AverageWorkingDay" value="0"/>
+    <input type="hidden" name="Business.Client.AverageWorkingHour" value="0"/>
+}
+else
+{
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new Element
+        {
+            Title = "Average Working Days in a Year",
+            Name = "Business.Client.AverageWorkingDay",
+            Value = Model.AverageWorkingDay.ToString(),
+            InvalidFeedback = Model.AverageWorkingDay_ErrorMessage,
+            IsInvalid = Model.AverageWorkingDay_IsInValid,
+            IsReadOnly = Model.IsPractice,
+            ElementType = "Number",
+            Suffix = "Days"
+        })
+
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new Element
+        {
+            Title = "Average Working Hours in a Day",
+            Name = "Business.Client.AverageWorkingHour",
+            Value = Model.AverageWorkingHour.ToString(CultureInfo.InvariantCulture),
+            InvalidFeedback = Model.AverageWorkingHour_ErrorMessage,
+            IsInvalid = Model.AverageWorkingHour_IsInValid,
+            IsReadOnly = Model.IsPractice,
+            ElementType = "Number",
+            Suffix = "Hours"
+        })
+}
+
+                @await Html.PartialAsync("User/_ManageAccountOwnerButton",
+                    new AccountOwner
+                    {
+                        IsInValid = Model.AccountOwnerId_IsInValid,
+                        FullnameId = "Business.Client.AccountOwner",
+                        EmailId = "Business.Client.AccountOwnerEmail",
+                        EmailName = "Business.Client.AccountOwnerEmail",
+                        TargetStatusId = "Business.Client.ProcessOwnerStatus",
+                        IsReadOnly = Model.IsPractice,
+                        User = Model.AccountOwner,
+                        ModalName = searchProcessOwnerModal,
+                        ErrorMessage = Model.AccountOwnerId_ErrorMessage,
+                        TargetValue = Model.AccountOwnerId
+                    })
+                @{
+                    var marginTop = "1rem";
+                }
+                @if (Model.TypeId == Enumerators.ClientType.Client39.ToString())
+                {
+                    marginTop = "3.5rem";
+                    <div class="form-check form-switch"
+                         name="Business.Client.AllowGuestSignIn_Container"
+                         style="margin-top: 1rem;">
+                        @{
+                            var isCheckedAllowGuestSignIn = "";
+                            if (Model.AllowGuestSignIn)
+                            {
+                                isCheckedAllowGuestSignIn = "checked";
+                            }
+                        }
+                        <input class="form-check-input"
+                               data-val="false"
+                               data-val-required="Business.Client.AllowGuestSignIn"
+                               name="Business.Client.AllowGuestSignIn"
+                               style="cursor: pointer;"
+                               @isCheckedAllowGuestSignIn
+                               type="checkbox">
+                        <label class="form-check-label"
+                               silkflo-hotspot="Allow-Guest-Sign-In"
+                               style="color: inherit; cursor: pointer;">
+                            Allow Guest Sign In</label>
+                        <div name="Business.Client.AllowGuestSignIn_InvalidFeedback"
+                             class="invalid-feedback"
+                             silkflo-feedback="">
+                        </div>
+                    </div>
+                }
+
+                <div class="form-check form-switch"
+                     name="Business.Client.ReceiveMarketing_Container"
+                     style="margin-top: @Html.Raw(marginTop);">
+                    @{
+                        var isChecked = "";
+                        if (Model.ReceiveMarketing)
+                        {
+                            isChecked = "checked";
+                        }
+                    }
+                    <input class="form-check-input"
+                           data-val="false"
+                           data-val-required="Business.Client.ReceiveMarketing"
+                           name="Business.Client.ReceiveMarketing"
+                           style="cursor: pointer;"
+                           @isChecked
+                           type="checkbox">
+                    <label class="form-check-label"
+                           style="color: inherit; cursor: pointer;">
+                        I'd like to receive direct marketing email updates from SilkFLo.</label>
+                </div>
+                
+
+            </div>
+
+        </div>
+
+        @if (!Model.IsPractice)
+        {
+            <h2>Website</h2>
+            <label>Your <b>@Model.Website</b> will be used to validate employee email addresses. Please contact us if you require a change.</label>
+        }
+    </div>
+
+    
+    @if (!Model.IsPractice)
+    {
+        @await Html.PartialAsync("_FormFooter",
+            new FooterSaveCancel
+            {
+                JavaScriptSave = "SilkFlo.Models2.Business.Client.Save();",
+                JavaScriptCancel = "SilkFlo.ShowDashboard();"
+            })
+    }
+
+
+</div>
+
+
+@if (Model.TypeId == Enumerators.ClientType.Client39.ToString()
+     && !Model.IsPractice)
+{
+    <div name="Business.Client.Account.Subscriptions.Content"
+         @Html.Raw(displaySubscriptions)>
+
+            @if (Model.Subscription != null)
+            {
+                <div class="row">
+                    <div class="col-4">
+
+                        <div class="bg-light border p-3 silkflo_tile"
+                             style="height: 100%">
+                            <h2>Plan details</h2>
+                            <div class="grid_1fr_auto">
+                                <label>Name</label>
+                                <label style="font-weight:bold">@Html.Raw(Model.Subscription.Name)</label>
+
+                                <label>Amount</label>
+                                @{
+                                    var price = Model.Subscription.Currency + Model.Subscription.Cost.ToString("#,##0");
+                                }
+                                <label style="font-weight:bold">@price</label>
+                                
+
+                                <label>Renew Date</label>
+                                @{
+                                    var endDate = "No end date";
+                                }
+                                @if (Model.Subscription.DateEnd != null)
+                                {
+                                    endDate = (Model.Subscription.DateEnd ?? DateTime.Now).ToString("yyyy-MM-dd");
+                                }
+                                <label style="font-weight:bold">@endDate</label>
+                                
+                                <label>Billing Period</label>
+                                <label style="font-weight:bold">@Model.Subscription.BillingPeriod</label>
+
+
+                                <label>Remaining Days</label>
+                                <label style="font-weight:bold">@Model.Subscription.RemainingDays</label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    @if (!string.IsNullOrWhiteSpace(Model.Subscription?.PriceId))
+                    {
+                        <div class="col-4">
+                            @await Html.PartialAsync("shop/subscription/_change")
+                        </div>
+                    }
+                    <div class="col-4"
+                         id="cancelTile">
+                        @{
+                            var onClick = $"SilkFlo.Models2.Shop.Subscription.Cancel.Click('{Model.Id}', '{Model.AccountOwner?.Email}')";
+                        }
+
+                        <div class="bg-light border p-3 silkflo_tile"
+                             style="height: 100%">
+                            <button class="btn btn-danger"
+                                    onclick="@onClick">Cancel Subscription</button>
+                            <p style="margin-top: 1rem; margin-bottom: 0;">You can cancel your subscription at anytime.</p>
+                            <div name="Message"></div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        
+            <div class="bg-light border p-3 silkflo_tile"
+                 silkflo-url="Settings/Tenant/Account/Subscriptions"
+                 style="margin-top: 1.5rem;">
+                <div class="d-flex vertical-center">
+                    <span class="spinner-border"
+                          style="margin-right: 1rem;"></span>Loading ...
+                </div>
+            </div>
+
+    </div>
+}
+</div>
+</div>
+
+@{
+    var modelSearch = new ModalSearch
+    {
+        ModalId = searchProcessOwnerModal,
+        Title = "Manage Account Owner",
+        TargetFullnameId = "Business.Client.AccountOwner",
+        TargetEmailId = "Business.Client.AccountOwnerEmail",
+        TargetIdId = "Business.Client.AccountOwnerId",
+        TargetStatusId = "Business.Client.ProcessOwnerStatus",
+        SearchUrl = "/api/user/SearchAccountOwner/"
+    };
+
+    if (Model.AllowGuestSignIn)
+    {
+        modelSearch.HotSpotId = "Manage-Account-Owner";
+    }
+}
+
+@await Html.PartialAsync(
+    "Elements/_ModalSearch",
+    modelSearch)
+
+@{
+    const string message = "Are you sure that you would like to cancel your subscription?<br/><br/>" +
+                           "Your subscription will only be cancelled once you have clicked the cancellation link in a <b>cancellation email</b>, " + 
+                           "sent to the account owner (<span id=\"accountOwnerEmail\"></span>).<br/><br/>" +
+                           "Any outstanding funds will be refunded to as per our terms and conditions.<br/><br/>";
+}
+
+@await Html.PartialAsync("MessageBoxes/_YesNo",
+    new MessageBox
+    {
+        Id = "SettingsSubscriptionsCancelMessage",
+        Title = "Cancel Subscription",
+        Message = message,
+        Yes_Javascript = "SilkFlo.Models2.Shop.Subscription.Cancel.MessageResultYes('cancelTile')"
+    })

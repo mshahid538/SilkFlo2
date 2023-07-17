@@ -1,0 +1,40 @@
+@model SilkFlo.Web.ViewModels.Dashboard.Component.AutomationProgramPerformance
+
+    <div style="overflow-x: auto;">
+        <div class="gauge-container"
+             style="width: 752px; margin-bottom: 0.5rem;">
+            @Model.BarChart.SVG
+        </div>
+
+        <div class="d-flex">
+            @if (Model.IncludeDiscoverKey)
+            {
+                <div class="align-items-center d-flex"
+                     onmousemove="Delaney.UI.ToolTip.Show ( event, '<label>Stages:</label><ul><li>Idea</li><li>Assess</li><li>Qualify</li></ul>' );"
+                     onmouseout="Delaney.UI.ToolTip.Hide ();">
+                    <div class="silkFlo_Pin"
+                         style="background: var(--bs-red-lighter);">
+                    </div>
+                    <span class="silkFlo_Pin_Label noSelect">Discover</span>
+                </div>
+            }
+            <div class="align-items-center d-flex"
+                 onmousemove="Delaney.UI.ToolTip.Show ( event, '<label>Stages:</label><ul><li>Analysis</li><li>Solution Design</li><li>Development</li><li>Testing</li></ul>' );"
+                 onmouseout="Delaney.UI.ToolTip.Hide ();"
+                 style="margin-left: 32px;">
+                <div class="silkFlo_Pin"
+                     style="background: var(--bs-warning-lighter);">
+                </div>
+                <span class="silkFlo_Pin_Label noSelect">Build</span>
+            </div>
+            <div class="align-items-center d-flex"
+                 onmousemove="Delaney.UI.ToolTip.Show ( event, '<label>Stages:</label><ul><li>Deployed</li></ul>' );"
+                 onmouseout="Delaney.UI.ToolTip.Hide ();"
+                 style="margin-left: 32px;">
+                <div class="silkFlo_Pin"
+                     style="background: var(--bs-green);">
+                </div>
+                <span class="silkFlo_Pin_Label noSelect">Deployed</span>
+            </div>
+        </div>
+    </div>

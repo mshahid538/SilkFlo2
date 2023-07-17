@@ -1,0 +1,40 @@
+@using SilkFlo.Web.ViewModels
+@model string
+
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "First Name",
+        Name = "TeamMember.Body.FirstName",
+        ElementType = "text",
+        InvalidFeedback = "Required",
+        MaximumLength = 100,
+        Autocomplete = "off"
+    })
+
+
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "Last Name",
+        Name = "TeamMember.Body.LastName",
+        ElementType = "text",
+        InvalidFeedback = "Required",
+        MaximumLength = 100,
+        Autocomplete = "off"
+    })
+
+
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "Work Email",
+        Name = "TeamMember.Body.EmailPrefix",
+        ElementType = "text",
+        InvalidFeedback = "Required",
+        MaximumLength = 100,
+        Suffix = Model,
+        Autocomplete = "off"
+    })
+
+<div name="Message"></div>

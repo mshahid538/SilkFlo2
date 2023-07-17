@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--
+    Coded with the help of Delaney's ScriptBot
+    Visit www.scriptbot.io
+
+            ,--,_
+      _ ___/ /\|
+     /( )__, )
+    ' |/_  '--,
+       \ `  / '
+
+    Authored by Delaney
+    -->
+
+    @await Html.PartialAsync("../Shared/_Head.cshtml")
+</head>
+<body>
+
+<div id="applicationModeContainer"
+     silkflo-callback="SilkFlo.ShowApplicationMode"
+     silkflo-loadOnce=""
+     silkflo-url="Dashboard/GetApplicationMode">
+    <input type="hidden" value="something to prevent loading message"/>
+</div>
+
+<div id="practiceModeContainer"
+     silkflo-callback="SilkFlo.TogglePracticeMode"
+     silkflo-loadOnce=""
+     silkflo-url="Dashboard/GetPracticeMode">
+    <input type="hidden" value="something to prevent loading message"/>
+</div>
+
+
+@RenderBody()
+
+@await Html.PartialAsync("_Footer")
+
+</body>
+</html>

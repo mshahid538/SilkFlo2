@@ -1,0 +1,56 @@
+﻿@model SilkFlo.Web.Models.Business.Client
+
+<h2>Plan History</h2>
+
+<table class="table noSelect">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th style="width:100%"></th>
+            <th nowrap>Billing&nbsp;Period</th>
+            <th>Start&nbsp;Date</th>
+            <th>End&nbsp;Date</th>
+            <th>Amount</th>
+            <th>Invoice</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subscription in Model.TenantSubscriptions)
+        {
+            <tr>
+                <td>@subscription.Name</td>
+                <td nowrap>
+                    @if (subscription.IsCancelled)
+                    {
+                        <img src="~/Icons/Cancelled.svg"/>
+                        <br/>
+                        <span style="font-size: 0.6rem; line-height: 0.7rem;">Cancelled: 2022-05-14</span>
+                    }
+                </td>
+                <td>@subscription.BillingPeriod</td>
+                <td nowrap>@subscription.DateStart.ToString(SilkFlo.Data.Core.Settings.DateFormatShort)</td>
+                <td nowrap>@subscription.DateEnd?.ToString(SilkFlo.Data.Core.Settings.DateFormatShort)</td>
+                <td align="right">
+                    @{
+                        var text = "N/A";
+                        if (subscription.Price != null)
+                        {
+                            text = subscription.Currency + "&nbsp;" + @subscription.Cost.ToString("#,##0");
+                        }
+                    }
+                    @Html.Raw(text)
+                </td>
+                <td align="right">
+                    @if (string.IsNullOrWhiteSpace(subscription.InvoiceUrl))
+                    {
+                        @Html.Raw("N/A")
+                    }
+                    else
+                    {
+                        <a href="@subscription.InvoiceUrl">@subscription.InvoiceNumber</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

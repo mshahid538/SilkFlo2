@@ -1,0 +1,70 @@
+@model SilkFlo.Web.ViewModels.Dashboard.Tenant
+
+<div class="container silkflo_tile_container">
+
+    @await Html.PartialAsync("../Shared/Dashboard/_SummaryButtons", Model)
+
+    @if (Model.NoIdeas)
+    {
+        @await Html.PartialAsync("Explore/Ideas/_NoIdeasCard")
+    }
+    else
+    {
+        <div class="row" style=" margin-bottom: 0;">
+
+            <div class="col-auto"
+                 style="flex: 1 1 auto; margin-bottom: 1rem;">
+                
+                <div class="bg-light border p-3 silkflo_tile"
+                     id="AutomationProgramPerformance"
+                     style="height: 100%">
+                    <div class="silkFlo_flex_wrap_spaced" style="margin-bottom: 0.5rem;">
+                        <h3 silkflo-hotspot="Automation-Program-Performance">Automation Program Performance</h3>
+                        <div class="d-flex">
+                            <div style="margin-right: 0.5rem;">Year:</div>
+                            <select name="Business.Idea.DepartmentId"
+                                    value="@Model.Years.Last().ToString()"
+                                    class="Toolbar FilterRightside"
+                                    oninput="SilkFlo.Dashboard.Chart.AutomationProgramPerformance.FilterYear(this)">
+                                @foreach (var year in Model.Years)
+                                {
+                                    if (year == Model.Years.Last())
+                                    {
+                                        <option selected value="@year">@year</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@year">@year</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div id="Chart.AutomationProgramPerformance"
+                         name="Chart.AutomationProgramPerformance"
+                         silkflo-url="Dashboard/GetAutomationProgramPerformance"></div>
+                    </div>
+
+            </div>
+            <div class="col-auto"
+                 style="flex: 1 1 auto; margin-bottom: 1rem;">
+                
+                
+                <div class="bg-light border p-3 silkflo_tile">
+
+                    <h3 style="margin-bottom: 0.5rem;">Pipeline Benefits By Difficulty</h3>
+    
+                    <div class="d-flex justify-content-center">
+                        <div class="gauge-container"
+                             id="Chart.PipelineBenefitsByStage"
+                             silkflo-url="Dashboard/GetPipelineBenefitsByStage"></div>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+
+        <div id="Business.Idea.Summary" silkflo-url="Business/Idea/GetSummary"></div>
+    }
+</div>

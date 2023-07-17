@@ -1,0 +1,88 @@
+@model SilkFlo.Web.Models.Business.IdeaStage
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Idea Stage</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/IdeaStage/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/IdeaStage/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/IdeaStage">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.DateEnd)
+        @Html.HiddenFor(x => x.DateEndEstimate)
+        @Html.HiddenFor(x => x.DateStart)
+        @Html.HiddenFor(x => x.DateStartEstimate)
+        @Html.HiddenFor(x => x.IdeaId)
+        @Html.HiddenFor(x => x.IsInWorkFlow)
+        @Html.HiddenFor(x => x.StageId)
+        <div class="grid_auto_1fr">
+
+            <!-- DateStartEstimate -->
+            <div>@Html.DisplayNameFor(x => x.DateStartEstimate)</div>
+            <div>@Html.DisplayFor(x => x.DateStartEstimate)</div>
+
+            <!-- DateEndEstimate -->
+            <div>@Html.DisplayNameFor(x => x.DateEndEstimate)</div>
+            <div>@Html.DisplayFor(x => x.DateEndEstimate)</div>
+
+            <!-- DateStart -->
+            <div>@Html.DisplayNameFor(x => x.DateStart)</div>
+            <div>@Html.DisplayFor(x => x.DateStart)</div>
+
+            <!-- DateEnd -->
+            <div>@Html.DisplayNameFor(x => x.DateEnd)</div>
+            <div>@Html.DisplayFor(x => x.DateEnd)</div>
+
+            <!-- IsInWorkFlow -->
+            <div>@Html.DisplayNameFor(x => x.IsInWorkFlow)</div>
+            <div>@Html.DisplayFor(x => x.IsInWorkFlow)</div>
+
+            <!-- IdeaString -->
+            <div>@Html.DisplayNameFor(x => x.IdeaString)</div>
+            <div>@Html.DisplayFor(x => x.IdeaString)</div>
+
+            <!-- StageString -->
+            <div>@Html.DisplayNameFor(x => x.StageString)</div>
+            <div>@Html.DisplayFor(x => x.StageString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

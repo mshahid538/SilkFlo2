@@ -1,0 +1,63 @@
+﻿
+<style>
+    ::-webkit-input-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    :-moz-placeholder {
+        text-align: center;
+        font-size:13px;
+    }
+</style>
+<div class="account account_SignIn">
+
+    @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right ">
+        <div>
+            <div class="panel-heading header-center">
+                <img src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1>Welcome to SilkFlo!</h1>
+                <p>Log in with your business e-mail</p>
+               <hr class="hr"/>
+            </div>
+
+            <div class="panel-body">
+                <form action="~" method="post">
+                    <!-- Email Input -->
+                    <div class="form-group frm-group" id="Email_Container" name="Email_Container">
+                        <input id="Email" name="Email" type="text" class="form-control input has-validation" oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" maxlength="100" placeholder="Email your business email address" style="align-items: end;">
+                                         </div>
+                    <!-- Password Input -->
+                    <div class="form-group frm-group " id="Password_Container" name="Password_Container">
+                        <input id="Password" name="Password" type="password" class="form-control input has-validation" oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" autocomplete="off" maxlength="100" placeholder="Password:At least 8 characters..." style="align-items: end;">
+                    
+                    </div>
+                    <button style="width:100%" class="btn  btn_Login">Continue</button>
+                   
+                        <div class="link">
+                            <p><a href="">Forgot your password?</a></p>
+                        </div>
+                       
+                    <div class="or">
+                        <h2>
+                            <span>
+                                or
+                            </span>
+                        </h2></div>
+                    <button style="width:100%" class="btn btn-Microsoft" onclick="gotoSignIn()" type="button">
+                        <img src="~/Icons/microsoft.png" width="19px" />
+                        <span>&nbsp; &nbsp; Continue with Microsoft</span>
+                    </button>
+                    <div class="link">
+                        <p style="margin-top: 3rem;">Don't have an account? <a href="~">Register</a></p>
+                    </div>
+                    <div style="justify-content: center">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,222 @@
+@model SilkFlo.Web.ViewModels.Settings.People
+
+@{
+    string title = "Settings";
+    if (Model.Client.IsAgency)
+    {
+        title = "Agency " + title;
+    }
+}
+
+
+<div class="TitleBar">
+
+    <h3 style="margin-bottom: 2rem; color:#FF8A00">@title > People</h3>
+    <div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+        <h1 style="font-weight: bold;">People</h1>
+    </div>
+    @{
+        string userSubheading = "On this page you can manage the users within your ";
+        string roleSubheading = "On this page you can manage the collaborator roles within the selected company";
+    }
+
+    @if (Model.Client.IsAgency)
+    {
+        userSubheading += "agency.";
+    }
+    else
+    {
+        userSubheading += "company.";
+    }
+
+
+    <div class="silkflo-tab" 
+         style="margin-bottom: 10px;">
+
+        <h3 asp-authorize
+            asp-policy="Manage Tenant Users"
+            name="Settings.People.Users.Tab"
+            parentId="Settings.People"
+            displayPath="Settings/tenant/people"
+            class="silkflo-tab-label active">
+            Users
+        </h3>
+
+        <h3 asp-authorize
+            asp-policy="Manage Tenant User Roles"
+            name="Settings.People.Roles.Tab"
+            parentId="Settings.People"
+            displayPath="Settings/tenant/people"
+            class="silkflo-tab-label">
+            Roles
+        </h3>
+
+    </div>
+
+</div>
+
+<div id="Settings.People">
+
+    
+    <div name="container">
+        <div name="Settings.People.Users.Content"
+             asp-policy="Manage Tenant Users">
+
+            <h3 style="margin-bottom: 20px;">@userSubheading</h3>
+
+
+            <div class="p-3 border bg-light silkflo_tile">
+                <div class="d-flex justify-content-between align-items-md-center"
+                     style="margin-bottom: 2rem;">
+                    <div class="d-flex" style="align-items: center">
+                        @await Html.PartialAsync("Elements/_SearchInput",
+                        new SilkFlo.Web.ViewModels.ElementSearch
+                        {
+                            Id = "Settings.People.Search",
+                            MaxWidth = "400px",
+                            JavaScriptOnKeyUp = "SilkFlo.ViewModels.Settings.People.SearchPeople(null, null, 'People.Table.Content');",
+                        })
+                    
+                        @if (Model.Client.AllowGuestSignIn)
+                        {
+                            <div class="form-check form-switch"
+                                 style="margin-bottom: 1rem;"
+                                 name="Settings.People.GuestsOnly_Container">
+                                @{
+                                    var isChecked = "";
+                                    if (Model.GuestOnly)
+                                    {
+                                        isChecked = "checked";
+                                    }
+                                }
+                                <input class="form-check-input"
+                                       data-val="false"
+                                       data-val-required="Settings.People.GuestsOnly"
+                                       id="Settings.People.GuestsOnly"
+                                       onchange="SilkFlo.ViewModels.Settings.People.SearchPeople(null, null, 'People.Table.Content');"
+                                       name="Settings.People.GuestsOnly"
+                                       style="cursor: pointer;"
+                                       @isChecked
+                                       type="checkbox">
+                                <label class="form-check-label"
+                                       style="color: inherit; cursor: pointer;">
+                                    Guests&nbsp;Only</label>
+                            </div>
+                        }
+                    </div>
+
+                    <div>
+                        <button class="btn btn-success"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modelManageUser"
+                                onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.ViewModels.Settings.People.PopulateModal ();">New</button>
+                    </div>
+                </div>
+
+                <div silkflo-url="@Model.TableUrl">
+                    Loading Table ...
+                </div>
+            </div>
+
+        </div>
+
+
+        <div name="Settings.People.Roles.Content"
+             id="Settings.People.Roles.Content"
+             style="display:none;"
+             asp-policy="Manage Tenant User Roles">
+        <h3 style="margin-bottom: 20px;">@roleSubheading</h3>
+
+            <div class="silkflo-tab">
+
+            <h3 class="silkflo-tab-label active"
+                name="Settings.People.Roles.CollaboratorRoles.Tab"
+                parentId="Settings.People.Roles.Content"
+                displayPath="Settings/tenant/people">
+                Collaborator Roles
+            </h3>
+
+            <h3 class="silkflo-tab-label"
+                name="Settings.People.Roles.SystemRoles.Tab"
+                parentId="Settings.People.Roles.Content"
+                displayPath="Settings/tenant/people">
+                System Roles
+            </h3>
+
+        </div>
+
+
+        <div name="container">
+
+            <div name="Settings.People.Roles.CollaboratorRoles.Content">
+                <div silkflo-url="Business/Role/SummaryDetail"></div>
+            </div>
+
+            <div name="Settings.People.Roles.SystemRoles.Content"
+                 style="display: none;">
+                <div silkflo-url="Settings/People/SystemRoles"></div>
+            </div>
+        </div>
+
+    </div>
+    
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade"
+     id="modelManageUser"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="modelManageUserLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title"
+                    id="modelManageUserLabel">
+                    Add a New User
+                </h1>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body" id="Settings.People.Modal">
+                Loading user ...
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button type="button"
+                            id="modelManageUser.btnDelete"
+                            onclick="SilkFlo.ViewModels.Settings.People.DeletePerson();"
+                            class="btn btn-danger"
+                            data-bs-dismiss="modal">
+                        Delete
+                    </button>
+                    <div name="Message"></div>
+                </div>
+
+                <div>
+                    <button type="button"
+                            style="margin-right: 0.5rem;"
+                            onclick="SilkFlo.ViewModels.Settings.People.SavePerson();"
+                            class="btn btn-warning">
+                        Save
+                    </button>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            aria-label="Cancel"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

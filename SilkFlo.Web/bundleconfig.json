@@ -1,0 +1,99 @@
+[
+  {
+    "outputFileName": "wwwroot/production/css/SilkFlo.min.css",
+    "inputFiles": [
+      "wwwroot/development/css/SilkFlo.css",
+
+      "wwwroot/development/css/Layouts.css",
+      "wwwroot/development/css/Public.css",
+
+      "wwwroot/development/css/SideBar.css",
+      "wwwroot/development/css/Subscription.css",
+
+      "wwwroot/development/css/bootstrap.css",
+      "wwwroot/development/css/SilkFlo2.css",
+      "wwwroot/development/css/Chart.css",
+      "wwwroot/development/css/Account.css",
+      "wwwroot/development/css/DropDown.css",
+      "wwwroot/development/css/FileUpload.css"
+
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/production/js/SilkFlo.min.js",
+    "inputFiles": [
+      "wwwroot/development/js/bootbox.js",
+      "wwwroot/development/js/SilkFlo.js",
+      "wwwroot/development/js/SilkFlo.DataAccess.js",
+      "wwwroot/development/js/SilkFlo2.js",
+      "wwwroot/development/js/SideBar.js",
+      "wwwroot/development/js/TabBar.js",
+
+      "wwwroot/development/js/Analytics.js",
+      "wwwroot/development/js/Main.js",
+      "wwwroot/development/js/Application/Setting.js",
+      "wwwroot/development/js/Models/Abstract.js",
+      "wwwroot/development/js/Models/User.js",
+      "wwwroot/development/js/Models2/User.js",
+      "wwwroot/development/js/Models/Role.js",
+      "wwwroot/development/js/Models/Business/Application.js",
+      "wwwroot/development/js/Models/Business/Client.js",
+      "wwwroot/development/js/Models2/Business/Client.js",
+      "wwwroot/development/js/Models/Business/Idea.js",
+      "wwwroot/development/js/Models/Business/IdeaStage.js",
+      "wwwroot/development/js/Models2/Business/Idea.js",
+      "wwwroot/development/js/Models/Business/Role.js",
+      "wwwroot/development/js/Models/Shared/IdeaAuthorisation.js",
+      "wwwroot/development/js/Models/Shared/filterOptions.js",
+      "wwwroot/development/js/Models/Shared/IdeaStatus.js",
+      "wwwroot/development/js/Models2/Shop/Subscription.js",
+      "wwwroot/development/js/Models2/CRM/Prospect.js",
+
+
+      "wwwroot/development/js/ViewModels/Settings/CollaboratorRole.js",
+      "wwwroot/development/js/ViewModels/Explore/People.js",
+      "wwwroot/development/js/ViewModels/Settings/People.js",
+      "wwwroot/development/js/ViewModels/Settings/Tenants.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.Applications.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.BusinessUnits.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.CostSetUp.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.CostSetUp.InitialCosts.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.CostSetUp.OtherRunningCosts.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.CostSetUp.RunningCosts.js",
+      "wwwroot/development/js/ViewModels/Settings/PlatformSetup.CostSetUp.SoftwareVender.js",
+      "wwwroot/development/js/ViewModels/User.js",
+      "wwwroot/development/js/ViewModels/UserProfile.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.RPSSoftwareCosts.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.Calculations.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.IdeaOtherRunningCosts.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.OneTimeCosts.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.RPSSoftwareCosts.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Edit.RunningCosts.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Modal.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/ManageCollaborators.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Section.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Section.About.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Section.Collaborators.js",
+      "wwwroot/development/js/ViewModels/Business/Idea/Section.CostBenefit.js",
+      "wwwroot/development/js/ViewModels/Business/ManageStageAndStatus.js",
+      "wwwroot/development/js/ViewModels/Subscribe.js",
+      "wwwroot/development/js/ViewModels/Workshop.js",
+
+      "wwwroot/development/js/json_PrepareString.js",
+      "wwwroot/development/js/String.prototype.js",
+      "wwwroot/development/js/Business/Idea/Summary.js",
+      "wwwroot/development/js/Explore/Ideas.js",
+      "wwwroot/development/js/Pages/Cards.js",
+      "wwwroot/development/js/HotSpot.js",
+      "wwwroot/development/js/FileUpload.js",
+      "wwwroot/development/js/Business/Integration/StripeConstruct.js"
+
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

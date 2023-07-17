@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\workspace\SilkFlo\Library\SilkFlo.Data.Core.dll-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{936B9100-3D97-457F-A3DD-43A36A07F401}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>SilkFlo.Data.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+    <RootNamespace>SilkFlo.Data.Core</RootNamespace>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.FileVersionInfo.4.3.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter" />
+    <Reference Include="System.Xml.XmlSerializer" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChildDependencyException.cs" />
+    <Compile Include="DuplicateException.cs" />
+    <Compile Include="Severity.cs" />
+    <Compile Include="DataStoreResult.cs" />
+    <Compile Include="SignInResult.cs" />
+    <Compile Include="RoleId.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="NotFoundException.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Repositories\IAnalyticRepository.cs" />
+    <Compile Include="Repositories\ILogRepository.cs" />
+    <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\IRoleRepository.cs" />
+    <Compile Include="Repositories\IUserAchievementRepository.cs" />
+    <Compile Include="Repositories\IUserBadgeRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IUserRoleRepository.cs" />
+    <Compile Include="Repositories\IWebHookLogRepository.cs" />
+    <Compile Include="Repositories\Shop\ICouponRepository.cs" />
+    <Compile Include="Repositories\Shop\ICurrencyRepository.cs" />
+    <Compile Include="Repositories\Shop\IDiscountRepository.cs" />
+    <Compile Include="Repositories\Shop\IPriceRepository.cs" />
+    <Compile Include="Repositories\Shop\IProductRepository.cs" />
+    <Compile Include="Repositories\Shop\ISubscriptionRepository.cs" />
+    <Compile Include="Repositories\Shared\IAchievementRepository.cs" />
+    <Compile Include="Repositories\Shared\IApplicationStabilityRepository.cs" />
+    <Compile Include="Repositories\Shared\IAutomationGoalRepository.cs" />
+    <Compile Include="Repositories\Shared\IAutomationTypeRepository.cs" />
+    <Compile Include="Repositories\Shared\IAverageNumberOfStepRepository.cs" />
+    <Compile Include="Repositories\Shared\IBadgeRepository.cs" />
+    <Compile Include="Repositories\Shared\IClientTypeRepository.cs" />
+    <Compile Include="Repositories\Shared\ICostTypeRepository.cs" />
+    <Compile Include="Repositories\Shared\ICountryRepository.cs" />
+    <Compile Include="Repositories\Shared\IDataInputPercentOfStructuredRepository.cs" />
+    <Compile Include="Repositories\Shared\IDecisionCountRepository.cs" />
+    <Compile Include="Repositories\Shared\IDecisionDifficultyRepository.cs" />
+    <Compile Include="Repositories\Shared\IDocumentationPresentRepository.cs" />
+    <Compile Include="Repositories\Shared\IIdeaAuthorisationRepository.cs" />
+    <Compile Include="Repositories\Shared\IIdeaStatusRepository.cs" />
+    <Compile Include="Repositories\Shared\IIndustryRepository.cs" />
+    <Compile Include="Repositories\Shared\IInputDataStructureRepository.cs" />
+    <Compile Include="Repositories\Shared\IInputRepository.cs" />
+    <Compile Include="Repositories\Shared\ILanguageRepository.cs" />
+    <Compile Include="Repositories\Shared\INumberOfWaysToCompleteProcessRepository.cs" />
+    <Compile Include="Repositories\Shared\IPeriodRepository.cs" />
+    <Compile Include="Repositories\Shared\IProcessPeakRepository.cs" />
+    <Compile Include="Repositories\Shared\IProcessStabilityRepository.cs" />
+    <Compile Include="Repositories\Shared\IRuleRepository.cs" />
+    <Compile Include="Repositories\Shared\IStageGroupRepository.cs" />
+    <Compile Include="Repositories\Shared\IStageRepository.cs" />
+    <Compile Include="Repositories\Shared\ISubmissionPathRepository.cs" />
+    <Compile Include="Repositories\Shared\ITaskFrequencyRepository.cs" />
+    <Compile Include="Repositories\CRM\ICompanySizeRepository.cs" />
+    <Compile Include="Repositories\CRM\IJobLevelRepository.cs" />
+    <Compile Include="Repositories\CRM\IProspectRepository.cs" />
+    <Compile Include="Repositories\Business\IApplicationRepository.cs" />
+    <Compile Include="Repositories\Business\IClientRepository.cs" />
+    <Compile Include="Repositories\Business\ICollaboratorRepository.cs" />
+    <Compile Include="Repositories\Business\ICollaboratorRoleRepository.cs" />
+    <Compile Include="Repositories\Business\ICommentRepository.cs" />
+    <Compile Include="Repositories\Business\IDepartmentRepository.cs" />
+    <Compile Include="Repositories\Business\IDocumentRepository.cs" />
+    <Compile Include="Repositories\Business\IFollowRepository.cs" />
+    <Compile Include="Repositories\Business\IIdeaApplicationVersionRepository.cs" />
+    <Compile Include="Repositories\Business\IIdeaOtherRunningCostRepository.cs" />
+    <Compile Include="Repositories\Business\IIdeaRepository.cs" />
+    <Compile Include="Repositories\Business\IIdeaRunningCostRepository.cs" />
+    <Compile Include="Repositories\Business\IIdeaStageRepository.cs" />
+    <Compile Include="Repositories\Business\IIdeaStageStatusRepository.cs" />
+    <Compile Include="Repositories\Business\IImplementationCostRepository.cs" />
+    <Compile Include="Repositories\Business\ILocationRepository.cs" />
+    <Compile Include="Repositories\Business\IOtherRunningCostRepository.cs" />
+    <Compile Include="Repositories\Business\IProcessRepository.cs" />
+    <Compile Include="Repositories\Business\IRecipientRepository.cs" />
+    <Compile Include="Repositories\Business\IRoleCostRepository.cs" />
+    <Compile Include="Repositories\Business\IRoleIdeaAuthorisationRepository.cs" />
+    <Compile Include="Repositories\Business\IRoleRepository.cs" />
+    <Compile Include="Repositories\Business\IRunningCostRepository.cs" />
+    <Compile Include="Repositories\Business\ISoftwareVenderRepository.cs" />
+    <Compile Include="Repositories\Business\ITeamRepository.cs" />
+    <Compile Include="Repositories\Business\IUserAuthorisationRepository.cs" />
+    <Compile Include="Repositories\Business\IVersionRepository.cs" />
+    <Compile Include="Repositories\Business\IVoteRepository.cs" />
+    <Compile Include="Repositories\Application\IHotSpotRepository.cs" />
+    <Compile Include="Repositories\Application\IPageRepository.cs" />
+    <Compile Include="Repositories\Application\ISettingRepository.cs" />
+    <Compile Include="Repositories\Agency\IManageTenantRepository.cs" />
+    <Compile Include="Domain\Abstract.cs" />
+    <Compile Include="Domain\Analytic.cs" />
+    <Compile Include="Domain\Log.cs" />
+    <Compile Include="Domain\Message.cs" />
+    <Compile Include="Domain\Role.cs" />
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Domain\UserAchievement.cs" />
+    <Compile Include="Domain\UserBadge.cs" />
+    <Compile Include="Domain\UserRole.cs" />
+    <Compile Include="Domain\WebHookLog.cs" />
+    <Compile Include="Domain\Shop\Coupon.cs" />
+    <Compile Include="Domain\Shop\Currency.cs" />
+    <Compile Include="Domain\Shop\Discount.cs" />
+    <Compile Include="Domain\Shop\Price.cs" />
+    <Compile Include="Domain\Shop\Product.cs" />
+    <Compile Include="Domain\Shop\Subscription.cs" />
+    <Compile Include="Domain\Shared\Achievement.cs" />
+    <Compile Include="Domain\Shared\ApplicationStability.cs" />
+    <Compile Include="Domain\Shared\AutomationGoal.cs" />
+    <Compile Include="Domain\Shared\AutomationType.cs" />
+    <Compile Include="Domain\Shared\AverageNumberOfStep.cs" />
+    <Compile Include="Domain\Shared\Badge.cs" />
+    <Compile Include="Domain\Shared\ClientType.cs" />
+    <Compile Include="Domain\Shared\CostType.cs" />
+    <Compile Include="Domain\Shared\Country.cs" />
+    <Compile Include="Domain\Shared\DataInputPercentOfStructured.cs" />
+    <Compile Include="Domain\Shared\DecisionCount.cs" />
+    <Compile Include="Domain\Shared\DecisionDifficulty.cs" />
+    <Compile Include="Domain\Shared\DocumentationPresent.cs" />
+    <Compile Include="Domain\Shared\IdeaAuthorisation.cs" />
+    <Compile Include="Domain\Shared\IdeaStatus.cs" />
+    <Compile Include="Domain\Shared\Industry.cs" />
+    <Compile Include="Domain\Shared\Input.cs" />
+    <Compile Include="Domain\Shared\InputDataStructure.cs" />
+    <Compile Include="Domain\Shared\Language.cs" />
+    <Compile Include="Domain\Shared\NumberOfWaysToCompleteProcess.cs" />
+    <Compile Include="Domain\Shared\Period.cs" />
+    <Compile Include="Domain\Shared\ProcessPeak.cs" />
+    <Compile Include="Domain\Shared\ProcessStability.cs" />
+    <Compile Include="Domain\Shared\Rule.cs" />
+    <Compile Include="Domain\Shared\Stage.cs" />
+    <Compile Include="Domain\Shared\StageGroup.cs" />
+    <Compile Include="Domain\Shared\SubmissionPath.cs" />
+    <Compile Include="Domain\Shared\TaskFrequency.cs" />
+    <Compile Include="Domain\CRM\CompanySize.cs" />
+    <Compile Include="Domain\CRM\JobLevel.cs" />
+    <Compile Include="Domain\CRM\Prospect.cs" />
+    <Compile Include="Domain\Business\Application.cs" />
+    <Compile Include="Domain\Business\Client.cs" />
+    <Compile Include="Domain\Business\Collaborator.cs" />
+    <Compile Include="Domain\Business\CollaboratorRole.cs" />
+    <Compile Include="Domain\Business\Comment.cs" />
+    <Compile Include="Domain\Business\Department.cs" />
+    <Compile Include="Domain\Business\Document.cs" />
+    <Compile Include="Domain\Business\Follow.cs" />
+    <Compile Include="Domain\Business\Idea.cs" />
+    <Compile Include="Domain\Business\IdeaApplicationVersion.cs" />
+    <Compile Include="Domain\Business\IdeaOtherRunningCost.cs" />
+    <Compile Include="Domain\Business\IdeaRunningCost.cs" />
+    <Compile Include="Domain\Business\IdeaStage.cs" />
+    <Compile Include="Domain\Business\IdeaStageStatus.cs" />
+    <Compile Include="Domain\Business\ImplementationCost.cs" />
+    <Compile Include="Domain\Business\Location.cs" />
+    <Compile Include="Domain\Business\OtherRunningCost.cs" />
+    <Compile Include="Domain\Business\Process.cs" />
+    <Compile Include="Domain\Business\Recipient.cs" />
+    <Compile Include="Domain\Business\Role.cs" />
+    <Compile Include="Domain\Business\RoleCost.cs" />
+    <Compile Include="Domain\Business\RoleIdeaAuthorisation.cs" />
+    <Compile Include="Domain\Business\RunningCost.cs" />
+    <Compile Include="Domain\Business\SoftwareVender.cs" />
+    <Compile Include="Domain\Business\Team.cs" />
+    <Compile Include="Domain\Business\UserAuthorisation.cs" />
+    <Compile Include="Domain\Business\Version.cs" />
+    <Compile Include="Domain\Business\Vote.cs" />
+    <Compile Include="Domain\Application\HotSpot.cs" />
+    <Compile Include="Domain\Application\Page.cs" />
+    <Compile Include="Domain\Application\Setting.cs" />
+    <Compile Include="Domain\Agency\ManageTenant.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

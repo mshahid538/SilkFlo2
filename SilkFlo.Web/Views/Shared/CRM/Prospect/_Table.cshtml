@@ -1,0 +1,40 @@
+@model List<SilkFlo.Web.Models.CRM.Prospect>
+<div class="TitleBar">
+    <h3 style="margin-bottom: 2rem; color:#FF8A00">SilkFlo > Prospects</h3>
+    <h1 style="margin-bottom: 2rem;font-weight: bold;">Prospects</h1>
+</div>
+<div>
+    <div style="overflow-x: auto">
+        <table class="noSelect table table-silkflo-display">
+            <thead>
+            <tr>
+                <th>Job Level</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Company</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Pipeline</th>
+                <th>Country</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var prospect in Model)
+            {
+                <tr>
+                    <td>@prospect.JobLevel?.Name</td>
+                    <td>@prospect.Fullname</td>
+                    <td>@prospect.Email</td>
+                    <td>@prospect.PhoneNumber</td>
+                    <td>@prospect.CompanyName</td>
+                    <td>@prospect.ClientType?.Name</td>
+                    <td>@prospect.CompanySize?.Name</td>
+                    <td>@prospect.Pipeline</td>
+                    <td>@prospect.Country?.Name</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

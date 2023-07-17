@@ -1,0 +1,20 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.ManageCollaborator.CollaboratorList
+
+
+<div class="container">
+    @if (Model.CanEditCollaborators)
+    {
+        <div class="d-flex justify-content-end"
+             style="margin-bottom: 1rem;">
+            <button class="btn btn-primary"
+                    onclick="SilkFlo.ViewModels.Business.Idea.Section.Collaborators.Edit ( this, '@Model.Idea.Id' )">
+                Edit
+            </button>
+        </div>
+    }
+
+    @foreach (var user in Model.CollaboratingUsers)
+    {
+        @(await Html.PartialAsync("Business/Idea/Detail/Collaborators/_Card", user))
+    }
+</div>

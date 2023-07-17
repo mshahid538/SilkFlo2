@@ -1,0 +1,155 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Shared.Stage>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Stages Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.CanAssignCost)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.IsMileStone)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.SetDateAutomatically)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Sort)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.StageGroupId)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/Shared/Stage/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Shared/Stage/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @if (item.CanAssignCost)
+                        {
+                            if (item.IsDeleted)
+                            {
+                            <td value="item.CanAssignCost"><img src="~/Icons/CheckBox.svg" /></td>
+                            }
+                            else
+                            {
+                            <td value="item.CanAssignCost"><img class="icon" src="~/Icons/CheckBox.svg" /></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (item.IsMileStone)
+                        {
+                            if (item.IsDeleted)
+                            {
+                            <td value="item.IsMileStone"><img src="~/Icons/CheckBox.svg" /></td>
+                            }
+                            else
+                            {
+                            <td value="item.IsMileStone"><img class="icon" src="~/Icons/CheckBox.svg" /></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Name)"><span class="text-muted">@Html.Raw(item.Name)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Name)"><span>@Html.Raw(item.Name)</span></td>
+                        }
+
+                        @if (item.SetDateAutomatically)
+                        {
+                            if (item.IsDeleted)
+                            {
+                            <td value="item.SetDateAutomatically"><img src="~/Icons/CheckBox.svg" /></td>
+                            }
+                            else
+                            {
+                            <td value="item.SetDateAutomatically"><img class="icon" src="~/Icons/CheckBox.svg" /></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Sort)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Sort)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Sort)"><span>@Html.DisplayFor(modelItem => item.Sort)</span></td>
+                        }
+
+                        @if(item.StageGroup == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathStageGroup = "/Administration/Shared/StageGroup/edit/" + item.StageGroupId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.StageGroup?.ToString()"<span class="text-muted"><a href="@pathStageGroup">@item.StageGroup?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.StageGroup?.ToString()"><a href="@pathStageGroup">@item.StageGroup?.ToString()</a></td>
+                            }
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

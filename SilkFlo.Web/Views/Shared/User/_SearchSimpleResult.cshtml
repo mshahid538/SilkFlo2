@@ -1,0 +1,37 @@
+@using SilkFlo.Web.Models
+@model List<User>
+
+
+@foreach (var user in Model)
+{
+    var iconPath = user?.Status switch
+    {
+        Status.Active => "/Icons/Active.svg",
+        Status.Pending => "/Icons/Pending.svg",
+        Status.Inactive => "/Icons/Inactive.svg",
+        _ => ""
+        };
+
+    var onClick = $"SilkFlo.Models2.User.Search.Row_OnClick(this, '{user.Id}', '{user.Fullname}', '{user.Email}', '{iconPath}');";
+    var onDblClick = $"SilkFlo.Models2.User.Search.Row_OnDblClick(this, '{user.Id}', '{user.Fullname}', '{user.Email}', '{iconPath}');";
+
+    <div class="areaSelect"
+         onclick="@onClick"
+         ondblclick="@onDblClick"
+         style="display: inline-grid; padding: 0.5rem">
+        <Label style="margin-bottom: 0;">
+            <span>@user.Fullname</span>
+            @{
+                var display = "";
+                if (string.IsNullOrWhiteSpace(iconPath))
+                {
+                    display = "display: none;";
+                }
+            }
+            <img alt=""
+                 src="@iconPath"
+                 style="Transform: scale(1.2); margin-left: 1rem; @display"/>
+        </Label>
+        <Label style="font-size: 0.8rem;">@user.Email</Label>
+    </div>
+}

@@ -1,0 +1,24 @@
+@model SilkFlo.Web.ViewModels.Elements.TabBar.Bar
+
+@if (Model == null)
+{
+    <h1 class="text-danger">Tab list is missing</h1>
+}
+else
+{
+    if (Model.Tabs.Count > 1)
+    {
+        var style = "";
+        if (Model.Justify != SilkFlo.Web.ViewModels.Elements.TabBar.Justify.Start)
+        {
+            style = $"style = \"justify-content: {Model.Justify.ToString().ToLower()}\"";
+        }
+
+        <div class="silkflo-tab" @Html.Raw(style)>
+            @foreach (var tab in Model.Tabs)
+            {
+                @Html.Raw(tab.Html)
+            }
+        </div>
+    }
+}

@@ -1,0 +1,436 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Business.Client
+
+<div class="container">
+
+    <form asp-action="Edit"
+          method="post">
+        <div class="TitleBar">
+            <h1>Edit Client</h1>
+
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.UpdatedById)
+
+        @Html.HiddenFor(x => x.AccountOwnerString)
+        @Html.HiddenFor(x => x.AgencyDiscountString)
+        @Html.HiddenFor(x => x.AgencyString)
+        @Html.HiddenFor(x => x.CountryString)
+        @Html.HiddenFor(x => x.CurrencyString)
+        @Html.HiddenFor(x => x.IndustryString)
+        @Html.HiddenFor(x => x.LanguageString)
+        @Html.HiddenFor(x => x.PracticeAccountString)
+        @Html.HiddenFor(x => x.TypeString)
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Client/Edit"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Save</button>
+                    <button formaction="/Administration/Business/Client/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Client">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+
+        <!-- Form Client -->
+        <!-- Date -->
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Date Modified",
+                Id = "DateTimeDisplayed",
+                Value = Model.DateTimeDisplayed,
+                ElementType = "text",
+                IsReadOnly = true,
+                InvalidFeedback = ""
+            })
+
+            <!-- Id Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Id",
+                    Id = "Id",
+                    Name = "Id",
+                    Value = Model.Id,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Id_ErrorMessage,
+                    IsInvalid = Model.Id_IsInValid
+                })
+
+            <!-- AllowGuestSignIn checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.AllowGuestSignIn,
+                                  new { @class = "form-check-input", @id = "AllowGuestSignIn" })
+                <label class="form-check-label"
+                       for="AllowGuestSignIn">Allow Guest Sign In</label>
+            </div>
+
+            <!-- Name Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Name",
+                    Id = "Name",
+                    Name = "Name",
+                    Value = Model.Name,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Name_ErrorMessage,
+                    IsInvalid = Model.Name_IsInValid
+                })
+
+            <!-- Website Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Website",
+                    Id = "Website",
+                    Name = "Website",
+                    Value = Model.Website,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Website_ErrorMessage,
+                    IsInvalid = Model.Website_IsInValid
+                })
+
+            <!-- Address1 Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Address 1",
+                    Id = "Address1",
+                    Name = "Address1",
+                    Value = Model.Address1,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- Address2 Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Address 2",
+                    Id = "Address2",
+                    Name = "Address2",
+                    Value = Model.Address2,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- City Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "City",
+                    Id = "City",
+                    Name = "City",
+                    Value = Model.City,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- State Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "State",
+                    Id = "State",
+                    Name = "State",
+                    Value = Model.State,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- PostCode Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Post Code",
+                    Id = "PostCode",
+                    Name = "PostCode",
+                    Value = Model.PostCode,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageWorkingDay Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Working Day",
+                    Id = "AverageWorkingDay",
+                    Name = "AverageWorkingDay",
+                    Value = Model.AverageWorkingDay.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = Model.AverageWorkingDay_ErrorMessage,
+                    IsInvalid = Model.AverageWorkingDay_IsInValid
+                })
+
+            <!-- AverageWorkingHour Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Working Hours per Day",
+                    Id = "AverageWorkingHour",
+                    Name = "AverageWorkingHour",
+                    Value = Model.AverageWorkingHour.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = Model.AverageWorkingHour_ErrorMessage,
+                    IsInvalid = Model.AverageWorkingHour_IsInValid
+                })
+
+            <!-- FreeTrialDay Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Free Trial Days",
+                    Id = "FreeTrialDay",
+                    Name = "FreeTrialDay",
+                    Value = Model.FreeTrialDay?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsActive checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsActive,
+                                  new { @class = "form-check-input", @id = "IsActive" })
+                <label class="form-check-label"
+                       for="IsActive">Is Active</label>
+            </div>
+
+            <!-- IsDemo checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsDemo,
+                                  new { @class = "form-check-input", @id = "IsDemo" })
+                <label class="form-check-label"
+                       for="IsDemo">Is Demo</label>
+            </div>
+
+            <!-- IsPractice checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsPractice,
+                                  new { @class = "form-check-input", @id = "IsPractice" })
+                <label class="form-check-label"
+                       for="IsPractice">Is Practice</label>
+            </div>
+
+            <!-- ReceiveMarketing checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.ReceiveMarketing,
+                                  new { @class = "form-check-input", @id = "ReceiveMarketing" })
+                <label class="form-check-label"
+                       for="ReceiveMarketing">Receive Marketing</label>
+            </div>
+
+            <!-- StripeId Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Stripe Primary Key",
+                    Id = "StripeId",
+                    Name = "StripeId",
+                    Value = Model.StripeId,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- TermsOfUse checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.TermsOfUse,
+                                  new { @class = "form-check-input", @id = "TermsOfUse" })
+                <label class="form-check-label"
+                       for="TermsOfUse">Terms of Use</label>
+            </div>
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Account Owner",
+            Id = "AccountOwnerId",
+            Name = "AccountOwnerId",
+            Value = Model.AccountOwnerId,
+            SelectList = new SelectList(Model.AccountOwners,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Agency Discount",
+            Id = "AgencyDiscountId",
+            Name = "AgencyDiscountId",
+            Value = Model.AgencyDiscountId,
+            SelectList = new SelectList(Model.AgencyDiscounts,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Assigned Agency",
+            Id = "AgencyId",
+            Name = "AgencyId",
+            Value = Model.AgencyId,
+            SelectList = new SelectList(Model.Agencies,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Country",
+            Id = "CountryId",
+            Name = "CountryId",
+            Value = Model.CountryId,
+            SelectList = new SelectList(Model.Countries,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Currency",
+            Id = "CurrencyId",
+            Name = "CurrencyId",
+            Value = Model.CurrencyId,
+            SelectList = new SelectList(Model.Currencies,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Industry",
+            Id = "IndustryId",
+            Name = "IndustryId",
+            Value = Model.IndustryId,
+            SelectList = new SelectList(Model.Industries,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Language",
+            Id = "LanguageId",
+            Name = "LanguageId",
+            Value = Model.LanguageId,
+            SelectList = new SelectList(Model.Languages,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Practice Account",
+            Id = "PracticeId",
+            Name = "PracticeId",
+            Value = Model.PracticeId,
+            SelectList = new SelectList(Model.PracticeAccounts,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Type",
+            Id = "TypeId",
+            Name = "TypeId",
+            Value = Model.TypeId,
+            SelectList = new SelectList(Model.Types,
+                                                 "Id",
+                                                 "Name")
+        })
+            <!-- CreatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created By",
+                    Id = "CreatedBy",
+                    Value = Model.CreatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            <!-- CreatedDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created Date",
+                    Id = "CreatedDateString",
+                    Value = Model.CreatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+
+            <!-- UpdatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated By",
+                    Id = "UpdatedBy",
+                    Value = Model.UpdatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+            <!-- UpdateDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated Date",
+                    Id = "UpdatedDateString",
+                    Value = Model.UpdatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            @if (@Model.IsDeleted)
+            {
+                <!-- Is Deleted Input -->
+                <div class="flex_grid">
+                    <label>
+                        @Html.CheckBoxFor(m => m.IsDeleted)
+                        Is Deleted
+                    </label>
+                </div>
+            }
+    </form>
+</div>

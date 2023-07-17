@@ -1,0 +1,55 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.ManageCollaborator.CollaboratorList
+
+<div name="Business.Idea.CollaboratorSummary">
+    <input name="Business.Idea.Id"
+           type="hidden"
+           value="@Model.Idea.Id"/>
+
+    <input name="CollaboratorLimit"
+           type="hidden"
+           value="@Model.CollaboratorLimit"/>
+
+    <div class="Collaborators"
+         name="Business.Idea.Collaborators">
+        @foreach (var user in Model.CollaboratingUsers)
+        {
+            @await Html.PartialAsync(
+                "Business/Idea/Managecollaborators/_Selected",
+                user)
+        }
+    </div>
+    <div name="Business.Idea.Collaborators_InvalidFeedback"></div>
+
+    @{
+        var message = $"You can only assign {Model.CollaboratorLimit} collaborators for this subscription model.";
+
+        var buttonStyle = "";
+        var messageStyle = "";
+        if (Model.CollaboratingUsers.Count() >= Model.CollaboratorLimit)
+        {
+            buttonStyle = "style=\"display: none;\"";
+        }
+        else
+        {
+            messageStyle = "style=\"display: none;\"";
+        }
+    }
+
+    <div style="display: flex; justify-content: end">
+        @{
+            var onClick =
+                $"SilkFlo.ViewModels.Business.Idea.ManageCollaborators.OpenModal('{Model.ParentFormId}', {Model.CanScroll.ToString().ToLower()})";
+        }
+        <button class="btn btn-primary d-print-none"
+                name="btnAddCollaborators"
+                onclick="@onClick"
+                @Html.Raw(buttonStyle)>
+            Add Collaborator ...
+        </button>
+        <h2 class="text-info"
+            name="CollaboratorMessage"
+            @Html.Raw(messageStyle)>
+            @message
+        </h2>
+    </div>
+</div>

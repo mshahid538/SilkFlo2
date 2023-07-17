@@ -1,0 +1,46 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Chart.EstimatedBreakEven;
+
+<style>
+    .chart-axis-title {
+        font-size: 0.9rem;
+        line-height: 1.5rem;
+        color: var(--bs-gray-light);
+    }
+</style>
+
+<div class="bg-light border p-3 silkflo_tile">
+    <label>Estimated Break-Even</label>
+
+    <div class="d-flex justify-content-center" style="overflow-x: auto">
+
+            <div style="max-width: 496px; min-height: 320px;">
+                <div style="width: 496px;">
+                    @Model.Paper.SVG
+                </div>
+
+                @* X-Axis Label *@
+                <span class="chart-axis-title d-flex justify-content-center" style="margin-left: @Model.YAxisWidth;">Post-Automation</span>
+
+                @* Key *@
+                <div class="d-flex">
+                    <div class="d-flex align-items-center">
+                        <div class="silkFlo_Pin"
+                             style="background: var(--bs-warning-lighter); margin-top: 0"></div>
+                        <span class="silkFlo_Pin_Label">Running Costs</span>
+                    </div>
+                    <div class="d-flex align-items-center"
+                         style="margin-left: 32px;">
+                        <div class="silkFlo_Pin"
+                             style="background: var(--bs-danger); margin-top: 0"></div>
+                        <span class="silkFlo_Pin_Label">Total Costs</span>
+                    </div>
+                    <div class="d-flex align-items-center"
+                         style="margin-left: 32px;">
+                        <div class="silkFlo_Pin"
+                             style="background: var(--bs-green); margin-top: 0"></div>
+                        <span class="silkFlo_Pin_Label">Total Benefits</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

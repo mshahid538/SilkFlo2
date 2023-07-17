@@ -1,0 +1,126 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.CRM.Prospect>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Prospects Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.CompanyName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.FirstName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.LastName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Email)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.PhoneNumber)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Pipeline)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/CRM/Prospect/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/CRM/Prospect/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.CompanyName)"><span class="text-muted">@Html.Raw(item.CompanyName)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.CompanyName)"><span>@Html.Raw(item.CompanyName)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.FirstName)"><span class="text-muted">@Html.Raw(item.FirstName)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.FirstName)"><span>@Html.Raw(item.FirstName)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.LastName)"><span class="text-muted">@Html.Raw(item.LastName)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.LastName)"><span>@Html.Raw(item.LastName)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Email)"><span class="text-muted">@Html.Raw(item.Email)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Email)"><span>@Html.Raw(item.Email)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.PhoneNumber)"><span class="text-muted">@Html.Raw(item.PhoneNumber)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.PhoneNumber)"><span>@Html.Raw(item.PhoneNumber)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Pipeline)"><span class="text-muted">@Html.Raw(item.Pipeline)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Pipeline)"><span>@Html.Raw(item.Pipeline)</span></td>
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

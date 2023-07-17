@@ -1,0 +1,148 @@
+﻿@model SilkFlo.Web.ViewModels.Business.Idea.Documentation
+
+<div class="documentation" style="display: flex; flex-direction: column">
+    <form method="post" asp-controller="Idea" asp-action="DownloadBlob">
+        <div class="container"
+             style="height: auto; padding-block: 1rem; display: flex; justify-content: space-between;
+              align-items: flex-end; gap: 1rem; flex-wrap: wrap;padding-bottom: 2rem; border-bottom: 10px solid #eef0f8;">
+            <div class="div-left">
+                <h2 style="margin-bottom: 0.7rem">Document Templates</h2>
+                <h5 style="font-size: 0.875rem">
+                    Upload document templates to be used for every submitted idea
+                </h5>
+            </div>
+            <div class="div-right">
+
+                <button type="button"
+                        class="btn btn-primary btn-sm btn-upload "
+                        data-bs-toggle="modal"
+                        data-bs-target="#myModal" style="display:hidden">
+                    Add new
+                </button>
+            </div>
+        </div>
+        <div class="container" id="dropArea">
+            <section class="list-container">
+
+                <div class="header">
+                    <h3 id="folderName">Documents Upload</h3>
+                    <button type="button" onclick="selectAllDocuments()"
+                            style="margin-left: auto;" class="btn btn-primary btn-sm btn-upload">
+                        Select All
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#myModals">
+                        Delete
+                    </button>
+                    <button class="btn btn-sm btn-download" id="download" type="submit">
+                        Download Zip
+                    </button>
+                </div>
+
+                <div>
+                    <ul class="list-group" id="uploadList" style="flex-wrap: wrap">
+
+                        @foreach (var document in Model.Documents)
+                        {
+                            <li>
+                                <div class="list-item" style="margin-top:20px">
+                                    <div class="action-icons">
+                                        <input id="@document.FileNameWithExtetnsion" type="checkbox" name="Document" value="@document.FileNameWithExtetnsion" checked="@document.IsSelected" class="fileSelected" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="img-container" id="board">
+                                        <div id="images-container">
+                                            <div id="image-out">
+                                                <div id="image-in">
+                                                    <img src="~/@Url.Content(@document.ThumbNail)" style="width:80px; Height:80px; margin-left:-15px" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="display: none;">
+                                            <label for="file">Downloading progress:</label>
+                                            <progress id="file" value="32" max="100"> 32% </progress>
+                                        </div>
+                                    </div>
+                                    <div class="image-detail">
+                                        <p>@document.FileNameWithoutExtetnsion</p>
+                                        <span class="icon"></span>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+                    <div class="drop-container" style="margin-top:20px">
+
+                        <div>
+                            <svg for="actual-btn"
+                                 width="82"
+                                 height="82"
+                                 viewBox="0 0 82 82"
+                                 fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.83301 41.0002H13.6663V58.0835H68.333V41.0002H75.1663V58.0835C75.1663 61.876 72.1255
+                                    64.9168 68.333 64.9168H13.6663C11.854 64.9168 10.1159 64.1969 8.83444
+                                    62.9154C7.55295 61.6339 6.83301 59.8958 6.83301 58.0835V41.0002ZM40.9997
+                                    6.8335L22.0713 25.4885L26.923 30.3402L37.583 19.646V51.2502H44.4163V19.646L55.1105
+                                    30.3402L59.9622 25.4543L40.9997 6.8335Z"
+                                      fill="#FF8A00" />
+                            </svg>
+                            <h3 class="dropZoneTitle" style="display: hidden">Browse your files here..</h3>
+                            <div style="display: flex; justify-content: center;">
+
+                                <input id="documentId"
+                                       type="text"
+                                       name="id"
+                                       value="@Model.Id"
+                                       hidden />
+
+                                <input type="file"
+                                       name="files"
+                                       id="filesUpload"
+                                       hidden
+                                       multiple
+                                       style="display: block"
+                                       onchange="documentUpload()">
+                                <label id="btn-label"
+                                       for="filesUpload"
+                                       style="cursor: pointer;">Upload</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+
+    </form>
+</div>
+
+<div class="modal fade"
+     id="myModals"
+     tabindex="-1"
+     aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Dialog</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" onclick="deleteDocument()">Ok</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ModalIdeaTemplate.cshtml" />

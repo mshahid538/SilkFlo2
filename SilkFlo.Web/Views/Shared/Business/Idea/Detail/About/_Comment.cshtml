@@ -1,0 +1,14 @@
+@model SilkFlo.Web.Models.Business.Idea
+@await Html.PartialAsync("Elements/_LabeledTextArea",
+    new SilkFlo.Web.ViewModels.Element
+    {
+        Title = "Questions / Comments",
+        Name = "Business.Idea.Comment",
+        InvalidFeedback = "",
+        IsFloatingLabel = false,
+        MinHeight = "100px",
+        PlaceHolder = "Leave A Comment"
+    })
+<div class="d-flex justify-content-end">
+    <button class="btn btn-primary">Send</button>
+</div>

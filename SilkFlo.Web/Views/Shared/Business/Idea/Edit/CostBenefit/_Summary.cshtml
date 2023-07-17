@@ -1,0 +1,96 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.Summary
+
+
+<div class="form"
+     id="Business.Idea.Edit.CostBenefit"
+     style="margin-bottom: 40px;">
+
+    <h1>Project Plan</h1>
+
+    <input name="Business.Idea.Id"
+           type="hidden"
+           value="@Model.Id" />
+
+
+    <input id="Business.Idea.Currency"
+           name="Business.Idea.Currency"
+           type="hidden"
+           value="@Model.Currency" />
+
+    <h2>Ease of Implementation</h2>
+    <div class="row">
+
+        <div class="col">
+
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new Element
+                {
+                    Title = "Estimated by Algorithm",
+                    Value = Model.EaseOfImplementationWord,
+                    InvalidFeedback = "",
+                    IsFloatingLabel = false,
+                    IsReadOnly = true
+                })
+
+        </div>
+
+        <div class="col">
+            <label>Final</label>
+            @{
+                var selected = Model.EaseOfImplementationFinal;
+            }
+
+            <select class="form-select"
+                    name="Business.Idea.EaseOfImplementationFinal"
+                    onchange="SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.RunningCostId_Change ()"
+                    style="border-top-left-radius: var(--border-radius) !important; border-bottom-left-radius: var(--border-radius) !important;"
+                    value="@Model.EaseOfImplementationFinal">
+                <option value="">Select...</option>
+                @if (selected == "Easy")
+                {
+                    <option value="Easy" selected="">Easy</option>
+                }
+                else
+                {
+                    <option value="Easy">Easy</option>
+                }
+                @if (selected == "Medium")
+                {
+                    <option value="Medium" selected="">Medium</option>
+                }
+                else
+                {
+                    <option value="Medium">Medium</option>
+                }
+                @if (selected == "Difficult")
+                {
+                    <option value="Difficult" selected="">Difficult</option>
+                }
+                else
+                {
+                    <option value="Difficult">Difficult</option>
+                }
+            </select>
+
+
+        </div>
+    </div>
+
+
+    @Html.Raw(Model.IdeaStageGanttComponent)
+    @Html.Raw(Model.RobotEstimationComponent)
+
+
+    <h1>Cost Estimates</h1>
+    @Html.Raw(Model.OneTimeCostsComponent)
+
+
+    <h1>Running Costs</h1>
+    @Html.Raw(Model.RPASoftwareCostsComponent)
+
+    @Html.Raw(Model.IdeaOtherRunningCostComponent)
+
+    @Html.Raw(Model.FooterComponent)
+
+</div>

@@ -1,0 +1,21 @@
+@model (SilkFlo.Web.ViewModels.Business.Idea.Gauge.EaseOfImplementation, SilkFlo.Web.ViewModels.Business.Idea.Gauge.EaseOfImplementation);
+
+<div class="bg-light border p-3 silkflo_tile"
+     style="padding-bottom: 0 !important;">
+
+    <label>Ease of Implementation (Est. vs Actual)</label>
+    
+    @{
+        var estimate = Model.Item1;
+        var actual = Model.Item2;
+    }
+    
+    <div class="d-flex flex-wrap justify-content-center">
+       
+        @await Html.PartialAsync("Business/Idea/Detail/_EaseOfImplementationChart", estimate)
+        <div style="width: 1rem;"></div>
+        @await Html.PartialAsync("Business/Idea/Detail/_EaseOfImplementationChart", actual)
+
+
+    </div>
+</div>

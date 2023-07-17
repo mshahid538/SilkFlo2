@@ -1,0 +1,155 @@
+@model SilkFlo.Web.Models.Business.IdeaOtherRunningCost
+@{
+    var parentId = "Business.Idea.CostBenefit.CostEstimates." + Model.CostTypeId;
+    var selectRowClick = Model.JavascriptNamespace + "SelectRow_Click(this, '" + parentId + "')";
+    var otherRunningCostChange = Model.JavascriptNamespace + "OtherRunningCost_Change(this, '" + parentId + "')";
+    var numberChange = Model.JavascriptNamespace + "Number_Input(this, '" + parentId + "')";
+}
+
+
+<tr class="edit"
+    name="Business.IdeaOtherRunningCost"
+    onclick="@selectRowClick">
+    <td style="height: 38px;">
+        <div class="d-flex" style="height: 100%">
+            <div class="selector"> </div>
+
+
+            <select name="Business.IdeaOtherRunningCost.OtherRunningCostId"
+                    value="@Model.OtherRunningCostId"
+                    onchange="@otherRunningCostChange">
+                @foreach (var otherRunningCost in Model.OtherRunningCosts)
+                {
+                    if (Model.OtherRunningCostId == otherRunningCost.Id)
+                    {
+                        <option value="@otherRunningCost.Id"
+                                cost="@otherRunningCost.Cost"
+                                period="@otherRunningCost.FrequencyId"
+                                description="@otherRunningCost.Description"
+                                selected="">
+                            @otherRunningCost.Name
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@otherRunningCost.Id"
+                                cost="@otherRunningCost.Cost"
+                                period="@otherRunningCost.FrequencyId"
+                                description="@otherRunningCost.Description">
+                            @otherRunningCost.Name
+                        </option>
+                    }
+                }
+            </select>
+
+        </div>
+    </td>
+
+
+    <td style="height: 38px;">
+
+        <div contenteditable="true"
+             name="Business.IdeaOtherRunningCost.Number"
+             class="text-right"
+             role="textbox"
+             onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+             style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; height: 100%; background: white;"
+             onkeydown="KeyPressPositiveDecimalOnly(event)"
+             oninput="@numberChange">@Model.Number.ToString()</div>
+        </td>
+
+        @*Comment*@
+        <td class="readOnly">
+            @{
+                string displayMoreStyle = "";
+                string displayNoneStyle = "";
+                if (string.IsNullOrWhiteSpace(Model.OtherRunningCost?.Description))
+                {
+                    displayMoreStyle = " display: none";
+                }
+                else
+                {
+                    displayNoneStyle = " display: none";
+                }
+                string id = Model.Id;
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    id = Guid.NewGuid().ToString();
+                }
+                string descriptionId = $"description{id}";
+            }
+
+
+            <a class="px-2"
+               style="@displayMoreStyle"
+               name="Business.IdeaOtherRunningCost.More"
+               onclick="if(HotSpot.Card){ HotSpot.Card.Close();}"
+               data-bs-toggle="modal"
+               data-bs-target="#@descriptionId">More ...</a>
+            <span class="px-2"
+                  name="Business.IdeaOtherRunningCost.None"
+                  style="@displayNoneStyle">none</span>
+            <!-- Modal -->
+            <div class="modal fade"
+                 id="@descriptionId"
+                 tabindex="-1"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Collaborator Role Comment</h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body"
+                             name="Business.IdeaOtherRunningCost.Description">
+                            @Model.OtherRunningCost?.Description
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+
+
+        <td class="readOnly"
+            style="text-align: right;">
+            <span class="p-2"
+                  name="Business.IdeaOtherRunningCost.CostPerYear">
+                @Model.CostPerYear
+            </span>
+        </td>
+        <td class="readOnly"
+            style="text-align: right;">
+            <span class="p-2"
+                  name="Business.IdeaOtherRunningCost.CostPerMonth">
+                @Model.CostPerMonth
+            </span>
+        </td>
+        <td class="readOnly"
+            style="text-align: right;">
+            <span class="p-2"
+                  name="Business.IdeaOtherRunningCost.TotalCostPerYear"
+                  costTypeId="@Model.CostTypeId"
+                  value="@Model.TotalCostPerYearValue">
+                @Model.TotalCostPerYear
+            </span>
+        </td>
+        <td class="readOnly"
+            style="text-align: right;">
+            <span class="p-2"
+                  name="Business.IdeaOtherRunningCost.TotalCostPerMonth"
+                  costTypeId="@Model.CostTypeId"
+                  value="@Model.TotalCostPerMonthValue">
+                @Model.TotalCostPerMonth
+            </span>
+        </td>
+    </tr>

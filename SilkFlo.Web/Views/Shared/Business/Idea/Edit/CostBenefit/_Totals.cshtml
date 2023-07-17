@@ -1,0 +1,89 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.GrandTotals
+
+
+<table class="table table-silkflo">
+    <tbody name="tbody">
+    <tr style="border-top: none;">
+        <td> </td>
+        <td style="text-align: right; width: 1%;"><div class="p-2">Total&nbsp;Cost/Year</div></td>
+        <td style="text-align: right; width: 1%;"><div class="p-2">Total&nbsp;Cost/Month</div></td>
+    </tr>
+    <tr class="total">
+        <th>Total Running Costs</th>
+        <th style="text-align: right;">
+            <div class="p-2 readOnly"
+                 name="GrandTotal.Year.RunningCosts">
+                @Model.RunningCostsGrandTotalCostPerYear
+            </div>
+        </th>
+        <th style="text-align: right;">
+            <div class="p-2 readOnly"
+                 name="GrandTotal.Month.RunningCosts">
+                @Model.RunningCostsGrandTotalCostPerMonth
+            </div>
+        </th>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Summary of All Costs</h2>
+
+<table class="table table-silkflo">
+    <tbody name="tbody">
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">Cost Type</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="">Total&nbsp;Cost/Year</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="">Total&nbsp;Cost/Month</div></th>
+    </tr>
+    
+
+    <tr class="total">
+        <th><div class="p-2">Human Costs</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.HumanCosts">@Model.HumanCostsGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.HumanCosts">@Model.HumanCostsGrandTotalCostPerMonth</div></th>
+    </tr>
+    
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">Total Implementation People Costs</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.ImplementationPeopleCosts">@Model.TotalImplementationPeopleCostsGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.ImplementationPeopleCosts">@Model.TotalImplementationPeopleCostsGrandTotalCostPerMonth</div></th>
+    </tr>
+    
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">RPA Software Costs</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.RpaSoftwareCosts">@Model.RpaSoftwareCostsGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.RpaSoftwareCosts">@Model.RpaSoftwareCostsGrandTotalCostPerMonth</div></th>
+    </tr>
+
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">Other Software Costs</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.OtherSoftwareCosts">@Model.OtherSoftwareCostsGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.OtherSoftwareCosts">@Model.OtherSoftwareCostsGrandTotalCostPerMonth</div></th>
+    </tr>
+        
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">Support Team</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.SupportTeam">@Model.SupportTeamGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.SupportTeam">@Model.SupportTeamGrandTotalCostPerMonth</div></th>
+    </tr>
+    
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">Infrastructure</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.Infrastructure">@Model.InfrastructureGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.Infrastructure">@Model.InfrastructureGrandTotalCostPerMonth</div></th>
+    </tr>
+        
+    <tr class="total" style="border-top: none;">
+        <th><div class="p-2">Other Costs</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.OtherCosts">@Model.OtherCostsGrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.OtherCosts">@Model.OtherCostsGrandTotalCostPerMonth</div></th>
+    </tr>
+    
+    <tr class="total">
+        <th><div class="p-2">Total Costs</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Year.Total">@Model.GrandTotalCostPerYear</div></th>
+        <th style="text-align: right; width: 1%;"><div class="p-2" name="GrandTotal.Month.Total">@Model.GrandTotalCostPerMonth</div></th>
+    </tr>
+
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+@model SilkFlo.Web.ViewModels.Element
+
+<div id="@Model.Id"
+     name ="@Model.Name"
+     value="@Model.Value"
+     onValueChange="@Model.JavaScriptOnInput">
+
+    @if (Model.SelectWeightedList != null)
+    {
+        foreach (var item in Model.SelectWeightedList)
+        {
+            if(string.IsNullOrWhiteSpace(item.Id))
+            {
+                continue;
+            }
+
+            if (item.Id == Model.Id)
+            {
+                <option selected id="@item.Id" Slider-Background="@item.Colour" Slider-Colour="@item.Colour">@item.DisplayText</option>
+            }
+            else
+            {
+                <option id="@item.Id" Slider-Background="@item.Colour" Slider-Colour="@item.Colour">@item.DisplayText</option>
+            }
+        }
+    }
+</div>

@@ -1,0 +1,12 @@
+@model string
+
+<div style="position: fixed; z-index: 200; bottom: 40px; background: var(--bs-background); width: 100%;height:2rem;" class="py-2">
+    <div style="background: white; position: absolute; z-index: 200; left: -20px; top: 0; width: 100%; border-top: solid 2px var(--bs-gray-lighter);">
+        <div style="margin-left: 1rem;" id="@Model" name="@Model"></div>
+    </div>
+</div>
+
+@*
+    Usage:
+    @await Html.PartialAsync("Elements/_FooterStatusMessage", "Settings.PlatformSetup.CostSetup.SoftwareVender.StatusMessage")
+*@

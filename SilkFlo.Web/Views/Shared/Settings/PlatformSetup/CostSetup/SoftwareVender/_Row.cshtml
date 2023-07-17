@@ -1,0 +1,32 @@
+@model SilkFlo.Web.Models.Business.SoftwareVender
+
+
+<tr onclick="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.SelectRow_Click(this)"
+    ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.Dbl_Click(this)"
+    name="Business.SoftwareVender">
+    <td>
+        <div class="p-2" name="Business.SoftwareVender.Name" role="textbox" old="@Model.Name">@Model.Name</div>
+        <div class="p-2" style="display: none" name="Business.SoftwareVender.Id">@Model.Id</div>
+    </td>
+    <td>
+        
+        @{
+            string isChecked = "";
+            if (Model.IsLive)
+            {
+                isChecked =
+                    "checked";
+            }
+        }
+
+        <div class="form-switch m-2">
+            <input type="checkbox"
+                   @Html.Raw(isChecked)
+                   class="form-check-input"
+                   name="Business.SoftwareVender.IsLive"
+                   disabled
+                   old="@Model.IsLive.ToString()"
+                   value="@Model.IsLive.ToString()"/>
+        </div>
+    </td>
+</tr>

@@ -1,0 +1,49 @@
+@model SilkFlo.Web.ViewModels.Business.Version.Summary
+
+<div id="Settings.PlatformSetup.Applications.Container"
+     asp-policy="Manage Tenant Settings">
+
+
+    <div class="p-3 border bg-light silkflo_tile">
+        
+        @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+   {
+       SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.Applications.Search(null, null, 'Settings.PlatformSetup.Applications');",
+       SearchId = "Settings.PlatformSetup.Applications.Search.Id",
+
+       EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.Applications.Edit_Click();",
+       EditName = "EditButton",
+
+       SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.Applications.Save_Click ();",
+       SaveName = "SaveButton",
+
+       CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.Applications.Cancel_Click ();",
+       CancelName = "CancelButton",
+
+       DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.Applications.Delete_Click ();",
+       DeleteName = "DeleteButton",
+
+
+       NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.Applications.New_Click ();",
+       NewName = "NewButton"
+   })
+
+
+        
+
+
+        <div style="overflow-x: auto;">
+            <div id="Settings.PlatformSetup.Applications">
+
+                @await Html.PartialAsync("Settings/PlatformSetup/Applications/_Table", Model)
+
+            </div>
+        </div>
+    </div>
+    
+   
+    @await Html.PartialAsync(
+        "Elements/_FooterStatusMessage", 
+        "Message")
+</div>
+

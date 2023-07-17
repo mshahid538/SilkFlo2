@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+
+<div class="p-3 bg-light border silkflo_tile"
+     style="margin-bottom: 2rem;"
+     name="parent">
+
+    <h2 style="margin-top:0 !important;">One Time Costs - Implementation People Costs</h2>
+
+    <p>Please allocate some costs to collaborator roles before assigning implementation people costs to your idea.</p>
+
+    @if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageTenantSettings)).Succeeded)
+    {
+        <p><a href="/Settings/tenant/Platform-Setup/Cost-Setup/Initial-Costs">Settings &gt; Platform Setup &gt; Cost Setup  &gt; Initial Costs</a></p>
+    }
+    else
+    {
+        <p>Contact a colleague who can manage the platform setup</p>
+    }
+
+</div>

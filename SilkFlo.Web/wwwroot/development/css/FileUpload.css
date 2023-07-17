@@ -1,0 +1,430 @@
+﻿.files-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    width: 100%;
+    background-color: lightpink;
+    color: black;
+    font-weight: bold;
+    font-size: 25px;
+    border: 10px dashed black;
+    margin: 0;
+    text-align: center;
+    transition: 0.5s;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
+.files-field {
+    display: none;
+}
+
+#files-progress {
+    width: 0;
+    background-color: lightslategray;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 25px;
+    padding: 0 5px;
+}
+
+.modal-page {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.5s ease;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+    .modal-page img {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height: auto;
+    }
+
+    .modal-page:target {
+        visibility: visible;
+        opacity: 1;
+    }
+
+#btn-label {
+    background-color: #FF8A00;
+    color: white;
+    padding: 0.3rem;
+    font-family: sans-serif;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    margin-top: 0.2rem;
+    transition: background-color 300ms ease;
+    font-size: 0.875rem;
+}
+
+.documentation {
+    background: #f8f9fd;
+    height: 100%;
+    min-height: 100vh;
+}
+
+    .documentation * {
+        margin-bottom: 0;
+    }
+
+.container {
+    width: 100%;
+}
+
+#dropArea {
+    border: #eef0f9 solid 1px;
+    height: auto;
+    text-align: center;
+    height: 100px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+    #dropArea .header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding-block: 0;
+        margin-top: 1.5rem;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    #dropArea .add-new-btn {
+        background-color: #2f80ed;
+        color: #fff;
+        cursor: pointer;
+        width: 105px;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+        font-size: 0.8rem;
+    }
+
+        #dropArea .add-new-btn:hover {
+            color: #fff;
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+    #dropArea.highlight {
+        border-color: purple;
+    }
+
+.list-container {
+}
+
+    .list-container h3 {
+        text-align: left;
+        text-transform: capitalize;
+        font-weight: 600;
+        font-size: 0.875rem;
+        line-height: 21px;
+        color: #000;
+    }
+
+    .list-container > div {
+        display: flex;
+        padding-block: 1rem;
+    }
+
+    .list-container ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+        .list-container ul .list-item {
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            height: 180px;
+            background-color: #fff;
+            position: relative;
+            margin-right: 1.5rem;
+        }
+
+    .list-container .list-item .img-container {
+        flex: 1;
+        display: grid;
+        place-items: center;
+    }
+
+    .list-container .list-item .image-detail {
+        background: #8392af;
+        border-radius: 0px 0px 4px 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+        .list-container .list-item .image-detail p {
+            margin-bottom: 0;
+            color: #fff;
+            font-size: 0.875rem;
+        }
+
+        .list-container .list-item .image-detail span {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #ffb573;
+        }
+
+    .list-container .list-item .action-icons {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+    }
+
+        .list-container .list-item .action-icons i {
+            width: 30px;
+            height: 30px;
+        }
+
+.drop-container {
+    width: fit-content;
+    background: #fff;
+    width: 200px;
+    height: 180px;
+    display: grid;
+    place-items: center;
+}
+
+    .drop-container label {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 21px;
+        letter-spacing: -0.02em;
+        text-transform: capitalize;
+        color: #ffffff;
+        width: 75px;
+        height: 28px;
+        background-color: #2f80ed;
+        cursor: pointer;
+    }
+
+.div-left {
+    padding-top: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+
+h2 {
+    font-weight: bold;
+    font-family: sans-serif;
+    margin-bottom: 2px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 1px;
+}
+
+.active-drop {
+    background: #77bafa !important;
+    border: solid 2px #25b9e8 !important;
+    opacity: 0.5;
+    color: black !important;
+}
+
+#download {
+    background: #25b9e8;
+}
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+    display: none;
+}
+
+#dropZone {
+    margin-top: 30px;
+    background-color: #f5f5f5;
+    height: 250px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px dashed gray;
+}
+
+    #dropZone > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+.dropZoneTitle {
+    margin-top: 0 !important;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: -0.02em;
+    color: #363853;
+    text-align: center !important;
+}
+
+.option {
+    margin-top: 0 !important;
+    font-size: 12px;
+    line-height: 14px;
+    color: #585a73;
+    text-align: center !important;
+    text-transform: lowercase !important;
+    margin-bottom: 0.3rem;
+}
+
+.box__button {
+    width: 75px;
+    height: 28px;
+    background: #2f80ed;
+    border-radius: 5px;
+    border: 0;
+    color: #ffffff;
+    font-size: 12px;
+    transition: background-color 300ms ease;
+}
+
+    .box__button:hover {
+        background: #2f80ed75;
+    }
+
+.input-label {
+    font-size: 0.875rem;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+    color: #8f8f8f;
+    margin-top: 1rem;
+}
+
+.text-input {
+    width: 100%;
+    border: 0;
+    background: #f5f5f5;
+    border-radius: 6px;
+    height: 40px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.875rem;
+}
+
+.btn-download {
+    background: transparent !important;
+    font-size: 0.875rem;
+    line-height: 20px;
+    text-transform: capitalize;
+    color: #25b9e8;
+}
+
+    .btn-download:hover {
+        background: transparent;
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+.btn-upload {
+    background: #2f80ed;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    line-height: 21px;
+    letter-spacing: -0.02em;
+    padding-inline: 1rem;
+}
+
+#board {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+#image-out {
+    display: inline-block;
+    width: 49%;
+    margin: 2px 0;
+}
+
+#image-in {
+    width: 98%;
+    margin: 0 auto;
+}
+
+    #image-in img {
+        width: 100%;
+    }
+
+#add-image {
+    float: right;
+    border: none;
+    padding: 5px 12px;
+    margin: 20px 0;
+    background: #004B92;
+    color: white;
+    cursor: pointer;
+}
+
+#draggable {
+    text-align: center;
+    background: white;
+}
+
+.dropzone {
+    width: 200px;
+    height: 20px;
+    background: blueviolet;
+    margin: 10px;
+    padding: 10px;
+}
+
+    .dropzone.dragover {
+        background-color: purple;
+    }
+
+.dragging {
+    opacity: .5;
+}
+
+#tempViewerSec {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#tempViewerSecDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#iconsFileSvg:hover {
+    cursor: pointer;
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+}
+.bi-download:hover {
+    fill: #2F80ED;
+}
+.bi-trash:hover {
+    cursor: pointer;
+    fill: #E73A3A;
+}

@@ -1,0 +1,214 @@
+<div class="container">
+    <div class="TitleBar">
+        <h3 style="margin-bottom: 2rem; color:#FF8A00">SilkFlo > Administration Screen</h3>
+    </div>
+    <div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+        <h1 style="font-weight: bold;">Administration Screen</h1>
+    </div>
+    <div class="flex_grid">
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (((System.Security.Claims.ClaimsIdentity)User.Identity).HasClaim("Role", "Administrator")
+             || ((System.Security.Claims.ClaimsIdentity)User.Identity).HasClaim("Role", "Manage Users"))
+            {
+                <a class="btn btn-success"
+                   href="/Administration/User">Manage Users</a>
+                <a class="btn btn-success"
+                   href="/Administration/Role">Manage Roles</a>
+            }
+
+            @if (((System.Security.Claims.ClaimsIdentity)User.Identity).HasClaim("Role", "Administrator"))
+            {
+                string logTitle = "Log";
+                string style = "btn ";
+
+                if(ViewBag.CriticalLogs > 0)
+                    style += "btn-danger";
+                else if(ViewBag.WarningLogs > 0)
+                    style += "btn-warning";
+                else if(ViewBag.InformationLogs > 0)
+                    style += "btn-info";
+                else
+                    style += "btn-primary";
+
+
+                if (ViewBag.CriticalLogs > 0)
+                    logTitle += "<img style=\"margin-left:12px !important; margin-right:6px !important;\" class=\"icon\" src=\"/Icons/Critical.svg\"/>" + ViewBag.CriticalLogs;
+
+                if (ViewBag.WarningLogs > 0)
+                    logTitle += "<img style=\"margin-left:12px !important; margin-right:6px !important;\" class=\"icon\" src=\"/Icons/Warning.svg\"/>" + ViewBag.WarningLogs;
+
+                if (ViewBag.InformationLogs > 0)
+                    logTitle += "<img style=\"margin-left:12px !important; margin-right:6px !important;\" class=\"icon\" src=\"/Icons/Information.svg\"/>" + ViewBag.InformationLogs;
+
+                <a class="@style"
+                    href="/Administration/Log">@Html.Raw(logTitle)</a>
+            }
+            
+        <a class="btn btn-info"
+           href="/Backup">Download Data</a>
+        }
+    </div>
+
+    <h2></h2>
+    <div class="flex_grid">
+        <a class="btn btn-primary"
+           href="/Administration/Message">Messages</a>
+        <a class="btn btn-primary"
+           href="/Administration/WebHookLog">WebHookLogs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Analytic">Analytics</a>
+    </div>
+
+
+
+    <h2>Application</h2>
+    <div class="flex_grid">
+        <a class="btn btn-primary"
+           href="/Administration/Application/HotSpot">HotSpots</a>
+        <a class="btn btn-primary"
+           href="/Administration/Application/Page">Pages</a>
+        <a class="btn btn-primary"
+           href="/Administration/Application/Setting">Settings</a>
+    </div>
+
+    <h2>Business</h2>
+    <div class="flex_grid">
+        <a class="btn btn-primary"
+           href="/Administration/Business/Application">Applications</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Client">Clients</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Collaborator">Collaborators</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Comment">Comments</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Department">Business Departments</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Document">Documents</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Idea">Ideas</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/IdeaApplicationVersion">Idea Applications</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/IdeaOtherRunningCost">Other Running Costs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/IdeaRunningCost">Idea Running Costs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/IdeaStage">Idea Stages</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/IdeaStageStatus">Statuses</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/ImplementationCost">Implementation Costs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Location">Locations</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/OtherRunningCost">Other Running Costs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Process">Business Sub-Areas</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Role">Roles</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/RoleCost">Role Costs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/RoleIdeaAuthorisation">Role Idea Authorisations</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/RunningCost">Running Costs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/SoftwareVender">Software Venders</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Team">Business Areas</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/UserAuthorisation">User Authorisations</a>
+        <a class="btn btn-primary"
+           href="/Administration/Business/Version">Versions</a>
+    </div>
+
+    <h2>CRM</h2>
+    <div class="flex_grid">
+        <a class="btn btn-primary"
+           href="/Administration/CRM/CompanySize">Company Sizes</a>
+        <a class="btn btn-primary"
+           href="/Administration/CRM/JobLevel">Job Levels</a>
+        <a class="btn btn-primary"
+           href="/Administration/CRM/Prospect">Prospects</a>
+    </div>
+
+    <h2>Shared</h2>
+    <div class="flex_grid">
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Achievement">Achievements</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/ApplicationStability">Application Stabilities</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/AutomationGoal">Automation Goals</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/AutomationType">Automation Types</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/AverageNumberOfStep">Average Number of Steps</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Badge">Badges</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/ClientType">ClientTypes</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/CostType">Cost Types</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Country">Countries</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/DataInputPercentOfStructured">% of Structured Digital Data Inputs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/DecisionCount">Decision Counts</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/DecisionDifficulty">Decision Difficulties</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/DocumentationPresent">Documentation Presents</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/IdeaAuthorisation">Idea Authorisations</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/IdeaStatus">Idea Statuses</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Industry">Industries</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Input">Inputs</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/InputDataStructure">Input Data Structures</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Language">Languages</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/NumberOfWaysToCompleteProcess">Number of Ways to Complete Processes</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/ProcessPeak">Process Peaks</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/ProcessStability">Process Stabilities</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Rule">Rules</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Stage">Stages</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/StageGroup">Stage Groups</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/SubmissionPath">Submission Paths</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/TaskFrequency">Task Frequencies</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shared/Period">Periods</a>
+    </div>
+
+    <h2>Shop</h2>
+    <div class="flex_grid">
+        <a class="btn btn-primary"
+           href="/Administration/Shop/Coupon">Coupons</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shop/Discount">Discounts</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shop/Currency">Currencies</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shop/Product">Products</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shop/Price">Prices</a>
+        <a class="btn btn-primary"
+           href="/Administration/Shop/Subscription">Subscriptions</a>
+    </div>
+
+
+</div>

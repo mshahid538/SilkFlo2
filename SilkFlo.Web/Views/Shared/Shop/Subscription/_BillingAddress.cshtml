@@ -1,0 +1,125 @@
+﻿@using SilkFlo.Web.ViewModels.Business.Client
+@model SilkFlo.Web.ViewModels.Shop.Subscribe
+
+<div class="silkFlo_flex_wrap_spaced">
+    <div class="silkFlo_flex_wrap_left">
+        @if (Model.ShoBillingAddressNumber)
+        {
+            <div class="circle" style="margin-right: 1rem;">1</div>
+        }
+        <h2 style="color: var(--bs-gray)">Create Your Account</h2>
+    </div>
+
+@if (Model.IsSignedIn)
+    {
+        var welcome = $"Welcome {Model.Fullname}";
+        <label style="margin-bottom: 6px">
+            <span>@welcome </span><a href="/account/signout" id="Account.SignUp.NotYou">&nbsp;Not&nbsp;you?</a>
+        </label>
+    }
+    else
+    {
+        var signIn = "/account/signin";
+
+        if (Model.Product != null && Model.Product.Price != null)
+        {
+            signIn += "?returnUrl=/shop/subscribe/priceId/" + Model.Product.Price.Id;
+        }
+
+        <label>Already have an account? <a href="@signIn">Sign&nbsp;in</a></label>
+    }
+</div>
+
+@{
+    const string receiveMarketingText = "I'd like to receive direct marketing email updates from SilkFLo.";
+}
+
+
+@if (Model.IsSignedIn)
+{
+    <div style="margin-bottom: 1rem;">
+    <div name="Account.SignUp.BillingAddress.Readonly">
+        <h3>Billing Address</h3>
+        <div class="d-flex justify-content-between">
+            <label name="Account.SignUp.BillingAddress.ReadonlyText">@Html.Raw(Model.BillingAddress)</label>
+            <button class="btn btn-brand"
+                    name="Account.SignUp.BillingAddress.EditButton"
+                    onclick="SilkFlo.ViewModels.Subscribe.BillingAddress.Edit ();"
+                    style="align-self: flex-end;"
+                    type="button">
+                Edit
+            </button>
+        </div>
+    </div>
+    <div name="Account.SignUp.BillingAddress.Edit"
+         style="display: none;">
+        <h3>Billing Address</h3>
+        @await Html.PartialAsync("../Shared/Business/Client/_BillingAddress",
+            new BillingAddress
+            {
+                Name = Model.Name,
+                Address1 = Model.Address1,
+                Address2 = Model.Address2,
+                City = Model.City,
+                State = Model.State,
+                PostCode = Model.PostCode,
+                CountryId = Model.CountryId,
+                Countries = Model.Countries,
+                ElementNamePrefix = "Account.SignUp."
+            })
+
+
+        <div class="d-flex-guttered justify-content-end">
+            <button class="btn btn-brand"
+                    name="Account.SignUp.BillingAddress.Save"
+                    onclick="SilkFlo.ViewModels.Subscribe.BillingAddress.Save ()">
+                Save
+            </button>
+            <button class="btn btn-light"
+                    name="Account.SignUp.BillingAddress.Cancel"
+                    onclick="SilkFlo.ViewModels.Subscribe.BillingAddress.Cancel ();">
+                Cancel
+            </button>
+
+        </div>
+    </div>
+    </div>
+}
+else
+{
+    <div Name="Subscribe.Account.SignUp"
+         style="padding-top: 1rem;">
+        @await Html.PartialAsync("../Shared/Account/_SignUp", Model)
+    </div>
+}
+
+
+
+<div style="border-bottom: 1px solid var(--bs-gray-lighter); margin-bottom: 1rem;"></div>
+
+
+@await Html.PartialAsync("../Shared/Shop/Subscription/_TermsCheckBox")
+
+
+<div class="form-check form-switch"
+     name="Account.SignUp.ReceiveMarketing_Container"
+     style="margin-top: 1rem;">
+    @{
+        var receiveMarketingChecked = "";
+        if (Model.ReceiveMarketing)
+        {
+            receiveMarketingChecked = "checked=\"\"";
+        }
+    }
+    <input @Html.Raw(receiveMarketingChecked) 
+          class="form-check-input"
+          data-val="false"
+          data-val-required="Account.SignUp.ReceiveMarketing"
+          name="Account.SignUp.ReceiveMarketing"
+          style="cursor: pointer;"
+          type="checkbox">
+    <label class="form-check-label"
+           style="color: inherit; cursor: pointer;">
+        @receiveMarketingText
+    </label>
+</div>

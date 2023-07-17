@@ -1,0 +1,1138 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Business.Idea
+
+<div class="container">
+
+    <form asp-action="Edit"
+          method="post">
+        <div class="TitleBar">
+            <h1>Edit Idea</h1>
+
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.UpdatedById)
+
+        @Html.HiddenFor(x => x.ApplicationStabilityString)
+        @Html.HiddenFor(x => x.AutomationGoalString)
+        @Html.HiddenFor(x => x.AverageNumberOfStepString)
+        @Html.HiddenFor(x => x.ClientString)
+        @Html.HiddenFor(x => x.DataInputPercentOfStructuredString)
+        @Html.HiddenFor(x => x.DecisionCountString)
+        @Html.HiddenFor(x => x.DecisionDifficultyString)
+        @Html.HiddenFor(x => x.DepartmentString)
+        @Html.HiddenFor(x => x.DocumentationPresentString)
+        @Html.HiddenFor(x => x.InputDataStructureString)
+        @Html.HiddenFor(x => x.InputString)
+        @Html.HiddenFor(x => x.NumberOfWaysToCompleteProcessString)
+        @Html.HiddenFor(x => x.ProcessString)
+        @Html.HiddenFor(x => x.ProcessOwnerString)
+        @Html.HiddenFor(x => x.ProcessPeakString)
+        @Html.HiddenFor(x => x.ProcessStabilityString)
+        @Html.HiddenFor(x => x.RuleString)
+        @Html.HiddenFor(x => x.RunningCostString)
+        @Html.HiddenFor(x => x.SubmissionPathString)
+        @Html.HiddenFor(x => x.TaskFrequencyString)
+        @Html.HiddenFor(x => x.TeamString)
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Idea/Edit"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Save</button>
+                    <button formaction="/Administration/Business/Idea/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Idea">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+
+        <!-- Form Idea -->
+        <!-- Date -->
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Date Modified",
+                Id = "DateTimeDisplayed",
+                Value = Model.DateTimeDisplayed,
+                ElementType = "text",
+                IsReadOnly = true,
+                InvalidFeedback = ""
+            })
+
+            <!-- Id Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Id",
+                    Id = "Id",
+                    Name = "Id",
+                    Value = Model.Id,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Id_ErrorMessage,
+                    IsInvalid = Model.Id_IsInValid
+                })
+
+            <!-- Rating Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Rating",
+                    Id = "Rating",
+                    Name = "Rating",
+                    Value = Model.Rating?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- RatingComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Rating)",
+                    Id = "RatingComment",
+                    Name = "RatingComment",
+                    Value = Model.RatingComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- Name Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Name",
+                    Id = "Name",
+                    Name = "Name",
+                    Value = Model.Name,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- SubTitle Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Sub Title",
+                    Id = "SubTitle",
+                    Name = "SubTitle",
+                    Value = Model.SubTitle,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- Summary Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Summary",
+                    Id = "Summary",
+                    Name = "Summary",
+                    Value = Model.Summary,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- RuleComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Rule)",
+                    Id = "RuleComment",
+                    Name = "RuleComment",
+                    Value = Model.RuleComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- InputComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Input)",
+                    Id = "InputComment",
+                    Name = "InputComment",
+                    Value = Model.InputComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- StructureComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Input Data Structure)",
+                    Id = "StructureComment",
+                    Name = "StructureComment",
+                    Value = Model.StructureComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ProcessStabilityComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Process Change)",
+                    Id = "ProcessStabilityComment",
+                    Name = "ProcessStabilityComment",
+                    Value = Model.ProcessStabilityComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ApplicationStabilityComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Application Change)",
+                    Id = "ApplicationStabilityComment",
+                    Name = "ApplicationStabilityComment",
+                    Value = Model.ApplicationStabilityComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageWorkingDay Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Working Day per Year",
+                    Id = "AverageWorkingDay",
+                    Name = "AverageWorkingDay",
+                    Value = Model.AverageWorkingDay?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageWorkingDayComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Working Day Comment)",
+                    Id = "AverageWorkingDayComment",
+                    Name = "AverageWorkingDayComment",
+                    Value = Model.AverageWorkingDayComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- WorkingHour Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Working Hour per Day",
+                    Id = "WorkingHour",
+                    Name = "WorkingHour",
+                    Value = Model.WorkingHour?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- WorkingHourComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Working Hour per Day)",
+                    Id = "WorkingHourComment",
+                    Name = "WorkingHourComment",
+                    Value = Model.WorkingHourComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageEmployeeFullCost Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Employee Full Cost per Year",
+                    Id = "AverageEmployeeFullCost",
+                    Name = "AverageEmployeeFullCost",
+                    Value = Model.AverageEmployeeFullCost?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- TaskFrequencyComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Task or Process Frequency)",
+                    Id = "TaskFrequencyComment",
+                    Name = "TaskFrequencyComment",
+                    Value = Model.TaskFrequencyComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ActivityVolumeAverage Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Actual Volume Average (per Selected Frequency)",
+                    Id = "ActivityVolumeAverage",
+                    Name = "ActivityVolumeAverage",
+                    Value = Model.ActivityVolumeAverage?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ActivityVolumeAverageComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Actual Volume Average)",
+                    Id = "ActivityVolumeAverageComment",
+                    Name = "ActivityVolumeAverageComment",
+                    Value = Model.ActivityVolumeAverageComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageProcessingTime Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Processing Time per Transaction (min)",
+                    Id = "AverageProcessingTime",
+                    Name = "AverageProcessingTime",
+                    Value = Model.AverageProcessingTime?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageProcessingTimeComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Processing Time per Transaction (min))",
+                    Id = "AverageProcessingTimeComment",
+                    Name = "AverageProcessingTimeComment",
+                    Value = Model.AverageProcessingTimeComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageErrorRate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Error Rate (% of the Total Volume)",
+                    Id = "AverageErrorRate",
+                    Name = "AverageErrorRate",
+                    Value = Model.AverageErrorRate?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageErrorRateComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Error Rate)",
+                    Id = "AverageErrorRateComment",
+                    Name = "AverageErrorRateComment",
+                    Value = Model.AverageErrorRateComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageReworkTime Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Rework Time per Transaction (min)",
+                    Id = "AverageReworkTime",
+                    Name = "AverageReworkTime",
+                    Value = Model.AverageReworkTime?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageEmployeeFullCostComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Employee Full Cost)",
+                    Id = "AverageEmployeeFullCostComment",
+                    Name = "AverageEmployeeFullCostComment",
+                    Value = Model.AverageEmployeeFullCostComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageReworkTimeComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Rework Time)",
+                    Id = "AverageReworkTimeComment",
+                    Name = "AverageReworkTimeComment",
+                    Value = Model.AverageReworkTimeComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageWorkToBeReviewed Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Work to be Reviewed per Audited (% of Total Volume)",
+                    Id = "AverageWorkToBeReviewed",
+                    Name = "AverageWorkToBeReviewed",
+                    Value = Model.AverageWorkToBeReviewed?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageWorkToBeReviewedComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Work to be Reviewed per Autited (% of Total Volume))",
+                    Id = "AverageWorkToBeReviewedComment",
+                    Name = "AverageWorkToBeReviewedComment",
+                    Value = Model.AverageWorkToBeReviewedComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageReviewTime Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Average Review or Audit Time per Transaction (min)",
+                    Id = "AverageReviewTime",
+                    Name = "AverageReviewTime",
+                    Value = Model.AverageReviewTime?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageReviewTimeComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Review or Audit Time per Transaction (min))",
+                    Id = "AverageReviewTimeComment",
+                    Name = "AverageReviewTimeComment",
+                    Value = Model.AverageReviewTimeComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- EmployeeCount Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Number of Employees Performing the Task",
+                    Id = "EmployeeCount",
+                    Name = "EmployeeCount",
+                    Value = Model.EmployeeCount?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- EmployeeCountComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Number of Employees Performing the Task)",
+                    Id = "EmployeeCountComment",
+                    Name = "EmployeeCountComment",
+                    Value = Model.EmployeeCountComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ProcessPeakComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Process Peak)",
+                    Id = "ProcessPeakComment",
+                    Name = "ProcessPeakComment",
+                    Value = Model.ProcessPeakComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AverageNumberOfStepComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Average Number of Steps)",
+                    Id = "AverageNumberOfStepComment",
+                    Name = "AverageNumberOfStepComment",
+                    Value = Model.AverageNumberOfStepComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- NumberOfWaysToCompleteProcessComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Number Of Ways to Complete Process)",
+                    Id = "NumberOfWaysToCompleteProcessComment",
+                    Name = "NumberOfWaysToCompleteProcessComment",
+                    Value = Model.NumberOfWaysToCompleteProcessComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsDataInputScanned checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsDataInputScanned,
+                                  new { @class = "form-check-input", @id = "IsDataInputScanned" })
+                <label class="form-check-label"
+                       for="IsDataInputScanned">Is Scanned Data Input</label>
+            </div>
+
+            <!-- DataInputScannedComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Scanned Data Input)",
+                    Id = "DataInputScannedComment",
+                    Name = "DataInputScannedComment",
+                    Value = Model.DataInputScannedComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- DataInputPercentOfStructuredComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (% of Structured Digital Data Input)",
+                    Id = "DataInputPercentOfStructuredComment",
+                    Name = "DataInputPercentOfStructuredComment",
+                    Value = Model.DataInputPercentOfStructuredComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- DocumentationPresentComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Documentation Present)",
+                    Id = "DocumentationPresentComment",
+                    Name = "DocumentationPresentComment",
+                    Value = Model.DocumentationPresentComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsDataSensitive checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsDataSensitive,
+                                  new { @class = "form-check-input", @id = "IsDataSensitive" })
+                <label class="form-check-label"
+                       for="IsDataSensitive">Will the RPA access or process sensitive personal data?</label>
+            </div>
+
+            <!-- DecisionDifficultyComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Decision Difficulty)",
+                    Id = "DecisionDifficultyComment",
+                    Name = "DecisionDifficultyComment",
+                    Value = Model.DecisionDifficultyComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsHighRisk checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsHighRisk,
+                                  new { @class = "form-check-input", @id = "IsHighRisk" })
+                <label class="form-check-label"
+                       for="IsHighRisk">Will the RPA access high-risk / high-exposure IT systems?</label>
+            </div>
+
+            <!-- IsAlternative checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsAlternative,
+                                  new { @class = "form-check-input", @id = "IsAlternative" })
+                <label class="form-check-label"
+                       for="IsAlternative">Alternative Solutions except for RPA?</label>
+            </div>
+
+            <!-- BenefitExpected Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Benefit Expected",
+                    Id = "BenefitExpected",
+                    Name = "BenefitExpected",
+                    Value = Model.BenefitExpected,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- DecisionCountComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Comment (Decision Count)",
+                    Id = "DecisionCountComment",
+                    Name = "DecisionCountComment",
+                    Value = Model.DecisionCountComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsHostUpgrade checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsHostUpgrade,
+                                  new { @class = "form-check-input", @id = "IsHostUpgrade" })
+                <label class="form-check-label"
+                       for="IsHostUpgrade">Will the automation tough systems due for major up?</label>
+            </div>
+
+            <!-- BenefitActual Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Benefit Actual",
+                    Id = "BenefitActual",
+                    Name = "BenefitActual",
+                    Value = Model.BenefitActual,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- PotentialFineAmount Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Potential Fine Amount",
+                    Id = "PotentialFineAmount",
+                    Name = "PotentialFineAmount",
+                    Value = Model.PotentialFineAmount?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ChallengeExpected Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Challenge Expected",
+                    Id = "ChallengeExpected",
+                    Name = "ChallengeExpected",
+                    Value = Model.ChallengeExpected,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsDraft checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsDraft,
+                                  new { @class = "form-check-input", @id = "IsDraft" })
+                <label class="form-check-label"
+                       for="IsDraft">Is Draft</label>
+            </div>
+
+            <!-- PotentialFineProbability Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Potential Fine Probability",
+                    Id = "PotentialFineProbability",
+                    Name = "PotentialFineProbability",
+                    Value = Model.PotentialFineProbability?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ChallengeActual Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Challenge Actual",
+                    Id = "ChallengeActual",
+                    Name = "ChallengeActual",
+                    Value = Model.ChallengeActual,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- PainPointComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Pain Points",
+                    Id = "PainPointComment",
+                    Name = "PainPointComment",
+                    Value = Model.PainPointComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AHTRobot Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "AHT Robot",
+                    Id = "AHTRobot",
+                    Name = "AHTRobot",
+                    Value = Model.AHTRobot?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- EaseOfImplementationFinal Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Ease Of Implementation Final",
+                    Id = "EaseOfImplementationFinal",
+                    Name = "EaseOfImplementationFinal",
+                    Value = Model.EaseOfImplementationFinal,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- LessenLearnt Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Lessen Learnt",
+                    Id = "LessenLearnt",
+                    Name = "LessenLearnt",
+                    Value = Model.LessenLearnt,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- NegativeImpactComment Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Negative Impact",
+                    Id = "NegativeImpactComment",
+                    Name = "NegativeImpactComment",
+                    Value = Model.NegativeImpactComment,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ProcessVolumetryPerMonth Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Process Volumetry Per Month",
+                    Id = "ProcessVolumetryPerMonth",
+                    Name = "ProcessVolumetryPerMonth",
+                    Value = Model.ProcessVolumetryPerMonth?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- ProcessVolumetryPerYear Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Process Volumetry Per Year",
+                    Id = "ProcessVolumetryPerYear",
+                    Name = "ProcessVolumetryPerYear",
+                    Value = Model.ProcessVolumetryPerYear?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- RobotSpeedMultiplier Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Robot Speed Multiplier",
+                    Id = "RobotSpeedMultiplier",
+                    Name = "RobotSpeedMultiplier",
+                    Value = Model.RobotSpeedMultiplier?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- RobotWorkDayYear Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Robot Work Day Year",
+                    Id = "RobotWorkDayYear",
+                    Name = "RobotWorkDayYear",
+                    Value = Model.RobotWorkDayYear?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- RobotWorkHourDay Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Robot Work Hour Day",
+                    Id = "RobotWorkHourDay",
+                    Name = "RobotWorkHourDay",
+                    Value = Model.RobotWorkHourDay?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- WorkloadSplit Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Workload Split",
+                    Id = "WorkloadSplit",
+                    Name = "WorkloadSplit",
+                    Value = Model.WorkloadSplit?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Application Change",
+            Id = "ApplicationStabilityId",
+            Name = "ApplicationStabilityId",
+            Value = Model.ApplicationStabilityId,
+            SelectList = new SelectList(Model.ApplicationStabilities,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Environmental Stability",
+            Id = "AutomationGoalId",
+            Name = "AutomationGoalId",
+            Value = Model.AutomationGoalId,
+            SelectList = new SelectList(Model.AutomationGoals,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Average Number of Steps",
+            Id = "AverageNumberOfStepId",
+            Name = "AverageNumberOfStepId",
+            Value = Model.AverageNumberOfStepId,
+            SelectList = new SelectList(Model.AverageNumberOfSteps,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Client",
+            Id = "ClientId",
+            Name = "ClientId",
+            Value = Model.ClientId,
+            SelectList = new SelectList(Model.Clients,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Percentage of Structured Digital Data Input",
+            Id = "DataInputPercentOfStructuredId",
+            Name = "DataInputPercentOfStructuredId",
+            Value = Model.DataInputPercentOfStructuredId,
+            SelectList = new SelectList(Model.DataInputPercentOfStructureds,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Decision Count",
+            Id = "DecisionCountId",
+            Name = "DecisionCountId",
+            Value = Model.DecisionCountId,
+            SelectList = new SelectList(Model.DecisionCounts,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Decision Difficulty",
+            Id = "DecisionDifficultyId",
+            Name = "DecisionDifficultyId",
+            Value = Model.DecisionDifficultyId,
+            SelectList = new SelectList(Model.DecisionDifficulties,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Business Unit",
+            Id = "DepartmentId",
+            Name = "DepartmentId",
+            Value = Model.DepartmentId,
+            SelectList = new SelectList(Model.Departments,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Documentation Present",
+            Id = "DocumentationPresentId",
+            Name = "DocumentationPresentId",
+            Value = Model.DocumentationPresentId,
+            SelectList = new SelectList(Model.DocumentationPresents,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Input Data Structure",
+            Id = "InputDataStructureId",
+            Name = "InputDataStructureId",
+            Value = Model.InputDataStructureId,
+            SelectList = new SelectList(Model.InputDataStructures,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Input",
+            Id = "InputId",
+            Name = "InputId",
+            Value = Model.InputId,
+            SelectList = new SelectList(Model.Inputs,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Number Of Ways to Complete Process",
+            Id = "NumberOfWaysToCompleteProcessId",
+            Name = "NumberOfWaysToCompleteProcessId",
+            Value = Model.NumberOfWaysToCompleteProcessId,
+            SelectList = new SelectList(Model.NumberOfWaysToCompleteProcesses,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Sub-Area",
+            Id = "ProcessId",
+            Name = "ProcessId",
+            Value = Model.ProcessId,
+            SelectList = new SelectList(Model.Processes,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Process Owner",
+            Id = "ProcessOwnerId",
+            Name = "ProcessOwnerId",
+            Value = Model.ProcessOwnerId,
+            SelectList = new SelectList(Model.ProcessOwners,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Number of Employees Performing the Task",
+            Id = "ProcessPeakId",
+            Name = "ProcessPeakId",
+            Value = Model.ProcessPeakId,
+            SelectList = new SelectList(Model.ProcessPeaks,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Process Change",
+            Id = "ProcessStabilityId",
+            Name = "ProcessStabilityId",
+            Value = Model.ProcessStabilityId,
+            SelectList = new SelectList(Model.ProcessStabilities,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Rule",
+            Id = "RuleId",
+            Name = "RuleId",
+            Value = Model.RuleId,
+            SelectList = new SelectList(Model.Rules,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Submission Path",
+            Id = "SubmissionPathId",
+            Name = "SubmissionPathId",
+            Value = Model.SubmissionPathId,
+            SelectList = new SelectList(Model.SubmissionPaths,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Task or Process Frequency",
+            Id = "TaskFrequencyId",
+            Name = "TaskFrequencyId",
+            Value = Model.TaskFrequencyId,
+            SelectList = new SelectList(Model.TaskFrequencies,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Area",
+            Id = "TeamId",
+            Name = "TeamId",
+            Value = Model.TeamId,
+            SelectList = new SelectList(Model.Teams,
+                                                 "Id",
+                                                 "Name")
+        })
+            <!-- RunningCostId Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Running Cost",
+                    Id = "RunningCostId",
+                    Name = "RunningCostId",
+                    Value = Model.RunningCostId,
+                    IsReadOnly = true,
+                    ElementType = "text",
+                })
+            <!-- CreatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created By",
+                    Id = "CreatedBy",
+                    Value = Model.CreatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            <!-- CreatedDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created Date",
+                    Id = "CreatedDateString",
+                    Value = Model.CreatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+
+            <!-- UpdatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated By",
+                    Id = "UpdatedBy",
+                    Value = Model.UpdatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+            <!-- UpdateDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated Date",
+                    Id = "UpdatedDateString",
+                    Value = Model.UpdatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            @if (@Model.IsDeleted)
+            {
+                <!-- Is Deleted Input -->
+                <div class="flex_grid">
+                    <label>
+                        @Html.CheckBoxFor(m => m.IsDeleted)
+                        Is Deleted
+                    </label>
+                </div>
+            }
+    </form>
+</div>

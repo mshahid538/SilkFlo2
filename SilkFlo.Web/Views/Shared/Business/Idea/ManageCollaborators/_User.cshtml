@@ -1,0 +1,66 @@
+@model SilkFlo.Web.Models.User
+
+
+<div class="transition collaborator border "
+     name="@Model.Id">
+    <input type="hidden" name="User.Id" value="@Model.Id" />
+    <input type="hidden" name="User.Fullname" value="@Model.Fullname" />
+    <input type="hidden" name="User.FirstName" value="@Model.FirstName" />
+    <input type="hidden" name="User.LastName" value="@Model.LastName" />
+    <input type="hidden" name="User.Email" value="@Model.Email" />
+
+    <div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; align-content: center; align-items: center;">
+        <label name="Label" class="Label d-flex justify-content-between noSelect"
+               style="flex: 1 1 auto; align-self: auto;"
+               onclick="SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Add(event, '@Model.Id')">
+            <div>
+                <span style="padding: 0.5rem 0 0 0.5rem;"
+                        name="User.FullnameDisplay">@Model.Fullname</span>
+                <span name="User.Status">
+                    @if (Model.Status == SilkFlo.Web.Models.Status.Active)
+                    {
+                        <img src="~/Icons/Active.svg" />
+                    }
+                    else if (Model.Status == SilkFlo.Web.Models.Status.Pending)
+                    {
+                        <img src="~/Icons/Pending.svg" />
+                    }
+                    else
+                    {
+                        <img src="~/Icons/Inactive.svg" />
+                    }
+                </span>
+            </div>
+            <div style="padding: 0 0.5rem 0 0.5rem;;" class="Right">
+                <img src="~/Icons/Arrow Right - simple.svg" />
+            </div>
+        </label>
+        <span class="Remove"
+                onclick="SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Deselect('@Model.Id')">Deselect</span>
+    </div>
+        <div style="line-height: 0.8rem; padding-left: 0.5rem; padding-bottom: 0.5rem; cursor: pointer;"
+             onclick="SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Add(event, '@Model.Id')">
+            <span style="font-size: 0.8rem;">@Model.Email</span>
+        </div>
+
+        <div name="Roles"
+             class="Roles"
+             id="sort-List">
+            @foreach (var role in Model.BusinessRoles)
+            {
+                <div name="Business.Role">
+                    <input type="hidden" name="Business.Role.Id" value="@role.Id" />
+                    <input type="hidden" name="Business.Role.Name" value="@role.Name" />
+                    @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                                            new SilkFlo.Web.ViewModels.Element
+                                            {
+                                                IsChecked = role.IsSelected,
+                                                Name = "Business.Role.IsSelected",
+                                                Id = role.Id,
+                                                Title = role.Name,
+                                                CustomStylesContainer = "margin-bottom: 0; padding: 0 0 0.5rem 3rem;",
+                                            })
+                </div>
+            }
+        </div>
+    </div>

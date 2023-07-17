@@ -1,0 +1,26 @@
+@model string
+
+<div class="modal-header"
+     style="background: white;">
+    <button type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+</div>
+
+<div class="ModalSubmitIdeaPages transition"
+     style="background: white; border-bottom-left-radius: var(--modal-radius); border-bottom-right-radius: var(--modal-radius)">
+
+    <div class="modal-body ModalSubmitIdeaBody"
+         style="align-content: center">
+
+        <h1 class="text-center">@Model</h1>
+
+        <div class="text-center"
+             id="AccessDenied.Modal.Message"
+             style="margin-top: 3rem;"><button type="button"
+                                       data-bs-dismiss="modal"
+                                       aria-label="Close"
+                                       class="btn btn-warning">Close</button></div>
+    </div>
+</div>

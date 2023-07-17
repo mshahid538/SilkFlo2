@@ -1,0 +1,47 @@
+@using SilkFlo.Web.ViewModels.Elements.ToolBar
+@model SilkFlo.Web.ViewModels.Business.InitialCosts.Summary
+
+<div asp-policy="Manage Tenant Settings"
+     id="Settings.PlatformSetup.PlatformSetup.CostSetup.InitialCosts.Container">
+
+    <h3>Here you can set up one-time initial investment costs to get each idea up and running. This is based on the cost of people needed for implementation.<br/>These are linked directly to collaborator roles.</h3>
+
+    <input name="Business.InitialCosts.Currency"
+           type="hidden"
+           value="@Model.Currency?.Symbol"/>
+    <input name="Business.InitialCosts.AverageWorkingDay"
+           type="hidden"
+           value="@Model.AverageWorkingDay"/>
+
+
+    <div class="bg-light border p-3 silkflo_tile">
+
+        @await Html.PartialAsync("Elements/_ToolBar", new Bar
+        {
+            SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Search(null, null, 'Settings.PlatformSetup.CostSetup.InitialCosts');",
+            SearchId = "Settings.PlatformSetup.CostSetup.InitialCosts.Search",
+            EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Edit_Click();",
+            EditName = "EditButton",
+            SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Save_Click ();",
+            SaveName = "SaveButton",
+            CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Cancel_Click ();",
+            CancelName = "CancelButton",
+            DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Delete_Click ();",
+            DeleteName = "DeleteButton",
+            NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.New_Click ();",
+            NewName = "NewButton"
+        })
+
+
+        <div style="overflow-x: auto; padding: 2px;">
+            <div id="Settings.PlatformSetup.CostSetup.InitialCosts">
+                @await Html.PartialAsync("Settings/PlatformSetup/CostSetup/InitialCosts/_Table", Model)
+            </div>
+        </div>
+    </div>
+
+
+    @await Html.PartialAsync(
+        "Elements/_FooterStatusMessage",
+        "Message")
+</div>

@@ -1,0 +1,22 @@
+@model SilkFlo.Web.ViewModels.Business.Version.Summary
+
+<table class="table table-silkflo table-hover table-responsive"
+       name="Business.Versions">
+    <thead>
+        <tr>
+            <th scope="col">Application</th>
+            <th scope="col" style="width: 1%">Version</th>
+            <th scope="col" style="width: 1%">Live</th>
+            <th scope="col" style="width: 1%">Planned&nbsp;Update</th>
+            <th scope="col" style="width: 1%">Linked&nbsp;Processes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var version in Model.Versions)
+        {
+            @await Html.PartialAsync(
+                "Settings/PlatformSetup/Applications/_Row",
+                version);
+        }
+    </tbody>
+</table>

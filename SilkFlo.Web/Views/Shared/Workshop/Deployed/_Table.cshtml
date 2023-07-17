@@ -1,0 +1,109 @@
+@using SilkFlo.Data.Core
+@model SilkFlo.Web.ViewModels.Workshop.PipeLineDeployed
+
+@{
+    var sticky = "";
+    if (Model.ShowContextMenu)
+    {
+        sticky = "delaney-ui-grid-sticky-column=\"0\"";
+    }
+}
+
+<table class="table table-hover"
+       delaney-ui-grid
+       delaney-ui-top="380px"
+       delaney-ui-bottom="4rem" @Html.Raw(sticky)
+       style="display: none">
+    <thead>
+    <tr style="border-bottom: 2px solid black">
+        @if (Model.ShowContextMenu)
+        {
+            <th style="background: var(--bs-gray-even-lightest2);"></th>
+        }
+        <th>Automation Name</th>
+        <th style="width: 1px;">Status</th>
+        <th style="width: 1px;">Goal</th>
+        <th style="width: 1px;">Idea&nbsp;Score&nbsp;(%)</th>
+        <th style="width: 1px;">Potential&nbsp;(%)</th>
+        <th style="width: 1px;">Est.&nbsp;Benefit Per&nbsp;Company&nbsp;(hrs)</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var idea in Model.Ideas)
+    {
+        <tr class="align-middle"
+            id="@idea.Id"
+            style="border-bottom: 1px solid black">
+            @if (Model.ShowContextMenu)
+            {
+                <td style="width: 1px; white-space: nowrap;background: var(--bs-gray-even-lightest2);">
+                    <a nodecoration=""
+                       onclick="SilkFlo.Business.Idea.Summary.ContextMenu.Show ( this, '@idea.Id', @idea.IsDraft.ToString().ToLower() )">
+                        <svg class="icon"
+                             viewBox="0 0 19.77 22"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <circle class="Icon_Part_Selected"
+                                    cx="13.5"
+                                    cy="15.5"
+                                    r="6.5"/>
+                            <line class="Icon_Part_dark"
+                                  x1="0.77"
+                                  x2="18.77"
+                                  y1="6.15"
+                                  y2="6.15"/>
+                            <line class="Icon_Part_dark"
+                                  x1="0.77"
+                                  x2="18.77"
+                                  y1="11.23"
+                                  y2="11.23"/>
+                            <line class="Icon_Part_dark"
+                                  x1="0.77"
+                                  x2="18.77"
+                                  y1="16.31"
+                                  y2="16.31"/>
+                        </svg>
+                    </a>
+                </td>
+            }
+                <td value="@idea.Name">
+
+                <div class="h3">@idea.Name</div>
+                @{
+                    var date = idea.UpdatedDate ?? idea.CreatedDate;
+
+                    if (date < (idea.ManageStageAndStatus.Status.UpdatedDate ?? idea.ManageStageAndStatus.Status.CreatedDate))
+                    {
+                        date = idea.ManageStageAndStatus.Status.UpdatedDate ?? idea.ManageStageAndStatus.Status.CreatedDate;
+                    }
+                }
+                <div class="h4 text-secondary">Last Modified: @date?.ToString(Settings.DateTimeFormatShort)</div>
+                <div class="h4 text-secondary">Date Submitted: @idea.CreatedDateString</div>
+            </td>
+            @{
+                // the contents of variables statusCell_# and urlStatus
+                // are both used by SilkFlo.VieModels.Business.ManageStageAndStatus.Save_Callback
+
+                var statusCell = "StatusCell_" + idea.Id;
+                var urlStatus = "Business/Idea/GetStatusName/" + idea.Id;
+                <td id="@statusCell"
+                    silkflo-json="@urlStatus"
+                    silkflo-callback="SilkFlo.Business.Idea.Summary.UpdateStatusValue">
+                </td>
+            }
+                <td value="@idea.AutomationGoal">@idea.AutomationGoal</td>
+                <td value="@idea.IdeaScore" align="right">@idea.IdeaScore</td>
+                <td value="@idea.AutomationPotential" align="right">@idea.AutomationPotential</td>
+
+            @{
+                var value = (await idea.GetEstimateAsync(idea.BenefitPerCompanyHoursValue)).ToString("#,##0.00");
+            }
+
+            <td align="right"
+                value="@idea.BenefitPerCompanyHoursValue"
+                class="text-success">
+                @value
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,17 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{ 
+    string invalidId = @Model.Id + "Invalid";
+}
+
+<label class="mandatory">@Model.Title</label>
+<div class="form_mandatory">
+    <textarea name="@Model.Id"
+              id="@Model.Id"
+              style="min-height: 200px;"
+              onfocusout="SilkFlo.IsRequired(this);"
+              oninput="SilkFlo.IsRequired(this);""
+              class="form-control textArea_sans_serif">@Model.Value</textarea>
+    <div id="@invalidId"
+         class="invalid-feedback">@Model.InvalidFeedback</div>
+</div>

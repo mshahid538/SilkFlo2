@@ -1,0 +1,438 @@
+@using System.Globalization
+@using SilkFlo.Web.Models
+@using SilkFlo.Web.ViewModels
+@using SilkFlo.Web.ViewModels.User
+@model SilkFlo.Web.ViewModels.Business.Client.Modal
+
+@if (Model.Client.IsNew)
+{
+    <h3 style="margin-bottom: 2rem;">SilkFlo users add a new client to manage.</h3>
+}
+else
+{
+    <h3 style="margin-bottom: 2rem;">Here you can edit your tenants details.</h3>
+}
+
+@{
+    const string searchProcessOwnerModal = "modelManageAccountOwner";
+}
+
+<div>
+
+<input name="Modal.Business.Client.Id"
+       type="hidden"
+       value="@Model.Client.Id"/>
+
+
+<div class="grid_1fr_1fr_modal">
+
+<div>
+    <h3>Billing Address</h3>
+@await Html.PartialAsync("../Shared/Business/Client/_BillingAddress",
+    new SilkFlo.Web.ViewModels.Business.Client.BillingAddress
+    {
+        Name = Model.Client.Name,
+        Address1 = Model.Client.Address1,
+        Address2 = Model.Client.Address2,
+        City = Model.Client.City,
+        State = Model.Client.State,
+        PostCode = Model.Client.PostCode,
+        CountryId = Model.Client.CountryId,
+        Countries = Model.Client.Countries,
+        ElementNamePrefix = "Modal.Business.Client."
+    })
+
+
+</div>
+
+<div>
+    <h3>&nbsp;</h3>
+@await Html.PartialAsync("Elements/_LabeledSelect",
+    new Element
+    {
+        Title = "Industry",
+        Id = "Modal.Business.Client.IndustryId",
+        Name = "Modal.Business.Client.IndustryId",
+        InvalidFeedback = Model.Client.IndustryId_ErrorMessage,
+        IsInvalid = Model.Client.IndustryId_IsInValid,
+        Value = Model.Client.IndustryId,
+        SelectList = new SelectList(Model.Client.Industries,
+            "Id",
+            "DisplayText")
+    })
+
+
+<label>Averages</label>
+<div class="row">
+    <div class="col-auto">
+
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new Element
+            {
+                Title = "",
+                Name = "Modal.Business.Client.AverageWorkingDay",
+                Value = Model.Client.AverageWorkingDay.ToString(),
+                InvalidFeedback = Model.Client.AverageWorkingDay_ErrorMessage,
+                IsInvalid = Model.Client.AverageWorkingDay_IsInValid,
+                ElementType = "Number",
+                Suffix = "Days/Year",
+                Autocomplete = "off",
+                CustomStylesContainer = "Width: 200px;"
+            })
+    </div>
+    <div class="col-auto">
+
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new Element
+            {
+                Title = "",
+                Name = "Modal.Business.Client.AverageWorkingHour",
+                Value = Model.Client.AverageWorkingHour.ToString(CultureInfo.InvariantCulture),
+                InvalidFeedback = Model.Client.AverageWorkingHour_ErrorMessage,
+                IsInvalid = Model.Client.AverageWorkingHour_IsInValid,
+                ElementType = "Number",
+                Suffix = "Hours/Day",
+                Autocomplete = "off",
+                CustomStylesContainer = "Width: 200px;"
+            })
+    </div>
+</div>
+
+@if (Model.Client.IsNew)
+{
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new Element
+        {
+            Title = "Website",
+            Name = "Modal.Business.Client.Website",
+            Value = Model.Client.Website,
+            InvalidFeedback = Model.Client.Website_ErrorMessage,
+            IsInvalid = Model.Client.Website_IsInValid,
+            Prefix = "www.",
+            JavaScriptOnInput = "SilkFlo.Models2.Business.Client.UpdateEmailSuffix(this);",
+            Autocomplete = "off"
+        })
+
+
+    <h2 style="margin-top: 2rem;">Account Owner</h2>
+    <div class="d-flex justify-content-between">
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new Element
+            {
+                Title = "First Name",
+                Name = "Modal.Business.Client.AccountOwnerFirstName",
+                Value = Model.Client.AccountOwnerFirstName,
+                InvalidFeedback = Model.Client.AccountOwnerFirstName_ErrorMessage,
+                IsInvalid = Model.Client.AccountOwnerFirstName_IsInValid,
+                Autocomplete = "off"
+            })
+
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new Element
+            {
+                Title = "Last Name",
+                Name = "Modal.Business.Client.AccountOwnerLastName",
+                Value = Model.Client.AccountOwnerLastName,
+                InvalidFeedback = Model.Client.AccountOwnerLastName_ErrorMessage,
+                IsInvalid = Model.Client.AccountOwnerLastName_IsInValid,
+                Autocomplete = "off"
+            })
+    </div>
+    var suffix = "web site domain";
+
+    if (!string.IsNullOrWhiteSpace(Model.Client.Website))
+    {
+        suffix = "@" + Model.Client.Website;
+    }
+
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new Element
+        {
+            Title = "Email",
+            Name = "Modal.Business.Client.AccountOwnerEmail",
+            Value = Model.Client.AccountOwnerEmail,
+            InvalidFeedback = Model.Client.AccountOwnerEmail_ErrorMessage,
+            IsInvalid = Model.Client.AccountOwnerEmail_IsInValid,
+            Suffix = suffix,
+            Autocomplete = "off"
+        })
+}
+else
+{
+    <div style="margin-top: 1.5rem;">
+        <h2>Website</h2>
+        <label>
+            <b>www.@Model.Client.Website</b>
+        </label>
+        <input type="hidden"
+               name="Modal.Business.Client.Website"
+               value="@Model.Client.Website"/>
+    </div>
+
+
+    <label style="margin-bottom: 2rem;">This website will be used to validate employee email addresses, to ensure a match. Please contact us if you require a change.</label>
+
+    <h2>Account Owner</h2>
+    @await Html.PartialAsync("User/_ManageAccountOwnerButton",
+        new AccountOwner
+        {
+            IsInValid = Model.Client.AccountOwnerId_IsInValid,
+            FullnameId = "Modal.Business.Client.AccountOwner",
+            EmailId = "Modal.Business.Client.AccountOwnerEmail",
+            EmailName = "Modal.Business.Client.AccountOwnerEmail",
+            TargetStatusName = "Modal.ProcessOwnerStatus",
+            TargetStatusId = "Modal.ProcessOwnerStatus",
+            ModalName = searchProcessOwnerModal,
+            ErrorMessage = Model.Client.AccountOwnerId_ErrorMessage,
+            TargetValue = Model.Client.AccountOwnerId,
+            TargetId = "Modal.Business.Client.AccountOwnerId",
+            TargetName = "Modal.Business.Client.AccountOwnerId",
+            User = Model.Client.AccountOwner
+        })
+
+    if (Model.Client.AccountOwner is {Status: Status.Pending })
+    {
+        var onClick = "SilkFlo.ViewModels.Settings.Tenants.SendInviteOnClick('" + Model.Client.AccountOwner.Id + "')";
+        <button class="btn btn-warning"
+                style="margin-top: 1rem;"
+                onclick="@onClick">Send Invitation</button>
+    }
+}
+
+
+
+
+</div>
+</div>
+
+
+@{
+    var svg = "Account Status/" + Model.Client.SubscriptionStatus switch
+    {
+        SubscriptionStatus.Demo => "Demo",
+        SubscriptionStatus.Subscribed => "Subscribed",
+        SubscriptionStatus.FreeTrial => "Free Trial",
+        SubscriptionStatus.PaymentRequired => "Payment Required",
+        _ => "No Subscription"
+        };
+}
+
+<input name="Modal.Business.Client.Status"
+       type="hidden"
+       value="@svg"/>
+
+<div class="align-items-center d-flex justify-content-between">
+
+    @Html.Raw($"<img src=\"/Icons/{svg}.svg\"" +
+              $"onmousemove=\"Delaney.UI.ToolTip.Show(evt, '{Model.Client.StatusMessage}');\"" +
+              "onmouseout=\"Delaney.UI.ToolTip.Hide();\"" +
+              "style=\"margin: 0 2rem; Transform: scale(1.6);\" />")
+
+
+</div>
+
+</div>
+
+
+@if (Model.ShowLicence)
+{
+    <div asp-authorize
+         asp-policy="Administrator">
+    <h2 style="margin-top:2rem;" silkflo-hotspot="SpecialSilkFloSection">Special SilkFlo Section</h2>
+
+    <div class="grid_1fr_1fr_modal">
+
+
+
+        <div class="card p-2">
+            <h3>Client Settings</h3>
+            @if (Model.ShowActivateCheckBox)
+            {
+                @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                    new Element
+                    {
+                        IsChecked = Model.Client.IsActive,
+                        Name = "Modal.Business.Client.IsActive",
+                        Id = "Modal.Business.Client.IsActive",
+                        Title = "Is&nbsp;Active",
+                    })
+            }
+
+            <div>
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new Element
+                    {
+                        Title = "Client Type",
+                        Name = "Modal.Business.Client.TypeId",
+                        InvalidFeedback = Model.Client.TypeId_ErrorMessage,
+                        IsInvalid = Model.Client.TypeId_IsInValid,
+                        Value = Model.Client.TypeId,
+                        CustomStylesContainer = "margin-bottom: 0.5rem;",
+                        SelectList = new SelectList(Model.Client.Types,
+                            "Id",
+                            "Name"),
+                        JavaScriptOnInput = "SilkFlo.Models2.Business.Client.TypeIdOnChange(this)"
+                    })
+            </div>
+
+
+            @{
+                var showIsDemo = "display: none;";
+                var showReferrerDiscount = "display: none; margin-bottom: 0 !important;";
+                var showResellerDiscount = "display: none; margin-bottom: 0 !important;";
+
+                if (string.IsNullOrWhiteSpace(Model.Client.TypeId)
+                    || Model.Client.TypeId == SilkFlo.Data.Core.Enumerators.ClientType.Client39.ToString())
+                {
+                    showIsDemo = "margin-top: 0;";
+                }
+                else if (Model.Client.TypeId == SilkFlo.Data.Core.Enumerators.ClientType.ReferrerAgency41.ToString())
+                {
+                    showReferrerDiscount = "margin-bottom: 0";
+                }
+                else
+                {
+                    showResellerDiscount = "margin-bottom: 0";
+                }
+            }
+
+            <div>
+                @* Tenant *@
+                @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                    new Element
+                    {
+                        IsChecked = Model.Client.IsDemo,
+                        Name = "Modal.Business.Client.IsDemo",
+                        Id = "Modal.Business.Client.IsDemo",
+                        Title = "Demonstration Account",
+                        CustomStylesContainer = showIsDemo
+                    })
+
+
+
+                @* Referrer *@
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new Element
+                    {
+                        Title = "Discount Tier",
+                        Id = "Modal.Business.Client.ReferrerDiscountId",
+                        Name = "Modal.Business.Client.ReferrerDiscountId",
+                        InvalidFeedback = "",
+                        Value = Model.Client.ReferrerDiscountId,
+                        NoValue = "Calculated...",
+                        SelectList = new SelectList(Model.Client.ReferrerDiscountTiers,
+                            "Id",
+                            "DisplayReferrerName"),
+                        CustomStylesContainer = showReferrerDiscount
+                    })
+
+                @* Reseller *@
+                @await Html.PartialAsync("Elements/_LabeledSelect",
+                    new Element
+                    {
+                        Title = "Discount Tier",
+                        Id = "Modal.Business.Client.ResellerDiscountId",
+                        Name = "Modal.Business.Client.ResellerDiscountId",
+                        InvalidFeedback = "",
+                        Value = Model.Client.ResellerDiscountId,
+                        NoValue = "Calculated...",
+                        SelectList = new SelectList(Model.Client.ResellerDiscountTiers,
+                            "Id",
+                            "DisplayResellerName"),
+                        CustomStylesContainer = showResellerDiscount
+                    })
+
+                <label style="display: none; margin-bottom: 0.5rem; margin-left: 1.1rem;"
+                       name="Modal.Business.Client.DiscountMessage">Override calculated discount by selecting from the list.</label>
+            </div>
+
+        </div>
+            
+        @if (Model.ShowSubscription)
+        {
+            <div class="card p-2" name="Modal.Business.Client.Subscription_Container">
+                <h3 silkflo-hotspot="SubscriptionSettings">Subscription Settings</h3>
+                
+                <div class="input-group">
+                
+
+                    <div class="d-flex vertical-center" style="margin-bottom: 1rem;">
+                        <input type="radio" class="form-check-input">
+                        <label style="margin: 0 1rem;">Start trial on first sign in</label>
+                        
+                        <div class="has-validation">
+                            <div style="display: grid; grid-template-columns: 1fr auto;">
+                                <div style="position: relative">
+                                    <input name="Modal.Business.Client.TrailDay"
+                                           type="Number"
+                                           class="form-control"
+                                           maxlength=999
+                                           autocomplete="off"
+                                           style="width: 5rem; border-top-right-radius: 0; border-bottom-right-radius: 0;padding: 0.5rem 1.1rem; ">
+                                </div>
+
+
+                                <div style="color: var(--bs-gray-dark); display: flex; align-items: center; padding: 0 0.5rem 0 3px; background: var(--bs-gray-lightest); border-top: 1px solid var(--bs-gray-lightest); border-right: 1px solid var(--bs-gray-lightest); border-bottom: 1px solid var(--bs-gray-lightest); border-top-right-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius);" id="Modal.Business.Client.TrailDay_Suffix" name="Modal.Business.Client.TrailDay_Suffix">
+                                    Days&nbsp;in&nbsp;trial
+                                </div>
+                            </div>
+                            <div name="Modal.Business.Client.TrailDay_InvalidFeedback" class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="d-flex vertical-center">
+                        <input type="radio" class="form-check-input">
+                        <label style="margin: 0 1rem;">Current Subscription</label>
+
+                        <div>
+                            <input class="form-control datePicker-input"
+                                   name="Modal.Business.Client.DateStart"
+                                   value="@Model.DateStart"
+                                   style="width: 120px; padding-left: 0.25rem; padding-right: 0.25rem;"/>
+
+
+                            <input class="form-control datePicker-input"
+                                   name="Modal.Business.Client.DateEnd"
+                                   value="@Model.DateEnd"
+                                   style="width: 120px; padding-left: 0.25rem; padding-right: 0.25rem;"/>
+
+                            <button class="btn btn-secondary datePicker-btn"
+                                    name="Modal.Business.Client.DateButton">
+                            </button>
+                        </div>
+                    </div>
+                
+                </div>
+
+            </div>
+        }
+    </div>
+
+    </div>
+}
+
+
+@await Html.PartialAsync("Elements/_ModalSearch",
+    new ModalSearch
+    {
+        ModalId = searchProcessOwnerModal,
+        Title = "Search Process Owner",
+        SearchUrl = "/api/user/SearchAccountOwner/ClientId/" + Model.Client.Id + "/",
+        TargetFullnameId = "Modal.Business.Client.AccountOwner",
+        TargetIdId = "Modal.Business.Client.AccountOwnerId",
+        TargetEmailId = "Modal.Business.Client.AccountOwnerEmail",
+        TargetStatusId = "Modal.ProcessOwnerStatus",
+    })
+
+
+
+@await Html.PartialAsync("MessageBoxes/_YesNo",
+    new MessageBox
+    {
+        Id = "SendInviteMessage",
+        Title = "Send Invitation",
+        Message = "Would you like to send an invitation email once saved?",
+        Yes_Javascript = "SilkFlo.ViewModels.Settings.Tenants.SendInvite_Yes()",
+        TrueLabel = "Invite Now",
+        No_Javascript = "SilkFlo.ViewModels.Settings.Tenants.SendInvite_No()",
+        FalseLabel = "Later",
+    })

@@ -1,0 +1,18 @@
+@model List<SilkFlo.Web.Models.Business.Team>
+
+@foreach (var team in Model)
+{
+    var url = "GetSubAreas/teamId/" + @team.Id;
+    <div url="@url"
+         column="Area"
+         name="Business.Team"
+         id="@team.Id"
+         targetName="SubArea"
+         ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click(event);"
+         onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click ( event );">
+        <div name="Business.Team.Name" role="textbox">@team.Name</div>
+        <input name="NameOld" type="hidden" value="@team.Name" />
+        <input name="Business.Team.Id" type="hidden" value="@team.Id" />
+        <input name="Business.Team.DepartmentId" type="hidden" value="@team.DepartmentId" />
+    </div>
+}

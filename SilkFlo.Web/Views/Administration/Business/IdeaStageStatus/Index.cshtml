@@ -1,0 +1,115 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Business.IdeaStageStatus>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Statuses Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Date)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.IdeaStageId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.StatusId)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/Business/IdeaStageStatus/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Business/IdeaStageStatus/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @{
+                        var valueNullable = @item.Date.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@valueNullable"><span class="text-muted">@item.Date.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                        }
+                        else
+                        {
+                        <td value="@valueNullable">@item.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        }
+
+                        @if(item.IdeaStage == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathIdeaStage = "/Administration/Business/IdeaStage/edit/" + item.IdeaStageId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.IdeaStage?.ToString()"<span class="text-muted"><a href="@pathIdeaStage">@item.IdeaStage?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.IdeaStage?.ToString()"><a href="@pathIdeaStage">@item.IdeaStage?.ToString()</a></td>
+                            }
+                        }
+
+                        @if(item.Status == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathStatus = "/Administration/Shared/IdeaStatus/edit/" + item.StatusId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Status?.ToString()"<span class="text-muted"><a href="@pathStatus">@item.Status?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Status?.ToString()"><a href="@pathStatus">@item.Status?.ToString()</a></td>
+                            }
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

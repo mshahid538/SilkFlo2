@@ -1,0 +1,41 @@
+@model SilkFlo.Web.ViewModels.WorkspaceSelected
+
+@if (Model.Clients == null || Model.Clients.Count == 0)
+{
+    <input id="Navigation.SelectorClientId"
+           type="hidden"
+           value="@Model.TenantId"/>
+}
+else
+{
+    <label style="color: white; font-family: var(--bs-font-sans-serif); margin-bottom:6px;">Workspace</label>
+    <select id="Navigation.SelectorClientId"
+            onchange="SilkFlo.SideBar.WorkspaceSelector_OnChange(this, 'NavigationIsPracticeAccount');"
+            style="margin-bottom: 12px; "
+            class="silkFlo_select">
+        @foreach (var client in Model.Clients)
+        {
+            if (client.Key == Model.SelectClientId)
+            {
+                <option value="@client.Key" selected="selected">@client.Value</option>
+            }
+            else
+            {
+                <option value="@client.Key">@client.Value</option>
+            }
+        }
+    </select>
+}
+
+
+@if (Model.ShowPracticeToggle)
+{
+    @await Html.PartialAsync("Elements/_LabeledCheckBox",
+        new SilkFlo.Web.ViewModels.Element
+        {
+            IsChecked = Model.IsPracticeAccount,
+            Title = "Use Practice Account",
+            Id = "NavigationIsPracticeAccount",
+            JavaScriptOnInput = "SilkFlo.SideBar.PracticeAccount_OnInput(this, 'Navigation.SelectorClientId');"
+        })
+}

@@ -1,0 +1,43 @@
+﻿@model SilkFlo.Web.Services.Models.ResolveSubscriptionResponse
+
+<div class="account_Right " style="background-color:#F8F9FD">
+        <div>
+            <div class="panel-heading header-center" style="margin-bottom:15px">
+                <img src="~/Icons/Icon.png" class="logo-img" alt="SilkFlo" />
+                <h1>Thankyou for subscribing</h1>
+                <p>Please check that the following<br /> information is correct</p>
+            </div>
+
+            <div class="panel-body">
+               <div class="info">
+                   <div class="left">Current User</div>
+                   <div class="right">@Model?.subscription?.purchaser?.emailId</div>
+               </div>
+                <div class="info">
+                    <div class="left">Email</div>
+                <div class="right">@Model?.subscription?.purchaser?.emailId</div>
+                </div>
+                <div class="info">
+                    <div class="left">Subscription name</div>
+                <div class="right">@Model?.subscription?.name</div>
+                </div>
+                <div class="info">
+                    <div class="left">Subscription State</div>
+                <div class="right">@Model?.subscription?.saasSubscriptionStatus</div>
+               </div>
+                <div class="info">
+                    <div class="left">Plan name</div>
+                <div class="right">@Model?.subscription?.planId</div>
+                </div>
+                <div class="info">
+                    <div class="left">Free Trial:</div>
+                <div class="right">@Model?.subscription?.isFreeTrial</div>
+                </div>
+                <div class="info">
+                    <div class="left">Tenant ID</div>
+                <div class="right">@Model?.subscription?.beneficiary?.tenantId</div>
+                </div>
+            <button style="width:95%; margin-top: 2rem; background-color:#FF8A00; color:white" class="btn  btn_Login" onclick="activateUser(@Newtonsoft.Json.JsonConvert.SerializeObject(Model))">Activate account</button>
+            </div>
+        </div>
+    </div>

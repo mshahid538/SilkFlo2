@@ -1,0 +1,93 @@
+@model SilkFlo.Web.Models.Shop.Coupon
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Coupon</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Coupon/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shop/Coupon/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Coupon">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.DateExpiry)
+        @Html.HiddenFor(x => x.Discount)
+        @Html.HiddenFor(x => x.DiscountPercent)
+        @Html.HiddenFor(x => x.IsRecurring)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.TrialDay)
+        @Html.HiddenFor(x => x.UseCount)
+        @Html.HiddenFor(x => x.UseTotal)
+        <div class="grid_auto_1fr">
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- Discount -->
+            <div>@Html.DisplayNameFor(x => x.Discount)</div>
+            <div>@Html.DisplayFor(x => x.Discount)</div>
+
+            <!-- DiscountPercent -->
+            <div>@Html.DisplayNameFor(x => x.DiscountPercent)</div>
+            <div>@Html.DisplayFor(x => x.DiscountPercent)</div>
+
+            <!-- TrialDay -->
+            <div>@Html.DisplayNameFor(x => x.TrialDay)</div>
+            <div>@Html.DisplayFor(x => x.TrialDay)</div>
+
+            <!-- DateExpiry -->
+            <div>@Html.DisplayNameFor(x => x.DateExpiry)</div>
+            <div>@Html.DisplayFor(x => x.DateExpiry)</div>
+
+            <!-- IsRecurring -->
+            <div>@Html.DisplayNameFor(x => x.IsRecurring)</div>
+            <div>@Html.DisplayFor(x => x.IsRecurring)</div>
+
+            <!-- UseCount -->
+            <div>@Html.DisplayNameFor(x => x.UseCount)</div>
+            <div>@Html.DisplayFor(x => x.UseCount)</div>
+
+            <!-- UseTotal -->
+            <div>@Html.DisplayNameFor(x => x.UseTotal)</div>
+            <div>@Html.DisplayFor(x => x.UseTotal)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

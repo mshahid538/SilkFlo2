@@ -1,0 +1,112 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Business.RoleCost>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Role Costs Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.ClientId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Cost)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.RoleId)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/Business/RoleCost/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Business/RoleCost/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @if(item.Client == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathClient = "/Administration/Business/Client/edit/" + item.ClientId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Client?.ToString()"<span class="text-muted"><a href="@pathClient">@item.Client?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Client?.ToString()"><a href="@pathClient">@item.Client?.ToString()</a></td>
+                            }
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Cost)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Cost)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Cost)"><span>@Html.DisplayFor(modelItem => item.Cost)</span></td>
+                        }
+
+                        @if(item.Role == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathRole = "/Administration/Business/Role/edit/" + item.RoleId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Role?.ToString()"<span class="text-muted"><a href="@pathRole">@item.Role?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Role?.ToString()"><a href="@pathRole">@item.Role?.ToString()</a></td>
+                            }
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

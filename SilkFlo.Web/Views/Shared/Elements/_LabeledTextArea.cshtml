@@ -1,0 +1,168 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{
+    var hotSpotId = "";
+    if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotSpotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+
+    var elementClass = "form-group ";
+    if (Model.IsFloatingLabel)
+    {
+        elementClass += "form-floating ";
+    }
+
+    var labelClass = "";
+    var onfocusoutEvent = "";
+    var onInputEvent = "";
+    if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback))
+    {
+        elementClass += "has-validation";
+        onInputEvent = "oninput=\"SilkFlo.IsRequired(this);\"";
+        onfocusoutEvent = "onfocusout=\"SilkFlo.IsRequired(this);\"";
+        labelClass = "mandatory";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnInput))
+    {
+        onInputEvent += " " + Model.JavaScriptOnInput + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnFocusOut))
+    {
+        onfocusoutEvent += " " + Model.JavaScriptOnFocusOut + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(onInputEvent))
+    {
+        onInputEvent += "return false;";
+    }
+
+    if (!string.IsNullOrWhiteSpace(onfocusoutEvent))
+    {
+        onfocusoutEvent += "return false;";
+    }
+
+
+
+    var textAreaStyle = "min-height: " + Model.MinHeight + ";";
+    if (!string.IsNullOrWhiteSpace(Model.MaxHeight))
+    {
+        textAreaStyle += " max-height: " + Model.MaxHeight + ";";
+    }
+
+    var id = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        id = $"id=\"{Model.Id}\"";
+    }
+
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        name = $"name=\"{Model.Name}\"";
+    }
+}
+<div class="@elementClass">
+    @if (!Model.IsFloatingLabel)
+    {
+        @if (string.IsNullOrWhiteSpace(hotSpotId))
+        {
+            <label class="@labelClass">@Model.Title</label>
+        }
+        else
+        {
+            <span @Html.Raw(hotSpotId) style="display: flex;">
+                <label class="@labelClass">@Model.Title</label>
+            </span>
+        }
+    }
+    @if (Model.IsReadOnly)
+    {
+        var text = $"<p>{Model.Value}</p>";
+        text = text.Replace("\r\n", "</p><p>");
+        <div class="Silkflo_readOnlyTextArea">
+            @Html.Raw(text)
+        </div>
+    }
+    else
+    {
+        var classValue = "form-control";
+        if (Model.IsInvalid)
+        {
+            classValue += " is-invalid";
+        }
+
+        var maxlength = "";
+        var onkeyup = "";
+        if (Model.MaximumLength > 0)
+        {
+            maxlength = $"maxlength=\"{Model.MaximumLength}\"";
+            onkeyup = "onkeyup=\"SilkFlo.CharacterCount(this);\"";
+        }
+
+        var placeholder = "";
+        @if (Model.IsFloatingLabel)
+        {
+            placeholder = $"placeholder=\"{Model.Title}\"";
+        }
+        else if (!string.IsNullOrWhiteSpace(Model.PlaceHolder))
+        {
+            placeholder = $"placeholder=\"{Model.PlaceHolder}\"";
+        }
+
+        <textarea class="@classValue"
+                  @Html.Raw(id)
+                  @Html.Raw(name)
+                  @Html.Raw(placeholder)
+                  value="@Model.Value"
+                  style="@textAreaStyle"
+                  @Html.Raw(maxlength)
+                  @Html.Raw(onkeyup)
+                  @Html.Raw(onInputEvent)
+                  @Html.Raw(onfocusoutEvent)>@Model.Value</textarea>
+
+        @if (Model.MaximumLength > 0)
+        {
+            <div name="characterCounter"
+                 style="font-size: 0.8rem; float: right;">
+                <span name="current">@Model.Value?.Length</span>
+                <span name="maximum">/ @Model.MaximumLength</span>
+            </div>
+        }
+
+        @if (Model.IsFloatingLabel)
+        {
+            @if (string.IsNullOrWhiteSpace(hotSpotId))
+            {
+                <label class="@labelClass" for="@Model.Id">@Model.Title</label>
+            }
+            else
+            {
+                <span @Html.Raw(hotSpotId) style="display: flex;">
+                    <label class="@labelClass" for="@Model.Id">@Model.Title</label>
+                </span>
+            }
+        }
+
+
+
+        var invalidFeedbackId = "";
+        if (!string.IsNullOrWhiteSpace(Model.Id))
+        {
+            invalidFeedbackId = " id=\"" + Model.Id + "_InvalidFeedback\"";
+        }
+
+        var invalidFeedbackName = "";
+        if (!string.IsNullOrWhiteSpace(Model.Name))
+        {
+            invalidFeedbackName = " name=\"" + Model.Name + "_InvalidFeedback\"";
+        }
+        
+        <div @Html.Raw(invalidFeedbackId)
+            @Html.Raw(invalidFeedbackName) class="invalid-feedback" silkFlo-feedback="">
+            @Html.Raw(Model.InvalidFeedback)
+        </div>
+    }
+</div>

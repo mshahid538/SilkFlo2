@@ -1,0 +1,338 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.Models.Business.Idea
+
+<input name="Business.Idea.Id"
+       type="hidden"
+       value="@Model.Id"/>
+
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "Automation Name",
+        Name = "Business.Idea.Name",
+        Value = Model.Name,
+        InvalidFeedback = Model.Name_ErrorMessage ?? "Required",
+        IsFloatingLabel = false,
+        IsInvalid = Model.Name_IsInValid,
+        IsReadOnly = Model.IsReadOnly,
+        MaximumLength = 100
+    })
+
+
+@*Automation SubTitle*@
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "Sub Title",
+        Name = "Business.Idea.SubTitle",
+        Value = Model.SubTitle,
+        InvalidFeedback = "",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        MaximumLength = 100
+    })
+
+
+
+@*Summary*@
+@await Html.PartialAsync("Elements/_LabeledTextArea",
+    new Element
+    {
+        Title = "Summary",
+        Name = "Business.Idea.Summary",
+        Value = Model.Summary,
+        InvalidFeedback = "Required",
+        IsInvalid = Model.Summary_IsInValid,
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly
+    })
+
+
+
+
+
+
+@*Pain Points*@
+@await Html.PartialAsync("Elements/_LabeledTextArea",
+    new Element
+    {
+        Title = "Pain Points",
+        Name = "Business.Idea.PainPointComment",
+        Value = Model.PainPointComment,
+        InvalidFeedback = "Required",
+        IsInvalid = Model.PainPointComment_IsInValid,
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        HotSpotId="Pain-Point"
+    })
+
+
+@*Negative Impact*@
+@await Html.PartialAsync("Elements/_LabeledTextArea",
+    new Element
+    {
+        Title = "Negative Impact",
+        Name = "Business.Idea.NegativeImpactComment",
+        Value = Model.NegativeImpactComment,
+        InvalidFeedback = "Model.NegativeImpactComment_ErrorMessage ?? \"Required\"",
+        IsInvalid = Model.NegativeImpactComment_IsInValid,
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        HotSpotId="Negative-Impact"
+    })
+
+
+<h2>Business Area</h2>
+
+@*Business Department*@
+@if (Model.Departments.Count == 1)
+{
+    <label style="margin-bottom: 1rem !important;">Please add some departments before adding an idea. <a href="/Settings/tenant/Platform-Setup/Business-Units">Settings &gt; Platform-Setup &gt;Business-Units</a></label>
+}
+else
+{
+    @await Html.PartialAsync("Elements/_LabeledSelect",
+        new Element
+        {
+            Title = "Business Unit",
+            Name = "Business.Idea.DepartmentId",
+            Value = Model.DepartmentId,
+            InvalidFeedback = "Required",
+            IsInvalid = Model.DepartmentId_IsInValid,
+            IsFloatingLabel = false,
+            IsReadOnly = Model.IsReadOnly,
+            JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.GetBusinessTeam('FormEdit_BusinessIdea', this);",
+            SelectList = new SelectList(Model.Departments,
+                "Id",
+                "DisplayText")
+        })
+}
+
+
+
+
+@*Business Team*@
+@await Html.PartialAsync("Elements/_LabeledSelect",
+    new Element
+    {
+        Title = "Area",
+        Name = "Business.Idea.TeamId",
+        Value = Model.TeamId,
+        InvalidFeedback = "",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Edit.GetBusinessProcess('FormEdit_BusinessIdea', this); ",
+        SelectList = new SelectList(Model.Teams,
+            "Id",
+            "Name")
+    })
+
+
+
+
+@await Html.PartialAsync("Elements/_LabeledSelect",
+    new Element
+    {
+        Title = "Sub-Area",
+        Name = "Business.Idea.ProcessId",
+        Value = Model.ProcessId,
+        InvalidFeedback = "",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectList = new SelectList(Model.Processes,
+            "Id",
+            "Name")
+    })
+<h2>High Level Assessment</h2>
+@* Rule *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Rule",
+        Prompt = "How rule-based is your task?",
+        Name = "Business.Idea.RuleId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.RuleId,
+        CommentId = "BusinessIdeaRuleComment",
+        CommentName = "Business.Idea.RuleComment",
+        CommentValue = Model.RuleComment,
+        CommentErrorMessage = Model.RuleComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.RuleComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.RuleComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.Rules,
+        IsInvalid = Model.RuleId_IsInValid
+    })
+
+@* Input *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Input",
+        Prompt = "How would you describe the input data for your task/process?",
+        Name = "Business.Idea.InputId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.InputId,
+        CommentId = "BusinessIdeaInputComment",
+        CommentName = "Business.Idea.InputComment",
+        CommentValue = Model.InputComment,
+        CommentErrorMessage = Model.InputComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.InputComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.InputComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.Inputs,
+        IsInvalid = Model.InputId_IsInValid
+    })
+
+@* InputDataStructure *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Input Data Structure",
+        Prompt = "",
+        Name = "Business.Idea.InputDataStructureId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea');  SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.InputDataStructureId,
+        CommentId = "BusinessIdeaStructureComment",
+        CommentName = "Business.Idea.StructureComment",
+        CommentValue = Model.StructureComment,
+        CommentErrorMessage = Model.StructureComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.StructureComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.StructureComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.InputDataStructures,
+        IsInvalid = Model.InputDataStructureId_IsInValid
+    })
+
+@*Process Changes Expected in the Next 6 Months*@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Process Stability",
+        Prompt = "Process Changes Expected in the Next 6 Months",
+        Name = "Business.Idea.ProcessStabilityId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.PrimedScore('FormEdit_BusinessIdea'); ",
+        Value = Model.ProcessStabilityId,
+        CommentId = "BusinessIdeaProcessStabilityComment",
+        CommentName = "Business.Idea.ProcessStabilityComment",
+        CommentValue = Model.ProcessStabilityComment,
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        CommentErrorMessage = Model.ProcessStabilityComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.ProcessStabilityComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.ProcessStabilityComment_ErrorMessage),
+        SelectWeightedList = Model.ProcessStabilities,
+        IsInvalid = Model.ProcessStabilityId_IsInValid
+    })
+
+@* Documentation Present *@
+@await Html.PartialAsync("Elements/_LabeledSelectAndComment",
+    new Element
+    {
+        Title = "Documentation Present?",
+        Prompt = "",
+        Name = "Business.Idea.DocumentationPresentId",
+        JavaScriptOnFocusOut = "SilkFlo.IsRequired(this); ",
+        JavaScriptOnInput = "SilkFlo.IsRequired(this); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.AutomationPotential('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.PrimedScore('FormEdit_BusinessIdea'); SilkFlo.ViewModels.Business.Idea.Edit.Calculations.GetTotals('FormEdit_BusinessIdea'); ",
+        Value = Model.DocumentationPresentId,
+        CommentId = "BusinessIdeaDocumentationPresentComment",
+        CommentName = "Business.Idea.DocumentationPresentComment",
+        CommentValue = Model.DocumentationPresentComment,
+        CommentErrorMessage = Model.DocumentationPresentComment_ErrorMessage,
+        CommentShow = !string.IsNullOrWhiteSpace(Model.DocumentationPresentComment_ErrorMessage),
+        CommentShowError = !string.IsNullOrWhiteSpace(Model.DocumentationPresentComment_ErrorMessage),
+        InvalidFeedback = "Required",
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly,
+        SelectWeightedList = Model.DocumentationPresents,
+        IsInvalid = Model.DocumentationPresentId_IsInValid
+    })
+
+
+<h2>Benefits</h2>
+@*Expected*@
+@await Html.PartialAsync("Elements/_LabeledTextArea",
+    new Element
+    {
+        Title = "Expected",
+        Name = "Business.Idea.BenefitExpected",
+        Value = Model.BenefitExpected,
+        InvalidFeedback = Model.BenefitExpected_ErrorMessage,
+        IsInvalid = Model.BenefitExpected_IsInValid,
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly
+    })
+
+@if (!Model.IsNew)
+{
+    @*Actual*@
+    @await Html.PartialAsync("Elements/_LabeledTextArea",
+        new Element
+        {
+            Title = "Actual",
+            Name = "Business.Idea.BenefitActual",
+            Value = Model.BenefitActual,
+            InvalidFeedback = Model.BenefitActual_ErrorMessage,
+            IsInvalid = Model.BenefitActual_IsInValid,
+            IsFloatingLabel = false,
+            IsReadOnly = Model.IsReadOnly
+        })
+}
+
+<h2>Challenges</h2>
+@*Expected*@
+@await Html.PartialAsync("Elements/_LabeledTextArea",
+    new Element
+    {
+        Title = "Expected",
+        Name = "Business.Idea.ChallengeExpected",
+        Value = Model.ChallengeExpected,
+        InvalidFeedback = Model.ChallengeExpected_ErrorMessage,
+        IsInvalid = Model.ChallengeExpected_IsInValid,
+        IsFloatingLabel = false,
+        IsReadOnly = Model.IsReadOnly
+    })
+
+@if (!Model.IsNew)
+{
+    @*Actual*@
+    @await Html.PartialAsync("Elements/_LabeledTextArea",
+        new Element
+        {
+            Title = "Actual",
+            Name = "Business.Idea.ChallengeActual",
+            Value = Model.ChallengeActual,
+            InvalidFeedback = Model.ChallengeActual_ErrorMessage,
+            IsInvalid = Model.ChallengeActual_IsInValid,
+            IsFloatingLabel = false,
+            IsReadOnly = Model.IsReadOnly
+        })
+}
+
+@if (!Model.IsNew)
+{
+    <h2>Lessons Learnt</h2>
+    @*Actual*@
+    @await Html.PartialAsync("Elements/_LabeledTextArea",
+        new Element
+        {
+            Title = "",
+            Name = "Business.Idea.LessenLearnt",
+            Value = Model.LessenLearnt,
+            InvalidFeedback = Model.LessenLearnt_ErrorMessage,
+            IsInvalid = Model.LessenLearnt_IsInValid,
+            IsFloatingLabel = false,
+            IsReadOnly = Model.IsReadOnly
+        })
+}

@@ -1,0 +1,194 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.Models.CRM.Prospect
+
+<div aria-hidden="true"
+     aria-labelledby="Book a Demo"
+     class="fade modal"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     id="ModalCRMProspect"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content"
+             id="ModalCRMProspectContent">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Book a Demo</h4>
+                <button aria-label="Close"
+                        class="btn-close"
+                        silkflo-action="Book a Demo, Cancel"
+                        data-bs-dismiss="modal"
+                        type="button">
+                </button>
+            </div>
+
+            <div class="modal-body"
+                 id="CRM.Prospect">
+
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledInput",
+                            new Element
+                            {
+                                Title = "First Name",
+                                Name = "CRM.Prospect.FirstName",
+                                Value = Model?.FirstName,
+                                ElementType = "text",
+                                IsInvalid = false,
+                                MaximumLength = 100,
+                                Autocomplete = "off"
+                            })
+                    </div>
+
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledInput",
+                            new Element
+                            {
+                                Title = "Last Name",
+                                Name = "CRM.Prospect.LastName",
+                                Value = Model?.LastName,
+                                ElementType = "text",
+                                IsInvalid = false,
+                                MaximumLength = 100,
+                                Autocomplete = "off"
+                            })
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledInput",
+                            new Element
+                            {
+                                Title = "Phone Number",
+                                Name = "CRM.Prospect.PhoneNumber",
+                                Value = Model?.PhoneNumber,
+                                ElementType = "text",
+                                IsInvalid = false,
+                                MaximumLength = 50,
+                                Autocomplete = "off"
+                            })
+                    </div>
+
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledInput",
+                            new Element
+                            {
+                                Title = "Email",
+                                Name = "CRM.Prospect.Email",
+                                Value = Model?.Email,
+                                ElementType = "text",
+                                IsInvalid = false,
+                                MaximumLength = 256,
+                                Autocomplete = "off"
+                            })
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+
+
+                        @await Html.PartialAsync("Elements/_LabeledSelect",
+                            new Element
+                            {
+                                Title = "Employment Level",
+                                Name = "CRM.Prospect.JobLevelId",
+                                Value = Model?.JobLevelId,
+                                SelectList = Model == null? null : new SelectList(Model.JobLevels,
+                                    "Id",
+                                    "Name")
+                            })
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledInput",
+                            new Element
+                            {
+                                Title = "Company Name",
+                                Name = "CRM.Prospect.CompanyName",
+                                Value = Model?.CompanyName,
+                                ElementType = "text",
+                                IsInvalid = false,
+                                MaximumLength = 100,
+                                Autocomplete = "off"
+                            })
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledSelect",
+                            new Element
+                            {
+                                Title = "Company Size",
+                                Name = "CRM.Prospect.CompanySizeId",
+                                Value = Model?.CompanySizeId,
+                                SelectList = Model == null? null : new SelectList(Model.CompanySizes,
+                                    "Id",
+                                    "Name")
+                            })
+                    </div>
+
+                    <div class="col-sm-6">
+                        @await Html.PartialAsync("Elements/_LabeledSelect",
+                            new Element
+                            {
+                                Title = "Country",
+                                Name = "CRM.Prospect.CountryId",
+                                Value = Model?.CountryId,
+                                SelectList = Model == null? null : new SelectList(Model?.Countries,
+                                    "Id",
+                                    "DisplayText")
+                            })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="mandatory">Privacy Policy</label>
+                        @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                            new Element
+                            {
+                                IsChecked = Model?.TermsAgreed ?? false,
+                                Name = "CRM.Prospect.TermsAgreed",
+                                Title = "I agree to the SilkFlo Privacy Policy",
+                                InvalidFeedback = "Please confirm the privacy policy.",
+                                JavaScriptOnInput="SilkFlo.Models2.CRM.Prospect.TermsAgreedOnInput(event);"
+                            })
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex justify-content-end">
+                            <div name="reCaptchaBadgeContainer"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer"
+                 style="justify-content: space-between;">
+                <div name="Message">
+                    <span class="text-info">Once Completed, you will be redirected to our calendly.com page.</span>
+                </div>
+
+                <button class="btn btn-warning"
+                        name="submitButton"
+                        onclick="SilkFlo.Models2.CRM.Prospect.Save ();"
+                        style="max-height: 39px;"
+                        silkflo-action="Book a Demo, Submit"
+                        type="button">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

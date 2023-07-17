@@ -1,0 +1,28 @@
+@model SilkFlo.Web.ViewModels.UserSearchResult
+
+
+<div style="overflow-x: auto">
+    <table class="table table-hover noSelect table-silkflo-display"
+           id="People.Table"
+           name="People.Table"
+           delaney-ui-grid
+           delaney-ui-top="440px"
+           delaney-ui-bottom="4rem">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>System Roles</th>
+                <th>Job Title</th>
+                <th>Business Unit</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                @await Html.PartialAsync("User/_SummaryRow", user)
+            }
+        </tbody>
+    </table>
+</div>

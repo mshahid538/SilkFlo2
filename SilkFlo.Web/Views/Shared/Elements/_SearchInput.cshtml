@@ -1,0 +1,16 @@
+@model SilkFlo.Web.ViewModels.ElementSearch
+
+<div class="Search"
+     @Html.Raw(Model.AttributesContainer)>
+    <div class="inputLine">
+
+        <img class="icon"
+             src="~/Icons/Search.svg" />
+        <input autocomplete="off"
+               @Html.Raw(Model.Attributes) />
+
+        <button class="btn-close"
+                onclick="const input = document.getElementById('@Model.Id'); if (input.value.length> 0)
+    {input.value = '';input.focus();@Model.JavaScriptOnKeyUp}"></button>
+    </div>
+</div>

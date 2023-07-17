@@ -1,0 +1,125 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<div class="ideaCard border bg-light silkflo_tile">
+
+    <div class="d-flex justify-content-between"
+         style="margin-bottom: 12px;">
+        <div class="text">@Model.ProcessOwner?.Fullname</div>
+        <div class="text">@Model.CreatedDateString</div>
+    </div>
+    @{
+        string style = "";
+
+        if (Model.IsDraft)
+        {
+            <h2>@Model.Name <span class="text-warning">(Draft)</span></h2>
+            style = "style=\"height: 200px;\"";
+        }
+        else
+        {
+            <h2>@Model.Name</h2>
+        }
+    }
+    <div style="position: relative">
+        <div class="summary text" @Html.Raw(style)>@Model.Summary</div>
+        <div class="shadow-off-bottom"> </div>
+    </div>
+    
+
+
+    <div class="footer bg-light">
+        @if (!Model.IsDraft)
+        {
+            <div class="row"
+                 style="padding-right: 1rem;">
+                <div class="col-6">
+                    <div class="text">Stage</div>
+                    <div class="text"><b>@Model.LastIdeaStage?.Stage?.Name</b></div>
+                    @if (Model.LastIdeaStage?.StageId == SilkFlo.Data.Core.Enumerators.Stage.n00_Idea.ToString())
+                    {
+                        <div class="text"
+                             style="margin-top: 0.5rem">Idea Score</div>
+                        <div class="text"
+                             style="margin-bottom: 1rem"><b style="color: @Model.GetColour(Model.IdeaScoreValue);">@Model.IdeaScore %</b></div>
+                    }
+                    else
+                    {
+                        <div class="text"
+                             style="margin-top: 0.5rem">Automation Potential</div>
+                        <div class="text"
+                     style="margin-bottom: 1rem"><b style="color: @Model.GetColour(Model.AutomationPotentialValue ?? 0);">@Model.AutomationPotential %</b></div>
+                    }
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end">
+                        <div style="display: inline-block;">
+                            <div class="text">Status</div>
+                            <div class="text"><b>@Model.LastIdeaStage?.Status?.Name</b></div>
+
+                            <div class="text"
+                                 style="margin-top: 0.5rem">Possible Benefits</div>
+                            <div class="text"
+                                 style="margin-bottom: 1rem">
+                                <span style="margin-right: 0.5rem;">Hours</span>
+                                @if (Model.LastIdeaStage?.StageId == SilkFlo.Data.Core.Enumerators.Stage.n00_Idea.ToString())
+                                {
+                                    <b>Unknown</b>
+                                }
+                                else
+                                {
+                                    <b>@((await Model.GetEstimateAsync(Model.BenefitPerCompanyHoursValue)).ToString("#,##0.00")) hrs</b>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="d-flex justify-content-between align-content-center">
+            @if (Model.ShowViewDetailsMenuItem)
+            {
+                var onClick = $"SilkFlo.Business.Idea.Summary.DetailById('{Model.Id}')";
+
+                <div><a onclick="@onClick"
+                        class="link-danger pointer"
+                        style="font-size: 0.75rem;">Details &gt;</a></div>
+            }
+            else
+            {
+                <div>&nbsp;</div>
+            }
+            <div class="d-flex">
+                @{
+                    var followClass = "button follow d-flex";
+                    if (Model.IsFollowed)
+                    {
+                        followClass += " selected";
+                    }
+                }
+                <div class="@followClass"
+                     onmousemove="Delaney.UI.ToolTip.Show ( event, 'Follow' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                     silkflo-ideaId="@Model.Id"
+                     onclick="SilkFlo.Explore.Ideas.Follow_Click ( this );"
+                     style="margin-right: calc(var(--margin) * 4);">
+                    <img src="~/Icons/Follow Bookmark.svg"/>
+                    <span>@Model.FollowCount</span>
+                </div>
+
+                @{
+                    var voteClass = "button vote d-flex";
+                    if (Model.IsVoted)
+                    {
+                        voteClass += " selected";
+                    }
+                }
+                <div class="@voteClass"
+                     onmousemove="Delaney.UI.ToolTip.Show ( event, 'Like' );" onmouseout="Delaney.UI.ToolTip.Hide ();"
+                     silkflo-ideaId="@Model.Id"
+                     onclick="SilkFlo.Explore.Ideas.Vote_Click ( this );">
+                    <img src="~/Icons/Vote.svg"/>
+                    <span>@Model.VoteCount</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    

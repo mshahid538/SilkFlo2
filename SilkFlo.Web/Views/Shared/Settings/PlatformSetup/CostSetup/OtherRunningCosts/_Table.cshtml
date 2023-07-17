@@ -1,0 +1,24 @@
+@model SilkFlo.Web.ViewModels.Business.OtherRunningCosts.Summary
+
+<table class="table table-silkflo table-hover table-responsive table-bordered-silkflo"
+       name="Business.OtherRunningCosts">
+    <thead>
+        <tr>
+            <th scope="col">Cost&nbsp;Name</th>
+            <th scope="col">Cost&nbsp;Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">Frequency</th>
+            <th scope="col" style="width: 1%">Cost/Unit</th>
+            <th scope="col" style="width: 1%">Annual&nbsp;Cost</th>
+            <th scope="col" style="width: 1%">Live</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var otherRunningCost in Model.OtherRunningCosts)
+        {
+            @await Html.PartialAsync(
+                "Settings/PlatformSetup/CostSetup/OtherRunningCosts/_Row",
+                otherRunningCost)
+        }
+    </tbody>
+</table>

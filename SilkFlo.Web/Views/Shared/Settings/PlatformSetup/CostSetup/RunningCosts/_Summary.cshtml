@@ -1,0 +1,58 @@
+@model SilkFlo.Web.ViewModels.Business.RunningCosts.Summary
+
+<div id="Settings.PlatformSetup.PlatformSetup.CostSetup.RunningCosts.Container"
+     asp-policy="Manage Tenant Settings">
+
+    <h3>Here you can set up one-time initial investment costs to get each idea up and running. This is based on the cost of people needed for implementation.</h3>
+    
+    <input type="hidden" value="@Model.Currency?.Symbol" name="Business.RunningCosts.Currency"/>
+
+
+    <div class="p-3 border bg-light silkflo_tile">
+        
+        @if (Model.Show)
+        {
+            @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+            {
+                SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Search(null, null, 'Settings.PlatformSetup.CostSetup.RunningCosts');",
+                SearchId = "Settings.PlatformSetup.CostSetup.RunningCosts.Search",
+
+                EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Edit_Click();",
+                EditName = "EditButton",
+
+                SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Save_Click ();",
+                SaveName = "SaveButton",
+
+                CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Cancel_Click ();",
+                CancelName = "CancelButton",
+
+                DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Delete_Click ();",
+                DeleteName = "DeleteButton",
+
+
+                NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.New_Click ();",
+                NewName = "NewButton"
+            })
+
+
+
+
+            <div style="overflow-x: auto; padding: 2px;">
+                <div id="Settings.PlatformSetup.CostSetup.RunningCosts">
+                    @await Html.PartialAsync("Settings/PlatformSetup/CostSetup/RunningCosts/_Table", Model)
+                </div>
+            </div>
+        }
+        else
+        {
+            @await Html.PartialAsync("Settings/PlatformSetup/CostSetup/RunningCosts/_NoRows")
+        }
+    </div>
+
+    
+    @await Html.PartialAsync(
+        "Elements/_FooterStatusMessage", 
+        "Message")
+
+</div>
+

@@ -1,0 +1,26 @@
+@model SilkFlo.Web.ViewModels.Dashboard.Tenant
+
+<div class="silkflo_tile_container">
+
+    <div class="d-flex-guttered flex-wrap" style="margin-bottom: var(--bs-gutter-y)">
+        <div id="MyIdeas" silkflo-url="Dashboard/Tile/GetMyIdeas"></div>
+        <div id="MyTotalInBuild" silkflo-url="Dashboard/Tile/GetMyTotalInBuild"></div>
+        <div id="MyTotalDeployed" silkflo-url="Dashboard/Tile/GetMyTotalDeployed"></div>
+        <div id="MyCollaborations" silkflo-url="Dashboard/Tile/GetMyCollaborations"></div>
+    </div>
+
+    <div class="gy-3"
+         style="margin-bottom: var(--bs-gutter-y); margin-top: -1rem;"
+         silkflo-url="Dashboard/Tile/Hero"></div>
+
+    <div name="Dashboard.Idaes"
+         id="Dashboard.Idaes"
+         style="margin-top: 2rem;"
+         silkflo-url="Dashboard/GetMyIdeas"></div>
+
+    <div name="Dashboard.Collaborations"
+         id="Dashboard.Collaborations"
+         style="margin-top: 2rem;"
+         silkflo-url="Dashboard/GetMyCollaborations"></div>
+
+</div>

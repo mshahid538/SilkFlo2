@@ -1,0 +1,42 @@
+@using Microsoft.AspNetCore.Authorization
+@model SilkFlo.Web.ViewModels.Explore.People
+@inject IAuthorizationService _authorizationService
+
+<div class="TitleBar">
+    <h3 style="margin-bottom: 2rem; color:#FF8A00">Explore > People</h3>
+</div>
+<div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+    <h1 style="font-weight: bold;">People</h1>
+</div>
+
+
+
+@if ((await _authorizationService.AuthorizeAsync(User, "Manage Tenant Settings")).Succeeded
+    && (Model.NoBusinessUnits))
+    {
+        <p>There are <b>no business units</b>. As a Settings Manager for SilkFlo you can add business units by going to the following screen.<br/>
+            <a href="/Settings/tenant/Platform-Setup/Business-Units">Settings &gt; Platform Setup &gt; Business Units</a><br/>
+            Once added you and your colleagues can assign yourselves to a business unit by editing your user profiles.<br />
+            Your User Profile is displayed by clicking your name in the top right of the screen.</p>
+    }
+
+
+    <div class="container silkflo_tile_container">
+        
+    <div class="p-3 border bg-light silkflo_tile">
+        
+        <div style="margin-bottom: 2rem;">
+            @await Html.PartialAsync("Elements/_SearchInput",
+                new SilkFlo.Web.ViewModels.ElementSearch
+                {
+                    Id = "Explore.People.Search",
+                    MaxWidth = "400px",
+                    JavaScriptOnKeyUp = "SilkFlo.ViewModels.Explore.People.SearchPeople(null, null, 'Explore.People.Table');",
+                })
+        </div>
+        
+        
+    @await Html.PartialAsync("Explore/People/_Table", Model)
+
+    </div>
+    </div>

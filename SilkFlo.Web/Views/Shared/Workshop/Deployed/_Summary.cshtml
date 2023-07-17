@@ -1,0 +1,64 @@
+@using SilkFlo.Web.ViewModels.Elements.ToolBar
+@model SilkFlo.Web.ViewModels.Workshop.PipeLineDeployed
+
+<div class="silkflo_tile_container">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="bg-light border p-3 silkflo_tile">Overview of all automations currently deployed and live.</div>
+        </div>
+    </div>
+
+
+    <div class="bg-light border p-3 silkflo_tile"
+         style="position: relative">
+        
+        @if (Model.Ideas.Any())
+        {
+
+@* Context Menu *@
+            @await Html.PartialAsync("Business/Idea/_ContextMenu",
+                new SilkFlo.Web.ViewModels.Business.Idea.ContextMenu
+                {
+                    ShowManageStagesMenuItem = Model.ShowManageStagesMenuItem,
+                    ShowViewDetailsMenuItem = Model.ShowViewDetailsMenuItem,
+                    ShowEditMenuItem = Model.ShowEditMenuItem,
+                    ShowDeleteMenuItem = Model.ShowDeleteMenuItem
+                })
+
+
+            @await Html.PartialAsync("Elements/_ToolBar", new Bar
+            {
+                Title = "Deployed Automations",
+                SearchOnKeyUp = "SilkFlo.ViewModels.Workshop.Search(null, null, 'Workshop.Pipeline.Deployed.Table');",
+                SearchId = "Workshop.Pipeline.Deployed.Search"
+            })
+
+            <div id="Workshop.Pipeline.Deployed.Table">
+                <div style="overflow-x: auto; padding: 2px;">
+                    @await Html.PartialAsync("Workshop/Deployed/_Table", Model)
+                </div>
+            </div>
+        }
+        else
+        {
+            <h2>Deployed Automations</h2>
+            <label>No Ideas</label>
+        }
+
+    </div>
+</div>
+
+@* Delete Confirmation Message *@
+@await Html.PartialAsync("MessageBoxes/_YesNo",
+    new SilkFlo.Web.ViewModels.MessageBox
+    {
+        Id = "DeleteConfirmation",
+        Title = "Delete Idea",
+        Message = "Are you sure you would like to delete the idea?",
+        Yes_Javascript = "SilkFlo.Business.Idea.Summary.Delete_Yes()",
+        No_Javascript = "SilkFlo.Business.Idea.Summary.Delete_No()"
+    })
+
+
+@await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Container")

@@ -1,0 +1,309 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Shop.Product
+
+<div class="container">
+
+    <form asp-action="Edit"
+          method="post">
+        <div class="TitleBar">
+            <h1>Edit Product</h1>
+
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.UpdatedById)
+
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Product/Edit"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Save</button>
+                    <button formaction="/Administration/Shop/Product/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Product">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+
+        <!-- Form Product -->
+        <!-- Date -->
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Date Modified",
+                Id = "DateTimeDisplayed",
+                Value = Model.DateTimeDisplayed,
+                ElementType = "text",
+                IsReadOnly = true,
+                InvalidFeedback = ""
+            })
+
+            <!-- Id Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Id",
+                    Id = "Id",
+                    Name = "Id",
+                    Value = Model.Id,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Id_ErrorMessage,
+                    IsInvalid = Model.Id_IsInValid
+                })
+
+            <!-- Name Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Name",
+                    Id = "Name",
+                    Name = "Name",
+                    Value = Model.Name,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Name_ErrorMessage,
+                    IsInvalid = Model.Name_IsInValid
+                })
+
+            <!-- Sort Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Sort",
+                    Id = "Sort",
+                    Name = "Sort",
+                    Value = Model.Sort.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = Model.Sort_ErrorMessage,
+                    IsInvalid = Model.Sort_IsInValid
+                })
+
+            <!-- AdminUserLimit Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Admin User Limit",
+                    Id = "AdminUserLimit",
+                    Name = "AdminUserLimit",
+                    Value = Model.AdminUserLimit?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- AdminUserText Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Admin User Text",
+                    Id = "AdminUserText",
+                    Name = "AdminUserText",
+                    Value = Model.AdminUserText,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- StandardUserLimit Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Standard User Limit",
+                    Id = "StandardUserLimit",
+                    Name = "StandardUserLimit",
+                    Value = Model.StandardUserLimit?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- StandardUserText Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Standard User Text",
+                    Id = "StandardUserText",
+                    Name = "StandardUserText",
+                    Value = Model.StandardUserText,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- CollaboratorLimit Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Collaborator Limit",
+                    Id = "CollaboratorLimit",
+                    Name = "CollaboratorLimit",
+                    Value = Model.CollaboratorLimit?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- CollaboratorText Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Collaborator Text",
+                    Id = "CollaboratorText",
+                    Name = "CollaboratorText",
+                    Value = Model.CollaboratorText,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IdeaLimit Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Idea Limit",
+                    Id = "IdeaLimit",
+                    Name = "IdeaLimit",
+                    Value = Model.IdeaLimit?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IdeaText Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Idea Text",
+                    Id = "IdeaText",
+                    Name = "IdeaText",
+                    Value = Model.IdeaText,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- StorageLimit Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Storage Limit",
+                    Id = "StorageLimit",
+                    Name = "StorageLimit",
+                    Value = Model.StorageLimit?.ToString(),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- StorageText Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Storage Text",
+                    Id = "StorageText",
+                    Name = "StorageText",
+                    Value = Model.StorageText,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- Note Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Note",
+                    Id = "Note",
+                    Name = "Note",
+                    Value = Model.Note,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- IsVisible checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsVisible,
+                                  new { @class = "form-check-input", @id = "IsVisible" })
+                <label class="form-check-label"
+                       for="IsVisible">Is Visible</label>
+            </div>
+
+            <!-- IsLive checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.IsLive,
+                                  new { @class = "form-check-input", @id = "IsLive" })
+                <label class="form-check-label"
+                       for="IsLive">Is Live</label>
+            </div>
+
+            <!-- NoPrice checkbox Input -->
+            <div class="form-check form-switch">
+                @Html.CheckBoxFor(model => model.NoPrice,
+                                  new { @class = "form-check-input", @id = "NoPrice" })
+                <label class="form-check-label"
+                       for="NoPrice">No Price</label>
+            </div>
+
+            <!-- CreatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created By",
+                    Id = "CreatedBy",
+                    Value = Model.CreatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            <!-- CreatedDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created Date",
+                    Id = "CreatedDateString",
+                    Value = Model.CreatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+
+            <!-- UpdatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated By",
+                    Id = "UpdatedBy",
+                    Value = Model.UpdatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+            <!-- UpdateDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated Date",
+                    Id = "UpdatedDateString",
+                    Value = Model.UpdatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            @if (@Model.IsDeleted)
+            {
+                <!-- Is Deleted Input -->
+                <div class="flex_grid">
+                    <label>
+                        @Html.CheckBoxFor(m => m.IsDeleted)
+                        Is Deleted
+                    </label>
+                </div>
+            }
+    </form>
+</div>

@@ -1,0 +1,26 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+<ul class="list-unstyled"
+    id="menu"
+    style="margin-right: 1px;">
+    @if (User.Identity is {IsAuthenticated: true })
+    {
+        <li id="SideBar.Settings.Tenant.Account.Container">
+            <a class="pointer"
+               data-bs-target="tooltip"
+               data-placement="right"
+               id="SideBar.Settings.Account"
+               onclick="SilkFlo.SideBar.OnClick ( '/Settings/tenant/Account' )"
+               silkflo-action="SideBar: Settings > Account"
+               silkflo-parent-menu-id="SideBar.Settings.Container"
+               title="Show Account">
+                <div class="pointer">
+                    <img class="icon"
+                         src="~/Icons/SideBar/Settings.svg"/>
+                    <span class="text">Account</span>
+                </div>
+            </a>
+        </li>
+    }
+</ul>

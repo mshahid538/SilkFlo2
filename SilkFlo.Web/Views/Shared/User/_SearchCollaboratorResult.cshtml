@@ -1,0 +1,15 @@
+@model List<SilkFlo.Web.Models.User>
+
+@foreach (var user in Model)
+{
+    <label class="p-2 transition d-flex justify-content-between noSelect"
+           style="align-items: center;"
+           onclick="SilkFlo.ViewModels.User.AddCollaborator(this, 'SelectedCollaborators'); false"
+           id="@user.Id"
+           fullname="@user.Fullname"
+           onmousemove="Delaney.UI.ToolTip.Show(event, 'Add Collaborator');"
+           onmouseout="Delaney.UI.ToolTip.Hide();">
+        <span>@user.Fullname</span><img src="~/Icons/Arrow Right - simple.svg"
+                                        style="height: 1rem; margin-right: 1rem;" />
+    </label>
+}

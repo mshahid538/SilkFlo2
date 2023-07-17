@@ -1,0 +1,321 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Shop.Subscription
+
+<div class="container">
+
+    <form asp-action="Edit"
+          method="post">
+        <div class="TitleBar">
+            <h1>Edit Subscription</h1>
+
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.UpdatedById)
+
+        @Html.HiddenFor(x => x.AgencyDiscountString)
+        @Html.HiddenFor(x => x.AgencyString)
+        @Html.HiddenFor(x => x.AgencyTypeString)
+        @Html.HiddenFor(x => x.CouponString)
+        @Html.HiddenFor(x => x.PriceString)
+        @Html.HiddenFor(x => x.TenantString)
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Subscription/Edit"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Save</button>
+                    <button formaction="/Administration/Shop/Subscription/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Subscription">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+
+        <!-- Form Subscription -->
+        <!-- Date -->
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Date Modified",
+                Id = "DateTimeDisplayed",
+                Value = Model.DateTimeDisplayed,
+                ElementType = "text",
+                IsReadOnly = true,
+                InvalidFeedback = ""
+            })
+
+            <!-- Id Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Id",
+                    Id = "Id",
+                    Name = "Id",
+                    Value = Model.Id,
+                    ElementType = "text",
+                    InvalidFeedback = Model.Id_ErrorMessage,
+                    IsInvalid = Model.Id_IsInValid
+                })
+
+            <!-- Amount Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Amount",
+                    Id = "Amount",
+                    Name = "Amount",
+                    Value = Model.Amount?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- CancelToken Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Cancel Token",
+                    Id = "CancelToken",
+                    Name = "CancelToken",
+                    Value = Model.CancelToken,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- Discount Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Discount",
+                    Id = "Discount",
+                    Name = "Discount",
+                    Value = Model.Discount?.ToString(CultureInfo.InvariantCulture),
+                    ElementType = "number",
+                    InvalidFeedback = ""
+                })
+
+            <!-- DateStart DatePicker -->
+            @await Html.PartialAsync("Elements/_DatePicker",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Start Date",
+                    Id = "DateStart",
+                    Name = "DateStart",
+                    Value = Model.DateStart.ToString(),
+                    IsFloatingLabel = false,
+                    InvalidFeedback = Model.DateStart_ErrorMessage,
+                    IsInvalid = Model.DateStart_IsInValid
+                })
+
+            <!-- DateCancelled DatePicker -->
+            @await Html.PartialAsync("Elements/_DatePicker",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Cancelled Date",
+                    Id = "DateCancelled",
+                    Name = "DateCancelled",
+                    Value = Model.DateCancelled.ToString(),
+                    IsFloatingLabel = false,
+                    InvalidFeedback = Model.DateCancelled_ErrorMessage,
+                    IsInvalid = Model.DateCancelled_IsInValid
+                })
+
+            <!-- DateEnd DatePicker -->
+            @await Html.PartialAsync("Elements/_DatePicker",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "End Date",
+                    Id = "DateEnd",
+                    Name = "DateEnd",
+                    Value = Model.DateEnd.ToString(),
+                    IsFloatingLabel = false,
+                    InvalidFeedback = Model.DateEnd_ErrorMessage,
+                    IsInvalid = Model.DateEnd_IsInValid
+                })
+
+            <!-- InvoiceId Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "InvoiceId",
+                    Id = "InvoiceId",
+                    Name = "InvoiceId",
+                    Value = Model.InvoiceId,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- InvoiceUrl Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Invoice URL",
+                    Id = "InvoiceUrl",
+                    Name = "InvoiceUrl",
+                    Value = Model.InvoiceUrl,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+            <!-- InvoiceNumber Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Invoice Number",
+                    Id = "InvoiceNumber",
+                    Name = "InvoiceNumber",
+                    Value = Model.InvoiceNumber,
+                    ElementType = "text",
+                    InvalidFeedback = ""
+                })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Agency Discount",
+            Id = "AgencyDiscountId",
+            Name = "AgencyDiscountId",
+            Value = Model.AgencyDiscountId,
+            SelectList = new SelectList(Model.AgencyDiscounts,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Agency",
+            Id = "AgencyId",
+            Name = "AgencyId",
+            Value = Model.AgencyId,
+            SelectList = new SelectList(Model.Agencies,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Agency Type",
+            Id = "AgencyTypeId",
+            Name = "AgencyTypeId",
+            Value = Model.AgencyTypeId,
+            SelectList = new SelectList(Model.AgencyTypes,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Coupon",
+            Id = "CouponId",
+            Name = "CouponId",
+            Value = Model.CouponId,
+            SelectList = new SelectList(Model.Coupons,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Price",
+            Id = "PriceId",
+            Name = "PriceId",
+            Value = Model.PriceId,
+            SelectList = new SelectList(Model.Prices,
+                                                 "Id",
+                                                 "Name")
+        })
+
+                   
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Tenant",
+            Id = "TenantId",
+            Name = "TenantId",
+            Value = Model.TenantId,
+            SelectList = new SelectList(Model.Tenants,
+                                                 "Id",
+                                                 "Name")
+        })
+            <!-- CreatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created By",
+                    Id = "CreatedBy",
+                    Value = Model.CreatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            <!-- CreatedDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Created Date",
+                    Id = "CreatedDateString",
+                    Value = Model.CreatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+
+            <!-- UpdatedBy Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated By",
+                    Id = "UpdatedBy",
+                    Value = Model.UpdatedBy,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+            <!-- UpdateDate Input -->
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Updated Date",
+                    Id = "UpdatedDateString",
+                    Value = Model.UpdatedDateString,
+                    ElementType = "text",
+                    IsReadOnly = true,
+                    InvalidFeedback = ""
+                })
+
+
+            @if (@Model.IsDeleted)
+            {
+                <!-- Is Deleted Input -->
+                <div class="flex_grid">
+                    <label>
+                        @Html.CheckBoxFor(m => m.IsDeleted)
+                        Is Deleted
+                    </label>
+                </div>
+            }
+    </form>
+</div>

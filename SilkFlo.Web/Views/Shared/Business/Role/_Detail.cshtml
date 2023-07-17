@@ -1,0 +1,111 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.Models.Business.Role
+
+@{
+    const string containerStyle = "style=\"margin-bottom: 2rem; height: 44px;\"";
+}
+
+<input name="Business.Role.Id"
+       type="hidden"
+       value="@Model.Id"/>
+
+@if (Model.IsBuiltIn)
+{
+    <div class="align-items-md-center d-flex justify-content-between" @containerStyle>
+        <h2 style="margin: 0;">@Model.Name</h2>
+        <button class="btn btn-primary"
+                onclick="SilkFlo.ViewModels.Settings.CollaboratorRole.Save ()">
+            Save
+        </button>
+    </div>
+}
+else
+{
+    <div class="align-items-md-center d-flex justify-content-between" @containerStyle>
+        <div> </div>
+        <div>
+            <button class="btn btn-danger"
+                    id="Business.Role.Delete"
+                    onclick="SilkFlo.ViewModels.Settings.CollaboratorRole.Delete ()"
+                    style="margin-right: 1rem;">
+                Delete
+            </button>
+            <button class="btn btn-primary"
+                    onclick="SilkFlo.ViewModels.Settings.CollaboratorRole.Save ()">
+                Save
+            </button>
+        </div>
+    </div>
+
+
+    @if (!string.IsNullOrWhiteSpace(Model.Error))
+    {
+        <h3 class="text-danger">@Model.Error</h3>
+    }
+
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new Element
+        {
+            Title = "Name",
+            Name = "Business.Role.Name",
+            Value = Model.Name,
+            IsFloatingLabel = true,
+            InvalidFeedback = Model.Name_ErrorMessage,
+            IsInvalid = Model.Name_IsInValid,
+            MaximumLength = 100
+        })
+}
+
+@if (Model.IsBuiltIn)
+{
+    <div class="h3">@Model.Description</div>
+}
+else
+{
+    @await Html.PartialAsync("Elements/_LabeledTextArea",
+        new Element
+        {
+            Title = "Description",
+            Name = "Business.Role.Description",
+            Value = Model.Description,
+            IsFloatingLabel = false,
+            InvalidFeedback = Model.Description_ErrorMessage,
+            IsInvalid = Model.Description_IsInValid,
+            MaximumLength = 750,
+            MinHeight = "100px"
+        })
+}
+<input name="Business.Role.UserCount" 
+       type="hidden"
+       value="@Model.CollaboratorRoles.Count"/>
+
+<label name="Business.Role.IdeaAuthorisations"
+       type="hidden">
+</label>
+<div class="invalid-feedback"
+     name="Business.Role.IdeaAuthorisations_InvalidFeedback">
+</div>
+
+<div id="Model.Shared.IdeaAuthorisations">
+    @foreach (var ideaAuthorisation in Model.IdeaAuthorisations)
+    {
+        <div name="Shared.IdeaAuthorisation">
+            <input name="Shared.IdeaAuthorisation.Id"
+                   type="hidden"
+                   value="@ideaAuthorisation.Id"/>
+            <input name="Shared.IdeaAuthorisation.Name"
+                   type="hidden"
+                   value="@ideaAuthorisation.Name"/>
+            @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                new Element
+                {
+                    IsChecked = ideaAuthorisation.IsSelected,
+                    Name = "Shared.IdeaAuthorisation.IsSelected",
+                    Title = ideaAuthorisation.Name,
+                    CustomStylesContainer = "margin: 1rem 0 1rem 0;"
+                })
+        </div>
+    }
+</div>
+
+<div name="Message"></div>

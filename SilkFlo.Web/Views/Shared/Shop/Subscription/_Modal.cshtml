@@ -1,0 +1,59 @@
+﻿
+<!-- Modal View Subscriptions -->
+<div class="modal fade"
+     id="modelViewSubscriptions"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="modelSubscriptionsLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title"
+                    id="modelSubscriptionsLabel">
+                    Subscriptions
+                </h1>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body"
+                 id="Settings.Subscriptions.Modal">
+                Loading subscriptions ...
+            </div>
+
+
+            <div class="modal-footer">
+                <div>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <label name="Message" style="margin-left: 1rem;"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var message = "Are you sure that you would like to cancel your subscription?<br/><br/>" +
+                  "Your subscription will only be cancelled once you have clicked the cancellation link in a <b>cancellation email</b>, " + 
+                  "sent to the account owner (<span id=\"accountOwnerEmail\"></span>).<br/><br/>" +
+                  "Any outstanding funds will be refunded to as per our terms and conditions.<br/><br/>" + 
+                  "<span class=\"text-danger\">ToDo: Send cancellation mail and send refunds</span>";
+}
+
+
+
+@await Html.PartialAsync("MessageBoxes/_YesNo",
+    new SilkFlo.Web.ViewModels.MessageBox
+    {
+        Id = "SettingsSubscriptionsCancelMessage",
+        Title = "Cancel Subscription",
+        Message = message,
+        Yes_Javascript = "SilkFlo.Models2.Shop.Subscription.Cancel.MessageResultYes('modelViewSubscriptions')"
+    })

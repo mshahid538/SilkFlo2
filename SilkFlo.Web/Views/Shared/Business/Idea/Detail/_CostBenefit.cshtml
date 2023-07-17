@@ -1,0 +1,75 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Detail.CostBenefit
+
+
+<div class="container silkflo_tile_container">
+    @if (Model.CanEditStages)
+    {
+        <div class="d-flex justify-content-end"
+             style="margin-bottom: 1rem;">
+            <button class="btn btn-primary"
+                    onclick="SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.Edit (this, '@Model.IdeaId' )">Edit</button>
+        </div>
+    }
+
+    <div class="row flex-wrap">
+        <div class="col-auto" style="flex: 1 1 auto;">
+            <div class="row flex-wrap">
+
+                <div class="col-auto gy-4"
+                     style="flex: 1 1 auto;">
+                    <div silkflo-url="Business/Idea/Section/CostBenefit/Pill/GetOneTimeCost/IdeaId/@Model.IdeaId">One Time Cost Pill Loading...</div>
+                </div>
+
+                <div class="col-auto gy-4"
+                     style="flex: 1 1 auto;">
+                    <div silkflo-url="Business/Idea/Section/CostBenefit/Pill/GetRunningCosts/IdeaId/@Model.IdeaId">Running Costs Pill Loading ...</div>
+                </div>
+            </div>
+
+        </div>
+        
+
+        <div class="col-auto" style="flex: 1 1 auto;">
+            <div class="row flex-wrap">
+
+                <div class="col-auto gy-4"
+                     style="flex: 1 1 auto;">
+                    <div silkflo-url="Business/Idea/Section/CostBenefit/Pill/GetEstimatedBenefitsAnnual/IdeaId/@Model.IdeaId">Benefits (annual) Pill Loading ...</div>
+                </div>
+
+                <div class="col-auto gy-4"
+                     style="flex: 1 1 auto;">
+                    <div silkflo-url="Business/Idea/Section/CostBenefit/Pill/GetTimeToROI/IdeaId/@Model.IdeaId">Time to ROI Pill Loading ...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+
+    <div class="row"
+         style="margin-top: 0;">
+        
+
+        <div class="col-auto"
+             style="flex: 1 1 auto; margin-bottom: 1rem;">
+
+            <div silkflo-url="Business/Idea/Section/CostBenefit/Chart/GetEaseOfImplementation/IdeaId/@Model.IdeaId"></div>
+        </div>
+
+
+        <div class="col-auto"
+             style="flex: 1 1 auto;">
+            <div style="margin-bottom: 1rem;"
+                 silkflo-url="Business/Idea/Section/CostBenefit/Chart/GetEstimatedBreakeven/IdeaId/@Model.IdeaId"></div>
+        </div>
+    </div>
+    
+
+    @{
+        var url = $"business/idea/detail/IdeaStageGantt/ideaId/{Model.IdeaId}";
+    }
+    <div silkflo-url="@url"
+         silkflo-callback="SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.CreateGanttCharts"></div>
+</div>

@@ -1,0 +1,202 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Business.ImplementationCost
+
+@{
+    var javascriptNamespace = "SilkFlo.ViewModels.Business.Idea.Edit.OneTimeCosts.";
+
+    var selectRowClick = javascriptNamespace + "SelectRow_Click(this)";
+    var stageChange = javascriptNamespace + "IdeaStage_Change(this)";
+    var roleChange = javascriptNamespace + "Role_Change(this)";
+
+    var allocationChange = javascriptNamespace + "Allocation_Input(this)";
+    var dayInput = javascriptNamespace + "Day_Input(this)";
+}
+
+
+<tr class="edit"
+    name="Business.ImplementationCost"
+    onclick="@selectRowClick">
+    <td style="height: 38px;">
+        <div class="d-flex" style="height: 100%">
+            <div class="selector"> </div>
+
+            <select name="Business.ImplementationCost.IdeaStageId"
+                    value="@Model.IdeaStageId"
+                    onchange="@stageChange">
+                @foreach (var ideaStage in Model.IdeaStages)
+                {
+                    if (Model.IdeaStageId == ideaStage.Id)
+                    {
+                        <option value="@ideaStage.Id"
+                                stageId="@ideaStage.StageId"
+                                selected="">
+                            @ideaStage.Name
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@ideaStage.Id"
+                                stageId="@ideaStage.StageId">
+                            @ideaStage.Name
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+    </td>
+
+    <td style="height: 38px;">
+        <select name="Business.ImplementationCost.RoleId"
+                value="@Model.RoleId"
+                onchange="@roleChange">
+                @foreach (var role in Model.Roles)
+                {
+                    if (Model.RoleId == role.Id)
+                    {
+                        <option value="@role.Id"
+                                cost="@role.Cost"
+                                description="@role.Description"
+                                selected="">@role.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@role.Id"
+                                cost="@role.Cost"
+                                description="@role.Description">@role.Name</option>
+                        }
+                    }
+            </select>
+
+
+    </td>
+
+    @*Comment*@
+    <td class="readOnly">
+        @{
+            string displayMoreStyle = "";
+            string displayNoneStyle = "";
+            if (string.IsNullOrWhiteSpace(Model.Role?.Description))
+            {
+                displayMoreStyle = " display: none";
+            }
+            else
+            {
+                displayNoneStyle = " display: none";
+            }
+            string id = Model.Id;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                id = Guid.NewGuid().ToString();
+            }
+            string descriptionId = $"description{id}";
+        }
+
+
+        <a class="px-2"
+           style="@displayMoreStyle"
+           onclick="if(HotSpot.Card){ HotSpot.Card.Close();}"
+           name="Business.ImplementationCost.More"
+           data-bs-toggle="modal"
+           data-bs-target="#@descriptionId">More ...</a>
+        <span class="px-2"
+              name="Business.ImplementationCost.None"
+             style="@displayNoneStyle">none</span>
+        <!-- Modal -->
+        <div class="modal fade"
+             id="@descriptionId"
+             tabindex="-1"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Collaborator Role Comment</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body"
+                         name="Business.ImplementationCost.Description">
+                        @Model.Role?.Description
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </td>
+    
+
+    @*Allocation*@
+    <td style="min-height: 1px">
+        <div style="display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: flex-end;
+                    align-content: stretch;
+                    align-items: flex-start;
+                    height: 100%">
+
+            <div contenteditable="true"
+                 name="Business.ImplementationCost.Allocation"
+                 class="text-right edit"
+                 role="textbox"
+                 onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                 style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;"
+                 onkeydown="KeyPressPositiveIntegerOnly(event)"
+                 oninput="@allocationChange">@Model.Allocation.ToString()</div>
+            <span class="readOnly"
+                  style="padding:0.5rem; border-left: 1px solid var(--border-color); flex: 0 1 auto;
+                         align-self: stretch;">%</span>
+        </div>
+    </td>
+
+
+
+
+    <td  style="min-height: 1px">
+    
+        <div contenteditable="true"
+             name="Business.ImplementationCost.Day"
+             class="text-right edit"
+             role="textbox"
+             onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+             style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; height: 100%;"
+             onkeydown="KeyPressPositiveIntegerOnly(event)"
+             oninput="@dayInput">@Model.Day.ToString(CultureInfo.InvariantCulture)</div>
+    </td>
+    
+    @* Cycle Days *@
+    @{
+        var name = "CycleDays" + Model.IdeaStageId;
+    }
+
+    <td class="readOnly"
+        align="right"
+        name="CycleDays">
+        <span class="px-2" name="@name">
+            @Model.IdeaStage?.Day.ToString(CultureInfo.InvariantCulture)
+        </span>
+    </td>
+
+    <td class="readOnly"
+        align="right">
+        <span class="px-2"
+             name="Business.ImplementationCost.CostDay">@Model.CostDay</span>
+    </td>
+
+    <td class="readOnly"
+        align="right">
+        <span class="px-2"
+             name="Business.ImplementationCost.TotalCost">@Model.TotalCost</span>
+        <input name="Business.ImplementationCost.TotalCostValue"
+               value="@Model.TotalCostValue"
+               type="hidden" />
+    </td>
+</tr>

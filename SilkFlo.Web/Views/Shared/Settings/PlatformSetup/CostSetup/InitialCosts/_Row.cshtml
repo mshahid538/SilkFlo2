@@ -1,0 +1,151 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Business.RoleCost
+
+@{
+    var annual = Math.Round(Model.Cost * Model.AverageWorkingDay, 2);
+    var monthly = Math.Round(annual / 12, 2);
+
+}
+
+<tr name="Business.RoleCost"
+    onclick="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.SelectRow_Click ( this )"
+    ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Dbl_Click ( this )">
+    <td style="height: 38px;">
+
+        <div class="d-flex"
+             style="height: 100%">
+
+            <div class="selector"> </div>
+
+            <div class="displayField"
+                 name="Business.RoleCost.Name"
+                 old="@Model.Role?.Name"
+                 oldId="@Model.Role?.Id"
+                 role="textbox">
+                @Model.Role?.Name
+            </div>
+
+            @*@await Html.PartialAsync("Elements/_LabeledSelect",
+        new Element
+        {
+            Title = "",
+            ContainerClass= "editField",
+            Name = "Business.RoleCost.RoleId",
+            Value = Model.RoleId,
+            SelectList = new SelectList(Model.Roles,
+                "Id",
+                "Name")
+        })*@
+
+
+            <select class="editField"
+                    name="Business.RoleCost.RoleId"
+                    value="@Model.RoleId">
+                @foreach (var role in Model.Roles)
+                {
+                    if (Model.RoleId == role.Id)
+                    {
+                        <option selected=""
+                                value="@role.Id">
+                            @role.Name
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@role.Id">
+                            @role.Name
+                        </option>
+                    }
+                }
+            </select>
+
+
+            <div name="Business.RoleCost.Id"
+                 style="display: none">
+                @Model.Id
+            </div>
+        </div>
+    </td>
+
+    <td style="text-align: right; padding-right: 1rem;">
+        <div class="displayField"
+             name="Business.RoleCost.CostDisplay"
+             old="@Model.Cost.ToString(Model.NumberFormat)"
+             role="textbox">
+            @Model.Currency?.Symbol&nbsp;@Model.Cost.ToString(Model.NumberFormat)
+        </div>
+
+        <div class="editFlexField"
+             style="flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-content: stretch; align-items: flex-start; height: 100%">
+            <span class="readOnly"
+                  style="padding: 0.5rem; border-left: 1px solid var(--border-color); flex: 0 1 auto; align-self: stretch;">
+                @Model.Currency?.Symbol
+            </span>
+
+            <div class="edit text-right"
+                 contenteditable="true"
+                 name="Business.RoleCost.Cost"
+                 onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                 oninput="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.Cost_OnInput(event)"
+                 onkeydown="KeyPressPositiveDecimalOnly ( event, SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.KeyPress )"
+                 role="textbox"
+                 style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;">
+                @Model.Cost.ToString(CultureInfo.InvariantCulture)
+            </div>
+        </div>
+
+    </td>
+    <td style="text-align: right; padding-right: 1rem;">
+        <div class="displayField"
+             name="Business.RoleCost.MonthlyCostDisplay"
+             old="@monthly.ToString(Model.NumberFormat)"
+             role="textbox">
+            @Model.Currency?.Symbol&nbsp;@monthly.ToString(Model.NumberFormat)
+        </div>
+
+        <div class="editFlexField"
+             style="flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-content: stretch; align-items: flex-start; height: 100%">
+            <span class="readOnly"
+                  style="padding: 0.5rem; border-left: 1px solid var(--border-color); flex: 0 1 auto; align-self: stretch;">
+                @Model.Currency?.Symbol
+            </span>
+
+            <div class="edit text-right"
+                 contenteditable="true"
+                 name="Business.RoleCost.MonthlyCost"
+                 onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                 oninput="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.MonthlyCost_OnInput(event)"
+                 onkeydown="KeyPressPositiveDecimalOnly ( event, SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.KeyPress )"
+                 role="textbox"
+                 style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;">@monthly.ToString(CultureInfo.InvariantCulture)</div>
+        </div>
+
+    </td>
+    <td style="text-align: right; padding-right: 1rem;">
+        <div class="displayField"
+             name="Business.RoleCost.AnnualCostDisplay"
+             old="@annual.ToString(Model.NumberFormat)"
+             role="textbox">
+            @Model.Currency?.Symbol&nbsp;@annual.ToString(Model.NumberFormat)
+        </div>
+
+        <div class="editFlexField"
+             style="flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-content: stretch; align-items: flex-start; height: 100%">
+            <span class="readOnly"
+                  style="padding: 0.5rem; border-left: 1px solid var(--border-color); flex: 0 1 auto; align-self: stretch;">
+                @Model.Currency?.Symbol
+            </span>
+
+            <div class="edit text-right"
+                 contenteditable="true"
+                 name="Business.RoleCost.AnnualCost"
+                 onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                 oninput="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.AnnualCost_OnInput(event)"
+                 onkeydown="KeyPressPositiveDecimalOnly ( event, SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.InitialCosts.KeyPress )"
+                 role="textbox"
+                 style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;">
+                @annual.ToString(CultureInfo.InvariantCulture)
+            </div>
+        </div>
+    </td>
+</tr>

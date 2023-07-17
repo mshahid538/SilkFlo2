@@ -1,0 +1,143 @@
+@model SilkFlo.Web.ViewModels.Workshop.PipeLine
+
+<div class="silkflo_tile_container">
+    @if (Context.Request.Path.Value.Contains("Review") || Context.Request.Path.Value.Contains("Assess") || 
+        Context.Request.Path.Value.Contains("Decision") || Context.Request.Path.Value.Contains("Build") ||
+        Context.Request.Path.Value.Contains("Deployed"))
+    {
+        <div id="workshopReviewfilterOptions" style="justify-content: flex-end;display: flex;">
+            @await Html.PartialAsync("/Views/Shared/_WorkshopFilterOptions.cshtml", Model.IdeaSummary)
+        </div>
+    }
+
+        @if (!string.IsNullOrWhiteSpace(Model.StageGroup?.Description))
+        {
+    <div class="row">
+        <div class="col-12">
+            <div class="p-3 border bg-light silkflo_tile">@Model.StageGroup?.Description</div>
+        </div>
+        </div>
+        }
+        
+        @if (Model.TileUrls.Count > 0)
+        {
+            <div class="d-flex-guttered flex-wrap" id="tilesViewer"
+         style="margin-bottom: var(--bs-gutter-y)">
+            @foreach (var tileUrl in Model.TileUrls)
+            {
+                var apiUrl = "tile/" + tileUrl;
+            <div silkflo-url="@apiUrl"></div>
+            }
+        </div>
+        }
+
+    @if (Model.StageGroup != null && Convert.ToString(Model.StageGroup) != "Deployed")
+        {
+            <div class="row">
+
+                <div class="col-auto"
+                     style="flex: 1 1 auto; margin-bottom: 1rem;">
+                    <div class="bg-light border p-3 silkflo_tile">
+                        <h3>Global Overview - @Model.DoughnutChartSubTitle</h3>
+                        <h4>@Model.DoughnutChartSummary</h4>
+                        <div>&nbsp;</div>
+
+                        <div class="d-flex justify-content-center"
+                             id="Chart.GlobalOverview">
+                           
+                            @await Html.PartialAsync("Workshop/Chart/_GlobalOverview", Model)
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-auto"
+                     style="flex: 1 1 auto; margin-bottom: 1rem;">
+                    <div id="automationMatrix"
+                         style="height: 100%"
+                         class="bg-light border p-3 silkflo_tile">
+                        @if (Model.StageGroup.Id == SilkFlo.Data.Core.Enumerators.StageGroup.n03_Build.ToString())
+                        {
+                            <div class="d-flex justify-content-between">
+                                <h3>@Model.BubbleChartTitle</h3>
+                                <div class="d-flex">
+                                    @if (Model.Years.Count > 0)
+                                    {
+                                    <div style="margin-right: 0.5rem;">Year:</div>
+                                        <select name="Business.Idea.DepartmentId"
+                                                value="@Model.Years.Last().ToString()"
+                                                class="Toolbar FilterRightside"
+                                                oninput="SilkFlo.ViewModels.Workshop.Build.YearFilter(this)">
+                                            @foreach (var year in Model.Years)
+                                            {
+                                                if (year == Model.Years.Last())
+                                                {
+                                                    <option selected
+                                                            value="@year">@year</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@year">@year</option>
+                                                }
+                                            }
+                                        </select>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <h3>@Model.BubbleChartTitle</h3>
+                        }
+                        <h4>@Model.BubbleChartSummary</h4>
+                        @if (Model.StageGroup.Id == SilkFlo.Data.Core.Enumerators.StageGroup.n00_Review.ToString())
+                        {
+                            <div>&nbsp;</div>
+                        }
+                        else if (Model.StageGroup.Id != SilkFlo.Data.Core.Enumerators.StageGroup.n03_Build.ToString())
+                        {
+                            <div class="d-flex justify-content-around"
+                                 style="margin-left: 41px">
+                                <span class="text-danger">Difficult</span>
+                                <span class="text-warning"
+                                      style="padding-right: 33px;">Medium</span>
+                                <span class="text-success">Easy</span>
+                            </div>
+                        }
+
+                        @if (Model.StageGroup.Id == SilkFlo.Data.Core.Enumerators.StageGroup.n03_Build.ToString())
+                        {
+                            <div name="Chart.AutomationBuildPipeline"
+                                 id="Chart.AutomationBuildPipeline"
+                                 silkflo-url="Workshop/GetAutomationBuildPipeline"></div>
+                        }
+                        else
+                        {
+                            <div class="d-flex justify-content-center">
+                                <div class="gauge-container"
+                                     style="width: 752px;">
+                                    @await Html.PartialAsync("Business/Idea/_AutomationMatrix", await Model.GetAutomationMatrixAsync())
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        
+        
+        @{
+            var url = "";
+            if (Model.StageGroup != null)
+            {
+                url = $"silkflo-url = \"Business/Idea/GetSummary/GroupName/{Model.StageGroup.Name}\" silkflo-getManually=\"\"";
+            }
+        }
+
+        <div class="row g-4">
+            <div class="col-12"
+                 id="Business.Idea.Summary" @Html.Raw(url)>
+                @await Html.PartialAsync("Business/Idea/_Summary", Model.IdeaSummary)
+            </div>
+        </div>
+    </div>

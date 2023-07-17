@@ -1,0 +1,39 @@
+@model SilkFlo.Web.Models.Business.Idea
+@{
+    // 0 – 40 % red
+    // 40 – 70 amber
+    // 70 + green
+}
+
+<div class="container-fluid"
+     style="margin-bottom: 3rem;">
+    <div class="row g-2">
+        <div class="col-4">
+            @await Html.PartialAsync("Business/Idea/_Gauge",
+                new SilkFlo.Web.ViewModels.Business.Idea.Gauge.Basic
+                {
+                    Title = "Primed Score",
+                    Value = Model.PrimedScoreValue,
+                    GaugeGraphic = Model.PrimedScoreGauge,
+                })
+        </div>
+        <div class="col-4">
+            @await Html.PartialAsync("Business/Idea/_Gauge",
+                new SilkFlo.Web.ViewModels.Business.Idea.Gauge.Basic
+                {
+                    Title = "Fitness Score",
+                    Value = Model.FitnessScoreValue,
+                    GaugeGraphic = Model.FitnessScoreGauge,
+                })
+        </div>
+        <div class="col-4">
+            @await Html.PartialAsync("Business/Idea/_Gauge",
+                new SilkFlo.Web.ViewModels.Business.Idea.Gauge.Basic
+                {
+                    Title = "Idea Score",
+                    Value = Model.IdeaScoreValue,
+                    GaugeGraphic = Model.IdeaScoreGauge,
+                })
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{
+    var isChecked = "";
+    if (Model.IsChecked)
+    {
+        isChecked = "checked";
+    }
+
+
+    var idContainer = "";
+    var id = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        idContainer = $"id=\"{Model.Id}_Container\"";
+        id = $"id=\"{Model.Id}\"";
+    }
+
+
+    var nameContainer = "";
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        nameContainer = $"name=\"{Model.Name}_Container\"";
+        name = $"name=\"{Model.Name}\"";
+    }
+
+    var hotSpotId = "";
+    if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotSpotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+}
+
+<div @idContainer @nameContainer class="form-check form-switch" @Html.Raw(Model.StylesContainer)>
+    <input class="form-check-input"
+           @isChecked
+           data-val="@Model.IsChecked.ToString().ToLower()"
+           data-val-required="@Model.Name"
+           @id
+           @name
+           style="cursor: pointer;"
+           @Html.Raw(Model.OnInput)
+           @Html.Raw(Model.OnMouseOut)
+           @Html.Raw(Model.OnMouseMove)
+           type="checkbox">
+
+
+    <label class="form-check-label"
+           @Html.Raw(Model.OnMouseOut)
+           @Html.Raw(Model.OnMouseMove)
+           @Html.Raw(hotSpotId)
+           style="color: inherit; cursor: pointer;"
+           for="@Model.Id">@Model.Title</label>
+    
+@{
+    var nameInvalidFeedback = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        nameInvalidFeedback = "name=\"" + Model.Name + "_InvalidFeedback\"";
+    }
+
+    var idInvalidFeedback = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        idInvalidFeedback = "id=\"" + Model.Id + "_InvalidFeedback\"";
+    }
+}
+
+<div class="invalid-feedback" @nameInvalidFeedback @idInvalidFeedback>
+    @Model.InvalidFeedback
+</div>
+</div>
+    
+
+
+@* Example
+
+        @await Html.PartialAsync("Elements/_LabeledCheckBox",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                IsChecked = Model.PracticeAccountCanSignIn,
+                Name = "Setting.PracticeAccountCanSignIn",
+                Id = "Setting.PracticeAccountCanSignIn",
+                Title = "Practice Account Can Sign-In",
+                CustomStylesContainer = "margin-bottom: 0; padding: 0 0 0.5rem 3rem;",
+                JavaScriptOnInput = "SilkFlo.Application.Setting.CheckPasswordName()",
+            })
+    *@

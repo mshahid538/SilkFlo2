@@ -1,0 +1,37 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<div class="d-flex likes">
+
+    @{
+        string followClass = "btn btn-outline-secondary follow d-flex align-content-center";
+        if (Model.IsFollowed)
+        {
+            followClass += " selected";
+        }
+    }
+    <button class="@followClass"
+            silkflo-ideaId="@Model.Id"
+            onclick="SilkFlo.Explore.Ideas.Follow_Click(this);">
+        <div>
+            <img src="~/Icons/Follow Bookmark.svg" />
+            <span>@Model.FollowCount</span>
+        </div>
+    </button>
+
+
+    @{
+        string voteClass = "btn btn-outline-secondary vote d-flex align-content-center";
+        if (Model.IsVoted)
+        {
+            voteClass += " selected";
+        }
+    }
+    <button class="@voteClass"
+            silkflo-ideaId="@Model.Id"
+            onclick="SilkFlo.Explore.Ideas.Vote_Click(this);">
+        <div>
+            <img src="~/Icons/Vote.svg" />
+            <span>@Model.VoteCount</span>
+        </div>
+    </button>
+</div>

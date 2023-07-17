@@ -1,0 +1,28 @@
+﻿@model List<SilkFlo.Web.Controllers2.FileUpload.DocumentDTOMain>
+
+<div id="vwrTemplates" style="padding: 20px; display: flex; gap: 23px; width: 64rem;">
+	@foreach(var model in Model){
+		@foreach (var document in model.DocumentDtos)
+		{
+			<section id="tempViewerSec">
+				<div id="tempViewerSecDiv" style="border: 1px solid #d7d7d7;background-color: white;border-radius: 5px;width: 14rem;height: 10rem;" onclick="onTDocSelect(this)">
+					<input type="radio" style="display: none;" name="tDocsSelection" value=@document.Id>
+					<input type="hidden" style="display: none;" value="@System.Web.HttpUtility.HtmlEncode(document.FileNameWithExtetnsion)" />
+					<div style="display: contents">
+						@*<i class="bi bi-file-text" style="color: #FF8A00"></i>*@
+						<svg xmlns="http://www.w3.org/2000/svg" width="150" height="68" fill="#ff8a00" class="bi bi-file-text" viewBox="0 0 16 16">
+							<path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+							<path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+						</svg>
+						@*<br />*@
+						<div style="font-family: inherit;font-size: 16px;font-weight: inherit;line-height: 1.2;letter-spacing: 0em;text-align: center;margin-top:10px">
+							@(
+					document.FileNameWithoutExtetnsion
+					)
+						</div>
+					</div>
+				</div>
+			</section>
+		}
+	}
+</div>

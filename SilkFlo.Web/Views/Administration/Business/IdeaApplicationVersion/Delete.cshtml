@@ -1,0 +1,73 @@
+@model SilkFlo.Web.Models.Business.IdeaApplicationVersion
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Idea Application</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/IdeaApplicationVersion/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/IdeaApplicationVersion/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/IdeaApplicationVersion">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.IdeaId)
+        @Html.HiddenFor(x => x.IsThinClient)
+        @Html.HiddenFor(x => x.LanguageId)
+        @Html.HiddenFor(x => x.VersionId)
+        <div class="grid_auto_1fr">
+
+            <!-- IsThinClient -->
+            <div>@Html.DisplayNameFor(x => x.IsThinClient)</div>
+            <div>@Html.DisplayFor(x => x.IsThinClient)</div>
+
+            <!-- IdeaString -->
+            <div>@Html.DisplayNameFor(x => x.IdeaString)</div>
+            <div>@Html.DisplayFor(x => x.IdeaString)</div>
+
+            <!-- LanguageString -->
+            <div>@Html.DisplayNameFor(x => x.LanguageString)</div>
+            <div>@Html.DisplayFor(x => x.LanguageString)</div>
+
+            <!-- VersionString -->
+            <div>@Html.DisplayNameFor(x => x.VersionString)</div>
+            <div>@Html.DisplayFor(x => x.VersionString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

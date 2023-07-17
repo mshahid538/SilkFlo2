@@ -1,0 +1,46 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.OneTimeCosts
+
+<table class="table table-silkflo table-hover table-responsive table-bordered-silkflo"
+       name="Business.ImplementationCosts">
+    <thead>
+        <tr>
+            <th scope="col">Stage</th>
+            <th scope="col">Collaborator Role</th>
+            <th scope="col">Comment</th>
+            <th scope="col" style="width: 1%">Allocation</th>
+            <th scope="col" style="width: 1%">Assign Days</th>
+            <th scope="col" style="width: 1%">Cycle Days</th>
+            <th scope="col" style="width: 1%; text-align: right;">Cost/Day</th>
+            <th scope="col" style="width: 1%; text-align: right;">Total&nbsp;Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var implementationCost in Model.ImplementationCosts)
+    {
+        @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/OneTimeCosts/_Row", implementationCost);
+    }
+    </tbody>
+    <thead>
+        @foreach (var stage in Model.Stages)
+        {
+            var name = $"OneTimeCost{stage.Id}Total";
+            var nameValue = name + "value";
+            <tr>
+                <th colspan="7">@stage.Name - Total Cost</th>
+                <th style="width: 1%;"
+                    class="text-right">
+                    <span class="text-right"
+                         name="@name">@Model.CurrencySymbol&nbsp;0.00</span>
+                    <input type="hidden"
+                           value="0"
+                           name="@nameValue"/>
+                </th>
+            </tr>
+        }
+    <tr style="border-top: 3px solid var(--border-color);">
+        <th colspan="7">Total Implementation People Costs</th>
+        <th name="Business.ImplementationCost.Total" class="text-right"></th>
+    </tr>
+    </thead>
+</table>
+

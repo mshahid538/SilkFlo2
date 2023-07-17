@@ -1,0 +1,91 @@
+@model List<SilkFlo.Web.Models.Business.Department>
+
+<div id="Settings.PlatformSetup.BusinessUnits.Container"
+     asp-policy="Manage Tenant Settings">
+
+
+    <div class="p-3 border bg-light silkflo_tile">
+        
+        @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+           {
+               SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Search();",
+               SearchId = "Settings.PlatformSetup.BusinessUnits.Search.Id",
+               SearchPlaceHolder = "Search Business Units ...",
+
+               EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();",
+               EditName = "EditButton",
+
+               SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_Click ();",
+               SaveName = "SaveButton",
+
+               DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();",
+               DeleteName = "DeleteButton",
+
+               CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click ();",
+               CancelName = "CancelButton",
+
+               NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
+                NewName = "NewButton"
+           })
+
+        
+
+            <div name="Settings.PlatformSetup.BusinessUnits"
+                 class="d-flex-guttered flex-wrap">
+
+ 
+
+                <div name="BusinessUnit" style="min-width: 150px;">
+                    
+                    <div name="Header"
+                        onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
+                        Business Unit
+                    </div>
+                    
+                    <div name="List">
+                        @await Html.PartialAsync("Settings/PlatformSetup/BusinessUnit/_BusinessUnits", Model)
+
+                    </div>
+
+                </div>
+             
+                
+
+                <div name="Area" style="min-width: 150px; margin-left:">
+                    
+                    <div name="Header"
+                        onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
+                        Area
+                    </div>
+                    
+                    <div name="List">
+                        
+                    </div>
+
+                </div>
+            
+                
+
+                <div name="SubArea" style="min-width: 150px;">
+                    
+                    <div name="Header"
+                        onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
+                        Sub-Area
+                    </div>
+                    
+                    <div name="List">
+                        
+                    </div>
+
+                </div>
+                
+
+                
+
+            </div>
+    </div>
+    
+    @await Html.PartialAsync(
+        "Elements/_FooterStatusMessage",
+        "Message")
+</div>

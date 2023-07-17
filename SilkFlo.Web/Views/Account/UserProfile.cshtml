@@ -1,0 +1,61 @@
+@model SilkFlo.Web.Models.User
+
+<div class="container">
+    <h2>Profile</h2>
+    <form class=""
+          asp-action="UserProfile"
+          asp-route-returnUrl=@ViewBag.ReturnUrl>
+
+        <!-- Email -->
+        <input type="text"
+               class="form-control"
+               placeholder="Email"
+               asp-for="Email" />
+
+        <!-- First Name -->
+        <input type="text"
+               class="form-control"
+               placeholder="First Name"
+               asp-for="FirstName" />
+
+        <!-- Last Name -->
+        <input type="text"
+               class="form-control"
+               placeholder="Last Name"
+               asp-for="LastName" />
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger list_Error" })
+    }
+        <button formaction="UserProfile"
+                class="btn btn-secondary"
+                type="submit">
+            Save
+        </button>
+
+        @{var hrefCancel = string.Concat("/account/Cancel?returnUrl=",
+                    ViewBag.ReturnUrl); }
+        <a class="btn btn-secondary"
+           href=@hrefCancel>Cancel</a>
+
+        @{
+            var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+            returnUrl = returnUrl.Replace("&", "{and}");
+            var hrefChangePassword = "/account/ChangePassword" +
+                                     "?returnUrl=" + returnUrl +
+                                     "&userId=" + Model.Id;
+        }
+        <a class="btn btn-secondary"
+           href=@hrefChangePassword>Change Password</a>
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.EmailConfirmationToken)
+        @Html.HiddenFor(x => x.IsEmailConfirmed)
+        @Html.HiddenFor(x => x.PasswordHash)
+        @Html.HiddenFor(x => x.PasswordResetToken)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+    </form>
+</div>

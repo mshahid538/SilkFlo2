@@ -1,0 +1,221 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{
+    var elementClass = "form-group ";
+    if (Model.IsFloatingLabel)
+    {
+        elementClass += "form-floating ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.ContainerClass))
+    {
+        elementClass += Model.ContainerClass + " ";
+    }
+
+    var labelClass = "";
+    var onfocusoutEvent = "";
+    var onInputEvent = "";
+    var onchange = "";
+
+    var hotSpotId = "";
+    if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotSpotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback))
+    {
+        elementClass += "has-validation";
+        onInputEvent = "SilkFlo.IsRequired(this);";
+        onfocusoutEvent = "SilkFlo.IsRequired(this);";
+        labelClass = "mandatory";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnInput))
+    {
+        onInputEvent += " " + Model.JavaScriptOnInput + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnFocusOut))
+    {
+        onfocusoutEvent += " " + Model.JavaScriptOnFocusOut + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnChange))
+    {
+        onchange += $"onchange=\"{Model.JavaScriptOnChange}\" ";
+    }
+
+
+    if (!string.IsNullOrWhiteSpace(onInputEvent))
+    {
+        onInputEvent = $"oninput=\"{onInputEvent}\"";
+    }
+
+    if (!string.IsNullOrWhiteSpace(onfocusoutEvent))
+    {
+        onfocusoutEvent = $"onfocusout=\"{onfocusoutEvent}\"";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnKeyDown))
+    {
+        Model.JavaScriptOnKeyDown = $" onkeydown=\"{Model.JavaScriptOnKeyDown}\"\r\n";
+    }
+
+
+    var idContainer = "";
+    var id = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        idContainer = $"id=\"{Model.Id}_Container\"";
+        id = $"id=\"{Model.Id}\"";
+    }
+
+
+    var nameContainer = "";
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        nameContainer = $"name=\"{Model.Name}_Container\"";
+        name = $"name=\"{Model.Name}\"";
+    }
+
+
+
+
+
+
+}
+<div class="@elementClass" @Html.Raw(Model.StylesContainer) @Html.Raw(idContainer) @Html.Raw(nameContainer)>
+    @if (!Model.IsFloatingLabel)
+    {
+        if (!string.IsNullOrWhiteSpace(Model.Title))
+        {
+            <label class="@labelClass" @Html.Raw(hotSpotId) @Html.Raw(hotSpotId)>@Model.Title</label>
+        }
+        if (!string.IsNullOrWhiteSpace(Model.Prompt))
+        {
+            <div class="prompt">@Model.Prompt</div>
+        }
+    }
+
+    @if (Model.IsReadOnly)
+    {
+        var displayName = "<empty>";
+
+        @if (Model.SelectList != null)
+        {
+            foreach (var item in Model.SelectList)
+            {
+                if (item.Value == Model.Value)
+                {
+                    displayName = item.Text;
+                }
+            }
+        }
+
+        <input class="form-control"
+               disabled
+               readonly
+               type="text"
+               value="@displayName"/>
+
+        <input id="@Model.Id"
+               name="@Model.Id"
+               type="hidden"
+               value="@Model.Value"/>
+    }
+    else
+    {
+        Model.AdditionalStyles = "border-top-left-radius: var(--border-radius) !important; border-bottom-left-radius: var(--border-radius) !important;";
+
+
+        var cls = "form-select";
+
+        @if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback) && Model.IsInvalid)
+        {
+            cls += " is-invalid";
+        }
+        <select class="@cls"
+                @Html.Raw(id)
+                @Html.Raw(name)
+                value="@Html.Raw(Model.Value)"
+                @Html.Raw(Model.Attributes)
+                @Html.Raw(Model.Style)
+                @Html.Raw(onfocusoutEvent)
+                @Html.Raw(onchange)
+                @Html.Raw(Model.JavaScriptOnKeyDown)
+                @Html.Raw(onInputEvent)>
+            @if (Model.SelectList != null)
+            {
+                foreach (var item in Model.SelectList ?? new List<SelectListItem>())
+                {
+                    if (string.IsNullOrWhiteSpace(item.Value))
+                    {
+                        <option value="">@Html.Raw(Model.NoValue)</option>
+                    }
+                    else if (item.Value == Model.Value)
+                    {
+                        <option selected
+                                value="@Html.Raw(item.Value)">@Html.Raw(item.Text)</option>
+                    }
+                    else
+                    {
+                        <option value="@Html.Raw(item.Value)">@Html.Raw(item.Text)</option>
+                    }
+                }
+            }
+        </select>
+    }
+
+    @if (Model.IsFloatingLabel)
+    {
+        if (!string.IsNullOrWhiteSpace(Model.Title))
+        {
+            <label class="@Html.Raw(labelClass)"
+                   @Html.Raw(hotSpotId)
+                   for="@Html.Raw(Model.Id)">
+                @Model.Title
+            </label>
+        }
+
+        if (!string.IsNullOrWhiteSpace(Model.Prompt))
+        {
+            <div class="prompt">@Html.Raw(Model.Prompt)</div>
+        }
+    }
+
+    @{
+        var nameInvalidFeedback = "";
+        if (!string.IsNullOrWhiteSpace(Model.Name))
+        {
+            nameInvalidFeedback = "name=\"" + Model.Name + "_InvalidFeedback\"";
+        }
+
+        var idInvalidFeedback = "";
+        if (!string.IsNullOrWhiteSpace(Model.Id))
+        {
+            idInvalidFeedback = "id=\"" + Model.Id + "_InvalidFeedback\"";
+        }
+    }
+
+  
+    
+    @{
+        var invalidFeedbackId = "";
+        if (!string.IsNullOrWhiteSpace(Model.Id))
+        {
+            invalidFeedbackId = " id=\"" + Model.Id + "_InvalidFeedback\"";
+        }
+
+        var invalidFeedbackName = "";
+        if (!string.IsNullOrWhiteSpace(Model.Name))
+        {
+            invalidFeedbackName = " name=\"" + Model.Name + "_InvalidFeedback\"";
+        }
+    }
+    <div @Html.Raw(invalidFeedbackId)
+        @Html.Raw(invalidFeedbackName) class="invalid-feedback" silkFlo-feedback="">
+        @Html.Raw(Model.InvalidFeedback)
+    </div>
+</div>

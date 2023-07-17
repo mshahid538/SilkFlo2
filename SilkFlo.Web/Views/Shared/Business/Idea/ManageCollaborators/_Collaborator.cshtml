@@ -1,0 +1,10 @@
+@model SilkFlo.Web.Models.User
+
+<label class="p-2 transition noSelect"
+       onclick="SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Remove('@Model.Id', '@Model.Fullname');"
+       id="@Model.Id"
+       onmousemove="Delaney.UI.ToolTip.Show(event, 'Remove Collaborator');"
+       onmouseout="Delaney.UI.ToolTip.Hide();">
+    <img src="~/Icons/Arrow Left - simple.svg"
+         style="height: 1rem; margin-right: 1rem;" /><span>@Model.Fullname</span>
+    </label>

@@ -1,0 +1,317 @@
+:root {
+    --silkFlo_logo_width: 27px;
+    --silkFlo_sidebar_margin_left: calc((40px - var(--silkFlo_logo_width))/2);
+    --silkFlo_sidebar_width_wide: 280px;
+    --silkFlo_sidebar_width: calc(var(--silkFlo_logo_width)*3);
+}
+    /*transition: all 0.3s;*/
+
+
+#topBar {
+    background: white;
+    position: fixed;
+    width: 100%;
+    height: var(--header_height);
+    border-bottom: solid 1px var(--bs-gray-lighter);
+    padding-right: 20px;
+    z-index: 1000;
+}
+
+    #topBar.sideBar_wide {
+        padding-left: calc(var(--silkFlo_sidebar_width_wide) + var(--margin)*2);
+    }
+
+    #topBar:not(.sideBar_wide) {
+        padding-left: calc(var(--silkFlo_sidebar_width) + var(--margin)*2);
+    }
+
+
+/* ---------------------------------------------------
+    SIDEBAR STYLES
+----------------------------------------------------- */
+
+
+.collapse:not(.show) {
+    display: none;
+}
+
+
+/* For div element*/
+.sidebar {
+    grid-area: sidebar;
+    background: var(--navbar_background);
+    z-index: 1000;
+}
+
+    .sidebar .sidebar-header {
+        display: flex;
+        position: -webkit-sticky;
+        align-items: center;
+        padding-top: var(--silkFlo_logo_width);
+        padding-left: var(--silkFlo_logo_width);
+        padding-bottom: var(--silkFlo_logo_width);
+    }
+
+
+#ToggleSidebar {
+    align-self: center;
+    cursor: pointer;
+}
+.sidebar {
+    min-width: var(--silkFlo_sidebar_width);
+    max-width: 100px;
+}
+#layout.sideBar_wide .sidebar #ToggleSidebar {
+    padding-right: var(--silkFlo_logo_width);
+}
+
+#layout:not(.sideBar_wide) .sidebar #ToggleSidebar {
+    padding-right: 4px;
+}
+
+    #ToggleSidebar * {
+        fill: rgba(255, 255, 255, .5);
+/*        height: calc(var(--silkFlo_logo_width)/2);*/
+        height: 20px;
+    }
+#ToggleSidebar:hover * {
+    fill: white;
+}
+
+.sidebar .workspace {
+    padding-right: 20.5px;
+}
+
+#layout:not(.sideBar_wide) .sidebar .workspace {
+    display: none;
+}
+
+.selectBar {
+    fill: var(--bs-danger);
+    transition: all 0.3s ease-in-out;
+}
+
+#layout.sideBar_wide .sidebar {
+    min-width: var(--silkFlo_sidebar_width_wide);
+    max-width: var(--silkFlo_sidebar_width_wide);
+    text-align: start;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+
+    /* For nav element. */
+    .sidebar nav {
+        display: block !important;
+        margin-left: -.25rem;
+        overflow-y: auto;
+        padding-left: 20.5px;
+        padding-right: 0px;
+    }
+
+
+    /* Logo */
+    .sidebar .logo {
+        width: var(--silkFlo_logo_width);
+        cursor: pointer;
+    }
+
+
+    /* SilkFlo Logo Text */
+    .sidebar .silkFlo {
+        width: calc(var(--silkFlo_logo_width)*3);
+        margin-left: 9px;
+    }
+
+
+
+
+    /* text classes */
+    .sidebar .text {
+        display: none;
+        margin-left: var(--silkFlo_logo_width);
+    }
+
+    .narrowHide {
+        display: none;
+
+    }
+
+#layout.sideBar_wide .sidebar .text {
+    display: inline-block;
+}
+
+#layout.sideBar_wide .sidebar .narrowHide {
+    display: inline-block;
+}
+
+.sidebar .btnSubmit {
+    position: relative;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: var(--silkFlo_logo_width);
+    margin-left: 0;
+    width: 100%;
+    height: 40px;
+    min-width: 40px;
+    margin-top: 4px;
+
+    display: inline-block;
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--bs-dark);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: var(--bs-warning);
+    border: 1px solid transparent;
+    padding: 0.5rem 0 1.1rem 0;
+    border-radius: var(--border-radius);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+}
+
+    .sidebar .btnSubmit .text {
+        margin-left: 6px;
+    }
+
+    /* a classes */
+.sidebar a {
+    display: block;
+    color: var(--bs-gray-light);
+    text-decoration: none;
+}
+
+    .sidebar ul li a {
+        text-align: left;
+        font-size: 1em;
+        margin: 0 0 var(--silkFlo_logo_width) calc(var(--silkFlo_logo_width)/2);
+    }
+
+
+
+#layout.sideBar_wide .sidebar ul li ul li a {
+    margin-left: calc(var(--silkFlo_logo_width)*1.5);
+    font-size: 0.9em;
+}
+
+
+
+/* Highlight text and icon */
+.sidebar > nav ul li.active > a,
+.sidebar > nav ul li > a:hover,
+.sidebar > nav ul li > a:hover .sidebar_Icon,
+.sidebar > nav ul li.active > a .sidebar_Icon,
+.sidebar > nav ul li ul > li.active > a,
+.sidebar > nav ul li ul > li > a:hover,
+.sidebar > nav ul li ul > li.active > a .sidebar_Icon,
+.sidebar > nav ul li ul > li > a:hover .sidebar_Icon
+{
+    color: var(--bs-white);
+    fill: var(--bs-white);
+}
+
+
+/* Selecttion dot on icon */
+.sidebar > nav ul li > .sidebar_Icon_Selected,
+.sidebar > nav ul li > a .sidebar_Icon_Selected {
+    fill: none;
+}
+
+
+/* Highlight selecttion dot on icon */
+.sidebar > nav ul li > a:hover .sidebar_Icon_Selected,
+.sidebar > nav ul li.active > a .sidebar_Icon_Selected {
+    fill: var(--bs-danger);
+}
+
+
+
+
+
+
+.expanderIcon {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 10px;
+    height: 10px;
+}
+
+    .sidebar ul li a[aria-expanded="true"] .expanderIcon {
+        -webkit-transform: rotateX( 180deg );
+        transform: rotateX( 180deg );
+    }
+
+
+
+
+ /* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+.main {
+    padding-top: var(--header_height);
+    padding-left: var(--silkflo_content_padding);
+    padding-right: var(--silkflo_content_padding);
+    padding-bottom: 42px;
+    min-height: calc(100vh - var(--header_height));
+    margin-left: var(--silkFlo_sidebar_width_wide);
+}
+
+
+#content {
+    padding-bottom: 50px;
+}
+
+
+
+
+
+
+.modelSubmitIdea,
+.modelSubmitIdea_bottom {
+    z-index: 2000;
+    width: 170px;
+    display: none;
+    background: white;
+    border-radius: 8px;
+    position: fixed;
+    top: 0;
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.10);
+}
+
+
+
+.modelSubmitIdea:before {
+    z-index: 2000;
+    content:"\A";
+    position: absolute;
+    left: -9px;
+    top: 10px;
+
+
+    border-right: 10px solid white;
+    border-bottom: 10px solid transparent;
+    border-top: 10px solid transparent;
+    display: block;
+}
+
+
+
+.modelSubmitIdea_icon {
+    height: 1rem;
+    margin-right: 0.5rem;
+    fill: var(--bs-gray-light);
+}
+

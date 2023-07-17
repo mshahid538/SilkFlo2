@@ -1,0 +1,16 @@
+@model SilkFlo.Web.ViewModels.SubmitIdeaButton
+
+<a class="btn btn-warning btnSubmit btn"
+   id="@Model.Id"
+   name="Submit"
+   data-placement="right"
+   title="Submit a new idea"
+   data-bs-toggle="modal"
+   data-bs-target="#ModalSubmitIdea"
+   silkflo-action="@Model.Title"
+   onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.SideBar.SubmitIdeaMenu.Hide(); SilkFlo.SideBar.ShowModelSubmitIdea();">
+    <img src="~/Icons/SideBar/Submit Idea.svg"
+         style="width: 20px; height: 20px;"
+         ignore="ignore" />
+    <span class="text">@Model.Title</span>
+</a>

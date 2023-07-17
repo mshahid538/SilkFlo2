@@ -1,0 +1,17 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<div class="silkflo_tile_light border "
+     style="margin-bottom: 1rem;">
+    <label silkflo-hotspot="Automation-Goal">Automation Goal</label>
+    @if (Model.AutomationGoal == null)
+    {
+        <label style="padding-top: 1rem;">No Automation Goals given</label>
+    }
+    else
+    {
+        <span class="badge bg-warning"
+              style="width: 100%; padding: 1rem; font-size: 1.2rem;">
+            @Model.AutomationGoal.Name
+        </span>
+    }
+</div>

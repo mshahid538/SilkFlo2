@@ -1,0 +1,181 @@
+@model SilkFlo.Web.ViewModels.Settings.PlatformSetup
+
+
+<div class="TitleBar">
+	<div class="d-flex justify-content-between">
+		<h3 style="color:#FF8A00">Settings > Platform Setup</h3>
+	</div>
+	<div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+		<h1 style="font-weight: bold;">Platform Setup</h1>
+	</div>
+
+	@{
+		const string clsInactive = "silkflo-tab-label";
+		const string clsActive = clsInactive + " active";
+		const string displayBlock = "";
+		const string displayNone = "style=\"display: none\"";
+		string cls;
+		string displayBusinessUnits;
+		string displayApplications;
+		string displayCostSetup;
+		string displayDocuments;
+		const string pathPrefix = "Settings/tenant/Platform-Setup/";
+	}
+
+	<div class="silkflo-tab"
+		 style="margin-bottom: 1rem;">
+
+		@if (Model.Tab.ToLower() == "business-units")
+		{
+			cls = clsActive;
+			displayBusinessUnits = displayBlock;
+		}
+		else
+		{
+			cls = clsInactive;
+			displayBusinessUnits = displayNone;
+		}
+
+		@{
+			var path = pathPrefix + "Business-Units";
+		}
+
+		<h3 class="@cls"
+			name="Settings.PlatformSetup.BusinessUnits.Tab"
+			displayPath="@path"
+			parentId="Settings.PlatformSetup">
+			Business Units
+		</h3>
+
+
+		@if (Model.Tab.ToLower() == "applications")
+		{
+			cls = clsActive;
+			displayApplications = displayBlock;
+		}
+		else
+		{
+			cls = clsInactive;
+			displayApplications = displayNone;
+		}
+
+		@{
+			path = pathPrefix + "Applications";
+		}
+
+
+		<h3 class="@cls"
+			name="Settings.PlatformSetup.Applications.Tab"
+			displayPath="@path"
+			parentId="Settings.PlatformSetup">
+			Applications
+		</h3>
+
+
+		@if (Model.Tab.ToLower() == "cost-setup")
+		{
+			cls = clsActive;
+			displayCostSetup = displayBlock;
+		}
+		else
+		{
+			cls = clsInactive;
+			displayCostSetup = displayNone;
+		}
+
+		@{
+			path = pathPrefix + "Cost-Setup";
+		}
+
+
+		<h3 class="@cls"
+			name="Settings.PlatformSetup.CostSetup.Tab"
+			displayPath="@path"
+			parentId="Settings.PlatformSetup">
+			Cost Setup
+		</h3>
+
+
+        @if (Model.Tab.ToLower() == "documents")
+        {
+            cls = clsActive;
+            displayDocuments = displayBlock;
+        }
+        else
+        {
+            cls = clsInactive;
+            displayDocuments = displayNone;
+        }
+        
+        <h3 class="@cls" name="Document.Tab" onclick="isOnClickCalled()">
+            Document
+        </h3>
+
+        @*@{
+            cls = Model.Tab.ToLower() == "import-pipeline" ? clsActive : clsInActive;
+        }
+        @{ path = pathPrefix + "Import-Pipeline"; }*@
+
+		@*<h3 class="@cls"
+		name="Settings.PlatformSetup.ImportPipeline.Tab"
+		displayPath="@path"
+		parentId="Settings.PlatformSetup">
+		Import Pipeline
+		</h3>*@
+
+	</div>
+
+</div>
+
+
+<div id="Settings.PlatformSetup">
+
+	<div name="container">
+		@{
+			var apiPrefix = "Settings/tenant/PlatformSetup/";
+		}
+
+		@{
+			path = apiPrefix + "BusinessUnits";
+		}
+		<div name="Settings.PlatformSetup.BusinessUnits.Content"
+			 @Html.Raw(displayBusinessUnits)
+			 silkflo-url="@path">
+			Loading Business Units Content...
+		</div>
+
+		@{
+			path = apiPrefix + "Applications/Summary";
+		}
+		<div name="Settings.PlatformSetup.Applications.Content"
+			 @Html.Raw(displayApplications)
+			 silkflo-url="@path">
+			Loading Applications Content...
+		</div>
+
+		@{
+			path = apiPrefix + "CostSetup/Summary";
+		}
+		<div name="Settings.PlatformSetup.CostSetup.Content"
+			 @Html.Raw(displayCostSetup)
+			 silkflo-callback="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SubTabAutoSelector"
+			 silkflo-url="@path">
+			Loading Cost Setup Content...
+		</div>
+
+        @{
+            //path = apiPrefix + "CostSetup/Summary";
+        }
+        <div name="Document.Content" @Html.Raw(displayDocuments)>
+            <div name="Document.Content.SubContent">
+                Loading Documents Content...
+            </div>
+        </div>
+
+        @*@{ path = apiPrefix + "ImportPipeline/Summary"; }
+        <div name="Settings.PlatformSetup.ImportPipeline.Content"
+             @Html.Raw(displayImportPipeline)
+             silkflo-url="@path">Loading Import Pipeline Content...</div>*@
+    </div>
+
+</div>

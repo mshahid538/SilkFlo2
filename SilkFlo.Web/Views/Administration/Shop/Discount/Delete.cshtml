@@ -1,0 +1,88 @@
+@model SilkFlo.Web.Models.Shop.Discount
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Discount</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Discount/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shop/Discount/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Discount">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.DescriptionReferrer)
+        @Html.HiddenFor(x => x.DescriptionReseller)
+        @Html.HiddenFor(x => x.Max)
+        @Html.HiddenFor(x => x.Min)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.PercentReferrer)
+        @Html.HiddenFor(x => x.PercentReseller)
+        <div class="grid_auto_1fr">
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- PercentReferrer -->
+            <div>@Html.DisplayNameFor(x => x.PercentReferrer)</div>
+            <div>@Html.DisplayFor(x => x.PercentReferrer)</div>
+
+            <!-- PercentReseller -->
+            <div>@Html.DisplayNameFor(x => x.PercentReseller)</div>
+            <div>@Html.DisplayFor(x => x.PercentReseller)</div>
+
+            <!-- DescriptionReferrer -->
+            <div>@Html.DisplayNameFor(x => x.DescriptionReferrer)</div>
+            <div>@Html.DisplayFor(x => x.DescriptionReferrer)</div>
+
+            <!-- DescriptionReseller -->
+            <div>@Html.DisplayNameFor(x => x.DescriptionReseller)</div>
+            <div>@Html.DisplayFor(x => x.DescriptionReseller)</div>
+
+            <!-- Min -->
+            <div>@Html.DisplayNameFor(x => x.Min)</div>
+            <div>@Html.DisplayFor(x => x.Min)</div>
+
+            <!-- Max -->
+            <div>@Html.DisplayNameFor(x => x.Max)</div>
+            <div>@Html.DisplayFor(x => x.Max)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

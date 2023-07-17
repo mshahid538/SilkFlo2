@@ -1,0 +1,30 @@
+@model List<SilkFlo.Web.Models.Role>
+
+
+@{
+    int count = Model.Count;
+    int index = 0;
+}
+
+@foreach (var role in Model)
+{
+    index++;
+    string style = "";
+    @if (index != count)
+    {
+        style = "style=\"margin-bottom: 1rem;\"";
+    }
+
+    
+<div class="p-3 border bg-light silkflo_tile" @Html.Raw(style)>
+
+    <h2>@role.Name</h2>
+
+
+    <div>@Html.Raw(role.Description)</div>
+
+           
+</div>
+
+}
+

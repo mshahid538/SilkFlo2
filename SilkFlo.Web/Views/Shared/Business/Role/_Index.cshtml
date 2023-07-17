@@ -1,0 +1,47 @@
+@model SilkFlo.Web.Models.Business.Role[]
+
+<div class="grid_1fr_1fr_guttered">
+
+    <div class="p-3 border bg-light silkflo_tile">
+        <h2>What are collaborator roles?</h2>
+        <p>Every idea has a team assembled around it to collaborate on developing and pushing it through the various stages.</p>
+        <p>Every invited member has specific edit rights, based on their collaborator role.</p>
+        <p>This is the where you define and edit the different rights for each collaborator role.</p>
+    </div>
+
+    <div class="p-3 border bg-light silkflo_tile">
+        <h2>Understanding this screen</h2>
+        <p><b class="text-info">Left Table</b> All the collaborator role. Some editable, some un-editable.</p>
+        <p><b class="text-info">Right Table</b> Display the current configuration of the selected collaborator role.</p>
+    </div>
+
+</div>
+
+<div class="grid_1fr_1fr_guttered" style="margin-top: 0;">
+    <div id="Settings.Roles.Summary"
+         class="p-3 border bg-light silkflo_tile">
+
+       
+        @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+        {
+            SearchOnKeyUp = "SilkFlo.ViewModels.Settings.CollaboratorRole.Search(null, 'Settings.Roles.Table');",
+            SearchId = "Settings.Roles.Search",
+
+            NewOnClick = "SilkFlo.ViewModels.Settings.CollaboratorRole.GetDetail();",
+        })
+
+        
+
+        
+
+
+        <div id="Settings.Roles.Table">
+            @await Html.PartialAsync("Business/Role/_Summary", Model)
+        </div>
+    </div>
+
+    <div id="Settings.Roles.Details"
+         class="p-3 border bg-light silkflo_tile">
+        @await Html.PartialAsync("Business/Role/_Detail", Model[0])
+    </div>
+</div>

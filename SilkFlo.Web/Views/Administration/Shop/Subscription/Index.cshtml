@@ -1,0 +1,153 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Shop.Subscription>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Subscriptions Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Amount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Discount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.PriceId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.TenantId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.DateStart)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.DateEnd)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/Shop/Subscription/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Shop/Subscription/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Amount)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Amount)"><span>@Html.DisplayFor(modelItem => item.Amount)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Discount)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Discount)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Discount)"><span>@Html.DisplayFor(modelItem => item.Discount)</span></td>
+                        }
+
+                        @if(item.Price == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathPrice = "/Administration/Shop/Price/edit/" + item.PriceId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Price?.ToString()"<span class="text-muted"><a href="@pathPrice">@item.Price?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Price?.ToString()"><a href="@pathPrice">@item.Price?.ToString()</a></td>
+                            }
+                        }
+
+                        @if(item.Tenant == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathTenant = "/Administration/Business/Client/edit/" + item.TenantId;
+                            if (item.IsDeleted)
+                            {
+                            <td> value="@item.Tenant?.ToString()"<span class="text-muted"><a href="@pathTenant">@item.Tenant?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.Tenant?.ToString()"><a href="@pathTenant">@item.Tenant?.ToString()</a></td>
+                            }
+                        }
+
+                        @{
+                        var valueNullable = @item.DateStart.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@valueNullable"><span class="text-muted">@item.DateStart.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                        }
+                        else
+                        {
+                        <td value="@valueNullable">@item.DateStart.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        }
+
+                        @if (item.DateEnd == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            var value = @item.DateEnd?.ToString("yyyy-MM-dd HH:mm:ss");
+                            if (item.IsDeleted)
+                            {
+                            <td value="@value"><span class="text-muted">@item.DateEnd?.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                            }
+                            else
+                            {
+                            <td value="@value">@item.DateEnd?.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            }
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

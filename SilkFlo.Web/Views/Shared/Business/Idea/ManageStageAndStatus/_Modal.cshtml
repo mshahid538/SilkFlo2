@@ -1,0 +1,53 @@
+@model SilkFlo.Web.ViewModels.Business.ManageStageAndStatus.Getter
+
+@*Usage
+  @await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Modal", Model)
+*@
+
+<div class="modal-content"
+     id="ManageStageAndStatus">
+    <div class="modal-header">
+
+        @if (Model.IsDraft)
+        {
+            <h5 class="modal-title">View Stages and Statuses</h5>
+        }
+        else
+        {
+            <h5 class="modal-title">Manage Stages and Statuses</h5>
+        }
+        <button aria-label="Close"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                type="button">
+        </button>
+    </div>
+    <div class="modal-body">
+
+        @await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Detail", Model)
+
+    </div>
+    <div class="modal-footer"
+         style="justify-content: space-between">
+        <label class="text-danger"
+               name="Message"
+               id="Message">
+        </label>
+
+        <div>
+            <button class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    type="button">
+                Close
+            </button>
+            @if (!Model.IsDraft)
+            {
+                <button class="btn btn-primary"
+                        onclick="SilkFlo.VieModels.Business.ManageStageAndStatus.Save ();"
+                        type="button">
+                    Save
+                </button>
+            }
+        </div>
+    </div>
+</div>

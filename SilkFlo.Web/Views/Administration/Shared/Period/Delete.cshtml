@@ -1,0 +1,83 @@
+@model SilkFlo.Web.Models.Shared.Period
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Period</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shared/Period/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shared/Period/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shared/Period">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.CancelPeriodInDay)
+        @Html.HiddenFor(x => x.CancelPeriodInDayNoRenew)
+        @Html.HiddenFor(x => x.MonthCount)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.NamePlural)
+        @Html.HiddenFor(x => x.Sort)
+        <div class="grid_auto_1fr">
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- NamePlural -->
+            <div>@Html.DisplayNameFor(x => x.NamePlural)</div>
+            <div>@Html.DisplayFor(x => x.NamePlural)</div>
+
+            <!-- MonthCount -->
+            <div>@Html.DisplayNameFor(x => x.MonthCount)</div>
+            <div>@Html.DisplayFor(x => x.MonthCount)</div>
+
+            <!-- Sort -->
+            <div>@Html.DisplayNameFor(x => x.Sort)</div>
+            <div>@Html.DisplayFor(x => x.Sort)</div>
+
+            <!-- CancelPeriodInDay -->
+            <div>@Html.DisplayNameFor(x => x.CancelPeriodInDay)</div>
+            <div>@Html.DisplayFor(x => x.CancelPeriodInDay)</div>
+
+            <!-- CancelPeriodInDayNoRenew -->
+            <div>@Html.DisplayNameFor(x => x.CancelPeriodInDayNoRenew)</div>
+            <div>@Html.DisplayFor(x => x.CancelPeriodInDayNoRenew)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

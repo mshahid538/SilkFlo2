@@ -1,0 +1,92 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<h2 style="margin-bottom: 1rem;">Detailed Assessment</h2>
+
+<label>Environmental Stability</label>
+
+
+
+
+
+<div class="tile_grid_auto_1fr"
+     style="padding: 0; margin-bottom: 1rem;">
+
+    <div class="tile_topleft tile_heading">Process Stability</div>
+    <div class="tile_topRight">@Model.ProcessStability?.Name</div>
+
+    <div class="tile_bottomleft tile_heading">Applications Stability</div>
+    <div class="tile_bottomRight">@Model.ApplicationStability?.Name</div>
+
+
+
+    <div class="tile_topleft tile_heading">Frequency</div>
+    <div class="tile_topRight"><b>@Model.TaskFrequency?.Name</b></div>
+
+    <div class="tile_middleleft tile_heading">Volume <span style="color: var(--bs-gray-light)">(Per Frequency)</span></div>
+    <div class="tile_middleRight">@Model.ActivityVolumeAverage</div>
+
+    <div class="tile_bottomleft tile_heading">Average Processing<br />Time/Transaction <span style="color: var(--bs-gray-light)">(Mins)</span></div>
+    <div class="tile_bottomRight">@Model.AverageProcessingTime</div>
+
+
+
+    <div class="tile_topleft tile_heading">Average Error Rate</div>
+    <div class="tile_topRight">@Model.AverageErrorRate</div>
+
+    <div class="tile_bottomleft tile_heading">Average Rework Time <span style="color: var(--bs-gray-light)">(Min)</span></div>
+    <div class="tile_bottomRight">@Model.AverageReviewTime</div>
+
+
+
+    <div class="tile_topleft tile_heading">Average Work to be Reviewed</div>
+    <div class="tile_topRight">@Model.AverageWorkToBeReviewed</div>
+
+    <div class="tile_bottomleft tile_heading">Average Review Time <span style="color: var(--bs-gray-light)">(Min)</span></div>
+    <div class="tile_bottomRight">@Model.AverageReviewTime</div>
+
+
+
+    <div class="tile_topleft tile_heading">Process Peak</div>
+    <div class="tile_topRight">@Model.ProcessPeak?.Name</div>
+
+    <div class="tile_middleleft tile_heading">Average Number of Step</div>
+    <div class="tile_middleRight">@Model.AverageNumberOfStep?.ShortName</div>
+
+    <div class="tile_middleleft tile_heading">Percentage of Structured Digital Data Input</div>
+    <div class="tile_middleRight">@Model.DataInputPercentOfStructured?.Name</div>
+
+    <div class="tile_middleleft tile_heading">Number Of Ways to Complete Process</div>
+    <div class="tile_middleRight">@Model.NumberOfWaysToCompleteProcess?.ShortName</div>
+
+    <div class="tile_middleleft tile_heading">Decision Count</div>
+    <div class="tile_middleRight">@Model.DecisionCount?.Name</div>
+
+    <div class="tile_bottomleft tile_heading">Decision Difficulty</div>
+    <div class="tile_bottomRight">@Model.DecisionDifficulty?.ShortName</div>
+
+
+
+    <div class="tile_topleft tile_heading">Potential Fine Amount</div>
+    <div class="tile_topRight">@Model.PotentialFineAmount</div>
+
+    <div class="tile_bottomleft tile_heading">Potential Fine Probability</div>
+    <div class="tile_bottomRight">@Model.PotentialFineProbability</div>
+
+
+
+    <div class="tile_topleft tile_heading">Is Scanned Data Input</div>
+    <div class="tile_topRight">@Model.IsDataInputScanned</div>
+
+    <div class="tile_middleleft tile_heading">Will the RPA access or process sensitive personal data?</div>
+    <div class="tile_middleRight">@Model.IsDataSensitive</div>
+
+    <div class="tile_middleleft tile_heading">Will the RPA access high-risk / high-exposure IT systems?</div>
+    <div class="tile_middleRight">@Model.IsHighRisk</div>
+
+    <div class="tile_middleleft tile_heading">Alternative Solutions except for RPA?</div>
+    <div class="tile_middleRight">@Model.IsAlternative</div>
+
+    <div class="tile_bottomleft tile_heading">Will the automation tough systems due for major up?</div>
+    <div class="tile_bottomRight">@Model.IsHostUpgrade</div>
+
+</div>

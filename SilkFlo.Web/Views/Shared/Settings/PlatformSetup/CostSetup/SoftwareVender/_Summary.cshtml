@@ -1,0 +1,48 @@
+@model SilkFlo.Web.ViewModels.Business.SoftwareVender.Summary
+
+<div id="Settings.PlatformSetup.PlatformSetup.CostSetup.SoftwareVendor.Container"
+     asp-policy="Manage Tenant Settings">
+
+    <h3>Here you can set up the automation Software Vendors that are part of your Inventory. They can be RPA, Analytics, A.I., etc.</h3>
+
+    <div class="p-3 border bg-light silkflo_tile">
+
+        @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+   {
+       SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.Search(null, null, 'Settings.PlatformSetup.CostSetup.SoftwareVender');",
+       SearchId = "Settings.PlatformSetup.CostSetup.SoftwareVender.Search",
+
+       EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.Edit_Click();",
+       EditName = "EditButton",
+
+       SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.Save_Click ();",
+       SaveName = "SaveButton",
+
+       CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.Cancel_Click ();",
+       CancelName = "CancelButton",
+
+       DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.Delete_Click ();",
+       DeleteName = "DeleteButton",
+
+
+       NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.SoftwareVender.New_Click ();",
+       NewName = "NewButton"
+   })
+
+
+
+
+        <div style="overflow-x: auto;">
+            <div id="Settings.PlatformSetup.CostSetup.SoftwareVender">
+
+                @await Html.PartialAsync("Settings/PlatformSetup/CostSetup/SoftwareVender/_Table", Model)
+
+            </div>
+        </div>
+    </div>
+
+    @await Html.PartialAsync(
+        "Elements/_FooterStatusMessage", 
+        "Message")
+</div>
+

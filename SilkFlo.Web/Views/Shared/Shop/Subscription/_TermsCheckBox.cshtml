@@ -1,0 +1,26 @@
+﻿<div class="form-check form-switch"
+     name="Account.SignUp.TermsAgreed_Container"
+     style="margin-top: 1rem;">
+
+    <input class="form-check-input"
+           data-val="false"
+           data-val-required="Account.SignUp.TermsAgreed"
+           name="Account.SignUp.TermsAgreed"
+           oninput="SilkFlo.ViewModels.Subscribe.TermsAgreedOnInput(event);"
+           style="cursor: pointer;"
+           type="checkbox">
+    <label class="form-check-label"
+           style="color: inherit; cursor: pointer;">
+        <span>By ticking the box and continuing, I agree to the SilkFlo</span><br/>
+        <a data-bs-target="#ModalTerms"
+           onclick="if(HotSpot.Card){ HotSpot.Card.Close();}"
+           data-bs-toggle="modal">
+            Terms of Use
+        </a><span>.</span>
+    </label>
+
+
+    <div class="invalid-feedback"
+         silkFlo-feedback
+         name="Account.SignUp.TermsAgreed_InvalidFeedback">Please confirm the Terms of Service.</div>
+</div>

@@ -1,0 +1,131 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{
+    var inputClass = "form-control datePicker-input";
+    if (Model.IsInvalid)
+    {
+        inputClass += " is-invalid";
+    }
+
+
+    var labelClass = "";
+    var onFocusoutEvent = "";
+    var onInputEvent = "";
+    if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback))
+    {
+        onInputEvent = "oninput=\"SilkFlo.IsRequired(this);\"";
+        onFocusoutEvent = "onfocusout=\"SilkFlo.IsRequired(this);\"";
+        labelClass = "mandatory";
+    }
+
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnInput))
+    {
+        onInputEvent += " " + Model.JavaScriptOnInput + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.JavaScriptOnFocusOut))
+    {
+        onFocusoutEvent += " " + Model.JavaScriptOnFocusOut + "; ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(onInputEvent))
+    {
+        onInputEvent += "return false;";
+    }
+
+    if (!string.IsNullOrWhiteSpace(onFocusoutEvent))
+    {
+        onFocusoutEvent += "return false;";
+    }
+
+    var pickIsVisible = "";
+    var containerStyle = "margin-bottom: 1.5rem;";
+    if (Model.PickIsVisible)
+    {
+        pickIsVisible = "datePicker-PickIsVisible = \"\"";
+    }
+    else
+    {
+        containerStyle += "display: grid; grid-template-columns: 1fr auto;";
+    }
+}
+
+
+@if (!Model.IsFloatingLabel)
+{
+    <label class="@labelClass">@Model.Title</label>
+}
+
+
+@{
+    var id = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        id = $"id=\"{Model.Id}\"";
+    }
+}
+
+@{
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        name = $"name=\"{Model.Name}\"";
+    }
+}
+
+<div class="datePicker-container-grid"
+     style="@containerStyle">
+    <input class="@inputClass"
+           @Html.Raw(id)
+           @Html.Raw(name)
+           @Html.Raw(pickIsVisible)
+           @Html.Raw(onInputEvent)
+           @Html.Raw(onFocusoutEvent)
+           @if (Model.IsFloatingLabel)
+           {
+               @Html.Raw($"placeholder=\"{Model.Title}\"")
+           }
+           value="@Model.Value"/>
+    @if (Model.IsFloatingLabel)
+    {
+        <label class="@labelClass"
+               for="@Model.Id">
+            @Model.Title
+        </label>
+    }
+
+
+    @{
+        var btnId = "btn" + Model.Id;
+    }
+
+    @if (!Model.PickIsVisible)
+    {
+        <button class="btn btn-secondary datePicker-btn"
+                id="@btnId"
+                type="button">
+        </button>
+    }
+
+
+    @if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback))
+    {
+        <div class="invalid-feedback">
+            @Model.InvalidFeedback
+        </div>
+    }
+
+</div>
+
+
+<script type="text/javascript">
+    window.addEventListener (
+        'DOMContentLoaded',
+        () =>
+        {
+            Delaney.UI.DatePicker.MainById (
+                '@Model.Id',
+                '@btnId' );
+        } );
+</script>

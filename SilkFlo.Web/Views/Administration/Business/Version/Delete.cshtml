@@ -1,0 +1,78 @@
+@model SilkFlo.Web.Models.Business.Version
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Version</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Version/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/Version/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Version">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.ApplicationId)
+        @Html.HiddenFor(x => x.ClientId)
+        @Html.HiddenFor(x => x.IsLive)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.PlannedUpdateDate)
+        <div class="grid_auto_1fr">
+
+            <!-- IsLive -->
+            <div>@Html.DisplayNameFor(x => x.IsLive)</div>
+            <div>@Html.DisplayFor(x => x.IsLive)</div>
+
+            <!-- PlannedUpdateDate -->
+            <div>@Html.DisplayNameFor(x => x.PlannedUpdateDate)</div>
+            <div>@Html.DisplayFor(x => x.PlannedUpdateDate)</div>
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- ApplicationString -->
+            <div>@Html.DisplayNameFor(x => x.ApplicationString)</div>
+            <div>@Html.DisplayFor(x => x.ApplicationString)</div>
+
+            <!-- ClientString -->
+            <div>@Html.DisplayNameFor(x => x.ClientString)</div>
+            <div>@Html.DisplayFor(x => x.ClientString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

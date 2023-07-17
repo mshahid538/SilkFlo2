@@ -1,0 +1,17 @@
+@model String
+<div>
+    <div style="margin-left: auto;
+                margin-right: auto;
+                max-width: 300px;
+                margin-top: 32px;
+                background: var(--navbar_background);
+                padding: 32px;
+                border-radius: 25px; ">
+        <img src="~/Icons/Logo.svg" />
+        <img src="~/Icons/SilkFlo.svg" style="margin-top:32px;" />
+    </div>
+    @if(!string.IsNullOrWhiteSpace(Model))
+    {
+        @Html.Raw(Model)
+     }
+</div>

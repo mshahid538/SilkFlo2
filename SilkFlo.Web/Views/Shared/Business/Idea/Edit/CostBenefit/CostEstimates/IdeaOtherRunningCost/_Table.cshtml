@@ -1,0 +1,56 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.IdeaOtherRunningCost
+
+<table class="table table-silkflo table-hover table-responsive table-bordered-silkflo"
+       name="@Model.TableName">
+    <thead>
+    <tr>
+        <th scope="col">
+            Cost&nbsp;Title
+        </th>
+        <th scope="col"
+            style="width: 1%">
+            @Model.NumberTitle
+        </th>
+        <th scope="col">
+            Description
+        </th>
+        <th scope="col"
+            style="text-align: right; width: 1%">
+            Cost/Year
+        </th>
+        <th scope="col"
+            style="text-align: right; width: 1%">
+            Cost/Month
+        </th>
+        <th scope="col"
+            style="text-align: right; width: 1%">
+            Total&nbsp;Cost/Year
+        </th>
+        <th scope="col"
+            style="text-align: right; width: 1%">
+            Total&nbsp;Cost/Month
+        </th>
+    </tr>
+    </thead>
+    <tbody name="tbody">
+    @foreach (var ideaOtherRunningCost in Model.IdeaOtherRunningCosts)
+    {
+        @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/IdeaOtherRunningCost/_Row", ideaOtherRunningCost);
+    }
+
+    <tr class="total">
+        <th colspan="5"
+            style="padding: 1rem 0.5rem;"> @Model.Title</th>
+        <th style="text-align: right;">
+            <span name="TotalCostPerYear">
+                @Model.CurrencySymbol&nbsp;0.00
+            </span>
+        </th>
+        <th style="text-align: right;">
+            <span name="TotalCostPerMonth">
+                @Model.CurrencySymbol&nbsp;0.00
+            </span>
+        </th>
+    </tr>
+    </tbody>
+</table>

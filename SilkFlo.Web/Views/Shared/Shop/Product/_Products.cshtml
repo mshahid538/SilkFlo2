@@ -1,0 +1,106 @@
+﻿@model SilkFlo.Web.ViewModels.Subscriptions;
+
+@if (!string.IsNullOrWhiteSpace(Model.HeaderText))
+{
+    <div class="container title_bar"
+         style="padding-bottom: 18px">
+        @Html.Raw(Model.HeaderText)
+    </div>
+}
+
+<div name="Message"></div>
+
+@if (Model?.Periods == null
+     || !Model.Periods.Any())
+{
+    <div class="container">
+        <h1 class="text-danger">Error: No Subscription periods found</h1>
+    </div>
+}
+else
+{
+    <div class="container subscription"
+         id="Subscription.Container">
+
+        @{
+            const string clsInactive = "silkflo-tab-label";
+            const string clsActive = clsInactive + " active";
+
+            const string displayBlock = "";
+            const string displayNone = "style=\"display: none\"";
+        }
+
+        @if (Model.ShowTabs)
+        {
+            <div class="silkflo-tab"
+                 style="margin-bottom: 1rem; justify-content: center;">
+                @for (var i = 0; i < Model.Periods.Count; i++)
+                {
+                    var period = Model.Periods[i];
+
+                    var cls = i == 0 ?
+                        clsActive :
+                        clsInactive;
+
+                    var name = $"Subscription.{period.NamePlural}.Tab";
+
+                    <h3 class="@cls"
+                        displayPath="Pricing"
+                        name="@name"
+                        parentId="Subscription.Container"
+                        silkflo-action="@period.NamePlural">
+                        @period.NamePlural
+                    </h3>
+                }
+            </div>
+        }
+
+        <div name="container"
+             class="d-flex justify-content-center"
+             style="margin-bottom: 2rem;">
+
+            @for (var i = 0; i < Model.Periods.Count; i++)
+            {
+                var period = Model.Periods[i];
+
+                var display = i == 0 ?
+                    displayBlock :
+                    displayNone;
+
+                var name = $"Subscription.{period.NamePlural}.Content";
+
+
+                <div name="@name" @Html.Raw(display) style="max-width: 1400px;">
+
+                    <div class="d-flex d-flex-guttered flex-wrap"
+                         style="justify-content: space-around">
+
+                        @foreach (var price in period.Prices)
+                        {
+                            price.Period = period;
+                            price.Product.Price = price;
+                            @await Html.PartialAsync("/Views/Shared/Shop/Product/_Card.cshtml", price.Product)
+                        }
+
+                        @if (Model.SpecialProducts != null)
+                        {
+                            foreach (var product in Model.SpecialProducts)
+                            {
+                                @await Html.PartialAsync("/Views/Shared/Shop/Product/_Card.cshtml", product)
+                            }
+                        }
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+    if (Model.IsBookDemo)
+    {
+        @await Html.PartialAsync(
+            "CRM/Prospect/_Modal",
+            Model.Prospect);
+    }
+}

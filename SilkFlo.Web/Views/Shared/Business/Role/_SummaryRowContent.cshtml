@@ -1,0 +1,15 @@
+@model SilkFlo.Web.Models.Business.Role
+@{
+    string cls = "";
+
+    if(Model.IsSelected)
+    {
+        cls = "class=\"pulse-background-green\"";
+    }
+}
+
+<td style="padding: 0;" @Html.Raw(cls)>
+    <div class="silkFlo_flex_wrap_spaced">
+        <span style="padding: 0.5rem;" name="Name">@Model.Name</span>
+    </div>
+</td>

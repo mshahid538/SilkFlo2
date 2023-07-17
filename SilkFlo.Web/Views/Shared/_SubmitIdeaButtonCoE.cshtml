@@ -1,0 +1,37 @@
+@model SilkFlo.Web.ViewModels.SubmitIdeaButton
+
+<a class="btn btn-warning btnSubmit"
+   id="@Model.Id"
+   name="Submit"
+   data-bs-target="tooltip"
+   data-placement="right"
+   title="Submit a new idea"
+   silkflo-action="Submit a new idea navigate button"
+   onclick="@Model.OnClick">
+    <img alt="Icon" ignore="ignore" src="~/Icons/SideBar/Submit Idea.svg" style="width: 20px; height: 20px;"/>
+    <span class="text">@Model.Title</span>
+
+    @if (Model.ShowMenu)
+    {
+    <div id="submitIdeaMenu_bottom"
+         style="position: absolute"
+         class="modelSubmitIdea_bottom contextMenu">
+        <div class="contextMenu_Brand"> </div>
+
+        <a class="d-flex list-group-item list-group-item-action pointer noSelect"
+           data-bs-toggle="modal"
+           data-bs-target="#ModalSubmitIdea"
+           silkflo-action="Employee Idea"
+           onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.SideBar.SubmitIdeaMenu.Hide(); SilkFlo.SideBar.ShowModelSubmitIdea();">
+            <img alt="Icon" class="modelSubmitIdea_icon" src="~/Icons/Plus.svg" />
+            <h3>Employee Idea</h3>
+        </a>
+        <a class="d-flex list-group-item list-group-item-action pointer noSelect"
+           silkflo-action="CoE Idea"
+           onclick="SilkFlo.SideBar.SubmitIdeaMenu.Hide(); SilkFlo.SideBar.OnClick('/Idea/Edit', SilkFlo.ViewModels.Business.Idea.Edit.Get_Callback);">
+            <img alt="Icon" class="modelSubmitIdea_icon" src="~/Icons/SideBar/Ideas.svg" />
+            <h3>CoE Idea</h3>
+        </a>
+    </div>
+    }
+</a>

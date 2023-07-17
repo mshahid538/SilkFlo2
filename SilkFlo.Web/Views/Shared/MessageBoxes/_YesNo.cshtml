@@ -1,0 +1,65 @@
+@model SilkFlo.Web.ViewModels.MessageBox
+
+@{ 
+    string onClick_Yes = "";
+    if(!string.IsNullOrWhiteSpace(Model.Yes_Javascript))
+    {
+        onClick_Yes = $"onclick=\"{Model.Yes_Javascript}\"";
+    }
+
+    string onClick_No = "";
+    if (!string.IsNullOrWhiteSpace(Model.No_Javascript))
+    {
+        onClick_No = $"onclick=\"{Model.No_Javascript}\"";
+    }
+}
+
+<div class="modal fade"
+     id="@Model.Id"
+     tabindex="-1"
+     style="z-index: 10000"
+     aria-labelledby="@Model.Title Message Box"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-danger" name="Title">@Model.Title</h2>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        @Html.Raw(onClick_No)
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body" name="Message">@Html.Raw(Model.Message)</div>
+            <div class="modal-footer">
+                <button type="button"
+                        @Html.Raw(onClick_Yes)
+                        name="Yes"
+                        class="btn btn-danger"
+                        data-bs-dismiss="modal">@Model.TrueLabel</button>
+                <button type="button"
+                        @Html.Raw(onClick_No)
+                        name="No"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">@Model.FalseLabel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*
+    Example:
+    @await Html.PartialAsync("MessageBoxes/_YesNo",
+                             new SilkFlo.Web.ViewModels.MessageBox
+                             {
+                                 Id = "",
+                                 Title = "",
+                                 Message = "",
+                                 Yes_Javascript = "",
+                                 No_Javascript = "",
+                             })
+
+    $('#myModal').modal('show')
+    $('#myModal').modal('hide')
+
+*@

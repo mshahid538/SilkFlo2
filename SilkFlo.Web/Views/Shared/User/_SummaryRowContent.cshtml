@@ -1,0 +1,44 @@
+@model SilkFlo.Web.Models.User
+
+@{
+    string cls = "";
+    if (Model.IsSelected)
+    {
+        cls = "class=\"pulse-background-green\"";
+    }
+}
+
+
+<td value="@Model.Fullname" @Html.Raw(cls)>@Model.Fullname</td>
+<td value="@Model.Email" @Html.Raw(cls)>
+    @if (!string.IsNullOrWhiteSpace(Model.Email))
+    {
+        <a href="mailto:@Model.Email">@Model.Email</a>
+    }
+</td>
+<td value="@Model.RoleSummary" @Html.Raw(cls)>@Model.RoleSummary</td>
+<td value="@Model.JobTitle" @Html.Raw(cls)>@Model.JobTitle</td>
+<td value="@Model.Department?.Name" @Html.Raw(cls)>@Model.Department?.Name</td>
+@{
+    var src = "";
+    var value = "";
+
+    if (Model.Status == SilkFlo.Web.Models.Status.Active)
+    {
+        src = "/Icons/Active.svg";
+        value = "active";
+    }
+    else if (Model.Status == SilkFlo.Web.Models.Status.Pending)
+    {
+        src = "/Icons/Pending.svg";
+        value = "pending";
+    }
+    else
+    {
+        src = "/Icons/Inactive.svg";
+        value = "inactive";
+    }
+}
+<td value="@value" @Html.Raw(cls)>
+    <img alt="" src="@src"/>
+</td>

@@ -1,0 +1,61 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+    <div class="silkflo_tile_light border "
+         style="margin-bottom: 1rem;">
+        <label>Automation Matrix</label>
+        @{
+            var data = new List<SVGChartTools.DataSet.XYZ>();
+
+            var xyz = new SVGChartTools.DataSet.XYZ(
+                Model.EaseOfImplementationValue,
+                Model.AutomationPotentialValue ?? 0,
+                Model.BenefitPerCompanyHoursRelativePercent)
+            {
+                CSSStyle = Model.BenefitPerCompanyHoursCssStyle
+            };
+
+            data.Add(xyz);
+            var axisFont = new SVGChartTools.Font("Poppins Thin", 12F, 100)
+            {
+                CSSStyle = "stroke: var(--bs-gray);"
+            };
+            var labelFont = new SVGChartTools.Font("Poppins Thin", 12F, 100)
+            {
+                CSSStyle = "stroke: var(--bs-gray-light);"
+            };
+        }
+            @await Html.PartialAsync("Business/Idea/_AutomationMatrix",
+            new SilkFlo.Web.ViewModels.Chart.AutomationMatrix
+            (
+                axisFont,
+                axisFont,
+                labelFont,
+                labelFont,
+                data)
+            )
+    </div>
+
+    <div class="silkflo_tile_light border"
+         style="padding: 0; margin-bottom: 1rem; width: 100%">
+        <label style="padding: 1rem 1rem 0 1rem;">Charts Values</label>
+        <table class="automationGoal"
+               style="width: 100%">
+            <tbody>
+                <tr>
+                    <td style="padding-right: 0;">Automation Potential</td>
+                    <td style="padding-left: 0;">@Model.AutomationPotential%</td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 0;">Ease of Implementation</td>
+                    <td style="padding-left: 0;">@Model.EaseOfImplementation%</td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 0;"><span>Benefit Per Company</span><br /><span style="color: var(--bs-gray-light)">hours saved/year</span></td>
+                    <td style="padding-left: 0; vertical-align: top;">
+                        @*@Html.Raw(Model.BenefitPerCompanyHours + "hrs")*@
+                        @((await Model.GetEstimateAsync(Model.BenefitPerCompanyHoursValue)).ToString("#,##0.00"))
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>

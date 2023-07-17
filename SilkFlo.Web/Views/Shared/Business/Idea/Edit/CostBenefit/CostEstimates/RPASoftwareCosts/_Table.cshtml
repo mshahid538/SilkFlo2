@@ -1,0 +1,47 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.RPASoftwareCosts
+
+<table class="table table-bordered-silkflo table-hover table-responsive table-silkflo"
+       name="Business.IdeaRunningCosts">
+    <thead>
+    <tr>
+        <th scope="col">Vender</th>
+        <th scope="col"
+            style="width: 1%">
+            #&nbsp;Licences
+        </th>
+        <th scope="col"
+            style="text-align: right;">
+            Cost/Year
+        </th>
+        <th scope="col"
+            style="text-align: right;">
+            Cost/Month
+        </th>
+        <th scope="col"
+            style="text-align: right;">
+            Total Cost/Year
+        </th>
+        <th scope="col"
+            style="text-align: right;">
+            Total Cost/Month
+        </th>
+    </tr>
+    </thead>
+    <tbody name="Business.IdeaRunningCost.Tbody">
+    @foreach (var ideaRunningCost in Model.IdeaRunningCosts)
+    {
+        @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/RPASoftwareCosts/_Row", ideaRunningCost);
+    }
+
+    <tr class="total">
+        <th colspan="4">Total RPA Software Costs</th>
+        <th style="text-align: right;">
+            <span name="RpaTotalCostPerYear">@Model.CurrencySymbol&nbsp;0.00</span>
+        </th>
+        <th style="text-align: right;">
+            <span name="RpaTotalCostPerMonth">@Model.CurrencySymbol&nbsp;0.00</span>
+        </th>
+    </tr>
+    </tbody>
+
+</table>

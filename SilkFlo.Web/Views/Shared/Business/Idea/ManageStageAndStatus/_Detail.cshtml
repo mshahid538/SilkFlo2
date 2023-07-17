@@ -1,0 +1,239 @@
+@using SilkFlo.Data.Core
+@model SilkFlo.Web.ViewModels.Business.ManageStageAndStatus.Getter
+
+@*Usage
+  \\@await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Detail", Model)
+*@
+
+@if (string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+
+    <input name="Business.IdeaStage.Id"
+           type="hidden"
+           value="@Model.IdeaStageId"/>
+
+    <input name="Business.Idea.Id"
+           type="hidden"
+           value="@Model.IdeaId"/>
+
+
+    <input name="Shared.StageGroup.Id"
+           type="hidden"
+           value="@Model.Stage?.StageGroup?.Id"/>
+
+
+    <input name="Business.IdeaStage.StageId"
+           type="hidden"
+           value="@Model.StageId"/>
+
+    <div class="d-flex flex-wrap gap-5">
+
+    <div>
+        <h2>Workflow</h2>
+        <div class="d-flex flex-wrap gap-2">
+            <div>
+                <h3>Progress</h3>
+                @foreach (var stage in Model.Stages)
+                {
+                    var cls = stage.IsSelected ?
+                        " text-primary" :
+                        " text-secondary";
+
+                    <label class="@cls"
+                           style="display: block; width: 100%; margin-bottom: 3px">
+                        @stage.Name
+                    </label>
+                }
+            </div>
+
+            <div>
+                <h3>Status</h3>
+                @{
+                    var count = Model.IdeaStageStatusHistory.Count;
+                    var x = 0;
+                }
+                @foreach (var ideaStageStatus in Model.IdeaStageStatusHistory)
+                {
+                    x++;
+
+                    var cls = x == count ?
+                        " text-primary" :
+                        " text-secondary";
+
+                    <label class="@cls"
+                           style="display: block; width: 100%; margin-bottom: 3px">@ideaStageStatus.Status.Name</label>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        <h2>Current Stage</h2>
+        <input class="form-control"
+               disabled
+               readonly
+               style="margin-bottom: 1.5rem;"
+               value="@Model.Stage?.Name"/>
+
+
+        @if (Model.Stage.SetDateAutomatically)
+        {
+            <label>Start Date</label>
+            <input class="form-control"
+                   disabled
+                   readonly
+                   name="AutomaticStartDate"
+                   value="@Model.DateStart?.ToString("yyy-MM-dd")"/>
+        }
+        else
+        {
+            <div name="MetaData" class="form-group has-validation">
+                <label name="Business.IdeaStage.LblDateEstimate">Estimated Date</label>
+                <div class="d-flex">
+                    @* Date Start Estimate *@
+                    <input class="form-control datePicker-input"
+                           id="Business.IdeaStage.DateStartEstimate"
+                           name="Business.IdeaStage.DateStartEstimate"
+                           min="@Model.MinDateTime"
+                           style="width: 120px; padding-left: 0.25rem; padding-right: 0.25rem;"
+                           disabled
+                           value="@Model.DateStartEstimate.ToString("yyyy-MM-dd")"/>
+
+                    @if (Model.Stage.StageGroup.Id != Enumerators.StageGroup.n04_Deployed.ToString())
+                    {
+                    @* End Date Estimated *@
+                        <input class="form-control datePicker-input"
+                               id="Business.IdeaStage.DateEndEstimate"
+                               name="Business.IdeaStage.DateEndEstimate"
+                               style="width: 120px; padding-left: 0.25rem; padding-right: 0.25rem;"
+                               disabled
+                               value="@Model.DateEndEstimate?.ToString("yyyy-MM-dd")"/>
+                    }
+
+                    <button class="btn btn-secondary datePicker-btn"
+                            disabled
+                            name="Business.IdeaStage.BtnEstimateDate">
+                    </button>
+                </div>
+                <div class="invalid-feedback"
+                     name="Business.IdeaStage.DateStartEstimate_InvalidFeedback">
+                    Required
+                </div>
+                @if (Model.Stage.StageGroup.Id != Enumerators.StageGroup.n04_Deployed.ToString())
+                {
+                    <div class="invalid-feedback"
+                         name="Business.IdeaStage.DateEndEstimate_InvalidFeedback">
+                        The Estimated End Date must be greater than zero.
+                    </div>
+                }
+            </div>
+            
+            <div name="MetaData" class="form-group has-validation">
+                <label name="Business.IdeaStage.LblDate" style="margin-top: 1rem;">Actual Date</label>
+                <div class="d-flex">
+                    @* Date Start Estimate *@
+                    <input class="form-control datePicker-input"
+                           id="Business.IdeaStage.DateStart"
+                           name="Business.IdeaStage.DateStart"
+                           style="width: 120px; padding-left: 0.25rem; padding-right: 0.25rem;"
+                           disabled
+                           value="@Model.DateStart?.ToString("yyyy-MM-dd")"/>
+
+                    @if (Model.Stage.StageGroup.Id != Enumerators.StageGroup.n04_Deployed.ToString())
+                    {
+                    @* End Date Estimated *@
+                        <input class="form-control datePicker-input"
+                               id="Business.IdeaStage.DateEnd"
+                               name="Business.IdeaStage.DateEnd"
+                               style="width: 120px; padding-left: 0.25rem; padding-right: 0.25rem;"
+                               disabled
+                               value="@Model.DateEnd?.ToString("yyyy-MM-dd")"/>
+                    }
+
+                    <button class="btn btn-secondary datePicker-btn"
+                            disabled
+                            name="Business.IdeaStage.BtnActualDate">
+                    </button>
+                </div>
+                <div class="invalid-feedback"
+                     name="Business.IdeaStage.DateStart_InvalidFeedback">
+                    Required
+                </div>
+                @if (Model.Stage.StageGroup.Id != Enumerators.StageGroup.n04_Deployed.ToString())
+                {
+                    <div class="invalid-feedback"
+                         name="Business.IdeaStage.DateEnd_InvalidFeedback">
+                        The End Date must be greater than zero.
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+
+
+    @if (!Model.IsDraft)
+    {
+        <div name="Shared.IdeaStatuses"
+             style="max-width: 300px">
+
+            <h2>Move to Next</h2>
+
+            @if (Model.Statuses != null
+                 && Model.Statuses.Any())
+            {
+                if (Model.Stage.Id == Model.Statuses[0].StageId)
+                {
+                    <label style="margin-top: 0.5rem;">
+                        <span>Move status within <b>@Model.Stage?.Name</b> stage</span>
+                    </label>
+                }
+
+                var currentStageId = "";
+                foreach (var status in Model.Statuses)
+                {
+                    if (Model.Stage.Id != status.StageId && currentStageId != status.StageId)
+                    {
+                        currentStageId = status.StageId;
+                        <label style="margin-top: 0.5rem;">
+                            <span>Next Stage: <b>@status.Stage.Name</b></span>
+                        </label>
+                    }
+
+                    <div class="form-check form-switch"
+                         name="Shared.IdeaStatus">
+
+                        <input name="Shared.IdeaStatus.StatusId"
+                               type="hidden"
+                               value="@status.Id"/>
+
+                        <input name="Shared.IdeaStatus.StageId"
+                               type="hidden"
+                               value="@status.StageId"/>
+
+                        @{
+                            const string onClick = "SilkFlo.VieModels.Business.ManageStageAndStatus.UncheckOption(this);"
+                                                   + " SilkFlo.VieModels.Business.ManageStageAndStatus.SetDateTimeElements();";
+                        }
+
+                        <input class="form-check-input"
+                               name="Shared.IdeaStatus.IsSelected"
+                               onclick="@onClick"
+                               type="checkbox">
+                        <label class="form-check-label @status.TextClass"
+                               for="@status.Id"
+                               name="Shared.IdeaStatus.Name">
+                            @status.Name
+                        </label>
+                    </div>
+                }
+            }
+        </div>
+    }
+    </div>
+}
+else
+{
+    <label class="text-warning">@Model.ErrorMessage</label>
+}

@@ -1,0 +1,108 @@
+@model SilkFlo.Web.Models.CRM.Prospect
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Prospect</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/CRM/Prospect/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/CRM/Prospect/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/CRM/Prospect">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.ClientTypeId)
+        @Html.HiddenFor(x => x.CompanyName)
+        @Html.HiddenFor(x => x.CompanySizeId)
+        @Html.HiddenFor(x => x.CountryId)
+        @Html.HiddenFor(x => x.Email)
+        @Html.HiddenFor(x => x.FirstName)
+        @Html.HiddenFor(x => x.JobLevelId)
+        @Html.HiddenFor(x => x.LastName)
+        @Html.HiddenFor(x => x.PhoneNumber)
+        @Html.HiddenFor(x => x.Pipeline)
+        @Html.HiddenFor(x => x.TermsAgreed)
+        <div class="grid_auto_1fr">
+
+            <!-- CompanyName -->
+            <div>@Html.DisplayNameFor(x => x.CompanyName)</div>
+            <div>@Html.DisplayFor(x => x.CompanyName)</div>
+
+            <!-- FirstName -->
+            <div>@Html.DisplayNameFor(x => x.FirstName)</div>
+            <div>@Html.DisplayFor(x => x.FirstName)</div>
+
+            <!-- LastName -->
+            <div>@Html.DisplayNameFor(x => x.LastName)</div>
+            <div>@Html.DisplayFor(x => x.LastName)</div>
+
+            <!-- Email -->
+            <div>@Html.DisplayNameFor(x => x.Email)</div>
+            <div>@Html.DisplayFor(x => x.Email)</div>
+
+            <!-- PhoneNumber -->
+            <div>@Html.DisplayNameFor(x => x.PhoneNumber)</div>
+            <div>@Html.DisplayFor(x => x.PhoneNumber)</div>
+
+            <!-- TermsAgreed -->
+            <div>@Html.DisplayNameFor(x => x.TermsAgreed)</div>
+            <div>@Html.DisplayFor(x => x.TermsAgreed)</div>
+
+            <!-- Pipeline -->
+            <div>@Html.DisplayNameFor(x => x.Pipeline)</div>
+            <div>@Html.DisplayFor(x => x.Pipeline)</div>
+
+            <!-- ClientTypeString -->
+            <div>@Html.DisplayNameFor(x => x.ClientTypeString)</div>
+            <div>@Html.DisplayFor(x => x.ClientTypeString)</div>
+
+            <!-- CompanySizeString -->
+            <div>@Html.DisplayNameFor(x => x.CompanySizeString)</div>
+            <div>@Html.DisplayFor(x => x.CompanySizeString)</div>
+
+            <!-- CountryString -->
+            <div>@Html.DisplayNameFor(x => x.CountryString)</div>
+            <div>@Html.DisplayFor(x => x.CountryString)</div>
+
+            <!-- JobLevelString -->
+            <div>@Html.DisplayNameFor(x => x.JobLevelString)</div>
+            <div>@Html.DisplayFor(x => x.JobLevelString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

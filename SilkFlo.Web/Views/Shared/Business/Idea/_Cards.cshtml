@@ -1,0 +1,48 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Cards
+
+<div>
+    @if (Model.ShowFilter)
+    {
+        <input type="hidden"
+               id="IsDeployedOnly"
+               value="@Model.FilterCriteria.IsDeployedOnly.ToString()"/>
+    }
+
+    @{
+        var cls = "d-flex-guttered";
+        string style = "";
+        if (Model.Wrap)
+        {
+            cls += " flex-wrap";
+        }
+        else
+        {
+            style = "style = \"overflow-x:auto; padding-bottom: 1rem;\"";
+        }
+    }
+    
+        <div class="@cls" @Html.Raw(style)>
+
+            @if (Model.Ideas.Count == 0)
+            {
+                if (Model.ShowNoIdeasCard)
+                {
+                    if (Model.ShowFilter && Model.FilterCriteria.IsDeployedOnly)
+                    {
+                        @await Html.PartialAsync("Explore/Improvements/_NoIdeasCard")
+                    }
+                    else
+                    {
+                        @await Html.PartialAsync("Explore/Ideas/_NoIdeasCard")
+                    }
+                }
+            }
+            else
+            {
+                @foreach (var idea in Model.Ideas)
+                {
+                    @await Html.PartialAsync("Business/Idea/_Card", idea)
+                }
+            }
+        </div>
+</div>

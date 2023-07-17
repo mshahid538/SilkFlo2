@@ -1,0 +1,494 @@
+@using SilkFlo.Web.Models.Business
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.Models.Business.Idea
+
+@{
+    // Automation Potential
+    var robotAutomationPotentialEstimatedAfterValue = Model.AutomationPotentialValue;
+    var robotAutomationPotentialEstimatedAfter = Model.AutomationPotential;
+    var workloadSplitValue = Model.WorkloadSplit ?? robotAutomationPotentialEstimatedAfterValue;
+    var workloadSplit = workloadSplitValue?.ToString("#,##0.##");
+
+    var humanAutomationPotentialAfter = Model.GetHumanAutomationPotentialAfter(workloadSplitValue);
+
+    string displayUnAttended = "block";
+    bool isReadOnly = false;
+
+    if (Model.RunningCost?.AutomationTypeId == "Attended")
+    {
+        displayUnAttended = "none";
+    }
+    if (Model.RunningCost?.AutomationTypeId == "Unattended")
+    {
+        isReadOnly = true;
+    }
+    else if (Model.RunningCost == null || string.IsNullOrWhiteSpace(Model.RunningCost?.AutomationTypeId))
+    {
+        displayUnAttended = "none";
+        isReadOnly = true;
+    }
+}
+
+<h1>Estimation of Robots Needed &amp; Refinement of Benefits</h1>
+
+
+<div class="d-flex d-flex-guttered flex-wrap">
+
+    @*Vender Used*@
+    <div>
+        <h2>Vender Used</h2>
+
+        <div class="form-group ">
+            <label class="">RPA&nbsp;Software</label>
+
+            <select class="form-select"
+                    name="Business.Idea.RunningCostId"
+                    onchange="SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.RunningCostId_Change ()"
+                    style="border-top-left-radius: var(--border-radius) !important; border-bottom-left-radius: var(--border-radius) !important;">
+                @foreach (var runningCost in Model.RunningCosts)
+                {
+                    if (string.IsNullOrWhiteSpace(runningCost.Id))
+                    {
+                        <option automationTypeId=""
+                                cost=""
+                                value="">
+                            Select ...
+                        </option>
+                    }
+                    else
+                    {
+                        if (runningCost.Id == Model.RunningCostId)
+                        {
+                            <option AutomationTypeId="@runningCost.AutomationTypeId"
+                                    selected=""
+                                    cost="@runningCost.Cost"
+                                    value="@runningCost.Id">
+                                @runningCost.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option AutomationTypeId="@runningCost.AutomationTypeId"
+                                    cost="@runningCost.Cost"
+                                    value="@runningCost.Id">
+                                @runningCost.Name
+                            </option>
+                        }
+                    }
+                }
+            </select>
+
+        </div>
+
+    </div>
+
+
+    @*Process Volumetry*@
+    <div>
+        <h2>Process Volumetry</h2>
+
+        <div class="d-flex d-flex-guttered flex-wrap">
+
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "Volumes\u00A0/\u00A0year",
+                    Name = "Business.Idea.ProcessVolumetryPerYear",
+                    Value = Model.GetVolumePerYear(100)?.ToString("#0.00"),
+                    JavaScriptOnKeyDown = "SilkFlo.KeyPressNumberOnly(event); ",
+                    InvalidFeedback = "",
+                    IsFloatingLabel = false,
+                    InputClass = "text-right",
+                    IsReadOnly = isReadOnly
+                })
+
+
+
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "Volumes\u00A0/\u00A0month",
+                    Name = "Business.Idea.ProcessVolumetryPerMonth",
+                    Value = Model.GetVolumePerMonth(100)?.ToString("#0.00"),
+                    InvalidFeedback = "",
+                    JavaScriptOnKeyDown = "SilkFlo.KeyPressNumberOnly(event); ",
+                    IsFloatingLabel = false,
+                    InputClass = "text-right",
+                    IsReadOnly = isReadOnly
+                })
+
+        </div>
+
+    </div>
+
+    @*Employees Performing Task/Process*@
+    <div>
+
+        <h2>Employees Performing Task/Process</h2>
+
+        @await Html.PartialAsync("Elements/_LabeledDiv",
+            new Element
+            {
+                Title = "Users",
+                Name = "Business.Idea.EmployeeCount",
+                Value = Model.EmployeeCount.ToString(),
+                InvalidFeedback = "",
+                IsFloatingLabel = false,
+                JavaScriptOnKeyDown = "SilkFlo.KeyPressNumberOnly(event); ",
+                InputClass = "text-right",
+                IsReadOnly = isReadOnly
+            })
+
+    </div>
+
+</div>
+
+
+<div class="d-flex d-flex-guttered flex-wrap">
+
+    @*Robot Assumptions*@
+    <div>
+        <h2>Robot Assumptions</h2>
+
+        <div class="d-flex d-flex-guttered">
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "Robot Working",
+                    Suffix = "hours/day",
+                    Name = "Business.Idea.RobotWorkHourDay",
+                    Value = Model.RobotWorkHourDay?.ToString(),
+                    CustomStylesContainer = "display: " + displayUnAttended,
+                    InvalidFeedback = "",
+                    IsFloatingLabel = false,
+                    ElementType = "Number",
+                    MinimumValue = "0",
+                    MaximumValue = "24",
+                    InputClass = "text-right",
+                    Step = "0.01",
+                    JavaScriptOnKeyDown = "SilkFlo.KeyPressNumberOnly(event); ",
+                    JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.RunningCostId_Change()"
+                })
+
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "Robot Working",
+                    Suffix = "day/year",
+                    Name = "Business.Idea.RobotWorkDayYear",
+                    Value = Model.RobotWorkDayYear?.ToString(),
+                    CustomStylesContainer = "display: " + displayUnAttended,
+                    InvalidFeedback = "",
+                    IsFloatingLabel = false,
+                    MinimumValue = "0",
+                    MaximumValue = "365",
+                    InputClass = "text-right",
+                    JavaScriptOnKeyDown = "KeyPressPositiveIntegerOnly(event)",
+                    JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.RunningCostId_Change()"
+                })
+
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "Robot Speed Multiplier",
+                    Name = "Business.Idea.RobotSpeedMultiplier",
+                    Value = Model.RobotSpeedMultiplier?.ToString(),
+                    InvalidFeedback = "",
+                    MinimumValue = "0",
+                    InputClass = "text-right",
+                    JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.UpdateAHTRobotPerTransaction();",
+                    JavaScriptOnKeyDown = "SilkFlo.KeyPressNumberOnly(event);"
+                })
+
+        </div>
+
+    </div>
+
+    @*Average Handling Time Human vs Automated*@
+    <div>
+        <h2>Average Handling Time Human vs Automated</h2>
+        <div class="d-flex d-flex-guttered flex-wrap">
+
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "AHT employee per transaction",
+                    Suffix = "minutes",
+                    Name = "Business.Idea.AHT",
+                    Attributes = $"value=\"{Model.GetAverageHandlingTimeEmployeePerTransaction() ??0}\"",
+                    Value = Model.GetAverageHandlingTimeEmployeePerTransaction()?.ToString("#,##0.00"),
+                    InvalidFeedback = "",
+                    IsFloatingLabel = false,
+                    InputClass = "text-right",
+                    IsReadOnly = true
+                })
+
+            @{
+                Model.UpdateAHTRobotPerTransaction();
+            }
+
+            @await Html.PartialAsync("Elements/_LabeledDiv",
+                new Element
+                {
+                    Title = "AHT Robot Per Transaction",
+                    Suffix = "minutes",
+                    Name = "Business.Idea.AHTRobot",
+                    Value = Model.AHTRobot?.ToString("#0.00"),
+                    InvalidFeedback = "",
+                    IsFloatingLabel = false,
+                    InputClass = "text-right",
+                    JavaScriptOnInput = "SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.UpdateWorkloadSplitEstimations();",
+                    JavaScriptOnKeyDown = "KeyPressNumberOnly(event)",
+                    IsReadOnly = false
+                })
+        </div>
+    </div>
+
+</div>
+
+
+<Label style="margin-top: 2rem;">Workload Split Estimations</Label>
+
+<div class="p-3 bg-light border silkflo_tile">
+<div style="overflow-x: auto;">
+<table class="table table-bordered-header-silkflo table-bordered-silkflo"
+       name="Business.Idea.VolumeSplitEstimations">
+    <tr>
+        <td style="border-top: none; border-left: none;"></td>
+        <th colspan="2">Human</th>
+        <th colspan="2">Automated (Robot)</th>
+    </tr>
+    <tr>
+        <th>Category</th>
+        <th>Before Automation</th>
+        <th>After Automation</th>
+        <th>Estimated After Automation</th>
+        <th>Final After Automation</th>
+    </tr>
+
+    @*Row 1*@
+    <tr>
+        <th>Automation Potential</th>
+        @*Column A - Before Automation*@
+        <td class="readOnly">
+            <div class="text-right">100&nbsp;%</div>
+        </td>
+        @*Column B - After Automation*@
+        <td class="readOnly text-right"
+            name="Business.Idea.B1"
+            value="@humanAutomationPotentialAfter">
+                    @Html.Raw(humanAutomationPotentialAfter?.ToString("#,##0.00") + "&nbsp;%")
+        </td>
+        @*Column C - Estimated After Automation*@
+        <td estimatedAutomationPotential="@robotAutomationPotentialEstimatedAfter"
+            class="readOnly text-right"
+            name="Business.Idea.C1">
+            @if (Model.RunningCost is { AutomationTypeId: "Attended" })
+            {
+                @Html.Raw("100&nbsp;%")
+                ;
+            }
+            else if (Model.RunningCost is { AutomationTypeId: "Unattended" })
+            {
+                @Html.Raw(robotAutomationPotentialEstimatedAfter + "&nbsp;%")
+                ;
+            }
+        </td>
+        @*Column D - Final After Automation*@
+        <td style="background: white; cursor: text; padding: 0; height: 38px;">
+            <div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-content: stretch; align-items: flex-start; height: 100%">
+
+                <div class="text-right"
+                     contenteditable="true"
+                     name="Business.Idea.WorkloadSplit"
+                     onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                     oninput="SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.WorkloadSplit_OnInput(event)"
+                     onkeydown="SilkFlo.KeyPressNumberOnly ( event ); "
+                     role="textbox"
+                     style="margin: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 0 1 auto; align-self: stretch;">
+                    @workloadSplit
+                </div>
+                <span style="padding: 0.5rem; background: var(--readOnly-background); border-left: 1px solid var(--border-color); flex: 0 1 auto; align-self: stretch;">%</span>
+            </div>
+        </td>
+    </tr>
+
+@*Row 2*@
+<tr>
+    <th>Volumes/Year</th>
+    @*Column A - Before Automation*@
+    @{
+        var value = Model.GetVolumePerYear(100) ?? 0;
+    }
+    <td class="readOnly text-right"
+        name="Business.Idea.A2"
+        value="@value">
+        @value.ToString("#,##0.00")
+    </td>
+    @*Column B - After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.B2">
+        @Model.GetVolumePerYear(humanAutomationPotentialAfter)?.ToString("#,##0.00")
+    </td>
+    @*Column C - Estimated After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.C2">
+        @if (Model.RunningCost is { AutomationTypeId: "Attended" })
+        {
+            @Html.Raw(Model.GetVolumePerYear(robotAutomationPotentialEstimatedAfterValue, "Attended")?.ToString("#,##0.00"))
+            ;
+        }
+        else if (Model.RunningCost is { AutomationTypeId: "Unattended" })
+        {
+            @Html.Raw(Model.GetVolumePerYear(robotAutomationPotentialEstimatedAfterValue ?? 0, "Unattended")?.ToString("#,##0.00"))
+            ;
+        }
+    </td>
+    @*Column D - Final After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.D2">
+        @Model.GetVolumePerYear(workloadSplitValue ?? 0)?.ToString("#,##0.00")
+    </td>
+</tr>
+
+@*Row 3*@
+<tr>
+    <th>Total FTE/FTR</th>
+    @*Column A - Before Automation*@
+    @{
+        value = Model.GetFTE() ?? 0;
+    }
+    <td class="readOnly text-right"
+        name="Business.Idea.A3"
+        value="@value">
+        @value.ToString("#,##0.00")
+    </td>
+    @*Column B - After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.B3">
+        @Model.GetFTE(humanAutomationPotentialAfter)?.ToString("#,##0.00")
+    </td>
+    @*Column C - Estimated After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.C3">@Model.GetTotalFTEAfter(Model.RunningCost?.AutomationTypeId, humanAutomationPotentialAfter)?.ToString("#,##0.00")</td>
+    @*Column D - Final After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.D3">@Model.GetTotalFTEAfter(Model.RunningCost?.AutomationTypeId, workloadSplitValue ?? 0)?.ToString("#,##0.00")</td>
+</tr>
+
+@*Row 4*@
+<tr>
+    <th>Total Hours/Year</th>
+    @*Column A - Before Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.A4"
+        value="@Model.HumanTotalHoursPerYearBeforeValue">
+        @Model.HumanTotalHoursPerYearBefore
+    </td>
+    @*Column B - After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.B4">
+        @Model.GetTotalHoursPerYearAfter(humanAutomationPotentialAfter)?.ToString("#,##0.00")
+    </td>
+    @*Column C - Estimated After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.C4">@Model.GetTotalHoursPerYear(Model.RunningCost?.AutomationTypeId, Model.AutomationPotentialValue ?? 0)</td>
+    @*Column D - Final After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.D4">@Model.GetTotalHoursPerYear(Model.RunningCost?.AutomationTypeId, workloadSplitValue ?? 0)</td>
+</tr>
+
+@*Row 5*@
+<tr>
+    <th>Running Cost/Year</th>
+    @*Column A - Before Automation*@
+    @{
+        value = Model.GetHumanRunningCostYear(100);
+    }
+    <td class="readOnly text-right"
+        name="Business.Idea.A5"
+        value="@value">
+        @Model.Currency@value.ToString("#,##0.00")
+    </td>
+    @*Column B - After Automation*@
+    @{
+        var humanRunningCostYearAfter = Model.GetHumanRunningCostYear(humanAutomationPotentialAfter);
+    }
+    <td class="readOnly text-right"
+        id="Business.Idea.B5"
+        name="Business.Idea.B5"
+        value="@humanRunningCostYearAfter">
+        @{
+            string str = humanRunningCostYearAfter.ToString("#,##0.00");
+        }
+        @Model.Currency@str
+    </td>
+    @*Column C - Estimated After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.C5"> @Model.Currency@Model.OtherRunningCostPerYear </td>
+    @*Column D - Final After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.D5"> @Model.Currency@Model.OtherRunningCostPerYear </td>
+</tr>
+
+@*Row 6*@
+<tr>
+    <th> Running Cost / Month </th>
+    @*Column A - Before Automation*@
+    @{
+        value = Model.GetHumanRunningCostMonth(100);
+    }
+    <td class="readOnly text-right"
+        name="Business.Idea.A6"
+        value="@value">
+        @Model.Currency@value.ToString("#,##0.00")
+    </td>
+    @*Column B - After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.B6">
+        @{
+            str = Model.GetHumanRunningCostMonth(humanAutomationPotentialAfter).ToString("#,##0.00");
+        }
+        @Model.Currency@str
+    </td>
+    @*Column C - Estimated After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.C6">@Model.Currency@Model.OtherRunningCostPerMonth</td>
+    @*Column D - Final After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.D6">@Model.Currency@Model.OtherRunningCostPerMonth</td>
+</tr>
+
+@*Row 7*@
+<tr>
+    <th> Running Cost / Transaction </th>
+    @*Column A - Before Automation*@
+    @{
+        value = Model.GetHumanRunningCostTransaction(100) ?? 0;
+    }
+    <td class="readOnly text-right"
+        name="Business.Idea.A7"
+        value="@value">@Model.Currency@value.ToString("#,##0.00")
+</td>
+    @*Column B - After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.B7">
+        @{
+            str = Model.GetHumanRunningCostTransaction(humanAutomationPotentialAfter)?.ToString("#,##0.00");
+        }
+        @Model.Currency@str
+    </td>
+    @*Column C - Estimated After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.C7">@Model.Currency@Idea.GetOtherRunningCostTransaction(Model, Model.OtherRunningCostPerYearValue).ToString("#,##0.00")</td>
+    @*Column D - Final After Automation*@
+    <td class="readOnly text-right"
+        name="Business.Idea.D7">@Html.Raw(Model.Currency + "0.00")</td>
+</tr>
+
+</table>
+</div>
+
+
+
+</div>

@@ -1,0 +1,70 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+
+<div class="container">
+    @if ((Model.CanEditAbout || Model.CanEditProcessOwner) && !Model.IsDraft)
+    {
+        <div class="d-flex justify-content-end"
+             style="margin-bottom: 1rem;">
+            <button class="btn btn-primary"
+                    onclick="SilkFlo.ViewModels.Business.Idea.Section.About.Edit ( this, '@Model.Id' )">Edit</button>
+        </div>
+    }
+        
+
+    @if (Model.HasPassedAccessStage)
+    {
+        <div class="row g-2">
+            <div class="col-xl-8">
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_Overview", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_HighLevelAssessment", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_Gauges", Model)
+                
+                @if (Model.ShowDetailedAssessmentFields)
+                {
+                    @await Html.PartialAsync("Business/Idea/Detail/About/_DetailedAssessment", Model)
+                }
+            </div>
+            <div class="col-xl-4">
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_AutomationGoal", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_AutomationMatrix", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_BenefitPerCompany", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_BenefitPerEmployee", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_Rating", Model)
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-2">
+            <div class="col-xl-8">
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_Gauges", Model)
+                <div style="margin-top: 3rem;"> </div>
+                @await Html.PartialAsync("Business/Idea/Detail/About/_Overview", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_HighLevelAssessment", Model)
+
+                @* ToDO: Add comments feature to idea.
+                    @await Html.PartialAsync("Business/Idea/Detail/About/_Comment", Model)
+*@
+            </div>
+            <div class="col-xl-4">
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_AutomationGoal", Model)
+
+                @await Html.PartialAsync("Business/Idea/Detail/About/_Rating", Model)
+
+            </div>
+        </div>
+    }
+</div>

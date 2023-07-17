@@ -1,0 +1,73 @@
+@model SilkFlo.Web.Models.Business.UserAuthorisation
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete User Authorisation</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/UserAuthorisation/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/UserAuthorisation/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/UserAuthorisation">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.CollaboratorRoleId)
+        @Html.HiddenFor(x => x.IdeaAuthorisationId)
+        @Html.HiddenFor(x => x.IdeaId)
+        @Html.HiddenFor(x => x.UserId)
+        <div class="grid_auto_1fr">
+
+            <!-- CollaboratorRoleString -->
+            <div>@Html.DisplayNameFor(x => x.CollaboratorRoleString)</div>
+            <div>@Html.DisplayFor(x => x.CollaboratorRoleString)</div>
+
+            <!-- IdeaAuthorisationString -->
+            <div>@Html.DisplayNameFor(x => x.IdeaAuthorisationString)</div>
+            <div>@Html.DisplayFor(x => x.IdeaAuthorisationString)</div>
+
+            <!-- IdeaString -->
+            <div>@Html.DisplayNameFor(x => x.IdeaString)</div>
+            <div>@Html.DisplayFor(x => x.IdeaString)</div>
+
+            <!-- UserString -->
+            <div>@Html.DisplayNameFor(x => x.UserString)</div>
+            <div>@Html.DisplayFor(x => x.UserString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,131 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.IdeaStageGantt
+
+@{
+
+    var isReadOnly = Model.IsReadOnly.ToString().ToLower();
+}
+
+
+    <h2>Estimated Build Timeline</h2>
+    <div class="gantt-table table-responsive text-nowrap">
+        <table gantt-setting-dateStart-name="Business.IdeaStage.DateStart"
+               gantt-setting-dateEnd-name="Business.IdeaStage.DateEnd"
+               gantt-setting-dateButton-name="Business.IdeaStage.DateButton"
+               gantt-setting-is-read-only="@isReadOnly"
+               gantt-setting-row-name="Business.IdeaStage"
+               gantt-setting-date-title="Date"
+               gantt-setting-title="Stage"
+               gantt-setting-title-name="Business.IdeaStage.Stage.Name"
+               id="gantt1"
+               name="Business.IdeaStages">
+
+            @{
+                var datePosition = 0;
+                var last = Model.GanttIdeaStages.LastOrDefault();
+            }
+
+            @foreach (var ideaStage in Model.GanttIdeaStages)
+            {
+                var id = "";
+                if (last == ideaStage)
+                {
+                    id = " id = \"LastNameCell\" ";
+                }
+                <tr name="Business.IdeaStage">
+                    <td name="Business.IdeaStage.Stage.Name"@Html.Raw(id)
+                        style="width: 1%; vertical-align: middle;">
+                        <span>@ideaStage.Stage.Name</span>
+                        <input name="Business.IdeaStage.Id"
+                               type="hidden"
+                               value="@ideaStage.Id"/>
+                        <input name="Business.IdeaStage.Name"
+                               type="hidden"
+                               value="@ideaStage.Name"/>
+                    </td>
+
+                    <td name="gantt-date-cell"
+                        style="width: 1%; display: none;">
+                        <div class="d-flex">
+
+                            <input class="form-control datePicker-input"
+                                   name="Business.IdeaStage.DateStart"
+                                   oninput="Gantt2.UpdateOldDate('gantt2', @datePosition, this.value); SilkFlo.ViewModels.Business.Idea.Edit.OneTimeCosts.UpdateCycleDays();"
+                                   value="@ideaStage.DateStartEstimate.ToString("yyyy-MM-dd")"/>
+
+                            @if (last != ideaStage)
+                            {
+                                <input class="form-control datePicker-input"
+                                       name="Business.IdeaStage.DateEnd"
+                                       oninput="Gantt2.UpdateOldDate('gantt2', @datePosition, this.value, true); SilkFlo.ViewModels.Business.Idea.Edit.OneTimeCosts.UpdateCycleDays();"
+                                       style="border-radius: 0"
+                                       value="@ideaStage.DateEndEstimate?.ToString("yyyy-MM-dd")"/>
+                            }
+
+                            <button class="btn btn-secondary datePicker-btn"
+                                    name="Business.IdeaStage.DateButton">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                datePosition++;
+            }
+        </table>
+    </div>
+
+
+    <h2 style="margin-top: 3rem;">Actual Build Timeline</h2>
+    <div class="gantt-table table-responsive text-nowrap">
+        <table gantt-setting-dateStart-name="Business.IdeaStage.DateStart"
+               gantt-setting-dateEnd-name="Business.IdeaStage.DateEnd"
+               gantt-setting-dateButton-name="Business.IdeaStage.DateButton"
+               gantt-setting-is-read-only="@isReadOnly"
+               gantt-setting-row-name="Business.IdeaStage"
+               gantt-setting-date-title="Date"
+               gantt-setting-title="Stage"
+               gantt-setting-title-name="Business.IdeaStage.Stage.Name"
+               id="gantt2"
+               name="Business.IdeaStages">
+
+            @foreach (var ideaStage in Model.GanttIdeaStages)
+            {
+
+                <tr name="Business.IdeaStage">
+                    <td name="Business.IdeaStage.Stage.Name"
+                        style="width: 1%; vertical-align: middle;">
+                        @ideaStage.Stage.Name
+                        <input name="Business.IdeaStage.Id"
+                               type="hidden"
+                               value="@ideaStage.Id"/>
+                        <input name="Business.IdeaStage.Name"
+                               type="hidden"
+                               value="@ideaStage.Name"/>
+                    </td>
+                    <td name="gantt-date-cell"
+                        style="width: 1%; display: none; z-index: 3">
+                        <div class="d-flex">
+
+                            <input class="form-control datePicker-input"
+                                   gantt-old-value="@ideaStage.DateStartEstimate.ToString("yyyy-MM-dd")"
+                                   name="Business.IdeaStage.DateStart"
+                                   value="@ideaStage.DateStart?.ToString("yyyy-MM-dd")"/>
+
+                            @if (last != ideaStage)
+                            {
+                                <input class="form-control datePicker-input"
+                                       gantt-old-value="@ideaStage.DateEndEstimate?.ToString("yyyy-MM-dd")"
+                                       name="Business.IdeaStage.DateEnd"
+                                       style="border-radius: 0"
+                                       value="@ideaStage.DateEndEstimate?.ToString("yyyy-MM-dd")"/>
+                            }
+
+                            <button class="btn btn-secondary datePicker-btn"
+                                    name="Business.IdeaStage.DateButton">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                datePosition++;
+            }
+        </table>
+    </div>

@@ -1,0 +1,13 @@
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+<p>Please add Other Running Costs to the system before assigning them to your idea.</p>
+
+@if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageTenantSettings)).Succeeded)
+{
+    <p><a href="/Settings/tenant/Platform-Setup/Cost-Setup/Other-Running-Costs">Settings &gt; Platform Setup &gt; Cost Setup  &gt; Other Running Costs</a></p>
+}
+else
+{
+<p>Contact a colleague who to manage platform setup</p>
+}

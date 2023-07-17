@@ -1,0 +1,245 @@
+@model SilkFlo.Web.Models.User
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete User</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/User/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/User/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/User">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.About)
+        @Html.HiddenFor(x => x.ClientId)
+        @Html.HiddenFor(x => x.DepartmentId)
+        @Html.HiddenFor(x => x.Email)
+        @Html.HiddenFor(x => x.EmailConfirmationToken)
+        @Html.HiddenFor(x => x.EmailNew)
+        @Html.HiddenFor(x => x.FirstName)
+        @Html.HiddenFor(x => x.IsEmailConfirmed)
+        @Html.HiddenFor(x => x.IsLockedOut)
+        @Html.HiddenFor(x => x.IsMuted)
+        @Html.HiddenFor(x => x.JobTitle)
+        @Html.HiddenFor(x => x.LastName)
+        @Html.HiddenFor(x => x.LocationId)
+        @Html.HiddenFor(x => x.ManagerId)
+        @Html.HiddenFor(x => x.Note)
+        @Html.HiddenFor(x => x.PasswordHash)
+        @Html.HiddenFor(x => x.PasswordResetToken)
+        <div class="grid_auto_1fr">
+
+            <!-- FirstName -->
+            <div>@Html.DisplayNameFor(x => x.FirstName)</div>
+            <div>@Html.DisplayFor(x => x.FirstName)</div>
+
+            <!-- LastName -->
+            <div>@Html.DisplayNameFor(x => x.LastName)</div>
+            <div>@Html.DisplayFor(x => x.LastName)</div>
+
+            <!-- Email -->
+            <div>@Html.DisplayNameFor(x => x.Email)</div>
+            <div>@Html.DisplayFor(x => x.Email)</div>
+
+            <!-- EmailNew -->
+            <div>@Html.DisplayNameFor(x => x.EmailNew)</div>
+            <div>@Html.DisplayFor(x => x.EmailNew)</div>
+
+            <!-- IsEmailConfirmed -->
+            <div>@Html.DisplayNameFor(x => x.IsEmailConfirmed)</div>
+            <div>@Html.DisplayFor(x => x.IsEmailConfirmed)</div>
+
+            <!-- JobTitle -->
+            <div>@Html.DisplayNameFor(x => x.JobTitle)</div>
+            <div>@Html.DisplayFor(x => x.JobTitle)</div>
+
+            <!-- IsLockedOut -->
+            <div>@Html.DisplayNameFor(x => x.IsLockedOut)</div>
+            <div>@Html.DisplayFor(x => x.IsLockedOut)</div>
+
+            <!-- IsMuted -->
+            <div>@Html.DisplayNameFor(x => x.IsMuted)</div>
+            <div>@Html.DisplayFor(x => x.IsMuted)</div>
+
+            <!-- About -->
+            <div>@Html.DisplayNameFor(x => x.About)</div>
+            <div>@Html.DisplayFor(x => x.About)</div>
+
+            <!-- Note -->
+            <div>@Html.DisplayNameFor(x => x.Note)</div>
+            <div>@Html.DisplayFor(x => x.Note)</div>
+
+            <!-- ClientString -->
+            <div>@Html.DisplayNameFor(x => x.ClientString)</div>
+            <div>@Html.DisplayFor(x => x.ClientString)</div>
+
+            <!-- DepartmentString -->
+            <div>@Html.DisplayNameFor(x => x.DepartmentString)</div>
+            <div>@Html.DisplayFor(x => x.DepartmentString)</div>
+
+            <!-- LocationString -->
+            <div>@Html.DisplayNameFor(x => x.LocationString)</div>
+            <div>@Html.DisplayFor(x => x.LocationString)</div>
+
+            <!-- ManagerString -->
+            <div>@Html.DisplayNameFor(x => x.ManagerString)</div>
+            <div>@Html.DisplayFor(x => x.ManagerString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    <h2>Assigned Achievements</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMSharedAchievement_For_UserAchievement = "";
+            foreach (var userAchievement in Model.UserAchievements)
+            {
+                 if (userAchievement != null)
+                 {
+                    if (userAchievement.Achievement != null)
+                    {
+                        linkMMSharedAchievement_For_UserAchievement = "/Shared/Achievement/Detail/" + userAchievement.Achievement.Id;
+             <a href=@linkMMSharedAchievement_For_UserAchievement class="btn btn-secondary">@userAchievement.Achievement.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Badges</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMSharedBadge_For_UserBadge = "";
+            foreach (var userBadge in Model.UserBadges)
+            {
+                 if (userBadge != null)
+                 {
+                    if (userBadge.Badge != null)
+                    {
+                        linkMMSharedBadge_For_UserBadge = "/Shared/Badge/Detail/" + userBadge.Badge.Id;
+             <a href=@linkMMSharedBadge_For_UserBadge class="btn btn-secondary">@userBadge.Badge.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Roles</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMRole_For_UserRole = "";
+            foreach (var userRole in Model.UserRoles)
+            {
+                 if (userRole != null)
+                 {
+                    if (userRole.Role != null)
+                    {
+                        linkMMRole_For_UserRole = "/Role/Detail/" + userRole.Role.Id;
+             <a href=@linkMMRole_For_UserRole class="btn btn-secondary">@userRole.Role.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Clients</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMBusinessClient_For_ManageTenant = "";
+            foreach (var manageTenant in Model.ManageTenants)
+            {
+                 if (manageTenant != null)
+                 {
+                    if (manageTenant.Tenant != null)
+                    {
+                        linkMMBusinessClient_For_ManageTenant = "/Business/Client/Detail/" + manageTenant.Tenant.Id;
+             <a href=@linkMMBusinessClient_For_ManageTenant class="btn btn-secondary">@manageTenant.Tenant.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Ideas</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMBusinessIdea_For_Follow = "";
+            foreach (var follow in Model.Follows)
+            {
+                 if (follow != null)
+                 {
+                    if (follow.Idea != null)
+                    {
+                        linkMMBusinessIdea_For_Follow = "/Business/Idea/Detail/" + follow.Idea.Id;
+             <a href=@linkMMBusinessIdea_For_Follow class="btn btn-secondary">@follow.Idea.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Ideas</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMBusinessIdea_For_Vote = "";
+            foreach (var vote in Model.Votes)
+            {
+                 if (vote != null)
+                 {
+                    if (vote.Idea != null)
+                    {
+                        linkMMBusinessIdea_For_Vote = "/Business/Idea/Detail/" + vote.Idea.Id;
+             <a href=@linkMMBusinessIdea_For_Vote class="btn btn-secondary">@vote.Idea.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Comments</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMBusinessComment_For_Recipient = "";
+            foreach (var recipient in Model.Recipients)
+            {
+                 if (recipient != null)
+                 {
+                    if (recipient.Comment != null)
+                    {
+                        linkMMBusinessComment_For_Recipient = "/Business/Comment/Detail/" + recipient.Comment.Id;
+             <a href=@linkMMBusinessComment_For_Recipient class="btn btn-secondary">@recipient.Comment.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    </form>
+</div>

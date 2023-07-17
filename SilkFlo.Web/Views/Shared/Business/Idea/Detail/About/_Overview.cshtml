@@ -1,0 +1,25 @@
+@model SilkFlo.Web.Models.Business.Idea
+ 
+<h2 style="margin-bottom: 1rem;">Overview</h2>
+<h3>Summary</h3>
+@{
+    var text = Model.Summary;
+    text = text.Replace("\n", "<br>");
+}
+<p>@Html.Raw(text)</p>
+
+
+@if(!string.IsNullOrWhiteSpace(Model.PainPointComment))
+{
+    <h3 silkflo-hotspot="Pain-Point">Pain Points</h3>
+    text = Model.PainPointComment?.Replace("\n", "<br>");
+    <p>@Html.Raw(text)</p>
+}
+
+
+@if(!string.IsNullOrWhiteSpace(Model.NegativeImpactComment))
+{
+    <h3 silkflo-hotspot="Negative-Impact">Negative Impact</h3>
+    text = Model.NegativeImpactComment?.Replace("\n", "<br>");
+    <p>@Html.Raw(text)</p>
+}

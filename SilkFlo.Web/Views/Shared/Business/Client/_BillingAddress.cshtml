@@ -1,0 +1,97 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.ViewModels.Business.Client.BillingAddress
+
+
+@{ var name = Model.ElementNamePrefix + "Name"; }
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "Company Name",
+        Name = name,
+        Value = Model.Name,
+        Autocomplete = "organization",
+        ElementType = "text",
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = "Required"
+    })
+
+@{ name = Model.ElementNamePrefix + "Address1"; }
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "Address",
+        Name = name,
+        Value = Model.Address1,
+        Autocomplete = "street-address",
+        ElementType = "text",
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = ""
+    })
+
+@{ name = Model.ElementNamePrefix + "Address2"; }
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "",
+        Name = name,
+        Value = Model.Address2??"",
+        Autocomplete = "address-line1",
+        ElementType = "text",
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = ""
+    })
+    
+@{ name = Model.ElementNamePrefix + "City"; }
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "City / Town",
+        Name = name,
+        Value = Model.City,
+        Autocomplete = "address-line2",
+        ElementType = "text",
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = ""
+    })
+
+@{ name = Model.ElementNamePrefix + "State"; }
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "County / State",
+        Name = name,
+        Value = Model.State,
+        Autocomplete = "address-line3",
+        ElementType = "text",
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = ""
+    })
+
+@{ name = Model.ElementNamePrefix + "PostCode"; }
+@await Html.PartialAsync("Elements/_LabeledInput",
+    new Element
+    {
+        Title = "PostCode / Zip Code",
+        Name = name,
+        Value = Model.PostCode,
+        Autocomplete = "postal-code",
+        ElementType = "text",
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = ""
+    })
+
+
+
+@{ name = Model.ElementNamePrefix + "CountryId"; }
+@await Html.PartialAsync("Elements/_LabeledSelect",
+    new Element
+    {
+        Title = "Country",
+        Name = name,
+        Value = Model.CountryId,
+        IsReadOnly = Model.IsReadOnly,
+        InvalidFeedback = "",
+        SelectList = new SelectList(Model.Countries,
+            "Id",
+            "Name")
+    })

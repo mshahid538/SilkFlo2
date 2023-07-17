@@ -1,0 +1,44 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.ContextMenu
+
+@if (Model.ShowContextMenu)
+{
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.MenuName))
+    {
+        name = $"name = \"{Model.MenuName}\"";
+    }
+
+    <div id="idea_summary_menu"
+         style="width: 160px; position: absolute"
+         @name
+         class="contextMenu">
+        <div class="contextMenu_Brand"> </div>
+        @if (Model.ShowManageStagesMenuItem)
+        {
+            <div class="list-group-item list-group-item-action pointer noSelect"
+                 name="ManageStages"
+                 data-bs-toggle="modal"
+                 data-bs-target="#manageStageAndStatusContainer"
+                 onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.Business.Idea.Summary.ManageStageAndStatus();">Manage Stages</div>
+        }
+
+        @if (Model.ShowViewDetailsMenuItem)
+        {
+            <div class="list-group-item list-group-item-action pointer noSelect"
+                 onclick="SilkFlo.Business.Idea.Summary.Detail();"><span>View Details</span></div>
+        }
+
+        @if (Model.ShowEditMenuItem)
+        {
+            <div class="list-group-item list-group-item-action pointer noSelect"
+                 onclick="SilkFlo.Business.Idea.Summary.Edit();"><span>Edit</span></div>
+        }
+
+        @if (Model.ShowDeleteMenuItem)
+        {
+            <div class="list-group-item list-group-item-action text-danger pointer noSelect"
+                 style="margin-bottom: 0;"
+                 onclick="SilkFlo.Business.Idea.Summary.Delete();">Delete...</div>
+        }
+    </div>
+}

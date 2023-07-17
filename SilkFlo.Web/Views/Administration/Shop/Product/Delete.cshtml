@@ -1,0 +1,133 @@
+@model SilkFlo.Web.Models.Shop.Product
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Product</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Product/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shop/Product/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Product">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.AdminUserLimit)
+        @Html.HiddenFor(x => x.AdminUserText)
+        @Html.HiddenFor(x => x.CollaboratorLimit)
+        @Html.HiddenFor(x => x.CollaboratorText)
+        @Html.HiddenFor(x => x.IdeaLimit)
+        @Html.HiddenFor(x => x.IdeaText)
+        @Html.HiddenFor(x => x.IsLive)
+        @Html.HiddenFor(x => x.IsVisible)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.NoPrice)
+        @Html.HiddenFor(x => x.Note)
+        @Html.HiddenFor(x => x.Sort)
+        @Html.HiddenFor(x => x.StandardUserLimit)
+        @Html.HiddenFor(x => x.StandardUserText)
+        @Html.HiddenFor(x => x.StorageLimit)
+        @Html.HiddenFor(x => x.StorageText)
+        <div class="grid_auto_1fr">
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- Sort -->
+            <div>@Html.DisplayNameFor(x => x.Sort)</div>
+            <div>@Html.DisplayFor(x => x.Sort)</div>
+
+            <!-- AdminUserLimit -->
+            <div>@Html.DisplayNameFor(x => x.AdminUserLimit)</div>
+            <div>@Html.DisplayFor(x => x.AdminUserLimit)</div>
+
+            <!-- AdminUserText -->
+            <div>@Html.DisplayNameFor(x => x.AdminUserText)</div>
+            <div>@Html.DisplayFor(x => x.AdminUserText)</div>
+
+            <!-- StandardUserLimit -->
+            <div>@Html.DisplayNameFor(x => x.StandardUserLimit)</div>
+            <div>@Html.DisplayFor(x => x.StandardUserLimit)</div>
+
+            <!-- StandardUserText -->
+            <div>@Html.DisplayNameFor(x => x.StandardUserText)</div>
+            <div>@Html.DisplayFor(x => x.StandardUserText)</div>
+
+            <!-- CollaboratorLimit -->
+            <div>@Html.DisplayNameFor(x => x.CollaboratorLimit)</div>
+            <div>@Html.DisplayFor(x => x.CollaboratorLimit)</div>
+
+            <!-- CollaboratorText -->
+            <div>@Html.DisplayNameFor(x => x.CollaboratorText)</div>
+            <div>@Html.DisplayFor(x => x.CollaboratorText)</div>
+
+            <!-- IdeaLimit -->
+            <div>@Html.DisplayNameFor(x => x.IdeaLimit)</div>
+            <div>@Html.DisplayFor(x => x.IdeaLimit)</div>
+
+            <!-- IdeaText -->
+            <div>@Html.DisplayNameFor(x => x.IdeaText)</div>
+            <div>@Html.DisplayFor(x => x.IdeaText)</div>
+
+            <!-- StorageLimit -->
+            <div>@Html.DisplayNameFor(x => x.StorageLimit)</div>
+            <div>@Html.DisplayFor(x => x.StorageLimit)</div>
+
+            <!-- StorageText -->
+            <div>@Html.DisplayNameFor(x => x.StorageText)</div>
+            <div>@Html.DisplayFor(x => x.StorageText)</div>
+
+            <!-- Note -->
+            <div>@Html.DisplayNameFor(x => x.Note)</div>
+            <div>@Html.DisplayFor(x => x.Note)</div>
+
+            <!-- IsVisible -->
+            <div>@Html.DisplayNameFor(x => x.IsVisible)</div>
+            <div>@Html.DisplayFor(x => x.IsVisible)</div>
+
+            <!-- IsLive -->
+            <div>@Html.DisplayNameFor(x => x.IsLive)</div>
+            <div>@Html.DisplayFor(x => x.IsLive)</div>
+
+            <!-- NoPrice -->
+            <div>@Html.DisplayNameFor(x => x.NoPrice)</div>
+            <div>@Html.DisplayFor(x => x.NoPrice)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

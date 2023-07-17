@@ -1,0 +1,14 @@
+@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.ViewModels.Business.Idea.ManageCollaborator.CollaboratorList
+
+
+@await Html.PartialAsync(
+    "Business/Idea/Edit/_Collaborator",
+    Model)
+
+@await Html.PartialAsync("_FormFooter",
+    new FooterSaveCancel
+    {
+        JavaScriptCancel = $"SilkFlo.ViewModels.Business.Idea.Section.Collaborators.Cancel('{Model.Idea.Id}');",
+        JavaScriptSave = "SilkFlo.ViewModels.Business.Idea.Section.Collaborators.Save();"
+    })

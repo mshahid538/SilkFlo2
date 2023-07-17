@@ -1,0 +1,229 @@
+@using System.Globalization
+@model SilkFlo.Web.Models.Business.RunningCost
+
+
+
+
+<tr onclick="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.SelectRow_Click(this)"
+    ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Dbl_Click(this)"
+    name="Business.RunningCost">
+    <td style="height: 38px;">
+        
+        <div class="d-flex"
+             style="height: 100%">
+
+            <div class="selector"> </div>
+
+            <div name="Business.RunningCost.VenderName"
+                 class="displayField"
+                 role="textbox"
+                 old="@Model.Vender?.Name"
+                 oldId="@Model.VenderId">@Model.Vender?.Name</div>
+
+                @*@await Html.PartialAsync("Elements/_LabeledSelect",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        Title = "",
+                        ContainerClass = "editField",
+                        Name = "Business.RunningCost.VenderId",
+                        Value = Model.VenderId,
+                        SelectList = new SelectList(Model.Venders,
+                            "Id",
+                            "Name")
+                    })*@
+
+            
+            <select class="editField"
+                    name="Business.RunningCost.VenderId"
+                    value="@Model.VenderId">
+                @foreach (var vender in Model.Venders)
+                {
+                    if (Model.VenderId == vender.Id)
+                    {
+                        <option selected=""
+                                value="@vender.Id">
+                            @vender.Name
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@vender.Id">
+                            @vender.Name
+                        </option>
+                    }
+                }
+            </select>
+
+
+            <div style="display: none"
+                 name="Business.RunningCost.Id">@Model.Id</div>
+        </div>
+    </td>
+
+    <td>
+        <div name="Business.RunningCost.AutomationTypeName"
+             class="displayField"
+             role="textbox"
+             old="@Model.AutomationType?.Name"
+             oldId="@Model.AutomationTypeId">@Model.AutomationType?.Name</div>
+
+        @*@await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "",
+                ContainerClass = "editField",
+                Name = "Business.RunningCost.AutomationTypeId",
+                Value = Model.AutomationTypeId,
+                SelectList = new SelectList(Model.AutomationTypes,
+                    "Id",
+                    "Name")
+            })*@
+        
+        <select class="editField"
+                name="Business.RunningCost.AutomationTypeId"
+                value="@Model.AutomationTypeId">
+            @foreach (var automationType in Model.AutomationTypes)
+            {
+                if (Model.AutomationTypeId == automationType.Id)
+                {
+                    <option selected=""
+                            value="@automationType.Id">
+                        @automationType.Name
+                    </option>
+                }
+                else
+                {
+                    <option value="@automationType.Id">
+                        @automationType.Name
+                    </option>
+                }
+            }
+
+        </select>
+    </td>
+
+    <td>
+        <div name="Business.RunningCost.LicenceTypeDisplay"
+             class="displayField"
+             role="textbox"
+             old="@Model.LicenceType">@Model.LicenceType</div>
+
+    <div class="editField"
+         contenteditable="true"
+         onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+         name="Business.RunningCost.LicenceType"
+         role="textbox"
+         style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;">@Model.LicenceType</div>
+
+    </td>
+
+    <td>
+        <div name="Business.RunningCost.FrequencyName"
+             class="displayField"
+             role="textbox"
+             old="@Model.Frequency?.Name"
+             oldId="@Model.FrequencyId">@Model.Frequency?.Name</div>
+
+        <select class="editField"
+                name="Business.RunningCost.FrequencyId"
+                oninput = "SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Frequency_OnInput(event);"
+                value="@Model.FrequencyId">
+            @foreach (var frequency in Model.Frequencies)
+            {
+                if (Model.FrequencyId == frequency.Id)
+                {
+                    <option selected=""
+                            value="@frequency.Id">
+                        @frequency.Name
+                    </option>
+                }
+                else
+                {
+                    <option value="@frequency.Id">
+                        @frequency.Name
+                    </option>
+                }
+            }
+        </select>
+    </td>
+
+    
+
+    <td style="text-align: right;">
+        <div name="Business.RunningCost.CostDisplay"
+             class="displayField"
+             role="textbox"
+             old="@Model.Cost.ToString(Model.NumberFormat)">@Model.Currency?.Symbol&nbsp;@Model.Cost.ToString(Model.NumberFormat)</div>
+    
+        <div class="editFlexField"
+             style="flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-content: stretch; align-items: flex-start; height: 100%">
+            <span class="readOnly"
+                  style="padding: 0.5rem; border-left: 1px solid var(--border-color); flex: 0 1 auto; align-self: stretch;">
+                @Model.Currency?.Symbol
+            </span>
+
+            <div class="edit text-right"
+                 contenteditable="true"
+                 name="Business.RunningCost.Cost"
+                 onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                 oninput="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.Cost_OnInput(event)"
+                 onkeydown="KeyPressPositiveDecimalOnly ( event, SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.KeyPress )"
+                 role="textbox"
+                 style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;">@Model.Cost.ToString(CultureInfo.InvariantCulture)</div>
+        </div>
+        </td>
+
+
+    <td style="text-align: right;">
+        <div name="Business.RunningCost.AnnualCostDisplay"
+             class="displayField"
+             role="textbox"
+             old="@Model.Annual.ToString(Model.NumberFormat)">@Model.Currency?.Symbol&nbsp;@Model.Annual.ToString(Model.NumberFormat)</div>
+        
+        <div class="editFlexField"
+             style="flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; align-content: stretch; align-items: flex-start; height: 100%">
+            <span class="readOnly"
+                  style="padding: 0.5rem; border-left: 1px solid var(--border-color); flex: 0 1 auto; align-self: stretch;">
+                @Model.Currency?.Symbol
+            </span>
+
+            <div class="edit text-right"
+                 contenteditable="true"
+                 onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+                 name="Business.RunningCost.AnnualCost"
+                 oninput="SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.AnnualCost_OnInput(event)"
+                 onkeydown="KeyPressPositiveDecimalOnly ( event, SilkFlo.ViewModels.Settings.PlatformSetup.CostSetup.RunningCosts.KeyPress )"
+                 role="textbox"
+                 style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; flex: 1 1 auto; align-self: stretch;">@Model.Cost.ToString(CultureInfo.InvariantCulture)</div>
+        </div>
+
+    </td>
+
+    
+    <td style="text-align: center;">
+        @{
+            var isChecked = "";
+            if (Model.IsLive)
+            {
+                isChecked =
+                    "checked";
+            }
+        }
+
+        <div class="form-switch">
+            <input type="checkbox"
+                   @Html.Raw(isChecked)
+                   class="form-check-input"
+                   name="Business.RunningCost.IsLive"
+                   disabled
+                   old="@Model.IsLive.ToString()"
+                   value="@Model.IsLive.ToString()" />
+        </div>
+    </td>
+</tr>
+
+
+@*
+    Usage:
+    @await Html.PartialAsync("Settings/PlatformSetup/CostSetup/RunningCosts/_Row", Model)
+*@

@@ -1,0 +1,106 @@
+﻿@model SilkFlo.Web.ViewModels.Application.Setting
+
+<div class="TitleBar">
+    <h3 style="margin-bottom: 2rem; color:#FF8A00">SilkFlo > Settings</h3>
+</div>
+	<div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+		<h1 style="font-weight: bold;">Settings</h1>
+	</div>
+<div id="Application.Setting">
+    @await Html.PartialAsync("Elements/_LabeledCheckBox",
+        new SilkFlo.Web.ViewModels.Element
+        {
+            IsChecked = Model.PracticeAccountCanSignIn,
+            Id = "Application.Setting.PracticeAccountCanSignIn",
+            Name = "Application.Setting.PracticeAccountCanSignIn",
+            Title = "Practice Account Can Sign-In",
+            InvalidFeedback = "Required",
+            CustomStylesContainer = "margin-bottom: 0; padding: 0 0 0.5rem 3rem;",
+            JavaScriptOnInput = "SilkFlo.Application.Setting.CheckPasswordName()",
+        })
+
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Practice Account Password",
+            Name = "Application.Setting.PracticeAccountPassword",
+            Value = Model.PracticeAccountPassword,
+            InvalidFeedback = "Required",
+            IsFloatingLabel = true,
+            MaximumLength = 100,
+            JavaScriptOnInput = "SilkFlo.Application.Setting.CheckPasswordName()",
+        })
+    
+    
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Test Email Account",
+            Name = "Application.Setting.TestEmailAccount",
+            Value = Model.TestEmailAccount,
+            IsFloatingLabel = true,
+            MaximumLength = 100,
+        })
+
+    
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "Subscription Trial Period",
+            Name = "Application.Setting.TrialPeriod",
+            ElementType = "number",
+            MinimumValue = "0",
+            Value = Model.TrialPeriod.ToString(),
+            IsFloatingLabel = true,
+            CustomStylesContainer = "margin-bottom: 0;",
+        })
+
+
+    <div class="invalid-feedback" style="display: block;" name="Setting.PracticeAccountPassword_InvalidFeedback"></div>
+
+    <div style="position: fixed; z-index: 200; bottom: 42px; background: var(--bs-background); width: 100%;"
+         class="py-2 d-print-none">
+        <div style="position: absolute; z-index: 200; left: -20px; top: 0; width: 100%; border-top: solid 2px var(--bs-gray-lighter);"> </div>
+
+        <div class="d-flex align-items-center">
+            <span class="d-flex align-items-center g-2">
+
+                <button class="btn btn-primary"
+                        style="margin-right: var(--bs-gutter-y);"
+                        onclick="SilkFlo.Application.Setting.Save();">
+                    Save
+                </button>
+
+                <button class="btn btn-secondary"
+                        onclick="SilkFlo.Application.Setting.Cancel(); "
+                        style="margin-right: var(--bs-gutter-y);">
+                    Cancel
+                </button>
+
+
+                @if (Model.Errors.Count > 0)
+                {
+                    var error = "There is 1 error.";
+                    @if (Model.Errors.Count > 1)
+                    {
+                        error = "There are " + Model.Errors.Count + " errors.";
+                    }
+
+                    var toolTip = "[";
+
+                    foreach (var err in Model.Errors)
+                    {
+                        toolTip += "'" + err + "',";
+                    }
+
+                    toolTip += "]";
+
+                    <label onmousemove="Delaney.UI.ToolTip.ShowErrors(event, @toolTip, this);"
+                           onmouseout="Delaney.UI.ToolTip.Hide();"
+                           class="text-danger"><img style="margin-left: 1rem; margin-right: 0.5rem; height: 1.5rem; fill: var(--bs-gray);" src="~/Icons/ToolTip.svg"/>@error</label>
+                }
+            </span>
+        </div>
+    </div>
+
+</div>

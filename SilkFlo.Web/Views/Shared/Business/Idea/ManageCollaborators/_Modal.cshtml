@@ -1,0 +1,90 @@
+<div class="modal fade"
+     id="ManageCollaborators_Modal"
+     tabindex="-1"
+     aria-labelledby="ManageCollaborators_Modal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Manage Collaborators</h5>
+                <button type="button"
+                        class="btn-close"
+                        onclick="$('#ManageCollaborators_Modal').modal('hide')"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="d-flex-guttered flex-wrap" style="height: inherit; align-items: stretch">
+
+                    <div>
+
+                        <h2 style="font-size: 16px;">Potential Collaborators</h2>
+
+                        @await Html.PartialAsync("Elements/_SearchInput",
+                        new SilkFlo.Web.ViewModels.ElementSearch
+                        {
+                            Id = "ManageCollaborators_Modal.Search",
+                            JavaScriptOnKeyUp = "SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Search_KeyUp('ManageCollaborators_Modal', this)",
+                        })
+
+                        <div name="SearchResults">
+                            <div name="Collaborators_Potential"> </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex flex-column" style="flex:1;">
+                        <h2 style="font-size: 16px;">Selected Collaborator</h2>
+
+                        <div style="flex: 1 0 0; align-self: stretch;">
+                            <div name="Collaborator_Selected"
+                                 class="Collaborator_Selected">
+                            </div>
+                        </div>
+                        <div id="ManageCollaborators_Modal_Collaborators">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-primary"
+                        onclick="SilkFlo.ViewModels.Business.Idea.ManageCollaborators.Select();">
+                    Select
+                </button>
+                
+                <button type="button"
+                        class="btn btn-secondary"
+                        onclick="$('#ManageCollaborators_Modal').modal('hide')">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="display: none;" id="Template.SelectedCollaborator">
+    @await Html.PartialAsync(
+    "Business/Idea/ManageCollaborators/_Selected",
+    new SilkFlo.Web.Models.User
+        {
+            Id = "{id}",
+            FirstName="{firstname}",
+            LastName= "{lastname}",
+            Email="{email}",
+        })
+</div>
+
+<div style="display: none;" id="Template.BusinessRole">
+    @await Html.PartialAsync(
+    "Business/Idea/ManageCollaborators/_BusinessRole",
+    new SilkFlo.Web.Models.Business.Role
+    {
+        Id = "{id}",
+        Name = "{name}",
+    })
+</div>

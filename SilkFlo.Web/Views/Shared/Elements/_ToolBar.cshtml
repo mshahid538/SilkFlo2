@@ -1,0 +1,98 @@
+﻿@using SilkFlo.Web.ViewModels
+@model SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+
+<div class="align-items-md-center d-flex-guttered flex-wrap justify-content-between toolbar"
+     style="min-height: 39px;">
+
+    @if (!string.IsNullOrWhiteSpace(Model.Title))
+    {
+        <h2 style="margin: 0 !important;">@Model.Title</h2>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.SearchOnKeyUp))
+    {
+        @await Html.PartialAsync("Elements/_SearchInput",
+            new ElementSearch
+            {
+                Id = Model.SearchId,
+                Name = Model.SearchName,
+                JavaScriptOnKeyUp = Model.SearchOnKeyUp,
+                MaxWidth = Model.SearchMaxWidth,
+                PlaceHolder = Model.SearchPlaceHolder,
+                MarginBottom = ""
+            })
+    }
+    else
+    {
+        <div> </div>
+    }
+
+    @{
+        var buttons = "";
+        var lst = Model.Buttons.ToList();
+    }
+    @foreach (var button in lst)
+    {
+        if (!string.IsNullOrWhiteSpace(button.OnClick)
+            || !string.IsNullOrWhiteSpace(button.ModalId))
+        {
+            var name = "";
+            if (!string.IsNullOrWhiteSpace(button.Name))
+            {
+                name = $"name=\"{button.Name}\" ";
+            }
+
+            var id = "";
+            if (!string.IsNullOrWhiteSpace(button.Id))
+            {
+                id = $"id=\"{button.Id}\" ";
+            }
+
+            var style = button.Style;
+            if (!string.IsNullOrWhiteSpace(style))
+            {
+                style = $"style=\"{style}\" ";
+            }
+
+            var onClick = "";
+            if (!string.IsNullOrWhiteSpace(button.OnClick))
+            {
+                onClick = "onclick=\"" + button.OnClick + "\" ";
+            }
+
+            var modal = "";
+            if (!string.IsNullOrWhiteSpace(button.ModalId))
+            {
+                modal = "data-bs-toggle=\"modal\" data-bs-target=\"#" + button.ModalId + "\" ";
+            }
+
+            buttons += $"<button {name}{id}{modal}{onClick}{style}class=\"{button.Class}\">{button.Label}</button>";
+        }
+    }
+
+
+
+    @if (!string.IsNullOrWhiteSpace(buttons))
+    {
+        <div class="d-flex-guttered flex-wrap" style="transform:translate(0, calc(var(--bs-gutter-x)*-0.5))">
+            @Html.Raw(buttons)
+        </div>
+    }
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Message.Id) || !string.IsNullOrWhiteSpace(Model.Message.Name))
+{
+    var id = "";
+    if (!string.IsNullOrWhiteSpace(Model.Message.Id))
+    {
+        id = $" id = \"{Model.Message.Id}\"";
+    }
+
+    var name = "";
+    if (!string.IsNullOrWhiteSpace(Model.Message.Name))
+    {
+        name = $" name = \"{Model.Message.Name}\"";
+    }
+
+    <div @Html.Raw(id)@Html.Raw(name)></div>
+}

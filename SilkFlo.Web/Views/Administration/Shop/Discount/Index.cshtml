@@ -1,0 +1,136 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Shop.Discount>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Discounts Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>Id</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.PercentReferrer)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.PercentReseller)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.DescriptionReferrer)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.DescriptionReseller)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Min)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Max)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap;">
+                                @{
+                                    string linkEdit = "/Administration/Shop/Discount/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Shop/Discount/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Id)"><span class="text-muted">@Html.Raw(item.Id)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Id)"><span>@Html.Raw(item.Id)</span></td>
+                        }
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Name)"><span class="text-muted">@Html.Raw(item.Name)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Name)"><span>@Html.Raw(item.Name)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.PercentReferrer)"><span class="text-muted">@Html.DisplayFor(modelItem => item.PercentReferrer)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.PercentReferrer)"><span>@Html.DisplayFor(modelItem => item.PercentReferrer)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.PercentReseller)"><span class="text-muted">@Html.DisplayFor(modelItem => item.PercentReseller)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.PercentReseller)"><span>@Html.DisplayFor(modelItem => item.PercentReseller)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.DescriptionReferrer)"><span class="text-muted">@Html.Raw(item.DescriptionReferrer)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.DescriptionReferrer)"><span>@Html.Raw(item.DescriptionReferrer)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.DescriptionReseller)"><span class="text-muted">@Html.Raw(item.DescriptionReseller)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.DescriptionReseller)"><span>@Html.Raw(item.DescriptionReseller)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Min)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Min)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Min)"><span>@Html.DisplayFor(modelItem => item.Min)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Max)"><span class="text-muted">@Html.DisplayFor(modelItem => item.Max)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Max)"><span>@Html.DisplayFor(modelItem => item.Max)</span></td>
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

@@ -1,0 +1,173 @@
+@model SilkFlo.Web.Models.Summary<SilkFlo.Web.Models.Analytic>
+    <div class="container">
+        <div class="TitleBar">
+            <h2>Analytics Summary</h2>
+            <div class="grid_1fr_auto">
+                <p>@Html.ActionLink("Create New", "Edit", null)</p>
+                <p class="text-info">Count: @Model.Count</p>
+            </div>
+            <a class="btn btn-danger"
+               href="#"
+               onclick="SilkFlo.Analytics.Clear(); return false;">Clear All</a>
+        </div>
+        <div class="table-responsive">
+            <table id="table_id"
+                   style="display: none;"
+                   delaney-ui-grid
+                   delaney-ui-bottom="50px"
+                   delaney-ui-grid-sticky-column="0"
+                   class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:1px; white-space: nowrap;"></th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Date)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.TimeZone)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.UserId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.UserTracker)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.URL)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Action)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.SessionTracker)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.UserAgent)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Platform)</th>
+                        <th>@Html.DisplayNameFor(model => model.Selected.Language)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Models != null)
+                    {
+                        var colours = new System.Collections.Generic.Dictionary<string, string>();
+
+                        @foreach (var item in Model.Models)
+                        {
+                    <tr>
+                        <td style="width:1px; white-space: nowrap; @item.UserColour;">
+                                @{
+                                    string linkEdit = "/Administration/Analytic/Edit/" + item.Id;
+                                    string linkDelete = "/Administration/Analytic/Delete/" + item.Id;
+                                }
+                                <a href="@linkEdit"
+                                   asp-authorize
+                                   asp-policy="Administrator">Edit</a>
+                                @if (item.IsDeleted) 
+                                { 
+                                <span class="text-muted">Is Deleted</span>
+                                }
+                                else
+                                {
+                                <a href="@linkDelete"
+                                   asp-authorize
+                                   asp-policy="Administrator">Delete</a>
+                                }
+ 
+                        </td>
+                        @{
+                        var value = item.Date.ToString("yyyy-MM-dd HH:mm:ss");
+                        }
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(value)"><span class="text-muted">@item.Date.ToString("yyyy-MM-dd HH:mm:ss")</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(value)" style="@item.UserColour">@item.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.TimeZone)"><span class="text-muted">@Html.Raw(item.TimeZone)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.TimeZone)" style="@item.UserColour"><span>@Html.Raw(item.TimeZone)</span></td>
+                        }
+
+                        @if(item.User == null)
+                        {
+                            <td value=""></td>
+                        }
+                        else
+                        {
+                            string pathUser = "/Administration/User/edit/" + item.UserId;
+                            if (item.IsDeleted)
+                            {
+                            <td value="@item.User?.ToString()"><span class="text-muted"><a href="@pathUser">@item.User?.ToString()</a></span></td>
+                            }
+                            else
+                            {
+                            <td value="@item.User?.ToString()"><a href="@pathUser">@item.User?.ToString()</a></td>
+                            }
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.UserTracker)"><span class="text-muted">@Html.Raw(item.UserTracker)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.UserTracker)" style="@item.UserColour"><span>@Html.Raw(item.UserTracker)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.URL)"><span class="text-muted">@Html.Raw(item.URL)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.URL)" style="@item.UserColour"><span>@Html.Raw(item.URL)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Action)"><span class="text-muted">@Html.Raw(item.Action)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Action)" style="@item.UserColour"><span>@Html.Raw(item.Action)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.SessionTracker)"><span class="text-muted">@Html.Raw(item.SessionTracker)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.SessionTracker)" style="@item.UserColour"><span>@Html.Raw(item.SessionTracker)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.UserAgent)"><span class="text-muted">@Html.Raw(item.UserAgent)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.UserAgent)" style="@item.UserColour"><span>@Html.Raw(item.UserAgent)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Platform)"><span class="text-muted">@Html.Raw(item.Platform)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Platform)" style="@item.UserColour"><span>@Html.Raw(item.Platform)</span></td>
+                        }
+
+                        @if (item.IsDeleted)
+                        {
+                        <td value="@Html.Raw(item.Language)"><span class="text-muted">@Html.Raw(item.Language)</span></td>
+                        }
+                        else
+                        {
+                        <td value="@Html.Raw(item.Language)" style="@item.UserColour"><span>@Html.Raw(item.Language)</span></td>
+                        }
+                    </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+    </div>

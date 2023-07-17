@@ -1,0 +1,49 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.CostBenefit.IdeaOtherRunningCost
+
+
+@{
+    string parentId = "Business.Idea.CostBenefit.CostEstimates." + Model.CostTypeId;
+}
+
+<div class="p-3 bg-light border silkflo_tile"
+     style="margin-bottom: 2rem;"
+     name="parent"
+     costTypeId="@Model.CostTypeId"
+     id="@parentId">
+
+    @if (Model.OtherRunningCosts.Any())
+    {
+
+        <div style="display: none;"
+             name="allRunningCosts">
+            @foreach (var runningCost in Model.OtherRunningCosts)
+            {
+                <input type="hidden"
+                       id="@runningCost.Id"
+                       value="@runningCost.FrequencyId"
+                       description="@runningCost.Description"
+                       cost="@runningCost.Cost" />
+            }
+        </div>
+
+        @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
+        {
+            Title = Model.Title,
+            DeleteOnClick = Model.JavascriptNamespace + "Delete_Click ('" + parentId + "');",
+            DeleteName = "DeleteButton",
+
+            NewOnClick = Model.JavascriptNamespace + "New_Click ('" + parentId + "', '" + Model.CostTypeId + "');",
+            NewName = "NewButton"
+        })
+
+        <div name="scroller"
+             style="overflow-x: auto; padding: 2px;">
+            @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/IdeaOtherRunningCost/_Table", Model)
+        </div>
+    }
+    else
+    {
+        <h2 style="margin-top:0 !important;">@Model.Title</h2>
+        @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/IdeaOtherRunningCost/_NoOtherRunningCosts")
+    }
+</div>

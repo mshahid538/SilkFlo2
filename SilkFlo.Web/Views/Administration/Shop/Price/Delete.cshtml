@@ -1,0 +1,83 @@
+@model SilkFlo.Web.Models.Shop.Price
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Price</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Price/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shop/Price/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Price">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.Amount)
+        @Html.HiddenFor(x => x.CurrencyId)
+        @Html.HiddenFor(x => x.IsActive)
+        @Html.HiddenFor(x => x.IsLive)
+        @Html.HiddenFor(x => x.PeriodId)
+        @Html.HiddenFor(x => x.ProductId)
+        <div class="grid_auto_1fr">
+
+            <!-- Amount -->
+            <div>@Html.DisplayNameFor(x => x.Amount)</div>
+            <div>@Html.DisplayFor(x => x.Amount)</div>
+
+            <!-- IsLive -->
+            <div>@Html.DisplayNameFor(x => x.IsLive)</div>
+            <div>@Html.DisplayFor(x => x.IsLive)</div>
+
+            <!-- IsActive -->
+            <div>@Html.DisplayNameFor(x => x.IsActive)</div>
+            <div>@Html.DisplayFor(x => x.IsActive)</div>
+
+            <!-- CurrencyString -->
+            <div>@Html.DisplayNameFor(x => x.CurrencyString)</div>
+            <div>@Html.DisplayFor(x => x.CurrencyString)</div>
+
+            <!-- PeriodString -->
+            <div>@Html.DisplayNameFor(x => x.PeriodString)</div>
+            <div>@Html.DisplayFor(x => x.PeriodString)</div>
+
+            <!-- ProductString -->
+            <div>@Html.DisplayNameFor(x => x.ProductString)</div>
+            <div>@Html.DisplayFor(x => x.ProductString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

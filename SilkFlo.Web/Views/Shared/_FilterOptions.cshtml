@@ -1,0 +1,360 @@
+﻿@*@model SilkFlo.Web.ViewModels.Business.Idea.Cards*@
+
+@*@if (Model.ShowFilter)
+{*@
+@*<div style="margin-top:1rem">
+	<button class="btn btn-warning"
+			type="button"
+			id="filter"
+			onclick="SilkFlo.ToggleFilter ( event )">
+		<img src="~/Icons/Filter.svg"
+			 style="height: 14px" />
+		<span>Filter Options</span>
+		<div class="card p-3 SilkFloFilter"
+			 name="filterContainer"
+			 style="box-shadow: var(--silkflo_shadow); max-width: 1000px; min-width: 450px; color: var(--bs-dark); z-index: 1010;">
+			<div style="position: relative;">
+
+				<div class="d-flex-guttered"
+					 name='lists'
+					 style="margin-top: 0.5rem;">
+
+					<div style="margin-right: 3rem;">
+						<h2>Dates</h2>
+						<div id="filterByDates"
+							 style="overflow-y: auto; overflow-x: hidden">
+							<div class="form-check">
+								<input class="form-check-input"
+									   id="dateRangeRadio"
+									   type="radio" name="datesRadio"
+									   onclick="dateRangeClicked(event)" />
+								<label class="form-check-label"
+									   for="dateRange"
+									   style="white-space: nowrap;">
+									<i>Date range</i>
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input"
+									   id="yearRadio"
+									   type="radio" name="datesRadio"
+									   onclick="dateRangeClicked(event)" />
+								<label class="form-check-label"
+									   for="yearRadio"
+									   style="white-space: nowrap;">
+									<i>Year</i>
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input"
+									   id="monthRadio"
+									   type="radio" name="datesRadio"
+									   onclick="dateRangeClicked(event)" />
+								<label class="form-check-label"
+									   for="monthRadio"
+									   style="white-space: nowrap;">
+									<i>Month</i>
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input"
+									   id="weekRadio"
+									   type="radio" name="datesRadio"
+									   onclick="dateRangeClicked(event)" />
+								<label class="form-check-label"
+									   for="weekRadio"
+									   style="white-space: nowrap;">
+									<i>Week</i>
+								</label>
+							</div>
+							<div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+							<input placeholder="Select date" type="text" id="example" class="form-control">
+							<label for="example">Try me...</label>
+							<i class="fas fa-calendar input-prefix"></i>
+							</div>
+						</div>
+					</div>
+
+
+					<div style="margin-right: 3rem;">
+						<h2>Business Unit</h2>
+						<div id="filterTeams"
+							 style=" overflow-y: auto; overflow-x: hidden">
+							<div class="form-check">
+								<input class="form-check-input"
+									   displayName="All"
+									   id="toggleFilterDepartment"
+									   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
+									   type="radio" name="datesRadio" />
+								<label class="form-check-label"
+									   for="toggleFilterDepartment"
+									   style="white-space: nowrap;">
+									<i>Area</i>
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input"
+									   displayName="All"
+									   id="toggleFilterDepartment"
+									   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
+									   type="radio" name="datesRadio" />
+								<label class="form-check-label"
+									   for="toggleFilterDepartment"
+									   style="white-space: nowrap;">
+									<i>Sub-area</i>
+								</label>
+							</div>
+						</div>
+					</div>
+
+
+					<div style="margin-right: 3rem;">
+						<h2>Idea Submitter</h2>
+						<div id="filterSubmissionPaths"
+							 style="overflow-y: auto; overflow-x: hidden">
+						</div>
+					</div>
+
+					<div style="margin-right: 3rem;">
+						<h2>Process Owner</h2>
+						<div id="filterVersions"
+							 style="overflow-y: auto; overflow-x: hidden">
+							<div class="form-check">
+								<input class="form-check-input"
+									   displayName="All"
+									   id="toggleFilterVersion"
+									   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterVersion' );"
+									   type="checkbox">
+								<label class="form-check-label"
+									   for="toggleFilterVersion"
+									   style="white-space: nowrap;">
+									<i>Select All</i>
+								</label>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+
+				<div class="d-flex-guttered" style="justify-content:flex-end; margin-top:60px">
+
+					<div class="btn btn-gray"
+						 onclick="SilkFlo.Pages.Cards.FilterCriteria.DeselectAll ();">
+						Deselect&nbsp;All
+					</div>
+					<div class="btn btn-gray"
+						 onclick="SilkFlo.Pages.Cards.FilterCriteria.Close (event);">
+						Cancel
+					</div>
+					<div class="btn btn-warning"
+						 onclick="SilkFlo.Pages.Cards.FilterCriteria.Run (event)"
+						 style="">
+						Apply
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</button>
+</div>*@
+
+@model SilkFlo.Web.ViewModels.Dashboard.Tenant
+
+<!-- Button trigger modal -->
+<div style="margin-top:1rem">
+	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter" onclick="dateRangeClicked(event)">
+		<img src="~/Icons/Filter.svg"
+			 style="height: 14px" />
+		<span>Filter Options</span>
+	</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" style="min-height:0x !important; display: flex; justify-content: center" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Quick filters</h5>
+				<button type="button" class="btn btn-close" data-dismiss="modal" aria-label="Close" onclick="closeFilterModal()">
+					<span aria-hidden="true"></span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div style="margin-right: 3rem;">
+						<h3>Filter by Date</h3>
+						<div id="filterByDates" class="d-flex" style="margin-top: 1%">
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="yearRadio" type="radio" value="YEAR" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="yearRadio" style="white-space: nowrap;">
+									<i>Year</i>
+								</label>
+							</div>
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="monthRadio" type="radio" value="MONTH" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="monthRadio" style="white-space: nowrap;">
+									<i>Month</i>
+								</label>
+							</div>
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="weekRadio" type="radio" value="WEEK" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="weekRadio" style="white-space: nowrap;">
+									<i>Week</i>
+								</label>
+							</div>
+							<div class="form-check" style="margin-left:15px">
+								<input class="form-check-input" id="weekRadio" type="radio" value="DATERANGE" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="weekRadio" style="white-space: nowrap;">
+									<i>By Date Range</i>
+								</label>
+							</div>
+							<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -15px;">
+							<div>
+								Start Date: <input class="form-control" type="date" id="startDatepicker" disabled />
+							</div>
+							<div style="margin-left:15px">
+								End Date: <input class="form-control" type="date" id="endDatepicker" disabled />
+							</div>
+						</div>
+							<br />
+						</div>
+						
+					</div>
+
+
+					<div class="d-flex-guttered"
+						 name='lists'
+						 style="margin-top: 1rem;">
+						<div>
+							<h2>Business Units</h2>
+							<div id="filterDepartments"
+								 style="max-height: 10rem; overflow-y: auto; overflow-x: hidden; width: 15rem;">
+								@if (Model.Departments.Count == 0)
+								{
+									<label>No Business Units</label>
+								}
+								else
+								{
+									<div class="form-check">
+										<input class="form-check-input"
+											   displayName="All"
+											   id="toggleFilterDepartment"
+											   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
+											   type="checkbox">
+										<label class="form-check-label"
+											   for="toggleFilterDepartment"
+											   style="white-space: nowrap;">
+											<i>Select All</i>
+										</label>
+									</div>
+								}
+
+
+								@foreach (var item in Model.Departments)
+								{
+									<div class="form-check">
+										<input class="form-check-input"
+											   displayName="@item.Name"
+											   id="@item.Id"
+											   name="filterDepartment"
+											   onclick="SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements ();SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterDepartment' );"
+											   type="checkbox">
+										<label class="form-check-label"
+											   for="@item.Id"
+											   style="white-space: nowrap;">
+											@item.Name
+										</label>
+									</div>
+								}
+							</div>
+						</div>
+						<div>
+							<h2>Teams</h2>
+							<div id="filterTeams"
+								 style="max-height: 10rem; overflow-y: auto; overflow-x: hidden; width: 20rem;">
+								<label>Select a Business Unit first</label>
+							</div>
+						</div>
+
+
+						<div style="margin-right: 3rem;">
+							<h2>Idea Submitter</h2>
+							<div id="filterSubmissionPaths" style="height:200px; overflow-y: auto; overflow-x: hidden">
+								<div class="form-check">
+									<input class="form-check-input"
+										   displayName="All"
+										   type="checkbox">
+									<label class="form-check-label"
+										   style="white-space: nowrap;">
+										<i>Select All</i>
+									</label>
+								</div>
+
+								@if (Model.ISList != null && Model.ISList.Count > 0)
+								{
+									foreach (var isl in Model.ISList)
+									{
+										<div class="form-check">
+											<input class="form-check-input" name="ISListCheckbox" type="checkbox" value="@isl.Value">
+											<label class="form-check-label" style="white-space: nowrap;">
+												<i>@isl.Key</i>
+											</label>
+										</div>
+									}
+								}
+							</div>
+						</div>
+
+						<div style="margin-right: 3rem;">
+							<h2>Process Owner</h2>
+							<div id="filterVersions"
+								 style="overflow-y: auto; overflow-x: hidden; height:200px;">
+								<div class="form-check">
+									<input class="form-check-input"
+										   displayName="All"
+										   type="checkbox">
+									<label class="form-check-label"
+										   style="white-space: nowrap;">
+										<i>Select All</i>
+									</label>
+								</div>
+
+								@if(Model.POList != null && Model.POList.Count > 0)
+								{
+									foreach (var po in Model.POList)
+									{
+										<div class="form-check">
+											<input class="form-check-input" name="POListCheckbox" type="checkbox" value="@po.Value">
+											<label class="form-check-label" style="white-space: nowrap;">
+												<i>@po.Key</i>
+											</label>
+										</div>
+									}
+								}
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div id="quickFilter-loader" style="margin-right: 6rem;"></div>
+					<div class="btn btn-gray"
+						 onclick="clearAllFiltersAndAdjustDataIntoExistingView();">
+						Clear&nbsp;All
+					</div>
+					<div class="btn btn-gray"
+						 onclick="closeFilterModal()">
+						Cancel
+					</div>
+					<div class="btn btn-warning"
+						 onclick="applyAndAdjustFilteredDataIntoExistingView()"
+						 style="">
+						Apply
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

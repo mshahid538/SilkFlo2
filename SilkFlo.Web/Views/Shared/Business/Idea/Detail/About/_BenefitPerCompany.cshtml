@@ -1,0 +1,28 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<div class="silkflo_tile_light border"
+     style="padding: 0; margin-bottom: 1rem;">
+    <label style="padding: 1rem 1rem 0 1rem;">Benefit Per Company</label>
+    <table class="automationGoal"
+           style="margin-bottom: 1rem; width: 100%">
+        <tbody>
+        <tr>
+            <td>hours saved/year</td>
+                <td>@((await Model.GetEstimateAsync(Model.BenefitPerCompanyHoursValue)).ToString("#,##0.00"))</td>
+        </tr>
+
+        <tr>
+            <td>cost/year</td>
+                @{
+                    var value = await Model.GetEstimateAsync(Model.BenefitPerCompanyCurrencyValue);
+                }
+                <td>@Html.Raw(Model.Currency)@value.ToString("#,##0.00")</td>
+        </tr>
+
+        <tr>
+            <td>FTEs</td>
+            <td>@Model.EstimatedBenefitPerCompanyFte</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,32 @@
+@model SilkFlo.Web.ViewModels.Business.Idea.Gauge.Basic
+
+@{ 
+    var fontSize = "";
+    if (!string.IsNullOrWhiteSpace(Model.FontSize))
+    {
+        fontSize = $"font-size: {Model.FontSize};";
+    }
+}
+
+
+<div class="p-3 silkflo_tile_light border "
+     style="width: 100%;">
+    <div style="position:relative;">
+        @Html.Raw(Model.GaugeGraphic)
+        @{var score = Math.Round(Model.Value, 0) + Model.ValueUnits; }
+        <h1 style="margin:0; position:absolute; top:50%; left: 50%; transform: translate(-50%, -50%); @Html.Raw(fontSize)">@score</h1>
+    </div>
+    
+    @{
+        var hotSpot = "";
+        if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+        {
+            hotSpot = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+        }
+    }
+
+    <h1 class="text-center"@Html.Raw(hotSpot)
+        @Html.Raw(Model.StyleTitle)>
+        @Model.Title
+    </h1>
+</div>

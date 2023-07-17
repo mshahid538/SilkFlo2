@@ -1,0 +1,310 @@
+@model SilkFlo.Web.ViewModels.Element
+
+@{
+    var elementClass = "form-group ";
+    if (Model.IsFloatingLabel)
+    {
+        elementClass += "form-floating ";
+    }
+
+    if (!string.IsNullOrWhiteSpace(Model.ContainerClass))
+    {
+        elementClass += Model.ContainerClass + " ";
+    }
+
+    var labelClass = "";
+    if (!string.IsNullOrWhiteSpace(Model.InvalidFeedback))
+    {
+        elementClass += "has-validation";
+        labelClass = "mandatory";
+    }
+
+    var labelName = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        labelName = $" name=\"{Model.Name}_Label\" ";
+    }
+
+
+    string align;
+    string padding;
+    @if (string.IsNullOrWhiteSpace(Model.Title))
+    {
+        padding = "0 0.5rem 0 3px";
+    }
+    else if (Model.IsFloatingLabel)
+    {
+        padding = "0 0.5rem 2px 3px";
+    }
+    else
+    {
+        padding = "0 0.5rem 0 3px";
+    }
+
+
+    @if (string.IsNullOrWhiteSpace(Model.Title))
+    {
+        align = "center";
+    }
+    else if (Model.IsFloatingLabel && !string.IsNullOrWhiteSpace(Model.Value))
+    {
+        align = "end";
+    }
+    else
+    {
+        align = "center";
+    }
+
+
+    var isInvalid = "";
+    if (Model.IsInvalid)
+    {
+        isInvalid = "class=\"is-invalid\"";
+    }
+
+    const string colorSuffix = "var(--bs-gray-dark)";
+    const string backgroundSuffix = "var(--bs-gray-lightest)";
+
+    var prefixId = "";
+    var suffixId = "";
+    var containerId = "";
+    if (!string.IsNullOrWhiteSpace(Model.Id))
+    {
+        prefixId = " id=\"" + Model.Id + "_prefix\"";
+        suffixId = " id=\"" + Model.Id + "_Suffix\"";
+        containerId = " id=\"" + Model.Id + "_Container\"";
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        prefixId = " id=\"" + Model.Name + "_prefix\"";
+        suffixId = " id=\"" + Model.Name + "_Suffix\"";
+        containerId = " id=\"" + Model.Name + "_Container\"";
+    }
+
+    var prefixName = "";
+    var suffixName = "";
+    var containerName = "";
+    if (!string.IsNullOrWhiteSpace(Model.Name))
+    {
+        prefixName = " name=\"" + Model.Name + "_prefix\"";
+        suffixName = " name=\"" + Model.Name + "_Suffix\"";
+        containerName = " name=\"" + Model.Name + "_Container\"";
+    }
+
+    var hotSpotId = "";
+    if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotSpotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+}
+<div class="@Html.Raw(elementClass)"
+     @Html.Raw(Model.StylesContainer)
+     @Html.Raw(containerId) @Html.Raw(containerName)>
+
+    @if (!Model.IsFloatingLabel 
+         && !string.IsNullOrWhiteSpace(Model.Title))
+    {
+        @if (string.IsNullOrWhiteSpace(hotSpotId))
+        {
+            <label class="@Html.Raw(labelClass)" @Html.Raw(labelName)>@Model.Title</label>
+        }
+        else
+        {
+            <span @Html.Raw(hotSpotId) style="display: flex;">
+                <label class="@Html.Raw(labelClass)" @Html.Raw(labelName)>@Model.Title</label>
+            </span>
+        }
+    }
+
+
+
+
+
+    @if (string.IsNullOrWhiteSpace(Model.Prefix)
+         && string.IsNullOrWhiteSpace(Model.Suffix))
+    {
+        <input @Html.Raw(Model.InputAttribute) />
+        @if (Model.IsFloatingLabel && !string.IsNullOrWhiteSpace(Model.Title))
+        {
+            @if (string.IsNullOrWhiteSpace(hotSpotId))
+            {
+                <label class="@labelClass"
+                       for="@Model.Id"
+                       @Html.Raw(labelName)>
+                    @Html.Raw(Model.Title)
+                </label>
+            }
+            else
+            {
+                <span @Html.Raw(hotSpotId) style="display: flex;">
+                    <label class="@labelClass"
+                           for="@Model.Id"
+                           @Html.Raw(labelName)>
+                        @Html.Raw(Model.Title)
+                    </label>
+                </span>
+            }
+        }
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Prefix)
+             && !string.IsNullOrWhiteSpace(Model.Suffix))
+    {
+        <div @isInvalid silkflo-suffix-container="a value"
+             style="display: grid; grid-template-columns: 1fr auto 1fr;">
+
+            <div style="color: @Html.Raw(colorSuffix); display: flex; align-items: @align; padding: @padding; background: @Html.Raw(backgroundSuffix); border-top: 1px solid @Html.Raw(backgroundSuffix); border-left: 1px solid @Html.Raw(backgroundSuffix); border-bottom: 1px solid @Html.Raw(backgroundSuffix); border-top-left-radius: var(--border-radius); border-bottom-left-radius: var(--border-radius);"
+                 @Html.Raw(prefixId)
+                 @Html.Raw(prefixName)>
+                @Html.Raw(Model.Prefix)
+            </div>
+
+
+            <div style="position: relative">
+                <input @Html.Raw(Model.InputAttribute) />
+                @if (Model.IsFloatingLabel
+                     && !string.IsNullOrWhiteSpace(Model.Title))
+                {
+                    @if (string.IsNullOrWhiteSpace(hotSpotId))
+                    {
+                        <label class="@labelClass"
+                               for="@Html.Raw(Model.Id)"
+                               @Html.Raw(labelName)>
+                            @Html.Raw(Model.Title)
+                        </label>
+                    }
+                    else
+                    {
+                        <span @Html.Raw(hotSpotId) style="display: flex;">
+                            <label class="@labelClass"
+                                   for="@Html.Raw(Model.Id)"
+                                   @Html.Raw(labelName)>
+                                @Html.Raw(Model.Title)
+                            </label>
+                        </span>
+                    }
+                }
+            </div>
+
+            <div style="color: @Html.Raw(colorSuffix); display: flex; align-items: @align; padding: @padding; background: @Html.Raw(backgroundSuffix); border-top: 1px solid @Html.Raw(backgroundSuffix); border-right: 1px solid @Html.Raw(backgroundSuffix); border-bottom: 1px solid @Html.Raw(backgroundSuffix); border-top-right-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius);"
+                 @Html.Raw(suffixId)
+                 @Html.Raw(suffixName)>
+                @Html.Raw(Model.Suffix)
+            </div>
+
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Prefix))
+    {
+        <div @isInvalid silkflo-suffix-container="a value"
+             style="display: grid; grid-template-columns: auto 1fr;">
+
+            <div style="color: @Html.Raw(colorSuffix); display: flex; align-items: @Html.Raw(align); padding: @Html.Raw(padding); background: @Html.Raw(backgroundSuffix); border-top: 1px solid @Html.Raw(backgroundSuffix); border-left: 1px solid @Html.Raw(backgroundSuffix); border-bottom: 1px solid @Html.Raw(backgroundSuffix); border-top-left-radius: var(--border-radius); border-bottom-left-radius: var(--border-radius);"
+                 @Html.Raw(prefixId)
+                 @Html.Raw(prefixName)>
+                @Html.Raw(Model.Prefix)
+            </div>
+
+
+            <div style="position: relative">
+                <input @Html.Raw(Model.InputAttribute) />
+                @if (Model.IsFloatingLabel && !string.IsNullOrWhiteSpace(Model.Title))
+                {
+                    @if (string.IsNullOrWhiteSpace(hotSpotId))
+                    {
+                        <label class="@Html.Raw(labelClass)"
+                               for="@Html.Raw(Model.Id)"
+                               @Html.Raw(labelName)>
+                            @Html.Raw(Model.Title)
+                        </label>
+                    }
+                    else
+                    {
+                        <span @Html.Raw(hotSpotId) style="display: flex;">
+                            <label class="@Html.Raw(labelClass)"
+                                   for="@Html.Raw(Model.Id)"
+                                   @Html.Raw(labelName)>
+                                @Html.Raw(Model.Title)
+                            </label>
+                        </span>
+                    }
+                }
+            </div>
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Suffix))
+    {
+        <div silkflo-suffix-container="a value"
+             style="display: grid; grid-template-columns: 1fr auto;"
+             @isInvalid>
+            <div style="position: relative">
+                <input @Html.Raw(Model.InputAttribute) />
+                @if (Model.IsFloatingLabel && !string.IsNullOrWhiteSpace(Model.Title))
+                {
+                    @if (string.IsNullOrWhiteSpace(hotSpotId))
+                    {
+                        <label class="@Html.Raw(labelClass)"
+                               for="@Html.Raw(Model.Id)"
+                               @Html.Raw(labelName)>
+                            @Html.Raw(Model.Title)
+                        </label>
+                    }
+                    else
+                    {
+                        <span @Html.Raw(hotSpotId) style="display: flex;">
+                            <label class="@Html.Raw(labelClass)"
+                                   for="@Html.Raw(Model.Id)"
+                                   @Html.Raw(labelName)>
+                                @Html.Raw(Model.Title)
+                            </label>
+                        </span>
+                    }
+                }
+            </div>
+
+
+            <div style="color: @Html.Raw(colorSuffix); display: flex; align-items: @Html.Raw(align); padding: @Html.Raw(padding); background: @Html.Raw(backgroundSuffix); border-top: 1px solid @Html.Raw(backgroundSuffix); border-right: 1px solid @Html.Raw(backgroundSuffix); border-bottom: 1px solid @Html.Raw(backgroundSuffix); border-top-right-radius: var(--border-radius); border-bottom-right-radius: var(--border-radius);"
+                 @Html.Raw(suffixId)
+                 @Html.Raw(suffixName)>
+                @Html.Raw(Model.Suffix)
+            </div>
+        </div>
+    }
+
+
+
+
+    @{
+        var invalidFeedbackId = "";
+        if (!string.IsNullOrWhiteSpace(Model.Id))
+        {
+            invalidFeedbackId = " id=\"" + Model.Id + "_InvalidFeedback\"";
+        }
+
+        var invalidFeedbackName = "";
+        if (!string.IsNullOrWhiteSpace(Model.Name))
+        {
+            invalidFeedbackName = " name=\"" + Model.Name + "_InvalidFeedback\"";
+        }
+    }
+        <div @Html.Raw(invalidFeedbackId)
+             @Html.Raw(invalidFeedbackName) class="invalid-feedback" silkFlo-feedback="">
+            @Html.Raw(Model.InvalidFeedback)
+        </div>
+</div>
+
+@* Example
+    @await Html.PartialAsync("Elements/_LabeledInput",
+        new SilkFlo.Web.ViewModels.Element
+        {
+            Title = "First Name",
+            Id = "Modal.User.FirstName",
+            Name = "User.FirstName",
+            Value = Model.FirstName,
+            ElementType = "text",
+            InvalidFeedback = Model.FirstName_ErrorMessage,
+            IsInvalid = Model.FirstName_IsInValid,
+            MaximumLength = 100,
+            Autocomplete = "off",
+            HotSpotId=""
+        })
+*@

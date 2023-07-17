@@ -1,0 +1,80 @@
+@model SilkFlo.Web.Models.Shared.Badge
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Badge</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shared/Badge/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shared/Badge/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shared/Badge">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.Sort)
+        <div class="grid_auto_1fr">
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- Sort -->
+            <div>@Html.DisplayNameFor(x => x.Sort)</div>
+            <div>@Html.DisplayFor(x => x.Sort)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    <h2>Assigned Users</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMUser_For_UserBadge = "";
+            foreach (var userBadge in Model.UserBadges)
+            {
+                 if (userBadge != null)
+                 {
+                    if (userBadge.User != null)
+                    {
+                        linkMMUser_For_UserBadge = "/User/Detail/" + userBadge.User.Id;
+             <a href=@linkMMUser_For_UserBadge class="btn btn-secondary">@userBadge.User.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    </form>
+</div>

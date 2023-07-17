@@ -1,0 +1,63 @@
+@model SilkFlo.Web.Models.Business.Idea
+@using SilkFlo.Web
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+<div id="FormEdit_BusinessIdea">
+
+    <input name="Business.Idea.Id"
+           type="hidden"
+           value="@Model.Id" />
+
+    @if ((await _authorizationService.AuthorizeAsync(User, Policy.EditAllIdeaFields)).Succeeded)
+    {
+        @await Html.PartialAsync("Business/Idea/Edit/_Overview", Model);
+
+        if (Model.LastIdeaStage.StageId != SilkFlo.Data.Core.Enumerators.Stage.n00_Idea.ToString())
+        {
+            <input name="EditAllIdeaFields"
+                   type="hidden"
+                   value="EditAllIdeaFields"/>
+
+            @await Html.PartialAsync("Business/Idea/Edit/_DetailedAssessment", Model);
+        }
+    }
+    
+    @if ((await _authorizationService.AuthorizeAsync(User, Policy.AssignProcessOwner)).Succeeded)
+    {
+        <input name="AssignProcessOwner"
+               type="hidden"
+               value="AssignProcessOwner"/>
+
+        @await Html.PartialAsync("Business/Idea/Edit/ProcessOwner/_Container", Model);
+        <div style="margin-bottom: 2rem;"> </div>
+    }
+    
+    
+    @if ((await _authorizationService.AuthorizeAsync(User, Policy.EditIdeasStageAndStatus)).Succeeded)
+    {
+        <h2>Manage Stage and Status</h2>
+        <div class="prompt" style="margin-bottom: 0.5rem;">Push the idea to the next workflow status.</div>
+        @if (string.IsNullOrWhiteSpace(Model.ManageStageAndStatus.ErrorMessage))
+        {
+            <div name="ManageStageAndStatus"
+                 id="ManageStageAndStatus">
+                @await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Detail", Model.ManageStageAndStatus)
+            </div>
+        }
+        else
+        {
+            <label class="text-warning">@Model.ManageStageAndStatus.ErrorMessage</label>
+        }
+    }
+
+
+    @await Html.PartialAsync("_FormFooter",
+        new SilkFlo.Web.ViewModels.FooterSaveCancel
+        {
+            JavaScriptCancel = $"SilkFlo.ViewModels.Business.Idea.Section.About.Cancel('{Model.Id}')",
+            JavaScriptSave = "SilkFlo.ViewModels.Business.Idea.Section.About.Save()"
+        })
+
+    <div style="margin-bottom: 40px;"></div>
+</div>

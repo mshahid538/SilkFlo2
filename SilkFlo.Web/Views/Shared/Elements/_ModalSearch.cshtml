@@ -1,0 +1,64 @@
+@model SilkFlo.Web.ViewModels.ModalSearch
+@{
+    var hotspot = "";
+    if(!string.IsNullOrWhiteSpace(Model.HotSpotId))
+    {
+        hotspot = $"silkflo-hotspot=\"{Model.HotSpotId}\"";
+    }
+}
+
+<!-- Modal -->
+<div class="modal fade"
+     id="@Model.ModalId"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     silkflo-search-url ="@Model.SearchUrl"
+     silkflo-target-id-id="@Model.TargetIdId"
+     silkflo-target-fullname-id="@Model.TargetFullnameId"
+     silkflo-target-status-id="@Model.TargetStatusId"
+     silkflo-target-email-id="@Model.TargetEmailId"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    @Html.Raw(hotspot)
+                    id="staticBackdropLabel">
+                    @Model.Title
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        onclick="$('#@Model.ModalId').modal('hide')"
+                        aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body">
+
+                @await Html.PartialAsync("Elements/_SearchInput",
+                new SilkFlo.Web.ViewModels.ElementSearch
+                {
+                    JavaScriptOnKeyUp = $"SilkFlo.Models2.User.Search.Input_OnKeyUp(this, '{Model.ModalId}')",
+                })
+
+                <div name="people"
+                     style="display: flex; flex-direction: column; align-content: stretch; align-items: stretch;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        aria-label="Select"
+                        name="btnSelect"
+                        onclick="SilkFlo.Models2.User.Search.Select_OnClick(this);"
+                        class="btn btn-primary">
+                    Select
+                </button>
+                <button type="button"
+                        class="btn btn-secondary"
+                        aria-label="Cancel"
+                        onclick="$('#@Model.ModalId').modal('hide')">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

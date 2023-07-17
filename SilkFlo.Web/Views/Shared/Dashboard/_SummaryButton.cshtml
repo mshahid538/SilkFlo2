@@ -1,0 +1,85 @@
+@model SilkFlo.Web.ViewModels.Dashboard.SummaryButton
+
+    <div class="p-3 border bg-light silkflo_tile" style="min-width: @Model.MinWidth;">
+        <div class="d-flex flex-wrap">
+
+            @* Icon *@
+            @if (string.IsNullOrWhiteSpace(Model.URL)
+                && string.IsNullOrWhiteSpace(Model.OnClick))
+            {
+                <div class="btn_square"
+                   style="margin-right: 0.5rem; background: @Model.ButtonColour; fill: white;">
+                    <img alt="icon"
+                         style="max-width: 32px;"
+                         src="@Model.IconRelativeName" />
+                </div>
+            }
+            else if (string.IsNullOrWhiteSpace(Model.OnClick))
+            {
+                <a class="btn_square pointer"
+                   href="@Model.URL"
+                   style="margin-right: 0.5rem; background: @Model.ButtonColour; fill: white;">
+                    <img alt="icon"
+                         src="@Model.IconRelativeName" />
+                </a>
+            }
+            else
+            {
+                <a class="btn_square pointer"
+                   onclick="@Model.OnClick"
+                   style="margin-right: 0.5rem; background: @Model.ButtonColour; fill: white;">
+                    <img alt="icon"
+                         src="@Model.IconRelativeName"/>
+                </a>
+            }
+            
+            @{
+                string hotSpotId = "";
+                int maxWidth = 153;
+                if (!string.IsNullOrWhiteSpace(Model.HotSpotId))
+                {
+                    hotSpotId = $" silkflo-hotspot=\"{Model.HotSpotId}\"";
+                    maxWidth += 20;
+                }
+            }
+
+            @* Content *@
+            <div style="max-width: @Html.Raw(maxWidth)px; flex: 1 1 auto;">
+                <div class="silkFlo_Pin_Label"@Html.Raw(hotSpotId)>@Model.Title</div>
+                <div class="silkFlo_flex_wrap_spaced">
+                    <div class="silkFlo_Pin_Value">@Model.Value</div>
+                    @if (Model.ChangeIn != null)
+                    {
+                        <div>
+                            @{
+
+                                var changeIn = $"{decimal.Round(Model.ChangeIn ?? 0, 0)}%";
+                                if (Model.ChangeIn > 0)
+                                {
+                                        <span style="margin-left: 0.25rem;">
+                                            <img alt="icon"
+                                             class="silkFlo_spark_line"
+                                             src="~/Icons/SparK Line Up.svg" />
+                                        </span>
+                                        <span class="silkFlo_spark_percent_up text-success h6">@changeIn</span>
+                                }
+                                else if (Model.ChangeIn < 0)
+                                {
+                                        <span style="margin-left: 0.25rem;">
+                                            <img alt="icon"
+                                             class="silkFlo_spark_line"
+                                             src="~/Icons/SparK Line down.svg" />
+                                        </span>
+                                        <span class="silkFlo_spark_percent_down text-danger h6">@changeIn</span>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Title2))
+                {
+                    <div class="silkFlo_Pin_Value" style="line-height: 1.3em;">@Model.Title2</div>
+                }
+            </div>
+        </div>
+    </div>

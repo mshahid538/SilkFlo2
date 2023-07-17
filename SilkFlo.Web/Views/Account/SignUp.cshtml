@@ -1,0 +1,55 @@
+@model SilkFlo.Web.Services.Models.Account.SignUp
+
+<div class="account account_SignUp">
+    <div class="account_Right account_Right_SignUp">
+        <div class="panel-heading text-center">
+            <h1>Welcome to SilkFlo</h1>
+            <p>Register with your business email</p>
+        </div>
+
+        <div class="panel-body">
+            <form asp-action="SignUp" asp-controller="Account" method="post">
+                <!-- Email Input -->
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="Email" name="Email" value="@Model?.Email ?? string.Empty" required>
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-3">
+                    <label for="Password" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="Password" name="Password" required>
+                </div>
+
+                <!-- Password Confirmation Input -->
+                <div class="mb-3">
+                    <label for="ConfirmPassword" class="form-label">Confirm Password:</label>
+                    <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Continue</button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <p>Or</p>
+                    <button type="button" class="btn btn-primary">Sign Up with Microsoft Account</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <p>Already have an account? <a href="/Account/SignIn">Sign In</a></p>
+            </div>
+
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div style="margin: 2rem 0;">
+                    @foreach (var error in ViewContext.ModelState.Root.Errors)
+                    {
+                        <span class="text-danger">@error.ErrorMessage</span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

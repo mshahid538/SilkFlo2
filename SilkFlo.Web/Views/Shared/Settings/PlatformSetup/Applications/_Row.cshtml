@@ -1,0 +1,65 @@
+@model SilkFlo.Web.Models.Business.Version
+
+
+<tr onclick="SilkFlo.ViewModels.Settings.PlatformSetup.Applications.SelectRow_Click(this)"
+    ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.Applications.Dbl_Click(this)"
+    name="Business.Version">
+    <td>
+        <div name="Business.Application.Name" class="displayField" role="textbox" old="@Model.Application?.Name">@Model.Application?.Name</div>
+        <div name="Business.Application.Id" style="display: none;">@Model.ApplicationId</div>
+    </td>
+    <td style="text-align: right; padding-right: 1rem;">
+        <div name="Business.Version.Name" class="displayField" role="textbox" old="@Model.Name">@Model.Name</div>
+        <div name="Business.Version.Id" style="display: none;">@Model.Id</div>
+    </td>
+    <td style="text-align: center;">
+        
+        @{
+            string isChecked = "";
+            if (Model.IsLive)
+            {
+                isChecked =
+                "checked";
+            }
+        }
+
+        <div class="form-switch">
+            <input type="checkbox"
+                   @Html.Raw(isChecked)
+                   class="form-check-input"
+                   name="Business.Version.IsLive"
+                   disabled
+                   old="@Model.IsLive.ToString()"
+                   value="@Model.IsLive.ToString()">
+        </div>
+    </td>
+    <td style="text-align: right; padding-right: 1rem;">
+
+        <div name="Business.Version.PlannedUpdateDateDisplay">@Model.PlannedUpdateDate?.ToString("yyyy-MM-dd")</div>
+
+        
+        <div name="Business.Version.PlannedUpdateDateDisplayDatePickerContainer"
+             style="display: none; padding: 0.5rem;">
+        <div class="datePicker-container-grid"
+             name="Business.Version.PlannedUpdateDateDisplayDatePicker">
+
+            <input class="form-control datePicker-input"
+                   Delaney.UI.DatePicker
+                   style="min-width: 130px; padding: 0.5rem 0 0.5rem 0.5rem;"
+                   name="Business.Version.PlannedUpdateDate"
+                   value="@Model.PlannedUpdateDate"/>
+
+            <button type="button"
+                    Delaney.UI.DatePicker-Button
+                    name="Business.Version.PlannedUpdateDateButton"
+                    class="btn btn-secondary datePicker-btn">
+            </button>
+        </div>
+        </div>
+
+    </td>
+    <td style="text-align: right; padding-right: 4rem !important;"
+        name="Business.Version.IdeaApplicationVersions.Count">
+        @Model.IdeaApplicationVersions?.Count
+    </td>
+</tr>

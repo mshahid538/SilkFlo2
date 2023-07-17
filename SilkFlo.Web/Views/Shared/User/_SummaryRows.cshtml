@@ -1,0 +1,6 @@
+@model SilkFlo.Web.ViewModels.UserSearchResult
+
+@foreach (var user in Model.Users)
+{
+    @await Html.PartialAsync("User/_SummaryRow", user)
+}

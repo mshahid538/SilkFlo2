@@ -1,0 +1,11 @@
+@model SilkFlo.Web.Models.Business.Client
+
+
+
+<tr id="@Model.Id"
+    ondblclick="SilkFlo.ViewModels.Settings.Tenants.Summary.Row_DblClick('@Model.Id');"
+    onclick="SilkFlo.ViewModels.Settings.Tenants.Summary.SelectRow_Click(this)"
+    SilkFlo-Status="@Model.SubscriptionStatus"
+    class="pointer">
+    @await Html.PartialAsync("Business/Client/_SummaryRowContent", Model)
+</tr>

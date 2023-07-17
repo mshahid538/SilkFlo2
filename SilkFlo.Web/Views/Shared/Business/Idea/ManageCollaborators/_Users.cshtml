@@ -1,0 +1,9 @@
+@model List<SilkFlo.Web.Models.User>
+    <div name="Collaborators_Potential"
+         class="Collaborators_Potential">
+
+        @foreach (var user in Model)
+        {
+            @await Html.PartialAsync("Business/Idea/ManageCollaborators/_User", user)
+        }
+</div>

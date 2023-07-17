@@ -1,0 +1,78 @@
+@model SilkFlo.Web.Models.Business.ImplementationCost
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Implementation Cost</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/ImplementationCost/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/ImplementationCost/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/ImplementationCost">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.Allocation)
+        @Html.HiddenFor(x => x.ClientId)
+        @Html.HiddenFor(x => x.Day)
+        @Html.HiddenFor(x => x.IdeaStageId)
+        @Html.HiddenFor(x => x.RoleId)
+        <div class="grid_auto_1fr">
+
+            <!-- Allocation -->
+            <div>@Html.DisplayNameFor(x => x.Allocation)</div>
+            <div>@Html.DisplayFor(x => x.Allocation)</div>
+
+            <!-- Day -->
+            <div>@Html.DisplayNameFor(x => x.Day)</div>
+            <div>@Html.DisplayFor(x => x.Day)</div>
+
+            <!-- ClientString -->
+            <div>@Html.DisplayNameFor(x => x.ClientString)</div>
+            <div>@Html.DisplayFor(x => x.ClientString)</div>
+
+            <!-- IdeaStageString -->
+            <div>@Html.DisplayNameFor(x => x.IdeaStageString)</div>
+            <div>@Html.DisplayFor(x => x.IdeaStageString)</div>
+
+            <!-- RoleString -->
+            <div>@Html.DisplayNameFor(x => x.RoleString)</div>
+            <div>@Html.DisplayFor(x => x.RoleString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

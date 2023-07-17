@@ -1,0 +1,90 @@
+@model SilkFlo.Web.Models.Business.Collaborator
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Collaborator</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Collaborator/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/Collaborator/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Collaborator">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.IdeaId)
+        @Html.HiddenFor(x => x.InvitedById)
+        @Html.HiddenFor(x => x.IsInvitationConfirmed)
+        @Html.HiddenFor(x => x.UserId)
+        <div class="grid_auto_1fr">
+
+            <!-- IsInvitationConfirmed -->
+            <div>@Html.DisplayNameFor(x => x.IsInvitationConfirmed)</div>
+            <div>@Html.DisplayFor(x => x.IsInvitationConfirmed)</div>
+
+            <!-- IdeaString -->
+            <div>@Html.DisplayNameFor(x => x.IdeaString)</div>
+            <div>@Html.DisplayFor(x => x.IdeaString)</div>
+
+            <!-- InvitedByString -->
+            <div>@Html.DisplayNameFor(x => x.InvitedByString)</div>
+            <div>@Html.DisplayFor(x => x.InvitedByString)</div>
+
+            <!-- UserString -->
+            <div>@Html.DisplayNameFor(x => x.UserString)</div>
+            <div>@Html.DisplayFor(x => x.UserString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    <h2>Assigned Roles</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMBusinessRole_For_CollaboratorRole = "";
+            foreach (var collaboratorRole in Model.CollaboratorRoles)
+            {
+                 if (collaboratorRole != null)
+                 {
+                    if (collaboratorRole.Role != null)
+                    {
+                        linkMMBusinessRole_For_CollaboratorRole = "/Business/Role/Detail/" + collaboratorRole.Role.Id;
+             <a href=@linkMMBusinessRole_For_CollaboratorRole class="btn btn-secondary">@collaboratorRole.Role.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    </form>
+</div>

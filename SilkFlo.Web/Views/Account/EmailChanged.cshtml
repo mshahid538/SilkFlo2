@@ -1,0 +1,45 @@
+@model SilkFlo.Web.Services.Models.Account.EmailChanged
+
+<div class="container">
+    <h2>Email Changed</h2>
+
+    <form sp-action="EmailChanged">
+
+    <p>You have changed your email address. Therefore a confirmation message will be sent to <b>@Model.Email</b>. Open this email and click on the link to confirm the change.</p>
+    <p>If you do not see this email in your inbox within 15 minutes, look for it in your junk mail folder. If you find it there, please mark the email as "Not Junk".</p>
+    <p>Please provide your sign in password.</p>
+    <div class="grid_auto_1fr">
+        @Html.LabelFor(x => x.Password)
+        <!-- Password -->
+        <input type="password"
+               class="form-control"
+               placeholder="Password"
+               asp-for="Password" />
+    </div>
+
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    }
+
+    <button formaction="/Account/EmailChanged"
+            formmethod="post"
+            type="submit"
+            class="btn btn-secondary">
+        Send
+    </button>
+
+    @{var hrefCancel = string.Concat("/account/CancelEmailChanged?returnUrlIsSent=",
+                    @Model.ReturnUrlIsSent,
+                    "&UserId=",
+                    @Model.UserId.ToString(),
+                    "&newEmail=",
+                    @Model.Email); }
+        <a class="btn btn-secondary"
+           href=@hrefCancel>Cancel</a>
+    @Html.HiddenFor(x => x.UserId)
+    @Html.HiddenFor(x => x.Email)
+    @Html.HiddenFor(x => x.OldEmail)
+    @Html.HiddenFor(x => x.ReturnUrlIsSent)
+    </form>
+</div>

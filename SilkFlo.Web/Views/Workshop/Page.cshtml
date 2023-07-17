@@ -1,0 +1,50 @@
+@model SilkFlo.Web.ViewModels.Workshop.Page
+
+
+<div class="container silkflo_tile_container"
+     id="workshopContainer">
+     
+    @*Titles*@
+    <div class="TitleBar">
+        <h1>Workshop</h1>
+        <h2>Automation Pipeline</h2>
+
+        @*Tab Bar*@
+        <div class="silkflo-tab">
+            @foreach (var stageGroup in Model.StageGroups)
+            {
+                var stage = stageGroup.Replace(" ", "");
+                var url = $"{stage}";
+
+                var elementClass = "silkflo-tab-label";
+
+                if (string.Equals(stage, Model.StageGroup, StringComparison.CurrentCultureIgnoreCase))
+                    elementClass += " active";
+
+                <h3 class="@elementClass"
+                    id="@stage"
+                    onclick="SilkFlo.ViewModels.Workshop.GetContent ( this );"
+                    url="@url">
+                    @stageGroup
+                </h3>
+            }
+        </div>
+    </div>
+
+    @*Content*@
+    @{
+        var urlCurrent = $"Workshop/StageGroup/{Model.StageGroup}";
+    }
+    <div id="WorkshopContent"
+         url="@urlCurrent">
+        @if (Model.StageGroup == "Deployed")
+        {
+            @await Html.PartialAsync("Workshop/Deployed/_Summary", await Model.PipeLine.GetPipeLineDeployed(Model.Product))
+        }
+        else
+        {
+            @await Html.PartialAsync("Workshop/_PipeLine", Model.PipeLine)
+        }
+    </div>
+
+</div>

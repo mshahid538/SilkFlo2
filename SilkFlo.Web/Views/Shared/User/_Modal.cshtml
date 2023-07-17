@@ -1,0 +1,324 @@
+@using SilkFlo.Web.Models
+@model SilkFlo.Web.Models.User
+
+@if (Model.IsNew)
+{
+    <h3 style="margin-bottom: 2rem;">Here you can add a new user</h3>
+}
+else
+{
+    <h3 style="margin-bottom: 2rem;">Here you can edit a user</h3>
+}
+
+
+<input type="hidden" name="User.Id" value="@Model.Id" />
+<input type="hidden" name="User.CollaboratorCount" value="@Model.Collaborators.Count" />
+<input type="hidden" name="User.Fullname" value="@Model.Fullname" />
+
+    
+<div class="row">
+
+    <div class="col-6">
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "First Name",
+                Id = "Modal.User.FirstName",
+                Name = "User.FirstName",
+                Value = Model.FirstName,
+                ElementType = "text",
+                InvalidFeedback = Model.FirstName_ErrorMessage,
+                IsInvalid = Model.FirstName_IsInValid,
+                MaximumLength = 100,
+                Autocomplete = "off",
+            })
+
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Last Name",
+                Name = "User.LastName",
+                Value = Model.LastName,
+                ElementType = "text",
+                InvalidFeedback = Model.LastName_ErrorMessage,
+                IsInvalid = Model.LastName_IsInValid,
+                MaximumLength = 100,
+                Autocomplete = "off",
+            })
+
+        @await Html.PartialAsync("Elements/_LabeledInput",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Job Title",
+                Name = "User.JobTitle",
+                Id = "User.JobTitle",
+                Value = Model.JobTitle,
+                ElementType = "text",
+                InvalidFeedback = Model.JobTitle_ErrorMessage,
+                IsInvalid = Model.JobTitle_IsInValid,
+                MaximumLength = 100,
+                Autocomplete = "off",
+            })
+
+    </div>
+
+    <div class="col-6">
+        
+        @await Html.PartialAsync("Elements/_LabeledSelect",
+            new SilkFlo.Web.ViewModels.Element
+            {
+                Title = "Business Unit",
+                Name = "User.DepartmentId",
+                Value = Model.DepartmentId,
+                InvalidFeedback = "",
+                CustomStylesContainer="",
+                SelectList = new SelectList(Model.Departments,
+                    "Id",
+                    "Name")
+            })
+
+
+
+
+        @if (Model.Client.AllowGuestSignIn)
+        {
+            var businessEmailChecked = "";
+            var guestEmailChecked = "";
+            if (Model.IsBusinessEmail)
+            {
+                businessEmailChecked = "checked";
+            }
+            else
+            {
+                guestEmailChecked = "checked";
+            }
+
+            <div class="input-group">
+
+                <div class="d-flex vertical-center form-check"
+                     style="width: 100%">
+
+                    <input type="radio"
+                           data="User.Email"
+                           name="User.IsBusinessEmail"
+                           @Html.Raw(businessEmailChecked)
+                           onchange="SilkFlo.Radio_Click(this, SilkFlo.ViewModels.Settings.People.ToggleEmail);"
+                           style="margin-right: 1rem; margin-bottom: 1.5rem"
+                           class="form-check-input"/>
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Work Email",
+                            Name = "User.EmailPrefix",
+                            Id = "User.EmailPrefix",
+                            Value = Model.EmailPrefix,
+                            ElementType = "text",
+                            MaximumLength = 100,
+                            Suffix = Model.EmailSuffix,
+                            InvalidFeedback = "",
+                            Autocomplete = "off",
+                            CustomStylesContainer = "width: 100%; margin-top:0;"
+                        })
+
+                </div>
+                <div class="d-flex vertical-center form-check"
+                     style="width: 100%">
+
+                    <input type="radio"
+                           data="User.GuestEmail"
+                           name="User.IsGuestEmail"
+                           @Html.Raw(guestEmailChecked)
+                           onchange="SilkFlo.Radio_Click(this, SilkFlo.ViewModels.Settings.People.ToggleEmail);"
+                           style="margin-right: 1rem; margin-bottom: 1.5rem"
+                           class="form-check-input"/>
+                    @await Html.PartialAsync("Elements/_LabeledInput",
+                        new SilkFlo.Web.ViewModels.Element
+                        {
+                            Title = "Guest Email",
+                            Name = "User.GuestEmail",
+                            Id = "User.GuestEmail",
+                            Value = Model.GuestEmail,
+                            ElementType = "text",
+                            MaximumLength = 100,
+                            InvalidFeedback = "",
+                            Autocomplete = "off",
+                            CustomStylesContainer = "width: 100%; margin-top:0;"
+                        })
+
+                </div>
+
+                <div id="User.Email_InvalidFeedback"
+                     name="User.Email_InvalidFeedback"
+                     class="invalid-feedback"
+                     silkflo-feedback="">
+                    Required
+                </div>
+            </div>
+        }
+        else
+        {
+            @await Html.PartialAsync("Elements/_LabeledInput",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    Title = "Work Email",
+                    Name = "User.EmailPrefix",
+                    Id = "User.EmailPrefix",
+                    Value = Model.EmailPrefix,
+                    ElementType = "text",
+                    MaximumLength = 100,
+                    Suffix = Model.EmailSuffix,
+                    InvalidFeedback = "Required",
+                    Autocomplete = "off",
+                    CustomStylesContainer = "width: 100%"
+                })
+        }
+
+        @if (string.IsNullOrWhiteSpace(Model.Email))
+        {
+            <div> </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-between flex-wrap"
+                 style="margin-left: 0.5rem; margin-bottom: 1.5rem;">
+
+                <a href="mailto:@Model.Email" style="align-self: center;">@Model.Email</a>
+
+                <div class="d-flex">
+
+                    @{
+                        var iconPath = Model.Status switch
+                        {
+                            Status.Active => "/Icons/Active.svg",
+                            Status.Pending => "/Icons/Pending.svg",
+                            Status.Inactive => "/Icons/Inactive.svg",
+                            _ => ""
+                        };
+
+                        var display = "";
+                        if (string.IsNullOrWhiteSpace(iconPath))
+                        {
+                            display = "display: none;";
+                        }
+                    }
+                    
+                    <img alt=""
+                         id="Modal.ProcessOwnerStatus"
+                         ignore="ignore"
+                         src="@iconPath"
+                         style="Transform: scale(1.5); align-self: center; margin-right: 1rem; @display" />
+
+
+                    @if (Model.Status == Status.Pending)
+                    {
+                        var onClick = "SilkFlo.ViewModels.Settings.People.SendInvitationClick('" + Model.Id + "')";
+                        <button class="btn btn-warning"
+                                style="margin-left: 1rem;"
+                                onclick="@onClick">
+                            Send Invitation
+                        </button>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@if (Model.Client.TypeId == SilkFlo.Data.Core.Enumerators.ClientType.Client39.ToString())
+{
+    <h2 class="mandatory">Roles</h2>
+
+    var roleStandard = Model.Roles.SingleOrDefault(x => x.Name == "Standard User");
+
+    if (roleStandard == null)
+    {
+        <label class="text-danger">Error: Standard user is missing!!!</label>
+    }
+    else
+    {
+        <fieldset name="User.StandardUserRole">
+            <input name="User.StandardUserRole.Id"
+                   value="@roleStandard.Id"
+                   type="hidden"/>
+            <input name="User.StandardUserRole.Name"
+                   value="@roleStandard.Name"
+                   type="hidden"/>
+            @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                new SilkFlo.Web.ViewModels.Element
+                {
+                    IsChecked = roleStandard.IsSelected,
+                    Name = "User.StandardUserRole.IsSelected",
+                    Id = @roleStandard.Id,
+                    HotSpotId="Standard-User-Role",
+                    Title = roleStandard.Name,
+                })
+        </fieldset>
+    }
+
+    <h3>Admin Roles</h3>
+    <fieldset name="user.Roles"
+              class="d-flex-guttered flex-wrap">
+        @foreach (var role in Model.Roles)
+        {
+            if (role == roleStandard)
+            {
+                continue;
+            }
+
+            <fieldset name="Role" data="@role.Id">
+                <input name="Role.Id"
+                       value="@role.Id"
+                       type="hidden"/>
+                <input name="Role.Name"
+                       value="@role.Name"
+                       type="hidden"/>
+                @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        IsChecked = role.IsSelected,
+                        Name = "Role.IsSelected",
+                        Id = @role.Id,
+                        Title = role.Name,
+                    })
+
+            </fieldset>
+
+        }
+    </fieldset>
+}
+else
+{
+    <h2 class="mandatory">Roles</h2>
+    <div name="user.Roles"
+         class="d-flex-guttered flex-wrap">
+        @foreach (var role in Model.Roles)
+        {
+            <fieldset name="Role">
+                <input name="Role.Id"
+                       value="@role.Id"
+                       type="hidden"/>
+                <input name="Role.Name"
+                       value="@role.Name"
+                       type="hidden"/>
+                @await Html.PartialAsync("Elements/_LabeledCheckBox",
+                    new SilkFlo.Web.ViewModels.Element
+                    {
+                        IsChecked = role.IsSelected,
+                        Name = "Role.IsSelected",
+                        Id = @role.Id,
+                        Title = role.Name,
+                    })
+
+            </fieldset>
+
+        }
+    </div>
+}
+
+<input name="User.Role" type="hidden"/>
+<div name="User.Role_InvalidFeedback" silkflo-feedback="" class="invalid-feedback"></div>
+
+<div style="margin-bottom: 1rem;" name="Message"> </div>

@@ -1,0 +1,154 @@
+@model SilkFlo.Web.ViewModels.Settings.Tenants
+@using Microsoft.AspNetCore.Authorization
+@using SilkFlo.Data.Core
+@using SilkFlo.Web
+@using SilkFlo.Web.ViewModels.Elements.ToolBar
+@using Settings = SilkFlo.Data.Core.Settings
+@inject IAuthorizationService _authorizationService
+
+<h1 style="margin-bottom: 1rem;">Settings > Tenants</h1>
+
+
+<div style="padding-bottom: 55px;">
+
+
+    <div asp-policy="Manage Agency Settings"
+         id="Settings.Tenants">
+
+
+        <div class="bg-light border p-3 silkflo_tile">
+            @{
+                var editOnClick = "";
+                var newOnClick = "";
+                var deleteOnClick = "";
+
+                var buttonCount = 5;
+                if (Model.ShowSubscriptionButton)
+                {
+                    buttonCount++;
+                }
+                if (Model.Client.Name == Settings.ApplicationName)
+                {
+                    buttonCount++;
+                    deleteOnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.Delete_OnClick()";
+                    editOnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.Edit_OnClick()";
+                    newOnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.New_OnClick()";
+                }
+                else if (Model.Client.TypeId == Enumerators.ClientType.ResellerAgency45.ToString())
+                {
+                    buttonCount++;
+                    editOnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.Edit_OnClick()";
+                    newOnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.Subscription_OnClick()";
+                }
+
+
+                var toolbar = new Bar(buttonCount)
+                {
+                    SearchOnKeyUp = "SilkFlo.ViewModels.Settings.Tenants.Search(null, null, 'Settings.Tenants.Table');",
+                    SearchId = "Settings.Tenants.Search",
+                    SearchMaxWidth = "400px",
+                    EditLabel = "Edit...",
+                    EditOnClick = editOnClick,
+                    EditName = "EditButton",
+                    DeleteLabel = "Delete...",
+                    DeleteOnClick = deleteOnClick,
+                    DeleteName = "DeleteButton",
+                    NewLabel = "New...",
+                    NewOnClick = newOnClick,
+                    NewName = "NewButton"
+                };
+
+                if (Model.Client.TypeId == Enumerators.ClientType.ResellerAgency45.ToString())
+                {
+                    toolbar.Buttons[0].Label = "Show Products...";
+                    toolbar.Buttons[0].OnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.Products_OnClick()";
+                    toolbar.Buttons[0].Name = "ShowProductsButton";
+                    toolbar.Buttons[0].Class = "btn btn-warning";
+                }
+
+                if (Model.ShowSubscriptionButton)
+                {
+                    var index = buttonCount - 1;
+                    toolbar.Buttons[index].Label = "Subscribe...";
+                    toolbar.Buttons[index].OnClick = "SilkFlo.ViewModels.Settings.Tenants.Summary.Subscribe_OnClick()";
+                    toolbar.Buttons[index].Name = "SubscribeButton";
+                    toolbar.Buttons[index].Class = "btn btn-success";
+                }
+
+                toolbar.Message.Name = "Message";
+            }
+
+
+            @await Html.PartialAsync("Elements/_ToolBar", toolbar)
+
+
+            <div id="Settings.Tenants.Table"
+                 silkflo-url="Settings/Tenants/Table">
+                <div class="d-flex vertical-center">
+                    <span class="spinner-border"
+                          style="margin-right: 1rem;"></span>Loading ...
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@if ((await _authorizationService.AuthorizeAsync(User, Policy.Administrator)).Succeeded)
+{
+    <!-- Modal Edit Client -->
+    <div aria-hidden="true"
+         aria-labelledby="modalManageTenantLabel"
+         class="fade modal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         id="modalManageTenant"
+         tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title"
+                        id="modalManageTenantLabel">
+                        Add a New Tenant
+                    </h1>
+                    <button aria-label="Cancel"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            type="button">
+                    </button>
+                </div>
+                <div class="modal-body"
+                     id="Modal.Business.Client">
+                    Loading tenant ...
+                </div>
+                <div class="modal-footer">
+                    <div name="Message"></div>
+                    <div>
+                        <button class="btn btn-warning"
+                                name="Modal.Business.Client.SaveButton"
+                                onclick="SilkFlo.ViewModels.Settings.Tenants.Save_OnClick ();"
+                                type="button">
+                            Save
+                        </button>
+                        <button class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                                type="button">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (Model.Client.TypeId == Enumerators.ClientType.ResellerAgency45.ToString())
+{
+    @(await Html.PartialAsync(
+        "Shop/Product/_Modal",
+        Model.Subscriptions))
+}
+
+@await Html.PartialAsync("Shop/Subscription/_Modal")

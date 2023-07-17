@@ -1,0 +1,229 @@
+﻿@model SilkFlo.Web.Services.Models.Account.SignUp
+
+<style>
+    ::-webkit-input-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    :-moz-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+</style>
+
+<div class="account account_SignIn">
+
+    @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right ">
+        <div>
+            <div class="panel-heading header-center">
+                <img  src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1 id="mainHeadStep12">Let's get to know you</h1>
+                <h1 id="mainHeadStep3" style="display:none">Finally</h1>
+                <p id="headStep1">How will you be using SilkFlo?</p>
+                <p id="headStep2" style="display:none">Lets get started with the basis</p>
+                <p id="headStep3" style="display:none">Just a few questions to get setup</p>
+            </div>
+
+            <div class="panel-body">
+                <form asp-action="RegCompany" asp-controller="Subscribe" method="post">
+                    <div class="container">
+                        <form>
+                            <div class="form-group frm-group" id="Email_Container" name="Email_Container">
+                                <input id="Email" name="Email" type="text" class="form-control input has-validation" hidden value="@Model.Email">
+                            </div>
+                            <!-- Password Input -->
+                            <div class="form-group frm-group" id="Password_Container" name="Password_Container">
+                                <input id="Password" name="Password" type="password" class="form-control input has-validation" hidden value="@Model.Password">
+                            </div>
+                            <!-- Step 1 -->
+                           @* <div id="step1">
+                                <div class="form-group frm-group">
+
+                                    <select class="form-control dropdown" id="registrationType">
+                                        <option value="">What plan would you like?</option>
+                                        <option value="team">Team</option>
+                                        <option value="individual">Individual</option>
+                                    </select>
+                                </div>
+                                <div id="adminCount" class="form-group frm-group" style="display: none;">
+
+                                    <select class="form-control dropdown" oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" id="adminNumber">
+                                        <option value="">How many admin user will you need?</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                    <p class="desc">
+                                        An Admin user would be an Automation/AI lead, developers,<br />
+                                        business analysts or user with access to advanced features
+                                    </p>
+                                </div>
+                                <button type="button" class="btn  btn_Login" id="next1">Next</button>
+                            </div>*@
+
+                            <!-- Step 2 -->
+                            @*<div id="step2" style="display: none;">*@
+                            <div id="step1">
+                                
+                                @*<div class="form-group frm-group" id="First_Container" name="Email_Container">
+                                    <input id="txtFirstName" name="txtFirstName" type="text" class="form-control input has-validation"
+                                           oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.FirstName = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                                           maxlength="100" placeholder=" What's your first name?" style="align-items: end;" />
+                                </div>
+                                <div class="form-group frm-group" id="Last_Container" name="Email_Container">
+                                    <input id="txtLastName" name="txtLastName" type="text" class="form-control input has-validation"
+                                           oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.LastName = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                                           maxlength="100" placeholder="  What's your last name?" style="align-items: end;" />
+                                </div>*@
+
+                                <div class="form-group frm-group" id="First_Container" name="Email_Container">
+                                    <input id="txtFirstName" name="FirstName" type="text" class="form-control input has-validation"
+                                           oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.FirstName = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                                           maxlength="100" placeholder=" What's your first name?" style="align-items: end;" />
+                                </div>
+                                <div class="form-group frm-group" id="Last_Container" name="Email_Container">
+                                    <input id="txtLastName" name="LastName" type="text" class="form-control input has-validation"
+                                           oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.LastName = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                                           maxlength="100" placeholder="  What's your last name?" style="align-items: end;" />
+                                </div>
+
+
+                                @*<div class="form-group  frm-group" id="Email_Container" name="Email_Container">
+                                    <input id="txtEmailName" name="txtEmailName" type="text" class="form-control input has-validation" oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" maxlength="100" placeholder="Enter your email address?" style="align-items: end;">
+
+                                </div>
+                                <div class="form-group  frm-group" id="Password_Container" name="Email_Container">
+                                    <input id="txtPasswordName" name="txtPasswordName" type="text" class="form-control input has-validation" oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" maxlength="100" placeholder="Password: At least 8 characters..." style="align-items: end;">
+
+                                </div>*@
+                                <button type="button" class="btn btn_Login" id="next2">Next</button>
+
+                                <p style="text-align: center;"><a href="javascript:void(0)" class="btn-Back" onclick="btn2()">&lt; Back</a></p>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div id="step2" style="display: none;">
+                                <div class="form-group frm-group" id="CompName_Container" name="CompName_Container">
+                                    <input id="txtCompName" name="Name" type="text" class="form-control input has-validation"
+                                           oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Name = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                                           maxlength="100" placeholder=" What is your company's name?" style="align-items: end;" />
+                                </div>
+                                <div class="form-group frm-group" id="CompWebsite_Container" name="CompWebsite_Container">
+                                    <input id="txtCompWebsite" name="Website" type="text" class="form-control input has-validation"
+                                           oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Website = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                                           maxlength="100" placeholder=" What is your company's website?" style="align-items: end;" />
+                                </div>
+
+                               @* <div class="form-group frm-group ">
+
+                                    <select class="form-control dropdown" id="companyLocation">
+                                        <option value="">Company Location</option>
+                                        <option value="location1">Location 1</option>
+                                        <option value="location2">Location 2</option>
+                                        <option value="location3">Location 3</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>*@
+                                <div class="form-group frm-group">
+                                    <select class="form-control dropdown" id="hearAboutUs">
+                                        <option value="">How did you hear about us?</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+                                <button class="btn btn_Login" id="submit">Continue to Silkflo</button>
+                                <p style="text-align: center;"><a href="javascript:void(0)" class="btn-Back" onclick="btn3()">&lt; Back</a></p>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div style="justify-content: center">
+                    </div>
+                </form>
+                <div class="row btn-steps-row">
+
+                    <div class="btn btn_Login  btn-steps foot" style="background-color:#2F80ED" id="divStep1"></div>
+                    <div class="btn btn_Login btn-steps foot" id="divStep2"></div>
+                    <div class="btn btn_Login btn-steps foot" id="divStep3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function btn2() {
+        document.getElementById('step1').style.display = 'block';
+        document.getElementById('headStep1').style.display = 'block';
+        document.getElementById('headStep2').style.display = 'block';
+        document.getElementById('step1').style.display = 'block';
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('headStep2').style.display = 'none';
+        document.getElementById('divStep1').style.backgroundColor = '#2f80ed';
+        document.getElementById('divStep2').style.backgroundColor = '#ececef';
+        document.getElementById('divStep3').style.backgroundColor = '#ececef';
+        var reg = document.getElementById('registrationType');
+        var adminCount = document.getElementById('adminCount');
+        if (reg.value === 'team') {
+            adminCount.style.display = 'block';
+        } else {
+            adminCount.style.display = 'none';
+        }
+
+
+    }
+    function btn3() {
+        document.getElementById('step2').style.display = 'block';
+        document.getElementById('headStep2').style.display = 'block';
+        document.getElementById('mainHeadStep12').style.display = 'block';
+        document.getElementById('mainHeadStep3').style.display = 'none';
+        document.getElementById('headStep1').style.display = 'block';
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('headStep3').style.display = 'none';
+        document.getElementById('divStep1').style.backgroundColor = '#ececef';
+        document.getElementById('divStep2').style.backgroundColor = '#2f80ed';
+        document.getElementById('divStep3').style.backgroundColor = '#ececef';
+    }
+    //document.getElementById('registrationType').addEventListener('change', function () {
+    //    var adminCount = document.getElementById('adminCount');
+    //    if (this.value === 'team') {
+    //        adminCount.style.display = 'block';}
+    //            else {
+    //            adminCount.style.display = 'none';
+    //        }
+    //    });
+    // JavaScript code to handle form navigation
+    //document.getElementById('next1').addEventListener('click', function () {
+    //    document.getElementById('step1').style.display = 'none';
+    //    document.getElementById('headStep1').style.display = 'none';
+    //    document.getElementById('headStep2').style.display = 'none';
+    //    document.getElementById('step1').style.display = 'none';
+    //    document.getElementById('adminCount').style.display = 'none';
+    //    document.getElementById('step2').style.display = 'block';
+    //    document.getElementById('headStep2').style.display = 'block';
+    //    document.getElementById('divStep1').style.backgroundColor = '#ececef';
+    //    document.getElementById('divStep2').style.backgroundColor = '#2f80ed';
+    //    document.getElementById('divStep3').style.backgroundColor = '#ececef';
+    //});
+
+    document.getElementById('next2').addEventListener('click', function () {
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('headStep2').style.display = 'none';
+        document.getElementById('mainHeadStep12').style.display = 'none';
+        document.getElementById('mainHeadStep3').style.display = 'block';
+        document.getElementById('headStep1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        document.getElementById('headStep3').style.display = 'block';
+        document.getElementById('divStep1').style.backgroundColor = '#ececef';
+        document.getElementById('divStep2').style.backgroundColor = '#ececef';
+        document.getElementById('divStep3').style.backgroundColor = '#2f80ed';
+    });
+</script>
+

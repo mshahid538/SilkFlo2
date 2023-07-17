@@ -1,0 +1,112 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+<h3 style="margin-bottom: 1rem;">High Level Assessment</h3>
+<div class="silkflo_tile_light border"
+     style="padding: 0; margin-bottom: 2rem; width: 100%; overflow-x: auto;">
+    <table style="width: 100%">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>Value</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Rules</td>
+                <td>
+                    @await Html.PartialAsync("Elements/_ProgressBar",
+                        new SilkFlo.Web.ViewModels.ProgressBar
+                        {
+                            Name = "Business.Idea.Rule",
+                            Colour = Model.Rule?.Colour,
+                            Value = Model.Rule == null ? 0 : (decimal)Model.Rule?.Rating,
+                            Count = 5,
+                            Width = 120,
+                            Height = 12,
+                            Radius = 3,
+                        })
+                </td>
+                <td>@if (Model.Rule != null)
+                    {
+                        @Model.Rule.Name
+                    }</td>
+            </tr>
+            <tr>
+                <td>Input Type</td>
+                <td>
+                        @await Html.PartialAsync("Elements/_ProgressBar",
+                            new SilkFlo.Web.ViewModels.ProgressBar
+                            {
+                                Name = "Business.Idea.Input",
+                                Colour = Model.Input?.Colour,
+                                Value = Model.Input == null ? 0 : (decimal)Model.Input?.Rating,
+                                Count = 5,
+                                Width = 120,
+                                Height = 12,
+                                Radius = 3,
+                            })
+                </td>
+                <td>@if (Model.Input != null){@Model.Input?.Name}</td>
+            </tr>
+            <tr>
+                <td>Input Data Structure</td>
+                <td>
+                    @await Html.PartialAsync("Elements/_ProgressBar",
+                        new SilkFlo.Web.ViewModels.ProgressBar
+                        {
+                            Name = "Business.Idea.InputDataStructure",
+                            Colour = Model.InputDataStructure?.Colour,
+                            Value = Model.InputDataStructure == null ? 0 : (decimal)Model.InputDataStructure?.Rating,
+                            Count = 5,
+                            Width = 120,
+                            Height = 12,
+                            Radius = 3,
+                        })
+                </td>
+                <td>
+                    @if (Model.InputDataStructure != null)
+                    {
+                        @Model.InputDataStructure?.Name
+                    }</td>
+            </tr>
+            <tr>
+                <td>Process Changes Within 6 Months</td>
+                <td>
+                        @await Html.PartialAsync("Elements/_ProgressBar",
+                            new SilkFlo.Web.ViewModels.ProgressBar
+                            {
+                                Name = "Business.Idea.ProcessStability",
+                                Colour = Model.ProcessStability?.Colour,
+                                Value = Model.ProcessStability == null ? 0 : (decimal)Model.ProcessStability?.Rating,
+                                Count = 5,
+                                Width = 120,
+                                Height = 12,
+                                Radius = 3,
+                            })
+                </td>
+                <td>@if (Model.ProcessStability != null)
+                    {
+                        @Model.ProcessStability?.Name
+                    }</td>
+            </tr>
+            <tr>
+                <td>Documentation Available</td>
+                <td>
+                        @await Html.PartialAsync("Elements/_ProgressBar",
+                            new SilkFlo.Web.ViewModels.ProgressBar
+                            {
+                                Name = "Business.Idea.DocumentationPresent",
+                                Colour = Model.DocumentationPresent?.Colour,
+                                Value = Model.DocumentationPresent == null ? 0 : (decimal)Model.DocumentationPresent?.Rating,
+                                Count = 3,
+                                Width = 120,
+                                Height = 12,
+                                Radius = 3,
+                            })
+                </td>
+                <td>@if (Model.DocumentationPresent != null){@Model.DocumentationPresent?.Name}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

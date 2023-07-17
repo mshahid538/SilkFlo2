@@ -1,0 +1,47 @@
+<div aria-hidden="true"
+     aria-labelledby="Invite a Team Member"
+     class="fade modal"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     id="ModalInviteTeamMember"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            @* Header *@
+            <div class="modal-header">
+                <h1 class="modal-title">
+                    Invite a Team Member
+                </h1>
+                <button aria-label="Cancel"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        type="button">
+                </button>
+            </div>
+
+            @* Body *@
+            <div class="modal-body"
+                 id="TeamMember.Body">
+                Loading Content...
+            </div>
+
+            @* Footer *@
+            <div class="modal-footer">
+                <button class="btn btn-warning"
+                        onclick="SilkFlo.ViewModels.User.TeamMember.Post ();"
+                        name="Modal.Invite.TeamMember.Send"
+                        type="button">
+                    Send
+                </button>
+                <button aria-label="Cancel"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        type="button">
+                    Cancel
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

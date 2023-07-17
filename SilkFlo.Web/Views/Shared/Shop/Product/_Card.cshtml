@@ -1,0 +1,223 @@
+﻿@using SilkFlo.Data.Core
+@model SilkFlo.Web.Models.Shop.Product;
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+@{
+    var buttonName = "Try for free";
+
+    if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.Subscriber)).Succeeded)
+    {
+        buttonName = Model.SelectButtonText;
+     }
+
+
+    var styleContainer = "";
+    if (Model.ShowSelectButton)
+    {
+        styleContainer = "style=\"cursor: pointer\"";
+    }
+}
+
+<div class="bg-light border d-flex flex-column justify-content-between p-3 silkflo_tile subscription_card"
+     @Html.Raw(styleContainer)>
+     
+        <div>
+    <h2 style="text-align: center;">@Model.Name</h2>
+
+        @if (Model.Price != null)
+        {
+            if (Model.Price.IsDiscounted)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="strikeThrough">
+                        <span class="signDiscount">@Model.Price.Currency.Symbol</span>
+                        <span class="priceDiscount">@(Model.Price.MonthlyAmount <= 0 ? 0 : Model.Price.MonthlyAmount.ToString("#,###.##"))</span>
+                        <span class="monthDiscount">/ month</span>
+                    </div>
+                </div>
+
+                <div style="display: block; text-align: center;">
+                    <span class="discountPercent">@Model.Price.DiscountPercent</span>
+                    <span class="month">%</span>
+                    <span class="discountLabel">Discount</span>
+                </div>
+
+                <div style="display: block; text-align: center;">
+                    <span class="sign">@Model.Price.Currency.Symbol</span>
+                    <span class="price">@Model.Price.MonthlyAmountDiscounted.ToString("#,###.##")</span>
+                    <span class="month">/ month</span>
+                </div>
+            }
+            else
+            {
+                <div style="display: block; text-align: center;">
+                    <span class="sign">@Model.Price.Currency.Symbol</span>
+                    <span class="price">@(Model.Price.MonthlyAmount <= 0 ? 0 : Model.Price.MonthlyAmount.ToString("#,###.##"))</span>
+                    <span class="month">/ month</span>
+                </div>
+            }
+        }
+
+        @if (Model.NoPrice)
+        {
+            <div style="margin-top: 1rem;">
+                Contact us for details
+            </div>
+        }
+
+    @* Details *@
+    @if (!string.IsNullOrWhiteSpace(Model.AdminUserText)
+         || !string.IsNullOrWhiteSpace(Model.StandardUserText)
+         || !string.IsNullOrWhiteSpace(Model.CollaboratorText)
+         || !string.IsNullOrWhiteSpace(Model.IdeaText)
+         || !string.IsNullOrWhiteSpace(Model.StorageText)
+         || !string.IsNullOrWhiteSpace(Model.Note))
+    {
+        <ul class="tickList">
+            @if (!string.IsNullOrWhiteSpace(Model.AdminUserText))
+            {
+                <li>@Model.AdminUserText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.StandardUserText))
+            {
+                <li>@Model.StandardUserText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.CollaboratorText))
+            {
+                <li>@Model.CollaboratorText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.IdeaText))
+            {
+                <li>@Model.IdeaText</li>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.StorageText))
+            {
+                <li>@Model.StorageText</li>
+            }
+        </ul>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Note))
+        {
+            <div class="feature">@Html.Raw(Model.Note)</div>
+        }
+    }
+    @{
+        var style = "margin-top: 1rem; margin-bottom: 1rem;";
+    }
+        @if (Model.Price != null
+             && Model.Price.PeriodId == Enumerators.Period.Annual.ToString())
+        {
+            var priceYearlyValue = Model.Price.YearlyAmount;
+            var priceYearly = priceYearlyValue.ToString("#,###.##");
+
+            var priceMonthlyValue = (Model.Price.AmountOther??0) * 12;
+            var priceMonthly = priceMonthlyValue.ToString("#,###.##");
+
+
+            var cls = "";
+            if (Model.Price.IsDiscounted)
+            {
+                cls = "class=\"strikeThrough\"";
+                style += " left: -0.25rem;";
+            }
+
+            style = "style=\"" + style + "\"";
+
+
+            <div @Html.Raw(cls) @Html.Raw(style)>Billed annually £<s>@priceMonthly</s> £@priceYearly</div>
+
+
+            if (Model.Price.IsDiscounted)
+            {
+                priceYearly = Model.Price.AmountDiscounted.ToString("#,###.##");
+                <div @Html.Raw(style)>Billed annually £@priceMonthly £@priceYearly</div>
+            }
+        }
+        else
+        {
+            if (Model.Price != null)
+            {
+                style = "style=\"" + style + "\"";
+                var priceYearlyValue = Model.Price.Amount.Value * 12;
+                var priceYearly = priceYearlyValue.ToString("#,###.##");
+
+                <div @Html.Raw(style)>Annual price £@priceYearly</div>
+            }
+        }
+    </div>
+
+        @* Button *@
+        <div>
+        @if (Model.ShowButtons)
+        {
+                @if (Model.NoPrice)
+                {
+                    var pipeline = Model.Name;
+
+                    <div class="d-flex justify-content-end"
+                         style="margin-top: 2rem;">
+
+                        <button class="btn btn-brand"data-bs-target="#ModalCRMProspect"
+                                data-bs-toggle="modal"
+                                onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.Models2.CRM.Prospect.SetPipeline ( '@pipeline' );"
+                                silkflo-action="Contact Us">
+                            <img class="icon"
+                                 src="/Icons/Mail.svg"/>
+                            <span style="margin-left: 1rem;">Contact Us</span>
+                        </button>
+                    </div>
+                }
+                else if(!Model.IsCurrent)
+                {
+                    <div class="d-flex flex-column justify-content-end"
+                         style="margin-top: 2rem;">
+
+                        @if (Model.ShowSelectButton)
+                        {
+                            style = "";
+                            if (Model.ShowBookDemoButton)
+                            {
+                                style = "style=\"margin-bottom: 0.5rem;\"";
+                            }
+
+                            if (Model.Price != null)
+                            {
+                                var onClick = $"SilkFlo.Models2.Shop.Subscription.SelectPrice_Click('{Model.Price?.Id}', '{Model.Price?.ReferrerCode}');";
+
+                                <button class="btn btn-brand"
+                                        @style
+                                        onclick="@onClick">@buttonName</button>
+                            }
+                        }
+
+                        @if (Model.ShowBookDemoButton)
+                        {
+                            var pipeline = Model.Price?.PeriodId + ", " + Model.Name;
+
+
+                            <button class="btn btn-brand"
+                                    data-bs-target="#ModalCRMProspect"
+                                    data-bs-toggle="modal"
+                                    style="margin-top: 0.5rem;"
+                                    onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.Models2.CRM.Prospect.SetPipeline ( '@pipeline' );"
+                                    silkflo-action="@Model.BookDemoButtonText, @Model.Name, @Model.Price?.PeriodId">
+                                <img class="icon"
+                                     src="/Icons/Mail.svg"/><span style="margin-left: 1rem;">@Model.BookDemoButtonText</span>
+                            </button>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex vertical-align-bottom justify-content-center">
+                        <h1 style="margin-top: 2rem;" class="text-info ">Current Selection</h1>
+                    </div>
+                }
+        }
+        </div>
+</div>

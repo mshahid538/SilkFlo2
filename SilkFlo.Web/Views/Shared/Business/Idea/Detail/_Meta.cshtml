@@ -1,0 +1,16 @@
+@model SilkFlo.Web.Models.Business.Idea
+
+@if (Model.IsDraft)
+{
+    <h3>Date Created: @Model.CreatedDateString</h3>
+}
+else
+{
+    var status = Model.LastIdeaStage?.Status?.Name??"";
+    if (status.ToLower() == "at risk")
+    {
+        status = $"<span class=\"text-danger\">{status}</span>";
+    }
+
+    <h3>Idea Source: @Model.SubmissionPath?.Name | Stage: @Model.LastIdeaStage?.Stage?.Name | Status: @Html.Raw(status) | Date Submitted: @Model.CreatedDateString</h3>
+}

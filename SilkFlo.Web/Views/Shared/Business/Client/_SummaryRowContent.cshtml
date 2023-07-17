@@ -1,0 +1,75 @@
+@model SilkFlo.Web.Models.Business.Client
+
+@{
+    var cls = "";
+    if (Model.IsSelected)
+    {
+        cls = "class=\"pulse-background-green\"";
+    }
+
+    var productName = Model.Subscription == null ? 
+        "" : 
+        Model.Subscription.Name;
+}
+
+
+<td @Html.Raw(cls)>
+    @Model.Name
+</td>
+<td @Html.Raw(cls) asp-authorize
+    asp-policy="Administrator">
+    @Model.Type?.Name
+</td>
+<td @Html.Raw(cls)>
+    @Model.Industry?.Name
+</td>
+<td @Html.Raw(cls)>
+    @productName
+</td>
+<td @Html.Raw(cls) nowrap>
+    @{
+        string date = "";
+        if (Model.Subscription?.DateEnd != null)
+        {
+            date = (Model.Subscription?.DateEnd ?? DateTime.MaxValue).ToString("yyyy-MM-dd");
+        }
+    }
+    @Html.Raw(date)
+</td>
+
+@if (Model.TypeId == SilkFlo.Data.Core.Enumerators.ClientType.Client39.ToString())
+{
+    <td @Html.Raw(cls)>
+
+        @{
+            var svg = "Account Status/" + Model.SubscriptionStatus switch
+            {
+                SilkFlo.Web.Models.SubscriptionStatus.Demo => "Demo",
+                SilkFlo.Web.Models.SubscriptionStatus.FreeTrial => "Free Trial",
+                SilkFlo.Web.Models.SubscriptionStatus.Subscribed => "Subscribed",
+                SilkFlo.Web.Models.SubscriptionStatus.PaymentRequired => "Payment Required",
+                _ => "No Subscription"
+                };
+
+            @Html.Raw($"<img src=\"/Icons/{svg}.svg\"" +
+                      $"onmousemove=\"Delaney.UI.ToolTip.Show(evt, '{Model.StatusMessage}');\"" +
+                      "onmouseout=\"Delaney.UI.ToolTip.Hide();\"/>")
+        }
+    </td>
+
+    @if (Model.Subscription == null)
+    {
+        <td></td>
+    }
+    else
+    {
+        <td @Html.Raw(cls)>
+            <a onclick="SilkFlo.Models2.Shop.Subscription.PopulateModal ( '@Model.Id' );">View</a>
+        </td>
+    }
+}
+else
+{
+    <td> </td>
+    <td> </td>
+}

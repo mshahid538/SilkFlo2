@@ -1,0 +1,454 @@
+@model SilkFlo.Web.Models.Business.Client
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+<div id="btnSubmitContainer"
+     silkflo-url="business/Idea/GetSubmitIdeaButton"
+     silkflo-callback="SilkFlo.SideBar.SetMenu"
+     silkflo-loadOnce="true"
+     style="padding-right: 20.5px;">
+</div>
+
+
+<ul class="list-unstyled"
+    id="menu"
+    style="margin-right: 1px;">
+    @if (User.Identity is {IsAuthenticated: true })
+    {
+        <li class="active"
+            id="SideBar.Dashboard.Container">
+            <a aria-current="true"
+               class="collapsed"
+               data-bs-target="tooltip"
+               data-placement="right"
+               id="SideBar.Dashboard"
+               silkflo-action="SideBar: Dashboard"
+               onclick="SilkFlo.SideBar.OnClick ( '/Dashboard' )"
+               title="Show Dashboard">
+                <div class="silkFlo_flex_wrap_spaced">
+
+                    <div class="pointer">
+                        <img class="icon"
+                             src="~/Icons/SideBar/Dashboard.svg" />
+                        <span class="text"
+                              id="SideBar.Dashboard.Title">
+                            Dashboard
+                        </span>
+                    </div>
+
+                    <img class="selectBar"
+                         id="selectBar"
+                         src="~/Icons/SideBar/Select Bar.svg" />
+                </div>
+            </a>
+        </li>
+
+
+
+        <!-- Explore -->
+        @if (Model.TypeId != SilkFlo.Data.Core.Enumerators.ClientType.ReferrerAgency41.ToString())
+        {
+            <li id="SideBar.Explore.Container">
+                <a aria-current="false"
+                   aria-expanded="false"
+                   class="collapsed"
+                   data-bs-target="#SideBarExploreMenuContainer"
+                   data-bs-toggle="collapse"
+                   id="SideBar.Explore"
+                   silkflo-action="SideBar: Explore"
+                   onclick="SilkFlo.SideBar.ToggleMenu ( this );"
+                   silkflo-sub-menu-id="SideBarExploreMenuContainer">
+                    <div class="silkFlo_flex_wrap_spaced">
+
+                        <div class="pointer">
+                            <img class="icon"
+                                 src="~/Icons/SideBar/Explore.svg"/>
+                            <span class="text" silkflo-hotspot="SiderBar-Explore">Explore</span>
+                        </div>
+                        <img class="expanderIcon icon sidebar_Icon transition"
+                             src="~/Icons/Arrow Down - simple.svg"
+                             style="margin-right: 20.5px !important;"/>
+                    </div>
+                </a>
+
+                <!-- show class -->
+                <div class="collapse"
+                     id="SideBarExploreMenuContainer">
+                    <ul class="list-unstyled"
+                        id="SideBar.Explore.Menu">
+                        <li id="SideBar.Explore.Ideas.Container">
+                            <a class="pointer"
+                               data-bs-target="tooltip"
+                               data-placement="right"
+                               id="SideBar.Explore.Ideas"
+                               silkflo-action="SideBar: Explore > Ideas"
+                               onclick="SilkFlo.SideBar.OnClick ( '/Explore/Ideas' )"
+                               silkflo-parent-menu-id="SideBar.Explore.Container"
+                               title="Show Ideas">
+                                <img class="icon"
+                                     src="~/Icons/SideBar/Ideas.svg"/>
+                                <span class="text">Ideas</span>
+                            </a>
+                        </li>
+                        <li id="SideBar.Explore.Automations.Container">
+                            <a class="pointer"
+                               data-bs-target="tooltip"
+                               data-placement="right"
+                               id="SideBar.Explore.Improvements"
+                               silkflo-action="SideBar: Explore > Improvements"
+                               onclick="SilkFlo.SideBar.OnClick ( '/Explore/Automations' )"
+                               silkflo-parent-menu-id="SideBar.Explore.Container"
+                               title="Show Improvements">
+                                <img class="icon"
+                                     src="~/Icons/SideBar/RobotHead.svg"/>
+                                <span class="text">Automations</span>
+                            </a>
+                        </li>
+                        <li id="SideBar.Explore.People.Container">
+                            <a class="pointer"
+                               data-bs-target="tooltip"
+                               data-placement="right"
+                               id="SideBar.Explore.People"
+                               silkflo-action="SideBar: Explore > People"
+                               onclick="SilkFlo.SideBar.OnClick ( '/Explore/People' )"
+                               silkflo-parent-menu-id="SideBar.Explore.Container"
+                       title="Show People">
+                                
+                                <img class="icon"
+                                     src="~/Icons/SideBar/People.svg"/>
+                                <span class="text">People</span>
+                            </a>
+                        </li>
+                        @*<li id="SideBar.Leaderboard.Container">
+                                <a name="Leaderboard"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   silkflo-parent-menu-id="SideBar.Explore"
+                                   silkflo-action="SideBar: "
+                                   onclick="SilkFlo.SideBar.OnClick('/Explore/Leaderboard')"
+                                   title="Show Leaderboard"
+                                   class="pointer">
+                                   <img class="icon" src="~/Icons/SideBar/Leaderboard.svg" />
+                                   <span class="text">Leaderboard</span>
+                                </a>
+                            </li>*@
+                        @*<li id="SideBar.Component.Container">
+                                <a name="Component"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   title="Show Component"
+                                   silkflo-parent-menu-id="SideBar.Explore"
+                                   onclick="SilkFlo.SideBar.OnClick('/Explore/Component')"
+                                   class="pointer">
+                                   <img class="icon" src="~/Icons/SideBar/Component.svg" />
+                                   <span class="text">Component</span>
+                                </a>
+                            </li>*@
+                    </ul>
+                </div>
+            </li>
+        <li id="SideBar.Workshop.Container">
+                <a class="pointer"
+                   data-bs-target="tooltip"
+                   data-placement="right"
+                   id="SideBar.Workshop"
+                   silkflo-action="SideBar: Workshop"
+                   onclick="SilkFlo.SideBar.OnClick ( '/Workshop/All' )"
+                   title="Show Workshop">
+                    <img class="icon"
+                         src="~/Icons/SideBar/Workshop.svg" />
+                    <span class="text" silkflo-hotspot="SiderBar-Workshop">Workshop</span>
+                </a>
+            </li>
+        }
+
+
+            @* Tenant Settings *@
+            @if (!Model.IsAgency && (await _authorizationService.AuthorizeAsync(User, "Manage Tenant Settings")).Succeeded)
+            {
+                <li id="SideBar.Settings.Tenant.Container">
+                    <a aria-current="false"
+                       aria-expanded="false"
+                       class="collapsed"
+                       data-bs-target="#SideBarSettingsMenuContainer"
+                       data-bs-toggle="collapse"
+                       id="SideBar.Settings"
+                       silkflo-action="SideBar: Settings"
+                       onclick="SilkFlo.SideBar.ToggleMenu ( this );"
+                       silkflo-sub-menu-id="SideBarSettingsMenuContainer">
+
+                        <div class="silkFlo_flex_wrap_spaced">
+
+                            <div class="pointer">
+                                <img class="icon"
+                                     src="~/Icons/SideBar/Settings.svg" />
+                                <span class="text">Settings</span>
+                            </div>
+                            <img class="expanderIcon icon sidebar_Icon transition"
+                                 src="~/Icons/Arrow Down - simple.svg"
+                                 style="margin-right: 20.5px !important;" />
+                        </div>
+                    </a>
+
+
+                    <!-- show list -->
+                    <div class="collapse"
+                         id="SideBarSettingsMenuContainer">
+                        <ul class="list-unstyled">
+                            <li id="SideBar.Settings.Tenant.Account.Container">
+                                <a class="pointer"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.Settings.Account"
+                                   silkflo-action="SideBar: Settings > Account"
+                                   onclick="SilkFlo.SideBar.OnClick ( '/Settings/tenant/Account' )"
+                                   silkflo-parent-menu-id="SideBar.Settings.Container"
+                                   title="Show Account">
+                                    <div class="pointer">
+                                        <img class="icon"
+                                             src="~/Icons/SideBar/Settings.svg" />
+                                        <span class="text">Account</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                            @if ((await _authorizationService.AuthorizeAsync(User, "Manage Tenant Users")).Succeeded
+                                || (await _authorizationService.AuthorizeAsync(User, "Manage Tenant User Roles")).Succeeded)
+                            {
+                                <li id="SideBar.Settings.Tenant.People.Container">
+                                    <a class="pointer"
+                                       data-bs-target="tooltip"
+                                       data-placement="right"
+                                       id="SideBar.Settings.People"
+                                       silkflo-action="SideBar: Settings > People"
+                                       onclick="SilkFlo.SideBar.OnClick ( '/Settings/tenant/people' )"
+                                       silkflo-parent-menu-id="SideBar.Settings.Container"
+                                       title="Show People">
+
+                                        <div class="pointer">
+                                            <img class="icon"
+                                                 src="~/Icons/SideBar/People.svg" />
+                                            <span class="text">People</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                            <li id="SideBar.Settings.Tenant.PlatformSetup.Container">
+                                <a class="pointer"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.Settings.Tenant.Platform Setup"
+                                   silkflo-action="SideBar: Settings > Tenant > PlatformSetup"
+                                   onclick="SilkFlo.SideBar.OnClick ( '/Settings/tenant/Platform-Setup/Business-Units' )"
+                                   silkflo-parent-menu-id="SideBar.Settings.Container"
+                                   title="Show Platform Setup">
+                                    <div class="pointer">
+                                        <img class="icon"
+                                             src="~/Icons/SideBar/Settings.svg" />
+                                        <span class="text">Platform Setup</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            }
+
+            @* Agency Settings *@
+            @if (Model.IsAgency 
+                 && (await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageAgencySettings)).Succeeded)
+            {
+                <li id="SideBar.Settings.Agency.Container">
+                    <a aria-current="false"
+                       aria-expanded="false"
+                       class="collapsed"
+                       data-bs-target="#SideBarAgancySettingsMenuContainer"
+                       data-bs-toggle="collapse"
+                       id="SideBar.Settings"
+                       silkflo-action="SideBar: Settings"
+                       onclick="SilkFlo.SideBar.ToggleMenu ( this );"
+                       silkflo-sub-menu-id="SideBarAgancySettingsMenuContainer">
+
+                        <div class="silkFlo_flex_wrap_spaced">
+
+                            <div class="pointer">
+                                <img class="icon"
+                                     src="~/Icons/SideBar/Settings.svg" />
+                                <span class="text">Agency Settings</span>
+                            </div>
+                            <img class="expanderIcon icon sidebar_Icon transition"
+                                 src="~/Icons/Arrow Down - simple.svg"
+                                 style="margin-right: 20.5px !important;" />
+                        </div>
+                    </a>
+
+
+                    <!-- show list -->
+                    <div class="collapse"
+                         id="SideBarAgancySettingsMenuContainer">
+                        <ul class="list-unstyled">
+                            <li id="SideBar.Settings.Agency.Account.Container">
+                                <a class="pointer"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.AgencySettings.Account"
+                                   silkflo-action="SideBar: Agency Settings > Account"
+                                   onclick="SilkFlo.SideBar.OnClick ( '/settings/agency/account' )"
+                                   silkflo-parent-menu-id="SideBar.AgancySettings.Container"
+                                   title="Show Account">
+                                    <div class="pointer">
+                                        <img class="icon"
+                                             src="~/Icons/SideBar/Settings.svg" />
+                                        <span class="text">Account</span>
+                                    </div>
+                                </a>
+                            </li>
+                            @if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageAgencyUsers)).Succeeded
+                                || (await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageAgencyUserRoles)).Succeeded)
+                            {
+                                <li id="SideBar.Settings.Agency.People.Container">
+                                    <a class="pointer"
+                                       data-bs-target="tooltip"
+                                       data-placement="right"
+                                       id="SideBar.AgencySettings.People"
+                                       silkflo-action="SideBar: Agency Settings > People"
+                                       onclick="SilkFlo.SideBar.OnClick ( 'Settings/agency/people' )"
+                                       silkflo-parent-menu-id="SideBar.AgancySettings.Container"
+                                       title="Show People">
+                                        <div class="pointer">
+                                            <img class="icon"
+                                                 src="~/Icons/SideBar/People.svg" />
+                                            <span class="text">People</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                            <li id="SideBar.Settings.Agency.Tenants.Container">
+                                <a class="pointer"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.AgencySettings.Tenants"
+                                   silkflo-action="SideBar: Agency Settings > Tenants"
+                                   onclick="SilkFlo.SideBar.OnClick ( 'Settings/agency/tenants' )"
+                                   silkflo-parent-menu-id="SideBar.AgancySettings.Container"
+                                   title="Show Tenants">
+                                    <div class="pointer">
+                                        <img class="icon"
+                                             src="~/Icons/SideBar/People.svg" />
+                                        <span class="text">Tenants</span>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                            <li id="SideBar.Settings.Tenant.PlatformSetup.Container">
+                                <a class="pointer"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.Settings.Tenant.PlatformSetup"
+                                   silkflo-action="SideBar: Settings > Tenant > Platform Setup"
+                                   onclick="SilkFlo.SideBar.OnClick ( '/Settings/tenant/Platform-Setup/Business-Units' )"
+                                   silkflo-parent-menu-id="SideBar.Settings.Container"
+                                   title="Show Platform Setup">
+                                    <div class="pointer">
+                                        <img class="icon"
+                                             src="~/Icons/SideBar/Settings.svg" />
+                                        <span class="text">Platform Setup</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            }
+
+            @if ((await _authorizationService.AuthorizeAsync(User, "Can View Administration Area")).Succeeded)
+            {
+                <li id="SideBar.SilkFlo.Container">
+                    <a aria-current="false"
+                       aria-expanded="false"
+                       class="collapsed"
+                       data-bs-target="#SideBarSilkFloMenuContainer"
+                       data-bs-toggle="collapse"
+                       id="SideBar.SilkFlo"
+                       silkflo-action="SideBar: SilkFlo"
+                       onclick="SilkFlo.SideBar.ToggleMenu ( this );"
+                       silkflo-sub-menu-id="SideBarSilkFloMenuContainer">
+                        <div class="silkFlo_flex_wrap_spaced">
+
+                            <div class="pointer">
+                                <img class="icon"
+                                     src="~/Icons/SideBar/Settings.svg"/>
+                                <span class="text">SilkFlo</span>
+                            </div>
+                            <img class="expanderIcon icon sidebar_Icon transition"
+                                 src="~/Icons/Arrow Down - simple.svg"
+                                 style="margin-right: 20.5px !important;"/>
+                        </div>
+                    </a>
+                    
+                    <!-- show class -->
+                    <div class="collapse"
+                         id="SideBarSilkFloMenuContainer">
+                        <ul class="list-unstyled"
+                            id="SideBar.SilkFlo.Menu">
+                            
+                            <li id="SideBar.SilkFloProspects.Container">
+                                <a aria-current="true"
+                                   class="collapsed"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.SilkFlo.Prospects"
+                                   silkflo-action="SideBar: SilkFlo Prospects"
+                                   onclick="SilkFlo.SideBar.OnClick ( '/Application/Prospects' )"
+                                   title="Show Prospects">
+                                    <div class="silkFlo_flex_wrap_spaced">
+
+                                        <div class="pointer">
+                                            <img class="icon"
+                                                 src="~/Icons/SideBar/People.svg" />
+                                            <span class="text">Prospects</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li id="SideBar.SilkFloSettings.Container">
+                                <a aria-current="true"
+                                   class="collapsed"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   id="SideBar.SilkFloSettings"
+                                   silkflo-action="SideBar: SilkFlo Settings"
+                                   onclick="SilkFlo.SideBar.OnClick ( '/Application/Settings' )"
+                                   title="Show Settings">
+                                    <div class="silkFlo_flex_wrap_spaced">
+
+                                        <div class="pointer">
+                                            <img class="icon"
+                                                 src="~/Icons/SideBar/Settings.svg"/>
+                                            <span class="text">Settings</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                            <li id="SideBar.Administration.Container">
+                                <a class="pointer"
+                                   data-bs-target="tooltip"
+                                   data-placement="right"
+                                   href="/administration"
+                                   id="SideBar.Administration"
+                                   silkflo-action="SideBar: Administration"
+                                   title="Show Administration">
+                                    <img class="icon"
+                                         src="~/Icons/SideBar/Settings.svg" />
+                                    <span class="text">Administration</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+            }
+        }
+</ul>

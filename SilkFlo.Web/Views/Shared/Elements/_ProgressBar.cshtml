@@ -1,0 +1,60 @@
+@model SilkFlo.Web.ViewModels.ProgressBar
+@{
+    decimal progress = Model.Width * Model.Value;
+    const int partitionWidth = 1;
+
+   @if (Model.Count > 0)
+   {
+       progress = Model.Width / Model.Count * Model.Value; //5
+       //progress = Model.Width / Model.Count * Model.Value - partitionWidth * 3; //4
+      //progress = Model.Width / Model.Count * Model.Value - partitionWidth * 3; //3
+
+   }
+
+
+
+    var style = $"background: var(--bs-gray-lighter); height: {Model.Height}px; width: {Model.Width}px; border-radius: {Model.Radius}px; overflow: hidden; position: relative;";
+
+    var styleProgress = $"background: {@Model.Colour}; height: {Model.Height}px; width: {progress}px;";
+
+    int widthTotal = Model.Width + partitionWidth;
+    int widthPart = widthTotal / 5 - partitionWidth;
+    int width1 = widthPart;
+    int width2 = widthPart * 2 + partitionWidth;
+    int width3 = widthPart * 3 + partitionWidth*2;
+    int width4 = widthPart * 4 + partitionWidth*3;
+
+    var lineColour = "var(--bs-gray-lightest)";
+
+    var styleBar1 = $"background: {lineColour}; height: {Model.Height}px; position: absolute; width: 1px; left: {width1}px; top:0";
+    var styleBar2 = $"background: {lineColour}; height: {Model.Height}px; position: absolute; width: 1px; left: {width2}px; top:0";
+    var styleBar3 = $"background: {lineColour}; height: {Model.Height}px; position: absolute; width: 1px; left: {width3}px; top:0";
+    var styleBar4 = $"background: {lineColour}; height: {Model.Height}px; position: absolute; width: 1px; left: {width4}px; top:0";
+}
+
+<div id="@Model.Id"
+     style="@style"
+     name="@Model.Name">
+
+    <div style="@styleProgress"> </div>
+
+    @if (Model.Count > 0)
+    {
+        widthPart = widthTotal / Model.Count - partitionWidth;
+        int index = 0;
+        for (var i = 1; i < Model.Count; i++)
+        {
+            var left = widthPart * i + partitionWidth * index;
+            var styleBar = $"background: {lineColour}; height: {Model.Height}px; position: absolute; width: 1px; left: {left}px; top:0";
+            <div style="@styleBar"> </div>
+            index++;
+        }
+    }
+    else
+    {
+        <div style="@styleBar1"> </div>
+        <div style="@styleBar2"> </div>
+        <div style="@styleBar3"> </div>
+        <div style="@styleBar4"> </div>
+    }
+</div>

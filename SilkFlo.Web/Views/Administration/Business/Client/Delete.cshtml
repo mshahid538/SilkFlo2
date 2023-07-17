@@ -1,0 +1,200 @@
+@model SilkFlo.Web.Models.Business.Client
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Client</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Client/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/Client/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Client">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.AccountOwnerId)
+        @Html.HiddenFor(x => x.Address1)
+        @Html.HiddenFor(x => x.Address2)
+        @Html.HiddenFor(x => x.AgencyDiscountId)
+        @Html.HiddenFor(x => x.AgencyId)
+        @Html.HiddenFor(x => x.AllowGuestSignIn)
+        @Html.HiddenFor(x => x.AverageWorkingDay)
+        @Html.HiddenFor(x => x.AverageWorkingHour)
+        @Html.HiddenFor(x => x.City)
+        @Html.HiddenFor(x => x.CountryId)
+        @Html.HiddenFor(x => x.CurrencyId)
+        @Html.HiddenFor(x => x.FreeTrialDay)
+        @Html.HiddenFor(x => x.IndustryId)
+        @Html.HiddenFor(x => x.IsActive)
+        @Html.HiddenFor(x => x.IsDemo)
+        @Html.HiddenFor(x => x.IsPractice)
+        @Html.HiddenFor(x => x.LanguageId)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.PostCode)
+        @Html.HiddenFor(x => x.PracticeId)
+        @Html.HiddenFor(x => x.ReceiveMarketing)
+        @Html.HiddenFor(x => x.State)
+        @Html.HiddenFor(x => x.StripeId)
+        @Html.HiddenFor(x => x.TermsOfUse)
+        @Html.HiddenFor(x => x.TypeId)
+        @Html.HiddenFor(x => x.Website)
+        <div class="grid_auto_1fr">
+
+            <!-- AllowGuestSignIn -->
+            <div>@Html.DisplayNameFor(x => x.AllowGuestSignIn)</div>
+            <div>@Html.DisplayFor(x => x.AllowGuestSignIn)</div>
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- Website -->
+            <div>@Html.DisplayNameFor(x => x.Website)</div>
+            <div>@Html.DisplayFor(x => x.Website)</div>
+
+            <!-- Address1 -->
+            <div>@Html.DisplayNameFor(x => x.Address1)</div>
+            <div>@Html.DisplayFor(x => x.Address1)</div>
+
+            <!-- Address2 -->
+            <div>@Html.DisplayNameFor(x => x.Address2)</div>
+            <div>@Html.DisplayFor(x => x.Address2)</div>
+
+            <!-- City -->
+            <div>@Html.DisplayNameFor(x => x.City)</div>
+            <div>@Html.DisplayFor(x => x.City)</div>
+
+            <!-- State -->
+            <div>@Html.DisplayNameFor(x => x.State)</div>
+            <div>@Html.DisplayFor(x => x.State)</div>
+
+            <!-- PostCode -->
+            <div>@Html.DisplayNameFor(x => x.PostCode)</div>
+            <div>@Html.DisplayFor(x => x.PostCode)</div>
+
+            <!-- AverageWorkingDay -->
+            <div>@Html.DisplayNameFor(x => x.AverageWorkingDay)</div>
+            <div>@Html.DisplayFor(x => x.AverageWorkingDay)</div>
+
+            <!-- AverageWorkingHour -->
+            <div>@Html.DisplayNameFor(x => x.AverageWorkingHour)</div>
+            <div>@Html.DisplayFor(x => x.AverageWorkingHour)</div>
+
+            <!-- FreeTrialDay -->
+            <div>@Html.DisplayNameFor(x => x.FreeTrialDay)</div>
+            <div>@Html.DisplayFor(x => x.FreeTrialDay)</div>
+
+            <!-- IsActive -->
+            <div>@Html.DisplayNameFor(x => x.IsActive)</div>
+            <div>@Html.DisplayFor(x => x.IsActive)</div>
+
+            <!-- IsDemo -->
+            <div>@Html.DisplayNameFor(x => x.IsDemo)</div>
+            <div>@Html.DisplayFor(x => x.IsDemo)</div>
+
+            <!-- IsPractice -->
+            <div>@Html.DisplayNameFor(x => x.IsPractice)</div>
+            <div>@Html.DisplayFor(x => x.IsPractice)</div>
+
+            <!-- ReceiveMarketing -->
+            <div>@Html.DisplayNameFor(x => x.ReceiveMarketing)</div>
+            <div>@Html.DisplayFor(x => x.ReceiveMarketing)</div>
+
+            <!-- StripeId -->
+            <div>@Html.DisplayNameFor(x => x.StripeId)</div>
+            <div>@Html.DisplayFor(x => x.StripeId)</div>
+
+            <!-- TermsOfUse -->
+            <div>@Html.DisplayNameFor(x => x.TermsOfUse)</div>
+            <div>@Html.DisplayFor(x => x.TermsOfUse)</div>
+
+            <!-- AccountOwnerString -->
+            <div>@Html.DisplayNameFor(x => x.AccountOwnerString)</div>
+            <div>@Html.DisplayFor(x => x.AccountOwnerString)</div>
+
+            <!-- AgencyDiscountString -->
+            <div>@Html.DisplayNameFor(x => x.AgencyDiscountString)</div>
+            <div>@Html.DisplayFor(x => x.AgencyDiscountString)</div>
+
+            <!-- AgencyString -->
+            <div>@Html.DisplayNameFor(x => x.AgencyString)</div>
+            <div>@Html.DisplayFor(x => x.AgencyString)</div>
+
+            <!-- CountryString -->
+            <div>@Html.DisplayNameFor(x => x.CountryString)</div>
+            <div>@Html.DisplayFor(x => x.CountryString)</div>
+
+            <!-- CurrencyString -->
+            <div>@Html.DisplayNameFor(x => x.CurrencyString)</div>
+            <div>@Html.DisplayFor(x => x.CurrencyString)</div>
+
+            <!-- IndustryString -->
+            <div>@Html.DisplayNameFor(x => x.IndustryString)</div>
+            <div>@Html.DisplayFor(x => x.IndustryString)</div>
+
+            <!-- LanguageString -->
+            <div>@Html.DisplayNameFor(x => x.LanguageString)</div>
+            <div>@Html.DisplayFor(x => x.LanguageString)</div>
+
+            <!-- PracticeAccountString -->
+            <div>@Html.DisplayNameFor(x => x.PracticeAccountString)</div>
+            <div>@Html.DisplayFor(x => x.PracticeAccountString)</div>
+
+            <!-- TypeString -->
+            <div>@Html.DisplayNameFor(x => x.TypeString)</div>
+            <div>@Html.DisplayFor(x => x.TypeString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    <h2>Assigned Users</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMUser_For_ManageTenant = "";
+            foreach (var manageTenant in Model.ManageTenants)
+            {
+                 if (manageTenant != null)
+                 {
+                    if (manageTenant.User != null)
+                    {
+                        linkMMUser_For_ManageTenant = "/User/Detail/" + manageTenant.User.Id;
+             <a href=@linkMMUser_For_ManageTenant class="btn btn-secondary">@manageTenant.User.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    </form>
+</div>

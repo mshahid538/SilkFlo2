@@ -1,0 +1,502 @@
+@model SilkFlo.Web.Models.Business.Idea
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Idea</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Business/Idea/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Business/Idea/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Business/Idea">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.ActivityVolumeAverage)
+        @Html.HiddenFor(x => x.ActivityVolumeAverageComment)
+        @Html.HiddenFor(x => x.AHTRobot)
+        @Html.HiddenFor(x => x.ApplicationStabilityComment)
+        @Html.HiddenFor(x => x.ApplicationStabilityId)
+        @Html.HiddenFor(x => x.AutomationGoalId)
+        @Html.HiddenFor(x => x.AverageEmployeeFullCost)
+        @Html.HiddenFor(x => x.AverageEmployeeFullCostComment)
+        @Html.HiddenFor(x => x.AverageErrorRate)
+        @Html.HiddenFor(x => x.AverageErrorRateComment)
+        @Html.HiddenFor(x => x.AverageNumberOfStepComment)
+        @Html.HiddenFor(x => x.AverageNumberOfStepId)
+        @Html.HiddenFor(x => x.AverageProcessingTime)
+        @Html.HiddenFor(x => x.AverageProcessingTimeComment)
+        @Html.HiddenFor(x => x.AverageReviewTime)
+        @Html.HiddenFor(x => x.AverageReviewTimeComment)
+        @Html.HiddenFor(x => x.AverageReworkTime)
+        @Html.HiddenFor(x => x.AverageReworkTimeComment)
+        @Html.HiddenFor(x => x.AverageWorkingDay)
+        @Html.HiddenFor(x => x.AverageWorkingDayComment)
+        @Html.HiddenFor(x => x.AverageWorkToBeReviewed)
+        @Html.HiddenFor(x => x.AverageWorkToBeReviewedComment)
+        @Html.HiddenFor(x => x.BenefitActual)
+        @Html.HiddenFor(x => x.BenefitExpected)
+        @Html.HiddenFor(x => x.ChallengeActual)
+        @Html.HiddenFor(x => x.ChallengeExpected)
+        @Html.HiddenFor(x => x.ClientId)
+        @Html.HiddenFor(x => x.DataInputPercentOfStructuredComment)
+        @Html.HiddenFor(x => x.DataInputPercentOfStructuredId)
+        @Html.HiddenFor(x => x.DataInputScannedComment)
+        @Html.HiddenFor(x => x.DecisionCountComment)
+        @Html.HiddenFor(x => x.DecisionCountId)
+        @Html.HiddenFor(x => x.DecisionDifficultyComment)
+        @Html.HiddenFor(x => x.DecisionDifficultyId)
+        @Html.HiddenFor(x => x.DepartmentId)
+        @Html.HiddenFor(x => x.DocumentationPresentComment)
+        @Html.HiddenFor(x => x.DocumentationPresentId)
+        @Html.HiddenFor(x => x.EaseOfImplementationFinal)
+        @Html.HiddenFor(x => x.EmployeeCount)
+        @Html.HiddenFor(x => x.EmployeeCountComment)
+        @Html.HiddenFor(x => x.InputComment)
+        @Html.HiddenFor(x => x.InputDataStructureId)
+        @Html.HiddenFor(x => x.InputId)
+        @Html.HiddenFor(x => x.IsAlternative)
+        @Html.HiddenFor(x => x.IsDataInputScanned)
+        @Html.HiddenFor(x => x.IsDataSensitive)
+        @Html.HiddenFor(x => x.IsDraft)
+        @Html.HiddenFor(x => x.IsHighRisk)
+        @Html.HiddenFor(x => x.IsHostUpgrade)
+        @Html.HiddenFor(x => x.LessenLearnt)
+        @Html.HiddenFor(x => x.Name)
+        @Html.HiddenFor(x => x.NegativeImpactComment)
+        @Html.HiddenFor(x => x.NumberOfWaysToCompleteProcessComment)
+        @Html.HiddenFor(x => x.NumberOfWaysToCompleteProcessId)
+        @Html.HiddenFor(x => x.PainPointComment)
+        @Html.HiddenFor(x => x.PotentialFineAmount)
+        @Html.HiddenFor(x => x.PotentialFineProbability)
+        @Html.HiddenFor(x => x.ProcessId)
+        @Html.HiddenFor(x => x.ProcessOwnerId)
+        @Html.HiddenFor(x => x.ProcessPeakComment)
+        @Html.HiddenFor(x => x.ProcessPeakId)
+        @Html.HiddenFor(x => x.ProcessStabilityComment)
+        @Html.HiddenFor(x => x.ProcessStabilityId)
+        @Html.HiddenFor(x => x.ProcessVolumetryPerMonth)
+        @Html.HiddenFor(x => x.ProcessVolumetryPerYear)
+        @Html.HiddenFor(x => x.Rating)
+        @Html.HiddenFor(x => x.RatingComment)
+        @Html.HiddenFor(x => x.RobotSpeedMultiplier)
+        @Html.HiddenFor(x => x.RobotWorkDayYear)
+        @Html.HiddenFor(x => x.RobotWorkHourDay)
+        @Html.HiddenFor(x => x.RuleComment)
+        @Html.HiddenFor(x => x.RuleId)
+        @Html.HiddenFor(x => x.RunningCostId)
+        @Html.HiddenFor(x => x.StructureComment)
+        @Html.HiddenFor(x => x.SubmissionPathId)
+        @Html.HiddenFor(x => x.SubTitle)
+        @Html.HiddenFor(x => x.Summary)
+        @Html.HiddenFor(x => x.TaskFrequencyComment)
+        @Html.HiddenFor(x => x.TaskFrequencyId)
+        @Html.HiddenFor(x => x.TeamId)
+        @Html.HiddenFor(x => x.WorkingHour)
+        @Html.HiddenFor(x => x.WorkingHourComment)
+        @Html.HiddenFor(x => x.WorkloadSplit)
+        <div class="grid_auto_1fr">
+
+            <!-- Rating -->
+            <div>@Html.DisplayNameFor(x => x.Rating)</div>
+            <div>@Html.DisplayFor(x => x.Rating)</div>
+
+            <!-- RatingComment -->
+            <div>@Html.DisplayNameFor(x => x.RatingComment)</div>
+            <div>@Html.DisplayFor(x => x.RatingComment)</div>
+
+            <!-- Name -->
+            <div>@Html.DisplayNameFor(x => x.Name)</div>
+            <div>@Html.DisplayFor(x => x.Name)</div>
+
+            <!-- SubTitle -->
+            <div>@Html.DisplayNameFor(x => x.SubTitle)</div>
+            <div>@Html.DisplayFor(x => x.SubTitle)</div>
+
+            <!-- Summary -->
+            <div>@Html.DisplayNameFor(x => x.Summary)</div>
+            <div>@Html.DisplayFor(x => x.Summary)</div>
+
+            <!-- RuleComment -->
+            <div>@Html.DisplayNameFor(x => x.RuleComment)</div>
+            <div>@Html.DisplayFor(x => x.RuleComment)</div>
+
+            <!-- InputComment -->
+            <div>@Html.DisplayNameFor(x => x.InputComment)</div>
+            <div>@Html.DisplayFor(x => x.InputComment)</div>
+
+            <!-- StructureComment -->
+            <div>@Html.DisplayNameFor(x => x.StructureComment)</div>
+            <div>@Html.DisplayFor(x => x.StructureComment)</div>
+
+            <!-- ProcessStabilityComment -->
+            <div>@Html.DisplayNameFor(x => x.ProcessStabilityComment)</div>
+            <div>@Html.DisplayFor(x => x.ProcessStabilityComment)</div>
+
+            <!-- ApplicationStabilityComment -->
+            <div>@Html.DisplayNameFor(x => x.ApplicationStabilityComment)</div>
+            <div>@Html.DisplayFor(x => x.ApplicationStabilityComment)</div>
+
+            <!-- AverageWorkingDay -->
+            <div>@Html.DisplayNameFor(x => x.AverageWorkingDay)</div>
+            <div>@Html.DisplayFor(x => x.AverageWorkingDay)</div>
+
+            <!-- AverageWorkingDayComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageWorkingDayComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageWorkingDayComment)</div>
+
+            <!-- WorkingHour -->
+            <div>@Html.DisplayNameFor(x => x.WorkingHour)</div>
+            <div>@Html.DisplayFor(x => x.WorkingHour)</div>
+
+            <!-- WorkingHourComment -->
+            <div>@Html.DisplayNameFor(x => x.WorkingHourComment)</div>
+            <div>@Html.DisplayFor(x => x.WorkingHourComment)</div>
+
+            <!-- AverageEmployeeFullCost -->
+            <div>@Html.DisplayNameFor(x => x.AverageEmployeeFullCost)</div>
+            <div>@Html.DisplayFor(x => x.AverageEmployeeFullCost)</div>
+
+            <!-- TaskFrequencyComment -->
+            <div>@Html.DisplayNameFor(x => x.TaskFrequencyComment)</div>
+            <div>@Html.DisplayFor(x => x.TaskFrequencyComment)</div>
+
+            <!-- ActivityVolumeAverage -->
+            <div>@Html.DisplayNameFor(x => x.ActivityVolumeAverage)</div>
+            <div>@Html.DisplayFor(x => x.ActivityVolumeAverage)</div>
+
+            <!-- ActivityVolumeAverageComment -->
+            <div>@Html.DisplayNameFor(x => x.ActivityVolumeAverageComment)</div>
+            <div>@Html.DisplayFor(x => x.ActivityVolumeAverageComment)</div>
+
+            <!-- AverageProcessingTime -->
+            <div>@Html.DisplayNameFor(x => x.AverageProcessingTime)</div>
+            <div>@Html.DisplayFor(x => x.AverageProcessingTime)</div>
+
+            <!-- AverageProcessingTimeComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageProcessingTimeComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageProcessingTimeComment)</div>
+
+            <!-- AverageErrorRate -->
+            <div>@Html.DisplayNameFor(x => x.AverageErrorRate)</div>
+            <div>@Html.DisplayFor(x => x.AverageErrorRate)</div>
+
+            <!-- AverageErrorRateComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageErrorRateComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageErrorRateComment)</div>
+
+            <!-- AverageReworkTime -->
+            <div>@Html.DisplayNameFor(x => x.AverageReworkTime)</div>
+            <div>@Html.DisplayFor(x => x.AverageReworkTime)</div>
+
+            <!-- AverageEmployeeFullCostComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageEmployeeFullCostComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageEmployeeFullCostComment)</div>
+
+            <!-- AverageReworkTimeComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageReworkTimeComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageReworkTimeComment)</div>
+
+            <!-- AverageWorkToBeReviewed -->
+            <div>@Html.DisplayNameFor(x => x.AverageWorkToBeReviewed)</div>
+            <div>@Html.DisplayFor(x => x.AverageWorkToBeReviewed)</div>
+
+            <!-- AverageWorkToBeReviewedComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageWorkToBeReviewedComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageWorkToBeReviewedComment)</div>
+
+            <!-- AverageReviewTime -->
+            <div>@Html.DisplayNameFor(x => x.AverageReviewTime)</div>
+            <div>@Html.DisplayFor(x => x.AverageReviewTime)</div>
+
+            <!-- AverageReviewTimeComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageReviewTimeComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageReviewTimeComment)</div>
+
+            <!-- EmployeeCount -->
+            <div>@Html.DisplayNameFor(x => x.EmployeeCount)</div>
+            <div>@Html.DisplayFor(x => x.EmployeeCount)</div>
+
+            <!-- EmployeeCountComment -->
+            <div>@Html.DisplayNameFor(x => x.EmployeeCountComment)</div>
+            <div>@Html.DisplayFor(x => x.EmployeeCountComment)</div>
+
+            <!-- ProcessPeakComment -->
+            <div>@Html.DisplayNameFor(x => x.ProcessPeakComment)</div>
+            <div>@Html.DisplayFor(x => x.ProcessPeakComment)</div>
+
+            <!-- AverageNumberOfStepComment -->
+            <div>@Html.DisplayNameFor(x => x.AverageNumberOfStepComment)</div>
+            <div>@Html.DisplayFor(x => x.AverageNumberOfStepComment)</div>
+
+            <!-- NumberOfWaysToCompleteProcessComment -->
+            <div>@Html.DisplayNameFor(x => x.NumberOfWaysToCompleteProcessComment)</div>
+            <div>@Html.DisplayFor(x => x.NumberOfWaysToCompleteProcessComment)</div>
+
+            <!-- IsDataInputScanned -->
+            <div>@Html.DisplayNameFor(x => x.IsDataInputScanned)</div>
+            <div>@Html.DisplayFor(x => x.IsDataInputScanned)</div>
+
+            <!-- DataInputScannedComment -->
+            <div>@Html.DisplayNameFor(x => x.DataInputScannedComment)</div>
+            <div>@Html.DisplayFor(x => x.DataInputScannedComment)</div>
+
+            <!-- DataInputPercentOfStructuredComment -->
+            <div>@Html.DisplayNameFor(x => x.DataInputPercentOfStructuredComment)</div>
+            <div>@Html.DisplayFor(x => x.DataInputPercentOfStructuredComment)</div>
+
+            <!-- DocumentationPresentComment -->
+            <div>@Html.DisplayNameFor(x => x.DocumentationPresentComment)</div>
+            <div>@Html.DisplayFor(x => x.DocumentationPresentComment)</div>
+
+            <!-- IsDataSensitive -->
+            <div>@Html.DisplayNameFor(x => x.IsDataSensitive)</div>
+            <div>@Html.DisplayFor(x => x.IsDataSensitive)</div>
+
+            <!-- DecisionDifficultyComment -->
+            <div>@Html.DisplayNameFor(x => x.DecisionDifficultyComment)</div>
+            <div>@Html.DisplayFor(x => x.DecisionDifficultyComment)</div>
+
+            <!-- IsHighRisk -->
+            <div>@Html.DisplayNameFor(x => x.IsHighRisk)</div>
+            <div>@Html.DisplayFor(x => x.IsHighRisk)</div>
+
+            <!-- IsAlternative -->
+            <div>@Html.DisplayNameFor(x => x.IsAlternative)</div>
+            <div>@Html.DisplayFor(x => x.IsAlternative)</div>
+
+            <!-- BenefitExpected -->
+            <div>@Html.DisplayNameFor(x => x.BenefitExpected)</div>
+            <div>@Html.DisplayFor(x => x.BenefitExpected)</div>
+
+            <!-- DecisionCountComment -->
+            <div>@Html.DisplayNameFor(x => x.DecisionCountComment)</div>
+            <div>@Html.DisplayFor(x => x.DecisionCountComment)</div>
+
+            <!-- IsHostUpgrade -->
+            <div>@Html.DisplayNameFor(x => x.IsHostUpgrade)</div>
+            <div>@Html.DisplayFor(x => x.IsHostUpgrade)</div>
+
+            <!-- BenefitActual -->
+            <div>@Html.DisplayNameFor(x => x.BenefitActual)</div>
+            <div>@Html.DisplayFor(x => x.BenefitActual)</div>
+
+            <!-- PotentialFineAmount -->
+            <div>@Html.DisplayNameFor(x => x.PotentialFineAmount)</div>
+            <div>@Html.DisplayFor(x => x.PotentialFineAmount)</div>
+
+            <!-- ChallengeExpected -->
+            <div>@Html.DisplayNameFor(x => x.ChallengeExpected)</div>
+            <div>@Html.DisplayFor(x => x.ChallengeExpected)</div>
+
+            <!-- IsDraft -->
+            <div>@Html.DisplayNameFor(x => x.IsDraft)</div>
+            <div>@Html.DisplayFor(x => x.IsDraft)</div>
+
+            <!-- PotentialFineProbability -->
+            <div>@Html.DisplayNameFor(x => x.PotentialFineProbability)</div>
+            <div>@Html.DisplayFor(x => x.PotentialFineProbability)</div>
+
+            <!-- ChallengeActual -->
+            <div>@Html.DisplayNameFor(x => x.ChallengeActual)</div>
+            <div>@Html.DisplayFor(x => x.ChallengeActual)</div>
+
+            <!-- PainPointComment -->
+            <div>@Html.DisplayNameFor(x => x.PainPointComment)</div>
+            <div>@Html.DisplayFor(x => x.PainPointComment)</div>
+
+            <!-- AHTRobot -->
+            <div>@Html.DisplayNameFor(x => x.AHTRobot)</div>
+            <div>@Html.DisplayFor(x => x.AHTRobot)</div>
+
+            <!-- EaseOfImplementationFinal -->
+            <div>@Html.DisplayNameFor(x => x.EaseOfImplementationFinal)</div>
+            <div>@Html.DisplayFor(x => x.EaseOfImplementationFinal)</div>
+
+            <!-- LessenLearnt -->
+            <div>@Html.DisplayNameFor(x => x.LessenLearnt)</div>
+            <div>@Html.DisplayFor(x => x.LessenLearnt)</div>
+
+            <!-- NegativeImpactComment -->
+            <div>@Html.DisplayNameFor(x => x.NegativeImpactComment)</div>
+            <div>@Html.DisplayFor(x => x.NegativeImpactComment)</div>
+
+            <!-- ProcessVolumetryPerMonth -->
+            <div>@Html.DisplayNameFor(x => x.ProcessVolumetryPerMonth)</div>
+            <div>@Html.DisplayFor(x => x.ProcessVolumetryPerMonth)</div>
+
+            <!-- ProcessVolumetryPerYear -->
+            <div>@Html.DisplayNameFor(x => x.ProcessVolumetryPerYear)</div>
+            <div>@Html.DisplayFor(x => x.ProcessVolumetryPerYear)</div>
+
+            <!-- RobotSpeedMultiplier -->
+            <div>@Html.DisplayNameFor(x => x.RobotSpeedMultiplier)</div>
+            <div>@Html.DisplayFor(x => x.RobotSpeedMultiplier)</div>
+
+            <!-- RobotWorkDayYear -->
+            <div>@Html.DisplayNameFor(x => x.RobotWorkDayYear)</div>
+            <div>@Html.DisplayFor(x => x.RobotWorkDayYear)</div>
+
+            <!-- RobotWorkHourDay -->
+            <div>@Html.DisplayNameFor(x => x.RobotWorkHourDay)</div>
+            <div>@Html.DisplayFor(x => x.RobotWorkHourDay)</div>
+
+            <!-- WorkloadSplit -->
+            <div>@Html.DisplayNameFor(x => x.WorkloadSplit)</div>
+            <div>@Html.DisplayFor(x => x.WorkloadSplit)</div>
+
+            <!-- ApplicationStabilityString -->
+            <div>@Html.DisplayNameFor(x => x.ApplicationStabilityString)</div>
+            <div>@Html.DisplayFor(x => x.ApplicationStabilityString)</div>
+
+            <!-- AutomationGoalString -->
+            <div>@Html.DisplayNameFor(x => x.AutomationGoalString)</div>
+            <div>@Html.DisplayFor(x => x.AutomationGoalString)</div>
+
+            <!-- AverageNumberOfStepString -->
+            <div>@Html.DisplayNameFor(x => x.AverageNumberOfStepString)</div>
+            <div>@Html.DisplayFor(x => x.AverageNumberOfStepString)</div>
+
+            <!-- ClientString -->
+            <div>@Html.DisplayNameFor(x => x.ClientString)</div>
+            <div>@Html.DisplayFor(x => x.ClientString)</div>
+
+            <!-- DataInputPercentOfStructuredString -->
+            <div>@Html.DisplayNameFor(x => x.DataInputPercentOfStructuredString)</div>
+            <div>@Html.DisplayFor(x => x.DataInputPercentOfStructuredString)</div>
+
+            <!-- DecisionCountString -->
+            <div>@Html.DisplayNameFor(x => x.DecisionCountString)</div>
+            <div>@Html.DisplayFor(x => x.DecisionCountString)</div>
+
+            <!-- DecisionDifficultyString -->
+            <div>@Html.DisplayNameFor(x => x.DecisionDifficultyString)</div>
+            <div>@Html.DisplayFor(x => x.DecisionDifficultyString)</div>
+
+            <!-- DepartmentString -->
+            <div>@Html.DisplayNameFor(x => x.DepartmentString)</div>
+            <div>@Html.DisplayFor(x => x.DepartmentString)</div>
+
+            <!-- DocumentationPresentString -->
+            <div>@Html.DisplayNameFor(x => x.DocumentationPresentString)</div>
+            <div>@Html.DisplayFor(x => x.DocumentationPresentString)</div>
+
+            <!-- InputDataStructureString -->
+            <div>@Html.DisplayNameFor(x => x.InputDataStructureString)</div>
+            <div>@Html.DisplayFor(x => x.InputDataStructureString)</div>
+
+            <!-- InputString -->
+            <div>@Html.DisplayNameFor(x => x.InputString)</div>
+            <div>@Html.DisplayFor(x => x.InputString)</div>
+
+            <!-- NumberOfWaysToCompleteProcessString -->
+            <div>@Html.DisplayNameFor(x => x.NumberOfWaysToCompleteProcessString)</div>
+            <div>@Html.DisplayFor(x => x.NumberOfWaysToCompleteProcessString)</div>
+
+            <!-- ProcessString -->
+            <div>@Html.DisplayNameFor(x => x.ProcessString)</div>
+            <div>@Html.DisplayFor(x => x.ProcessString)</div>
+
+            <!-- ProcessOwnerString -->
+            <div>@Html.DisplayNameFor(x => x.ProcessOwnerString)</div>
+            <div>@Html.DisplayFor(x => x.ProcessOwnerString)</div>
+
+            <!-- ProcessPeakString -->
+            <div>@Html.DisplayNameFor(x => x.ProcessPeakString)</div>
+            <div>@Html.DisplayFor(x => x.ProcessPeakString)</div>
+
+            <!-- ProcessStabilityString -->
+            <div>@Html.DisplayNameFor(x => x.ProcessStabilityString)</div>
+            <div>@Html.DisplayFor(x => x.ProcessStabilityString)</div>
+
+            <!-- RuleString -->
+            <div>@Html.DisplayNameFor(x => x.RuleString)</div>
+            <div>@Html.DisplayFor(x => x.RuleString)</div>
+
+            <!-- RunningCostString -->
+            <div>@Html.DisplayNameFor(x => x.RunningCostString)</div>
+            <div>@Html.DisplayFor(x => x.RunningCostString)</div>
+
+            <!-- SubmissionPathString -->
+            <div>@Html.DisplayNameFor(x => x.SubmissionPathString)</div>
+            <div>@Html.DisplayFor(x => x.SubmissionPathString)</div>
+
+            <!-- TaskFrequencyString -->
+            <div>@Html.DisplayNameFor(x => x.TaskFrequencyString)</div>
+            <div>@Html.DisplayFor(x => x.TaskFrequencyString)</div>
+
+            <!-- TeamString -->
+            <div>@Html.DisplayNameFor(x => x.TeamString)</div>
+            <div>@Html.DisplayFor(x => x.TeamString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    <h2>Assigned Users</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMUser_For_Follow = "";
+            foreach (var follow in Model.Follows)
+            {
+                 if (follow != null)
+                 {
+                    if (follow.User != null)
+                    {
+                        linkMMUser_For_Follow = "/User/Detail/" + follow.User.Id;
+             <a href=@linkMMUser_For_Follow class="btn btn-secondary">@follow.User.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    <h2>Assigned Users</h2>
+    <div class="flex_grid">
+        @{
+            string linkMMUser_For_Vote = "";
+            foreach (var vote in Model.Votes)
+            {
+                 if (vote != null)
+                 {
+                    if (vote.User != null)
+                    {
+                        linkMMUser_For_Vote = "/User/Detail/" + vote.User.Id;
+             <a href=@linkMMUser_For_Vote class="btn btn-secondary">@vote.User.ToString()</a>
+                    }
+                }
+            }
+        }
+    </div>
+    </form>
+</div>

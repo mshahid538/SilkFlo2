@@ -1,0 +1,13 @@
+@model string
+
+@if(!string.IsNullOrWhiteSpace(Model))
+{
+    <div id="applicationMode"
+         class="d-flex justify-content-center animateable offScreen">
+        <div class="animateable buildFlag">@Model</div>
+
+        <div id="practiceAccountPlaceHolder"
+             asp-authorize
+             class="hide animateable">Practice Account</div>
+    </div>
+}

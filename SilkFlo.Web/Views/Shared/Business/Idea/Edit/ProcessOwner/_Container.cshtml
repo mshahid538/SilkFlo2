@@ -1,0 +1,41 @@
+@using SilkFlo.Web.ViewModels
+@using SilkFlo.Web.ViewModels.Business.Idea
+@model SilkFlo.Web.Models.Business.Idea
+
+@*
+@await Html.PartialAsync("Business/Idea/Edit/ProcessOwner/_Container", Model);
+*@
+
+<h2 class="mandatory">Assign Process Owner</h2>
+<div class="prompt">Assign a process owner to review the filled in information.</div>
+
+@{
+    const string searchProcessOwnerModal = "SearchProcessOwner_COE";
+    const string targetFullnameId = "Business.Idea.ProcessOwner";
+    const string targetIdId = "Business.Idea.ProcessOwnerId";
+    const string targetEmailId = "Business.Idea.ProcessOwnerEmailId";
+}
+
+@await Html.PartialAsync(
+    "Business/Idea/Edit/ProcessOwner/_Detail",
+    new ProcessOwner
+    {
+        Idea = Model,
+        ModalId = searchProcessOwnerModal,
+        TargetFullnameId = targetFullnameId,
+        TargetIdId = targetIdId,
+        TargetIdName = "Business.Idea.ProcessOwnerId",
+        TargetEmailId = targetEmailId
+    })
+
+@await Html.PartialAsync("Elements/_ModalSearch",
+    new ModalSearch
+    {
+        ModalId = searchProcessOwnerModal,
+        Title = "Search Process Owner",
+        SearchUrl = "/api/user/SearchProcessOwner/",
+        TargetFullnameId = targetFullnameId,
+        TargetIdId = targetIdId,
+        TargetEmailId = targetEmailId,
+        TargetStatusId = "Modal.ProcessOwnerStatus"
+    })

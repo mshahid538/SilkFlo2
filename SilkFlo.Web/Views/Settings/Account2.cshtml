@@ -1,0 +1,754 @@
+@using System.Globalization
+@using SilkFlo.Data.Core
+@using SilkFlo.Web.ViewModels
+@using SilkFlo.Web.ViewModels.User
+@model SilkFlo.Web.Models.Business.Client
+
+
+
+@{
+	var title = "Settings";
+	if (Model.IsAgency)
+	{
+		title = "Agency " + title;
+	}
+	const string searchProcessOwnerModal = "modelManageAccountOwner";
+
+
+	const string clsInactive = "silkflo-tab-label";
+	const string clsActive = clsInactive + " active";
+	const string displayBlock = "";
+	const string displayNone = "style=\"display: none\"";
+	var displayCompanyDetails = "";
+	var displaySubscriptions = displayNone;
+	const string pathPrefix = "Settings/tenant/Account/";
+
+}
+<div class="TitleBar">
+	<h3 style="margin-bottom: 2rem; color:#FF8A00;">@title > Account</h3>
+	<div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
+		<h1 style="margin-bottom: 1rem;font-weight: bold;">Account</h1>
+	</div>
+
+	@if (!Model.IsAgency && !Model.IsPractice)
+	{
+				<div class="silkflo-tab">
+			@{
+				string cls;
+				var path = pathPrefix + "Company-Details";
+				if (Model.Tab.ToLower() == "company-details")
+				{
+					cls = clsActive;
+					displayCompanyDetails = displayBlock;
+				}
+				else
+				{
+					cls = clsInactive;
+					displayCompanyDetails = displayNone;
+				}
+			}
+					<h3 class="@cls"
+			name="Business.Client.Account.CompanyDetails.Tab"
+			displayPath="@path"
+			parentId="Business.Client.Account">
+						Company Details
+					</h3>
+
+
+			@{
+				path = pathPrefix + "Subscriptions";
+				if (Model.Tab.ToLower() == "subscriptions")
+				{
+					cls = clsActive;
+					displaySubscriptions = displayBlock;
+				}
+				else
+				{
+					cls = clsInactive;
+					displaySubscriptions = displayNone;
+				}
+			}
+					<h3 class="@cls"
+			name="Business.Client.Account.Subscriptions.Tab"
+			displayPath="@path"
+			parentId="Business.Client.Account">
+						Billing
+					</h3>
+				</div>
+	}
+	else
+	{
+				<h2>Company Details</h2>
+	}
+
+</div>
+
+
+
+
+<div id="Business.Client.Account"
+	 style="padding-bottom: 55px;">
+
+	@if (Model.TypeId == Enumerators.ClientType.ReferrerAgency41.ToString())
+	{
+				<div style="margin-bottom: 1rem;">
+
+					<h2>SilkFlo Affiliate Link</h2>
+					<div class="bg-light border p-3 silkflo_tile">
+						<p>As a referrer agency you can use this link within your website or email messages.</p>
+						<p>You will receive a finders fee when a customer signs up using one of these links.</p>
+						<div class="align-items-center d-flex-guttered flex-wrap"
+				 style="margin-bottom: 1rem;">
+							<span class="btn-brand"
+					  name="Business.Client.AffiliateURL"
+					  style="font-size: 0.9rem; padding: 0.5rem; border-radius: var(--border-radius);">
+						@Model.AffiliateURL
+							</span>
+							<button class="btn btn-success"
+						onclick="SilkFlo.Models2.Business.Client.CopyAffiliateURL ();">
+								Copy Link
+							</button>
+						</div>
+						<div class="align-items-center d-flex-guttered flex-wrap">
+							<span class="btn-brand"
+					  name="Business.Client.AffiliateLink"
+					  style="font-size: 0.9rem; padding: 0.5rem; border-radius: var(--border-radius);">
+						@Model.AffiliateLink
+							</span>
+							<button class="btn btn-success"
+						onclick="SilkFlo.Models2.Business.Client.CopyAffiliateLink ();">
+								Copy Link
+							</button>
+						</div>
+					</div>
+
+				</div>
+	}
+
+	@if (Model.IsAgency)
+	{
+				<h2>Agency Details</h2>
+	}
+
+	<div name="container">
+		<div name="Business.Client.Account.CompanyDetails.Content"
+			 @Html.Raw(displayCompanyDetails)>
+
+			<div class="bg-light border p-3 silkflo_tile"
+				 style="margin-bottom: 1rem;">
+				@if (Model.IsPractice)
+				{
+							<h3>Practice accounts are read only.</h3>
+				}
+				<h3>Billing Address</h3>
+				<div class="d-flex-guttered flex-wrap">
+
+					<div>
+						@await Html.PartialAsync("../Shared/Business/Client/_BillingAddress",
+						new SilkFlo.Web.ViewModels.Business.Client.BillingAddress
+						{
+						Name = Model.Name,
+						Address1 = Model.Address1,
+						Address2 = Model.Address2,
+						City = Model.City,
+						State = Model.State,
+						PostCode = Model.PostCode,
+						CountryId = Model.CountryId,
+						Countries = Model.Countries,
+						ElementNamePrefix = "Business.Client.",
+						IsReadOnly = Model.IsPractice
+						})
+					</div>
+
+					<div>
+						<input name="Business.Client.Id"
+							   type="hidden"
+							   value="@Model.Id" />
+
+
+						@await Html.PartialAsync("Elements/_LabeledSelect",
+						new Element
+						{
+						Title = "Industry",
+						Id = "Business.Client.IndustryId",
+						Name = "Business.Client.IndustryId",
+						InvalidFeedback = Model.IndustryId_ErrorMessage,
+						IsInvalid = Model.IndustryId_IsInValid,
+						Value = Model.IndustryId,
+						IsReadOnly = Model.IsPractice,
+						SelectList = new SelectList(Model.Industries,
+						"Id",
+						"Name")
+						})
+
+						@if (Model.TypeId == Enumerators.ClientType.ReferrerAgency41.ToString())
+						{
+									<input type="hidden" name="Business.Client.AverageWorkingDay" value="0" />
+									<input type="hidden" name="Business.Client.AverageWorkingHour" value="0" />
+						}
+						else
+						{
+							@await Html.PartialAsync("Elements/_LabeledInput",
+						new Element
+						{
+						Title = "Average Working Days in a Year",
+						Name = "Business.Client.AverageWorkingDay",
+						Value = Model.AverageWorkingDay.ToString(),
+						InvalidFeedback = Model.AverageWorkingDay_ErrorMessage,
+						IsInvalid = Model.AverageWorkingDay_IsInValid,
+						IsReadOnly = Model.IsPractice,
+						ElementType = "Number",
+						Suffix = "Days"
+						})
+
+							@await Html.PartialAsync("Elements/_LabeledInput",
+						new Element
+						{
+						Title = "Average Working Hours in a Day",
+						Name = "Business.Client.AverageWorkingHour",
+						Value = Model.AverageWorkingHour.ToString(CultureInfo.InvariantCulture),
+						InvalidFeedback = Model.AverageWorkingHour_ErrorMessage,
+						IsInvalid = Model.AverageWorkingHour_IsInValid,
+						IsReadOnly = Model.IsPractice,
+						ElementType = "Number",
+						Suffix = "Hours"
+						})
+						}
+
+						@await Html.PartialAsync("User/_ManageAccountOwnerButton",
+						new AccountOwner
+						{
+						IsInValid = Model.AccountOwnerId_IsInValid,
+						FullnameId = "Business.Client.AccountOwner",
+						EmailId = "Business.Client.AccountOwnerEmail",
+						EmailName = "Business.Client.AccountOwnerEmail",
+						TargetStatusId = "Business.Client.ProcessOwnerStatus",
+						IsReadOnly = Model.IsPractice,
+						User = Model.AccountOwner,
+						ModalName = searchProcessOwnerModal,
+						ErrorMessage = Model.AccountOwnerId_ErrorMessage,
+						TargetValue = Model.AccountOwnerId
+						})
+						@{
+							var marginTop = "1rem";
+						}
+						@if (Model.TypeId == Enumerators.ClientType.Client39.ToString())
+						{
+							marginTop = "3.5rem";
+									<div class="form-check form-switch"
+							 name="Business.Client.AllowGuestSignIn_Container"
+							 style="margin-top: 1rem;">
+								@{
+									var isCheckedAllowGuestSignIn = "";
+									if (Model.AllowGuestSignIn)
+									{
+										isCheckedAllowGuestSignIn = "checked";
+									}
+								}
+										<input class="form-check-input"
+								   data-val="false"
+								   data-val-required="Business.Client.AllowGuestSignIn"
+								   name="Business.Client.AllowGuestSignIn"
+								   style="cursor: pointer;"
+								   @isCheckedAllowGuestSignIn
+								   type="checkbox">
+										<label class="form-check-label"
+								   silkflo-hotspot="Allow-Guest-Sign-In"
+								   style="color: inherit; cursor: pointer;">
+											Allow Guest Sign In
+										</label>
+										<div name="Business.Client.AllowGuestSignIn_InvalidFeedback"
+								 class="invalid-feedback"
+								 silkflo-feedback="">
+										</div>
+									</div>
+						}
+
+						<div class="form-check form-switch"
+							 name="Business.Client.ReceiveMarketing_Container"
+							 style="margin-top: @Html.Raw(marginTop);">
+							@{
+								var isChecked = "";
+								if (Model.ReceiveMarketing)
+								{
+									isChecked = "checked";
+								}
+							}
+							<input class="form-check-input"
+								   data-val="false"
+								   data-val-required="Business.Client.ReceiveMarketing"
+								   name="Business.Client.ReceiveMarketing"
+								   style="cursor: pointer;"
+								   @isChecked
+								   type="checkbox">
+							<label class="form-check-label"
+								   style="color: inherit; cursor: pointer;">
+								I'd like to receive direct marketing email updates from SilkFLo.
+							</label>
+						</div>
+
+
+					</div>
+
+				</div>
+
+				@if (!Model.IsPractice)
+				{
+							<h2>Website</h2>
+							<label>Your <b>@Model.Website</b> will be used to validate employee email addresses. Please contact us if you require a change.</label>
+				}
+			</div>
+
+
+			@if (!Model.IsPractice)
+			{
+				@await Html.PartialAsync("_FormFooter",
+			new FooterSaveCancel
+			{
+			JavaScriptSave = "SilkFlo.Models2.Business.Client.Save();",
+			JavaScriptCancel = "SilkFlo.ShowDashboard();"
+			})
+			}
+
+
+		</div>
+
+
+		@if (Model.TypeId == Enumerators.ClientType.Client39.ToString()
+								&& !Model.IsPractice)
+		{
+					<div name="Business.Client.Account.Subscriptions.Content"
+			 @Html.Raw(displaySubscriptions)>
+
+				@if (Model.Subscription != null)
+				{
+									<div style="display:flex; justify-content:center;margin: 30px;">
+										<button id="btnIndv" type="button"
+						class="btn btn-sm btn-upload btn-plan"
+						onclick="individualClicked()">
+											Individual
+										</button>
+										<button id="btnTeam" type="button"
+						class="btn btn-primary btn-sm btn-upload btn-plan-active"
+						onclick="teamClicked()">
+											Team
+										</button>
+
+									</div>
+									<div id="divTeam" style="display:block">
+										<div class="card-group">
+											<div class="card">
+												<div class="card-header">
+													Team
+												</div>
+												<div class="card-body">
+													<ul class="list-group">
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> Unlimited file uploads</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> Unlimited team members</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> 5 Admin users</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> 50 Assessments</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> Dashboards</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> API Access</li>
+													</ul>
+													<div style="display:flex; justify-content:center; margin-top:25px">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="width: 242px;left: 1134px;height: 40px;background-color: white;color: #E73A3A;border-radius: 0px;top: 460px;border: 1px solid;"
+										onclick="">
+															Downgrade
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="card billing-plan-active" style="margin: 0px 25px;">
+												<div class="card-header" style="text-align:center; ">
+													Pro <span id="freeTrial" style="width: 72px;height: 22px;left: 806px;top: 410px;background: rgba(255, 138, 0, 0.2);border-radius: 2px; color:#FF8A00; font-weight:600; font-size:12px;padding: 1px 6px 3px 6px;">Free Trial</span>
+												</div>
+												<div class="card-body">
+													<ul class="list-group">
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Everything in the Standard package</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 10 Admin users</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 150 assessments</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> More API access</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Large file size</li>
+
+														<li class="list-group-item"><i></i></li>
+
+													</ul>
+													<div style="display:flex; justify-content:center; margin-top:14%">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="width: 242px;left: 1134px;height: 40px;background-color: white;color: #FF8A00;border-radius: 0px;top: 460px;border: 1px solid #FF8A00; "
+										onclick="">
+															Current Plan
+														</button>
+													</div>
+													<div style="display:flex; justify-content:center; margin-top:1%">
+														<lable style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;text-align: center;color: #8E9CA7;">Free trial ends in </lable><span id="freeTrialDays" style="margin-left:4px;font-weight: 600;font-size: 16px;">XX Days</span>
+													</div>
+												</div>
+											</div>
+											<div class="card">
+												<div class="card-header">Enterprise</div>
+												<div class="card-body">
+													<ul class="list-group">
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Everything in the Pro package</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 11+ Admin users</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Unlimited assessments</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> SSO </li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> White-labeling</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Dedicated support</li>
+													</ul>
+													<div style="display:flex; justify-content:center; margin-top:25px">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="width: 242px;left: 1134px;height: 40px;background-color: #FF8A00;color: white;border-radius: 0px;top: 460px;border: 1px solid;"
+										onclick="">
+															Get In Touch
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div>
+											<div class="mb-2 mt-1">
+												<div class="d-flex" style="justify-content:space-between; font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 60px 0px 0px 0px;">
+													<h1 style="margin-bottom: 1rem;font-weight: bold;">Payment Method</h1>
+													<h3 style="color: #FF8A00;margin-bottom: 1rem; margin-right:10px;font-weight: bold;" onclick="">+ Add New Payment Method</h3>
+												</div>
+
+												<textarea class="form-control rounded-0" style="resize: none;" id="exampleFormControlTextarea1" rows="5"></textarea>
+											</div>
+
+											<div>
+												<div class="d-flex" style="font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 50px 0px 0px 0px;">
+													<h1 style="font-weight: bold;">Billing Address</h1>
+												</div>
+												<form>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputEmail4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Company name</label>
+															<input type="text" class="form-control  rounded-0" id="inputEmail4" placeholder="Username123">
+														</div>
+														<div class="col">
+															<label for="inputPassword4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Industry</label>
+															<input type="text" class="form-control rounded-0" id="inputPassword4" placeholder="Industry">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputAddress" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Company Address</label>
+															<input type="text" class="form-control rounded-0" id="inputAddress" placeholder="1234 Main St">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputEmail4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Average Working Hours (daily)</label>
+															<input type="text" class="form-control  rounded-0" id="inputEmail4" placeholder="Username123">
+														</div>
+														<div class="col">
+															<label for="inputPassword4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Average Working Hours (annual)</label>
+															<input type="text" class="form-control  rounded-0" id="inputPassword4" placeholder="Industry">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputEmail4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Account Owner</label>
+															<input type="text" class="form-control rounded-0" id="inputEmail4" placeholder="Username123">
+														</div>
+														<div class="col align-middle pt-8 ml-4" style="display:flex">
+															<div class="col align-middle pt-8 ml-4 form-check form-switch" style="display: flex;padding-top: 35px;padding-left: 70px;">
+																<input class="form-check-input" style="display: flex;align-items: center;" type="checkbox" role="switch" id="allowGuest">
+																<label class="form-check-label" for="allowGuest" style="margin-left:10px;font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;color: #8E9CA7;">
+																	Allow Guest SignIn
+																</label>
+															</div>
+															<div class="col form-check form-switch" style="display: flex;padding-top: 35px;">
+																<input class="form-check-input" style="display: flex;align-items: center;" type="checkbox" role="switch" id="receiveMarketing">
+																<label class="form-check-label" for="receiveMarketing" style="margin-left:10px;font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;color: #8E9CA7;">
+																	Receive Marketing from Silkflo
+																</label>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+
+
+											<div class="mb-2 mt-1">
+												<div class="d-flex" style="justify-content:space-between; font-size: 32px;display: flex;align-items: center;color: #363853; margin: 60px 0px 0px 0px;">
+													<h1 style="margin-bottom: 1rem;font-weight: bold;">Billing History</h1>
+													<h3 style="color: #FF8A00;margin-bottom: 1rem; margin-right:10px;font-weight: bold; cursor: pointer" onclick="">Download All</h3>
+												</div>
+
+												<div style="overflow-x: auto; min-height:300px; background-color:white;">
+													<div id="billingHistoryTbl">
+																 <table class="table table-silkflo table-hover table-responsive  billingtable" name="BillingHistory">
+													<thead>
+														<tr scope="row">
+															<th scope="col" class="lbl-Right">Plan</th>
+															<th scope="col" class="lbl-Right">Amount</th>
+															<th scope="col" class="lbl-Center">Date</th>
+															<th scope="col" class="lbl-Left">
+																<span class="spanStatus">
+																	Status
+																</span>
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="lblBold" scope="col">Pro Plan</td>
+															<td scope="col"  class="lblBold lbl-Right">14,170 USD</td>
+															<td scope="col" class="lblDate"> 2th Feburary 2023</td>
+															<td scope="col" class="lbl-Left"><span class="badge bg-success btnSuccess">Paid</span></td>
+														</tr>
+														<tr>
+															<td scope="col" class="lblBold">Pro Plan</td>
+															<td scope="col" class="lblBold lbl-Right">14,170 USD</td>
+															<td scope="col" class="lblDate">2th Feburary 2023</td>
+															<td scope="col" class="lbl-Left"><span class="badge bg-danger btnFailed">Un-Paid</span></td>
+														</tr>
+														<tr>
+															<td scope="col" class="lblBold">Pro Plan</td>
+															<td scope="col" class="lblBold lbl-Right">14,170 USD</td>
+															<td scope="col" class="lblDate">2th Feburary 2023</td>
+															<td scope="col" class="lbl-Left"><span class="badge bg-success btnSuccess">Paid</span></td>
+														</tr>
+													</tbody>
+												</table>
+													</div>
+												</div>
+											</div>
+
+											<div>
+												<div class="d-flex" style="font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 50px 0px 0px 0px;">
+													<h1 style="font-weight: bold;">Cancel Subscription</h1>
+												</div>
+												<div style="padding: 30px; background: #FFFFFF;border: 1px solid #EDEDED;border-radius: 2px;">
+													<span class="d-inline-block" style="font-weight: 600;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;" tabindex="0" data-bs-toggle="tooltip" title="Cancel">
+														Deleting your account is irreversable. You will loose your workspace and associated accounts.
+													</span>
+													<span class="d-inline-block" style="margin-left:20px" tabindex="0" data-bs-toggle="tooltip" title="Cancel">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="font-weight:bold; width:200px; height: 40px;background: #FFFFFF;border-radius: 4px;color: #FF8A00;border-color: #FF8A00; margin-right:10px"
+										onclick="">
+															Cancel Subscription
+														</button>
+													</span>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div id="divIndividual" style="display:none">
+										<div class="card-group">
+											<div class="card">
+												<div class="card-header">
+													Free
+												</div>
+												<div class="card-body">
+													<ul class="list-group">
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> 1 Admin User (Account Owner)</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> 2 Standard Users</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> 0 guest users (different domains)</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> 5 processes</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> No API/integrations</li>
+														<li class="list-group-item"><i class="fa fa-check fa-fw"></i> Small File Size (100MB storage)</li>
+													</ul>
+													<div style="display:flex; justify-content:center; margin-top:25px">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="width: 242px;left: 1134px;height: 40px;background-color: white;color: #E73A3A;border-radius: 0px;top: 460px;border: 1px solid;"
+										onclick="">
+															Downgrade
+														</button>
+													</div>
+												</div>
+											</div>
+											<div class="card" style="margin: 0px 25px;">
+												<div class="card-header">Standard</div>
+												<div class="card-body">
+													<ul class="list-group">
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 1 Admin User (Account Owner)</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 5 Standard Users</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 0 Guest Users (different domains)</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Unlimited Processes</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 1 Integration</li>
+														<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 1GB Storage</li>
+
+
+														<li class="list-group-item"><i></i></li>
+
+													</ul>
+													<div style="display:flex; justify-content:center; margin-top:14%">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="width: 242px;left: 1134px;height: 40px;background-color: white;color: #A1A1AE;border-radius: 0px;top: 460px;border: 1px solid;"
+										onclick="">
+															Current Plan
+														</button>
+													</div>
+												</div>
+											</div>
+							@*<div class="card">
+					<div class="card-header">Enterprise</div>
+					<div class="card-body">
+					<ul class="list-group">
+					<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Everything in the Pro package</li>
+					<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> 11+ Admin users</li>
+					<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Unlimited assessments</li>
+					<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> SSO </li>
+					<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> White-labeling</li>
+					<li class="list-group-item"><i class="fa fa-check-circle fa-fw"></i> Dedicated support</li>
+					</ul>
+					<div style="display:flex; justify-content:center; margin-top:25px">
+					<button type="button"
+					class="btn btn-primary btn-sm btn-upload"
+					style="width: 242px;left: 1134px;height: 40px;background-color: #FF8A00;color: white;border-radius: 0px;top: 460px;border: 1px solid;"
+					onclick="">
+					Get In Touch
+					</button>
+					</div>
+					</div>
+					</div>*@
+										</div>
+
+										<div>
+											<div class="mb-2 mt-1">
+												<div class="d-flex" style="justify-content:space-between; font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 60px 0px 0px 0px;">
+													<h1 style="margin-bottom: 1rem;font-weight: bold;">Payment Method</h1>
+													<h3 style="color: #FF8A00;margin-bottom: 1rem; margin-right:10px;font-weight: bold;" onclick="">+ Add New Payment Method</h3>
+												</div>
+
+												<textarea class="form-control rounded-0" style="resize: none;" id="exampleFormControlTextarea1" rows="5"></textarea>
+											</div>
+
+											<div>
+												<div class="d-flex" style="font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 50px 0px 0px 0px;">
+													<h1 style="font-weight: bold;">Billing Address</h1>
+												</div>
+												<form>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputEmail4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Company name</label>
+															<input type="text" class="form-control  rounded-0" id="inputEmail4" placeholder="Username123">
+														</div>
+														<div class="col">
+															<label for="inputPassword4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Industry</label>
+															<input type="text" class="form-control rounded-0" id="inputPassword4" placeholder="Industry">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputAddress" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Company Address</label>
+															<input type="text" class="form-control rounded-0" id="inputAddress" placeholder="1234 Main St">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputEmail4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Average Working Hours (daily)</label>
+															<input type="text" class="form-control  rounded-0" id="inputEmail4" placeholder="Username123">
+														</div>
+														<div class="col">
+															<label for="inputPassword4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Average Working Hours (annual)</label>
+															<input type="text" class="form-control  rounded-0" id="inputPassword4" placeholder="Industry">
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col">
+															<label for="inputEmail4" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">Account Owner</label>
+															<input type="text" class="form-control rounded-0" id="inputEmail4" placeholder="Username123">
+														</div>
+														<div class="col align-middle pt-8 ml-4" style="display:flex">
+															<div class="col align-middle pt-8 ml-4" style="display: flex;padding-top: 21px;padding-left: 70px;">
+																<label class="form-check-label" for="flexCheckDefault" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">
+																	Allow Guest SignIn
+																</label>
+															</div>
+															<div class="col" style="display: flex;padding-top: 21px;">
+																<label class="form-check-label" for="flexCheckDefault" style="font-style: normal;font-weight: 500;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;">
+																	Receive Marketing from Silkflo
+																</label>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+
+											<div>
+												<div class="d-flex" style="font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 50px 0px 0px 0px;">
+													<h1 style="font-weight: bold;">Cancel Subscription</h1>
+												</div>
+												<div style="padding: 30px; background: #FFFFFF;border: 1px solid #EDEDED;border-radius: 2px;">
+													<span class="d-inline-block" style="font-weight: 600;font-size: 16px;line-height: 24px;display: flex;align-items: center;color: #8E9CA7;" tabindex="0" data-bs-toggle="tooltip" title="Cancel">
+														Deleting your account is irreversable. You will loose your workspace and associated accounts.
+													</span>
+													<span class="d-inline-block" style="margin-left:20px" tabindex="0" data-bs-toggle="tooltip" title="Cancel">
+														<button type="button"
+										class="btn btn-primary btn-sm btn-upload"
+										style="font-weight:bold; width:200px; height: 40px;background: #FFFFFF;border-radius: 4px;color: #FF8A00;border-color: #FF8A00; margin-right:10px"
+										onclick="">
+															Cancel Subscription
+														</button>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+				}
+
+				@*<div class="bg-light border p-3 silkflo_tile"
+			silkflo-url="Settings/Tenant/Account/Subscriptions"
+			style="margin-top: 1.5rem;">
+			<div class="d-flex vertical-center">
+			<span class="spinner-border"
+			style="margin-right: 1rem;"></span>Loading ...
+			</div>
+			</div>
+			*@
+					</div>
+		}
+	</div>
+</div>
+
+@*@{
+	var modelSearch = new ModalSearch
+			{
+				ModalId = searchProcessOwnerModal,
+				Title = "Manage Account Owner",
+				TargetFullnameId = "Business.Client.AccountOwner",
+				TargetEmailId = "Business.Client.AccountOwnerEmail",
+				TargetIdId = "Business.Client.AccountOwnerId",
+				TargetStatusId = "Business.Client.ProcessOwnerStatus",
+				SearchUrl = "/api/user/SearchAccountOwner/"
+			};
+
+	if (Model.AllowGuestSignIn)
+	{
+		modelSearch.HotSpotId = "Manage-Account-Owner";
+	}
+}
+
+@await Html.PartialAsync(
+    "Elements/_ModalSearch",
+    modelSearch)*@
+
+@{
+	const string message = "Are you sure that you would like to cancel your subscription?<br/><br/>" +
+									"Your subscription will only be cancelled once you have clicked the cancellation link in a <b>cancellation email</b>, " +
+									"sent to the account owner (<span id=\"accountOwnerEmail\"></span>).<br/><br/>" +
+									"Any outstanding funds will be refunded to as per our terms and conditions.<br/><br/>";
+}
+
+@await Html.PartialAsync("MessageBoxes/_YesNo",
+    new MessageBox
+    {
+        Id = "SettingsSubscriptionsCancelMessage",
+        Title = "Cancel Subscription",
+        Message = message,
+        Yes_Javascript = "SilkFlo.Models2.Shop.Subscription.Cancel.MessageResultYes('cancelTile')"
+    })

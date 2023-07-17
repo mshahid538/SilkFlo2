@@ -1,0 +1,187 @@
+﻿@model SilkFlo.Web.ViewModels.Business.Idea.Detail.Page
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+@{
+    var draftLabel = "";
+    if (Model.Idea.IsDraft)
+    {
+        draftLabel = "<span class=\"text-warning\">&nbsp;(Draft)</span>";
+    }
+}
+
+<div class="silkFlo_submitIdea"
+    style="display: flex; flex-direction: column; flex: 1;"
+     id="Detail_BusinessIdea">
+     
+    <input value="@Model.Idea.Id" name="Business.Idea.IdeaId" type="hidden"/>
+    
+    
+<div class="TitleBar">
+    <div class="d-flex justify-content-between" style="margin-bottom: 2rem;">
+            <h1 style="margin-bottom: 0"><span style="color:#FF8A00;">Explore > Ideas > Details</span>@Html.Raw(draftLabel)</h1>
+        @await Html.PartialAsync("Business/Idea/_like", Model.Idea)
+    </div>
+
+
+    <div class="d-flex align-items-center" style="margin-bottom: 1rem;">
+        <h2 name="Business.Idea.Name"
+            style="margin-right: 1rem; margin-top: 0; margin-bottom: 0;">@Model.Idea.Name</h2>
+        @{
+            var fullname = Model.Idea.ProcessOwner?.Fullname;
+        }
+        @if (!string.IsNullOrWhiteSpace(fullname))
+        {
+            <span class="badge bg-info">by <b name="Business.Idea.ProcessOwner.Fullname">@fullname</b></span>
+        }
+    </div>
+    
+    
+    <div name="Business.Idea.Detail.Meta">
+    @await Html.PartialAsync("Business/Idea/Detail/_Meta", Model.Idea)
+    </div>
+
+    @{
+        var pathPrefix = "Idea/Detail/IdeaId/" + Model.Idea.Id + "/";
+    }
+
+    <div class="silkflo-tab"
+         style="margin-bottom: 10px;">
+        @{
+            var url = pathPrefix + "About";
+
+            var classAbout = "";
+            var classCostBenefit = "";
+            var classDocumentation = "";
+            var classCollaborators = "";
+
+            if (Model.Tab.ToLower() == "costbenefitanalysis")
+            {
+                classCostBenefit = "active";
+            }
+            else if (Model.Tab.ToLower() == "documentation")
+            {
+                classDocumentation = "active";
+            }
+            else if (Model.Tab.ToLower() == "collaborators")
+            {
+                classCollaborators = "active";
+            }
+            else
+            {
+                classAbout = "active";
+            }
+        }
+        
+        
+        <h3 class="silkflo-tab-label @classAbout"
+            name="Business.Idea.Section.About.Tab"
+            displayPath="@url"
+            parentId="Detail_BusinessIdea">
+            About
+        </h3>
+        
+        @if((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.EditAllIdeaFields)).Succeeded)
+        {
+        url = pathPrefix + "CostBenefitAnalysis";
+        <h3 class="silkflo-tab-label @classCostBenefit"
+            name="Business.Idea.Section.CostBenefit.Tab"
+            displayPath="@url"
+            parentId="Detail_BusinessIdea">
+            Cost Benefit Analysis
+        </h3>
+          }
+        
+        @{
+            url = pathPrefix + "Documentation";
+        }
+        <h3 class="silkflo-tab-label @classDocumentation"
+            name="Business.Idea.Section.Documentation.Tab"
+            style="margin-right: 0;"
+            displayPath="@url"
+            parentId="Detail_BusinessIdea">
+            Documentation
+        </h3>
+        @{
+            var documentCount = Model.Idea.Documents.Count;
+        }
+        <div class="numberCircle"
+             style="margin-top: 1rem;">@documentCount</div>
+
+
+        @{
+            url = pathPrefix + "Collaborators";
+        }
+        <h3 class="silkflo-tab-label @classCollaborators"
+            name="Business.Idea.Section.Collaborators.Tab"
+            style="margin-right: 0;"
+            displayPath="@url"
+            parentId="Detail_BusinessIdea">
+            Collaborators
+        </h3>
+        @{
+            var collaboratorCount = Model.Idea.CollaboratingUsers.Count;
+        }
+        <div class="numberCircle"
+             name="Business.Idea.Section.Collaborators.Count"
+             style="margin-top: 1rem;">@collaboratorCount</div>
+    </div>
+</div>
+    <div name="container">
+        @{
+            var styleAbout = "style=\"display: none; \"";
+            var styleCostBenefit = "style=\"display: none; \"";
+            var styleDocumentation = "style=\"display: none; \"";
+            var styleCollaborators = "style=\"display: none; \"";
+
+            if (Model.Tab.ToLower() == "costbenefitanalysis")
+            {
+                styleCostBenefit = "";
+            }
+            else if (Model.Tab.ToLower() == "documentation")
+            {
+                styleDocumentation = "";
+            }
+            else if (Model.Tab.ToLower() == "collaborators")
+            {
+                styleCollaborators = "";
+            }
+            else
+            {
+                styleAbout = "";
+            }
+
+            var aboutUrl = $"business/idea/detail/about/ideaId/{@Model.Idea.Id}";
+            var documentationUrl = $"business/idea/detail/Documentation/ideaId/{@Model.Idea.Id}";
+            var collaboratorsUrl = $"business/idea/detail/Collaborators/ideaId/{@Model.Idea.Id}";
+
+        }
+
+        <div name="Business.Idea.Section.About.Content"
+             @Html.Raw(styleAbout)
+             silkflo-url= "@aboutUrl"
+             id="Business.Idea.Section.About.Content"></div>
+        
+        @if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.EditAllIdeaFields)).Succeeded)
+        {
+            <div name="Business.Idea.Section.CostBenefit.Content"
+                 @Html.Raw(styleCostBenefit)
+                 id="Business.Idea.Section.CostBenefit.Content">
+                @await Html.PartialAsync(
+                    "Business/Idea/Detail/_CostBenefit",
+                    new SilkFlo.Web.ViewModels.Business.Idea.Detail.CostBenefit
+                    {
+                        CanEditStages = Model.Idea.CanEditStages && !Model.Idea.IsDraft,
+                        IdeaId = Model.Idea.Id
+                    })
+            </div>
+        }
+
+        <div name="Business.Idea.Section.Documentation.Content"
+             silkflo-url="@documentationUrl"
+             @Html.Raw(styleDocumentation)></div>
+
+        <div name="Business.Idea.Section.Collaborators.Content" id="Business.Idea.Section.Collaborators.Content"
+             silkflo-url="@collaboratorsUrl"
+             @Html.Raw(styleCollaborators)></div>
+    </div>
+</div>

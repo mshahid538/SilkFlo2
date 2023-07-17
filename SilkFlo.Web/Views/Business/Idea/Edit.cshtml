@@ -1,0 +1,130 @@
+﻿@model SilkFlo.Web.Models.Business.Idea
+@using SilkFlo.Web
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _authorizationService
+
+<div style="margin-bottom: 42px;">
+
+    @if (Model.Client == null)
+    {
+        <h1 id="subForm_submit">Submit an Idea</h1>
+        <h2 class="text-danger">You are not assigned to a client.</h2>
+    }
+    else
+    {
+        <div class="TitleBar">
+            <h1 id="subForm_submit" style="padding-bottom: 1rem;">Submit an Idea for @Model.Client.Name</h1>
+            </div>
+
+        @if (Model.IsDraft && !string.IsNullOrWhiteSpace(Model.Id))
+        {
+            <h2 style="color: var(--bs-warning)">(Draft)</h2>
+        }
+
+        @if (Model.Applications.Count == 0 || Model.Departments.Count == 0)
+        {
+            <div style="margin-top: 3rem; margin-bottom: 3rem">
+                <h2 class="text-info">Platform Setup Required</h2>
+                <p><b>Before proceeding you will need to perform some platform set up.</b></p>
+                
+                <p>Add departments before adding an idea. <a href="/Settings/tenant/Platform-Setup/Business-Units">Settings &gt; Platform-Setup &gt;Business-Units</a></p>
+    
+                <p>Add applications before adding an idea. <a href="/Settings/tenant/Platform-Setup/Applications">Settings > Platform Setup > Applications</a></p>
+            </div>
+        }
+
+
+        <div class="silkFlo_submitIdea"
+             id="FormEdit_BusinessIdea">
+
+            <input type="hidden" name="Business.Idea.ClientId" value="@Model.ClientId" />
+            <input type="hidden" name="Business.Idea.Id" value="@Model.Id" />
+            <input type="hidden" name="Business.Idea.ApplicationStabilityString" value="@Model.ApplicationStabilityString" />
+            <input type="hidden" name="Business.Idea.ApplicationStabilityString" value="@Model.ApplicationStabilityString" />
+            <input type="hidden" name="Business.Idea.AutomationGoalString" value="@Model.AutomationGoalString" />
+            <input type="hidden" name="Business.Idea.ProcessString" value="@Model.ProcessString" />
+            <input type="hidden" name="Business.Idea.AverageNumberOfStepString" value="@Model.AverageNumberOfStepString" />
+            <input type="hidden" name="Business.Idea.DataInputPercentOfStructuredString" value="@Model.DataInputPercentOfStructuredString" />
+            <input type="hidden" name="Business.Idea.InputDataStructureString" value="@Model.InputDataStructureString" />
+            <input type="hidden" name="Business.Idea.InputDataStructureString" value="@Model.InputDataStructureString" />
+            <input type="hidden" name="Business.Idea.InputString" value="@Model.InputString" />
+            <input type="hidden" name="Business.Idea.NumberOfWaysToCompleteProcessString" value="@Model.NumberOfWaysToCompleteProcessString" />
+            <input type="hidden" name="Business.Idea.ProcessStabilityString" value="@Model.ProcessStabilityString" />
+            <input type="hidden" name="Business.Idea.ProcessPeakString" value="@Model.ProcessPeakString" />
+            <input type="hidden" name="Business.Idea.RuleString" value="@Model.RuleString" />
+            <input type="hidden" name="Business.Idea.ProcessOwnerString" value="@Model.ProcessOwnerString" />
+            <input type="hidden" name="Business.Idea.TaskFrequencyString" value="@Model.TaskFrequencyString" />
+            <input type="hidden" name="Business.Idea.SubmissionPathId" value="@Model.SubmissionPathId" />
+            <input type="hidden" name="Business.Idea.Rating" value="@Model.Rating" />
+            <input type="hidden" name="Business.Idea.RatingComment" value="@Model.RatingComment" />
+            <input type="hidden" name="Business.Idea.ReturnURL" value="@Model.ReturnURL" />
+            <input type="hidden" name="Business.Idea.SubmissionPathId" value="@Model.SubmissionPathId" />
+
+            @{
+                var isDraft = "";
+                if (Model.IsDraft)
+                {
+                    isDraft = "checked";
+                }
+            }
+
+            <input @isDraft
+                   class="form-check-input"
+                   style="display: none"
+                   name="Business.Idea.IsDraft"
+                   type="checkbox">
+
+
+            <h2>Overview</h2>
+            @await Html.PartialAsync("Business/Idea/Edit/_Overview", Model)
+            @await Html.PartialAsync("Business/Idea/Edit/_DetailedAssessment", Model)
+            
+            @if ((await _authorizationService.AuthorizeAsync(User, Policy.AssignProcessOwner)).Succeeded)
+            {
+                <input name="AssignProcessOwner"
+                       type="hidden"
+                       value="AssignProcessOwner"/>
+
+                @await Html.PartialAsync("Business/Idea/Edit/ProcessOwner/_Container", Model)
+                <div style="margin-bottom: 2rem;"> </div>
+            }
+
+            <p>&nbsp;</p>
+            <h2>Collaborators</h2>
+            @await Html.PartialAsync(
+                "Business/Idea/Edit/_Collaborator",
+                new SilkFlo.Web.ViewModels.Business.Idea.ManageCollaborator.CollaboratorList
+                {
+                    Idea = Model,
+                    CollaboratorLimit = Model.CollaboratorLimit,
+                    CollaboratingUsers = Model.CollaboratingUsers,
+                    ParentFormId = "FormEdit_BusinessIdea",
+                    CanScroll = true
+                })
+
+
+            @if (Model.IsDraft)
+            {
+                @await Html.PartialAsync("_FormFooter",
+                    new SilkFlo.Web.ViewModels.FooterSaveCancel
+                    {
+                        JavaScriptCancel = "SilkFlo.ViewModels.Business.Idea.Edit.Cancel_OnClick();",
+                        JavaScriptSave = "SilkFlo.ViewModels.Business.Idea.Edit.SaveDraft_OnClick();",
+                        SaveName = "Save as Draft",
+                        JavaScriptSubmit = "SilkFlo.ViewModels.Business.Idea.Edit.Submit_OnClick();"
+                    })
+            }
+            else
+            {
+                @await Html.PartialAsync("_FormFooter",
+                    new SilkFlo.Web.ViewModels.FooterSaveCancel
+                    {
+                        JavaScriptCancel = "SilkFlo.ViewModels.Business.Idea.Edit.Cancel_OnClick();",
+                        JavaScriptSave = "SilkFlo.ViewModels.Business.Idea.Edit.Submit_OnClick();"
+                    })
+            }
+        </div>
+    }
+</div>
+
+@await Html.PartialAsync("Business/Idea/ManageStageAndStatus/_Container")

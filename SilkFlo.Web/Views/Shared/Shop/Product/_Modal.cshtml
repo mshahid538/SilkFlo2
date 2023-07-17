@@ -1,0 +1,38 @@
+@model SilkFlo.Web.ViewModels.Subscriptions;
+
+<div class="modal fade"
+     id="modalViewProducts"
+     data-bs-backdrop="static"
+     data-bs-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="modalViewProductsLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title"
+                    id="modalViewProductsLabel">
+                    View Products
+                </h1>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body"
+                 id="Modal.Shop.Products">
+                @await Html.PartialAsync("~/Views/Shared/Shop/Product/_Products.cshtml", Model)
+            </div>
+            <div class="modal-footer">
+                <div name="Message"></div>
+                <div>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

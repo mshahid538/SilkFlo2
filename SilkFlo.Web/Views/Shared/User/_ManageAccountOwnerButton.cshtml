@@ -1,0 +1,92 @@
+@using SilkFlo.Web.Models
+@model SilkFlo.Web.ViewModels.User.AccountOwner
+
+@{
+    var borderRadiusOverride = "style=\"border-top-right-radius: 0; border-bottom-right-radius: 0;\"";
+}
+@if (Model.IsReadOnly)
+{
+    borderRadiusOverride = "style=\"background: var(--readOnly-background)\"";
+}
+
+
+<div>
+    <div class="inputAndButton"
+         style="display: grid; grid-template-columns: 1fr auto; min-width: 400px;">
+        <div class="@Model.Cls"
+             @Html.Raw(borderRadiusOverride)>
+            <div style="opacity: 0.65; font-size: 0.9rem; line-height: 0.9rem; margin-top: 5px;">Account Owner <span class="text-danger">*</span></div>
+            <div>
+                <span id="@Model.FullnameId">@Model.User?.Fullname</span>
+                @{
+                    var iconPath = Model.User?.Status switch
+                    {
+                        Status.Active => "/Icons/Active.svg",
+                        Status.Pending => "/Icons/Pending.svg",
+                        Status.Inactive => "/Icons/Inactive.svg",
+                        _ => ""
+                        };
+
+                    var display = "";
+                    if (string.IsNullOrWhiteSpace(iconPath))
+                    {
+                        display = "display: none;";
+                    }
+                        <img alt=""
+                             id="@Model.TargetStatusId"
+                             ignore="ignore"
+                             name="@Model.TargetStatusName"
+                             src="@iconPath"
+                             style="Transform: scale(1.2); margin-left: 1rem; @display"/>
+                }
+            </div>
+            <div id="@Model.EmailId"
+                 name="@Model.EmailName"
+                 style="font-size: 0.85rem; line-height: 0.85rem;">
+                @Model.User?.Email
+            </div>
+        </div>
+        @if (!Model.IsReadOnly)
+        {
+            <button class="btn btn-primary"
+                    data-bs-target="#@Model.ModalName"
+                    data-bs-toggle="modal"
+                    onclick="if(HotSpot.Card) HotSpot.Card.Close();"
+                    style="background: var(--bs-primary) !important;">
+                Change
+            </button>
+        }
+    </div>
+    
+    @{
+        var name = Model.TargetName + "_InvalidFeedback";
+    }
+
+    <div name="@name"
+         class="invalid-feedback"
+         silkFlo-feedback=""></div>
+
+
+    @if (Model.IsInValid)
+    {
+        <div style="font-size: 0.875em; color: var(--bs-danger);">
+            @Model.ErrorMessage
+        </div>
+    }
+
+
+    <input id="@Model.TargetId"
+           Name="@Model.TargetName"
+           type="hidden"
+           value="@Model.User?.Id"/>
+
+    <input id="@Model.TargetFirstNameId"
+           Name="@Model.TargetFirstNameName"
+           type="hidden"
+           value="@Model.User?.FirstName"/>
+
+    <input id="@Model.TargetLastNameId"
+           Name="@Model.TargetLastNameName"
+           type="hidden"
+           value="@Model.User?.LastName"/>
+</div>

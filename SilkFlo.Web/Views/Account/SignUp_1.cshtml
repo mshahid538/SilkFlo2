@@ -1,0 +1,460 @@
+﻿@*@model SilkFlo.Web.ViewModels.Shop.Subscribe
+
+<style>
+    ::-webkit-input-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    :-moz-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+</style>
+<div class="account account_SignIn">
+
+     @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right ">
+        <div>
+            <div class="panel-heading header-center">
+                <img src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1>Welcome to SilkFlo!</h1>
+                <p>Register with your business e-mail</p>
+                <hr class="hr" />
+            </div>
+
+            <div class="panel-body">
+                <form action="~" method="post">
+                    <!-- Email Input -->
+                    <div class="form-group  frm-group" id="Email_Container" name="Email_Container">
+                        <input id="Email" name="Email" type="text" class="form-control input has-validation" 
+                                oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" 
+                                maxlength="100" placeholder=" Enter your business email address" style="align-items: end;"
+                               value="@Model.Email">
+                    </div>
+                    <!-- Password Input -->
+                    <div class="form-group  frm-group" id="Password_Container" name="Password_Container">
+                        <input id="Password" name="Password" type="password" class="form-control input has-validation" 
+                                oninput="SilkFlo.IsRequired(this);" onfocusout="SilkFlo.IsRequired(this);" 
+                                autocomplete="off" maxlength="100" placeholder="Password: At least 8 characters..." style="align-items: end;"
+                                value="@Model.Password">
+                       
+                    </div>
+                   
+                    <button style="width:100%" class="btn  btn_Login">Continue</button>
+
+                    <div class="or"><h2>
+                        <span>
+                            or
+                        </span>
+                    </h2>
+                    </div>
+                    <button style="width:100%" class="btn  btn-Microsoft">
+                        <img src="~/Icons/microsoft.png" width="19px" />
+                        <span>&nbsp; &nbsp; Sign up with Microsoft</span>
+                    </button>
+                    <div class="link">
+                        <p style="margin-top: 1rem;">Already have an account? <a href="~">Sign in</a></p>
+                    </div>
+                    <div class="terms">
+                        <p>By using Silkflo you agree to the <a href="~">Tearms of Service</a> and <a href="~">Privacy Policy</a></p>
+                    </div>
+                    <div style="justify-content: center">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+*@
+
+@*@model SilkFlo.Web.Services.Models.Account.SignUp*@
+
+@*@model SilkFlo.Web.ViewModels.Shop.Subscribe
+
+<style>
+    ::-webkit-input-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    :-moz-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+</style>
+<div id="subscribe" class="account account_SignIn">
+
+    @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right ">
+        <div>
+            <div class="panel-heading header-center">
+                <img src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1 id="welcome">Welcome to SilkFlo!</h1>
+                <p id="register">Register with your business e-mail</p>
+
+                <h1 id="mainHeadStep2" style="display:none">Let's get to know you</h1>
+                <p id="headStep2" style="display:none">Lets get started with the basis</p>
+            
+                <h1 id="mainHeadStep3" style="display:none">Finally</h1>
+                <p id="headStep1" style="display:none">How will you be using SilkFlo?</p>
+            </div>
+            <div class="panel-body">
+                <form method="post">
+                    <!-- Email Input -->
+                    <div class="form-group frm-group" id="Email_Container" name="Email_Container">
+                        <input id="Email" name="Email" type="text" class="form-control input has-validation"
+                               oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Email = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                               maxlength="100" placeholder=" Enter your business email address" style="align-items: end;">
+                    </div>
+                    <!-- Password Input -->
+                    <div class="form-group frm-group" id="Password_Container" name="Password_Container">
+                        <input id="Password" name="Password" type="password" class="form-control input has-validation"
+                               oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Password = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                               autocomplete="off" maxlength="100" placeholder="Password: At least 8 characters..."
+                               style="align-items: end;">
+                    </div>
+                    <button style="width:100%" class="btn btn_Login" id="btnContd1" type="button">Continue</button>
+
+                    <!-- FirstName Input -->
+                    <div class="form-group frm-group" id="First_Container" name="Email_Container" style="display: none;">
+                        <input id="txtFirstName" name="FirstName" type="text" class="form-control input has-validation"
+                               oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.FirstName = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                               maxlength="100" placeholder=" What's your first name?" style="align-items: end;" />
+                    </div>
+                    <!-- LastName Input -->
+                    <div class="form-group frm-group" id="Last_Container" name="Email_Container" style="display: none;">
+                        <input id="txtLastName" name="LastName" type="text" class="form-control input has-validation"
+                               oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.LastName = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                               maxlength="100" placeholder="  What's your last name?" style="align-items: end;" />
+                    </div>
+                    <button style="width:100%; display: none;" class="btn btn_Login" id="btnContd2" type="button">Continue</button>
+
+                    <!-- CompName Input -->
+                    <div class="form-group frm-group" id="CompName_Container" name="CompName_Container" >
+                        <input id="txtCompName" name="Name" type="text" class="form-control input has-validation"
+                               oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Name = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                               maxlength="100" placeholder=" What is your company's name?" style="align-items: end;" />
+                    </div>
+                    <!-- CompWebsite Input -->
+                    <div class="form-group frm-group" id="CompWebsite_Container" name="CompWebsite_Container" >
+                        <input id="txtCompWebsite" name="Website" type="text" class="form-control input has-validation"
+                               oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Website = this.value;")" onfocusout="SilkFlo.IsRequired(this);"
+                               maxlength="100" placeholder=" What is your company's website?" style="align-items: end;" />
+                    </div>
+                    <button style="width:100%;" class="btn btn_Login" id="btnContd4" type="button">Continue</button>
+                    <p style="text-align: center;"><a href="javascript:void(0)" class="btn-Back" onclick="back3()">&lt; Back</a></p>
+                    
+                    <input name="Account.SignUp.ClientId"
+                           type="hidden"
+                           value="@(Model?.ClientId != null ? Model.ClientId : "")" />
+
+                    <input name="Account.SignUp.PriceId"
+                           type="hidden"
+                           value="@Model?.Product?.Price?.Id" />
+
+                    <div id="OtherPlatform">
+                        <div class="or">
+                        <h2>
+                            <span>or</span>
+                        </h2>
+                    </div>
+                    <button style="width:100%" class="btn btn-Microsoft">
+                        <img src="~/Icons/microsoft.png" width="19px" />
+                        <span>&nbsp; &nbsp; Sign up with Microsoft</span>
+                    </button>
+                    <div class="link">
+                        <p style="margin-top: 1rem;">Already have an account?<a href="~"> Sign in</a></p>
+                    </div>
+                    <div class="terms">
+                        <p>By using Silkflo you agree to the <a href="~">Terms of Service</a> and <a href="~">Privacy Policy</a></p>
+                    </div>
+                    </div>
+                    
+                    <div style="justify-content: center"></div>
+                </form>
+                 
+                <div class="row btn-steps-row steps" style="display:none">
+                    <div class="btn btn_Login  btn-steps foot" style="background-color:#2F80ED" id="divStep1"></div>
+                    <div class="btn btn_Login btn-steps foot" id="divStep2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+     
+</script>
+*@
+
+@model SilkFlo.Web.ViewModels.Shop.Subscribe
+
+<style>
+    ::-webkit-input-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    :-moz-placeholder {
+        text-align: center;
+        font-size: 13px;
+    }
+</style>
+<div id="subscribe" class="account account_SignIn">
+    @await Html.PartialAsync("Account/_Brand")
+    <div class="account_Right">
+        <div>
+            <div class="panel-heading header-center">
+                <img src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1 id="welcome">Welcome to SilkFlo!</h1>
+                <p id="register">Register with your business e-mail</p>
+                <h1 id="mainHeadStep2" style="display:none">Let's get to know you</h1>
+                <p id="headStep2" style="display:none">Let's get started with the basics</p>
+                <h1 id="mainHeadStep3" style="display:none">Finally</h1>
+                <p id="headStep1" style="display:none">Just a few questions to get setup</p>
+            </div>
+            <div class="panel-body">
+                <form method="post">
+                    <!-- Step 1: Email and Password -->
+                    <div id="step1">
+                        <div class="form-group frm-group" id="Email_Container" name="Email_Container">
+                            <input id="Email" name="Email" type="text" class="form-control input has-validation"
+                                   oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Email = this.value;")"
+                                   onfocusout="SilkFlo.IsRequired(this);" maxlength="100"
+                                   placeholder=" Enter your business email address" style="align-items: end;">
+                        </div>
+                        <div class="form-group frm-group" id="Password_Container" name="Password_Container">
+                            <input id="Password" name="Password" type="password" class="form-control input has-validation"
+                                   oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Password = this.value;")"
+                                   onfocusout="SilkFlo.IsRequired(this);" autocomplete="off" maxlength="100"
+                                   placeholder="Password: At least 8 characters..." style="align-items: end;">
+                        </div>
+                        <button style="width:100%" class="btn btn_Login" id="btnContd1" type="button">Continue</button>
+                    </div>
+
+                    <!-- Step 2: First Name and Last Name -->
+                    <div id="step2" style="display: none;">
+                        <div class="form-group frm-group" id="First_Container" name="Email_Container">
+                            <input id="txtFirstName" name="FirstName" type="text" class="form-control input has-validation"
+                                   oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.FirstName = this.value;")"
+                                   onfocusout="SilkFlo.IsRequired(this);" maxlength="100" placeholder=" What's your first name?"
+                                   style="align-items: end;" />
+                        </div>
+                        <div class="form-group frm-group" id="Last_Container" name="Email_Container">
+                            <input id="txtLastName" name="LastName" type="text" class="form-control input has-validation"
+                                   oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.LastName = this.value;")"
+                                   onfocusout="SilkFlo.IsRequired(this);" maxlength="100" placeholder="  What's your last name?"
+                                   style="align-items: end;" />
+                        </div>
+                        <button style="width:100%;" class="btn btn_Login" id="btnContd2" type="button">Continue</button>
+                    </div>
+
+                    <!-- Step 3: Company Name and Website -->
+                    <div id="step3" style="display: none;">
+                        <div class="form-group frm-group" id="CompName_Container" name="CompName_Container">
+                            <input id="txtCompName" name="Name" type="text" class="form-control input has-validation"
+                                   oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Name = this.value;")"
+                                   onfocusout="SilkFlo.IsRequired(this);" maxlength="100"
+                                   placeholder=" What is your company's name?" style="align-items: end;" />
+                        </div>
+                        <div class="form-group frm-group" id="CompWebsite_Container" name="CompWebsite_Container">
+                            <input id="txtCompWebsite" name="Website" type="text" class="form-control input has-validation"
+                                   oninput="SilkFlo.IsRequired(this); @Html.Raw($"@Model.Website = this.value;")"
+                                   onfocusout="SilkFlo.IsRequired(this);" maxlength="100"
+                                   placeholder=" What is your company's website?" style="align-items: end;" />
+                        </div>
+                        <button style="width:100%;" class="btn btn_Login" id="btnContd4" type="button">Continue</button>
+                    </div>
+                    <p id="btnBack" style="text-align: center; display: none"><a href="javascript:void(0)" class="btn-Back" onclick="back()">&lt; Back</a></p>
+                    <input name="Account.SignUp.ClientId" type="hidden"
+                           value="@(Model?.ClientId != null ? Model.ClientId : "")" />
+                    <input name="Account.SignUp.PriceId" type="hidden" value="@Model?.Product?.Price?.Id" />
+
+                    <div id="OtherPlatform">
+                        <div class="or">
+                            <h2>
+                                <span>or</span>
+                            </h2>
+                        </div>
+                        <button style="width:100%" class="btn btn-Microsoft">
+                            <img src="~/Icons/microsoft.png" width="19px" />
+                            <span>&nbsp; &nbsp; Sign up with Microsoft</span>
+                        </button>
+                        <div class="link">
+                            <p style="margin-top: 1rem;">Already have an account?<a href="~"> Sign in</a></p>
+                        </div>
+                        <div class="terms">
+                            <p>
+                                By using Silkflo you agree to the <a href="~">Terms of Service</a> and
+                                <a href="~">Privacy Policy</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="justify-content: center"></div>
+                </form>
+
+                <div class="row btn-steps-row steps" style="display:none">
+                    <div class="btn btn_Login btn-steps foot" style="background-color:#2F80ED" id="divStep1"></div>
+                    <div class="btn btn_Login btn-steps foot" id="divStep2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var currentStep = 1;
+    var stepsContainer = document.querySelector('.steps');
+    var otherPlatform = document.getElementById('OtherPlatform');
+    var btnBack = document.getElementById('btnBack');
+    var step1Container = document.getElementById('step1');
+    var step2Container = document.getElementById('step2');
+    var step3Container = document.getElementById('step3');
+    var btnContd1 = document.getElementById('btnContd1');
+    var btnContd2 = document.getElementById('btnContd2');
+    var btnContd4 = document.getElementById('btnContd4');
+
+    function showStep(step) {
+        step1Container.style.display = step === 1 ? 'block' : 'none';
+        step2Container.style.display = step === 2 ? 'block' : 'none';
+        step3Container.style.display = step === 3 ? 'block' : 'none';
+
+        btnContd1.style.display = step === 1 ? 'block' : 'none';
+        btnContd2.style.display = step === 2 ? 'block' : 'none';
+        btnContd4.style.display = step === 3 ? 'block' : 'none';
+
+        if (step === 1) {
+            stepsContainer.style.display = 'none';
+            btnBack.style.display = 'none';
+            otherPlatform.style.display = 'block';
+            document.getElementById('welcome').style.display = 'block';
+            document.getElementById('register').style.display = 'block';
+            document.getElementById('mainHeadStep2').style.display = 'none';
+            document.getElementById('headStep2').style.display = 'none';
+            document.getElementById('mainHeadStep3').style.display = 'none';
+            document.getElementById('headStep1').style.display = 'none';
+        } else if (step === 2) {
+            stepsContainer.style.display = 'block';
+            btnBack.style.display = 'block';
+            otherPlatform.style.display = 'none';
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('register').style.display = 'none';
+            document.getElementById('mainHeadStep2').style.display = 'block';
+            document.getElementById('headStep2').style.display = 'block';
+            document.getElementById('mainHeadStep3').style.display = 'none';
+            document.getElementById('headStep1').style.display = 'none';
+            document.getElementById('divStep1').style.backgroundColor = '#2F80ED';
+            document.getElementById('divStep2').style.backgroundColor = '';
+        } else if (step === 3) {
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('register').style.display = 'none';
+            document.getElementById('mainHeadStep2').style.display = 'none';
+            document.getElementById('headStep2').style.display = 'none';
+            document.getElementById('mainHeadStep3').style.display = 'block';
+            document.getElementById('headStep1').style.display = 'block';
+            document.getElementById('divStep1').style.backgroundColor = '';
+            document.getElementById('divStep2').style.backgroundColor = '#2F80ED';
+        }
+    }
+
+    function back() {
+        if (currentStep === 2) {
+            showStep(1);
+        } else if (currentStep === 3) {
+            currentStep--;
+            showStep(2);
+        }
+    }
+
+    btnContd1.addEventListener('click', function () {
+        showStep(2);
+        currentStep = 2;
+    });
+
+    btnContd2.addEventListener('click', function () {
+        showStep(3);
+        currentStep = 3;
+    });
+
+    btnContd4.addEventListener('click', function () {
+        submitForm();
+    });
+
+    function submitForm() {
+        // Create JSON object
+        var data = {
+            Email: $('#Email').val(),
+            Password: $('#Password').val(),
+
+            FirstName: $('#txtFirstName').val(),
+            LastName: $('#txtFirstName').val(),
+
+            Name: $('#txtCompName').val(),
+            Website: $('#txtCompWebsite').val(),
+            PriceId: document.querySelector(`[name="Account.SignUp.PriceId"]`).value,
+            TermsAgreed: true,
+        };
+
+        // Send JSON data to the server using AJAX
+        $.ajax({
+            url: '/api/shop/Subscribe/ClientDetails/Post',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response) {
+                    let name = 'Account.SignUp.ClientId';
+                    const elementClientId = document.querySelector(`[name="${name}"]`);
+
+                    // Guard Clause
+                    if (!elementClientId) {
+                        console.log(`$Element with name ${name} missing`);
+                    }
+                    elementClientId.value = response;
+
+                    //hide the elements
+                    //$('#CompName_Container').hide();
+                    //$('#CompWebsite_Container').hide();
+                    //$('#btnContd3').hide();
+
+                    var modalViewCode = `
+                        <div class="modal fade" id="userCreatedModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+                              aria-hidden="true" data-backdrop="static">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="successModalLabel">Successfully Created!</h5>
+                              </div>
+                              <div class="modal-body">
+                                <p>Your account has been created!</p>
+                                <br />
+                                <p>Please check your email for a confirmation message. You will need to verify your email address to proceed.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    `;
+
+                    // Add the modal view code to the DOM
+                    $(modalViewCode).appendTo("body");
+
+                    // Open the modal
+                    $("#userCreatedModal").modal("show");
+                }
+            },
+            error: function (error) {
+                // Handle error response
+                console.log(error);
+            }
+        });
+    }
+</script>

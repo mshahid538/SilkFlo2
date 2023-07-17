@@ -1,0 +1,28 @@
+ <div DelaneysDropDown-container="" style="z-index:204">
+    <button class="btn btn-dropDown_Filter"
+            id="SubmitIdeaDropDown"
+            DelaneysDropDown-CloseOnLostFocus="true"
+            onclick="DelaneysDropDown_Main(this);">
+        <img src="~/Icons/SideBar/Submit Idea.svg"
+             style="width: 20px; height: 20px;"
+             ignore="ignore" />&nbsp;<span class="text">Submit Your First Idea</span>
+    </button>
+    <div name="list"
+         class="btn-dropDown_List"
+         id="sort-List">
+
+        <a class="d-flex list-group-item list-group-item-action pointer noSelect"
+           data-bs-toggle="modal"
+           data-bs-target="#ModalSubmitIdea"
+           onclick="if(HotSpot.Card){ HotSpot.Card.Close();} SilkFlo.SideBar.SubmitIdeaMenu.Hide(); SilkFlo.SideBar.ShowModelSubmitIdea();">
+            <img class="modelSubmitIdea_icon" src="~/Icons/Plus.svg" />
+            <h3>Employee Idea</h3>
+        </a>
+        <a class="d-flex list-group-item list-group-item-action pointer noSelect"
+           onclick="SilkFlo.SideBar.SubmitIdeaMenu.Hide(); SilkFlo.SideBar.OnClick('/Idea/Edit', SilkFlo.ViewModels.Business.Idea.Edit.Get_Callback);">
+            <img class="modelSubmitIdea_icon" src="~/Icons/SideBar/Ideas.svg" />
+            <h3>CoE Idea</h3>
+        </a>
+
+    </div>       
+</div>

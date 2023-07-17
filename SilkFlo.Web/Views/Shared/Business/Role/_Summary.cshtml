@@ -1,0 +1,45 @@
+@model IEnumerable<SilkFlo.Web.Models.Business.Role>
+
+<table class="table table-hover noSelect">
+    <thead>
+        <tr>
+            <th style="padding: 0;" id="Settings.Business.Role.Header">
+                <div class="silkFlo_flex_wrap_spaced">
+                    <span style="padding: 0.5rem;">Roles</span>
+                    <div id="Settings.Roles.SelectBar" style="transform: matrix(1, 0, 0, 1, 1, 40); width: 6px; align-self: stretch; background: var(--bs-danger); transition: all 0.3s ease-in-out;"> </div>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="Business.Role.TableBody" style="outline: 1px solid var(--bs-gray-lighter); outline-offset: -1px;">
+        @{
+            var index = 0;
+        }
+
+        @foreach (var role in Model)
+        {
+            var style = "outline-offset: -1px;";
+
+            if (role.IsBuiltIn)
+            {
+                style += "background: var(--bs-gray-lightest);";
+            }
+
+            if(index == 0)
+            {
+                style += "outline: 1px solid var(--bs-gray-lighter);";
+            }
+
+            style = $"style=\"{style}\"";
+
+
+            var onClick = $"onclick=\"SilkFlo.ViewModels.Settings.CollaboratorRole.Select(this); SilkFlo.ViewModels.Settings.CollaboratorRole.GetDetail('{role.Id}');\"";
+
+
+            <tr @Html.Raw(style) @onClick id="@role.Id" class="pointer">
+                @await Html.PartialAsync("Business/Role/_SummaryRowContent", role)
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>

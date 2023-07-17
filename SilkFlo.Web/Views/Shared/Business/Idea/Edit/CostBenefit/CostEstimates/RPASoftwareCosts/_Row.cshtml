@@ -1,0 +1,55 @@
+@model SilkFlo.Web.Models.Business.IdeaRunningCost
+
+<tr class="edit"
+    name="Business.IdeaRunningCost"
+    onclick="SilkFlo.ViewModels.Business.Idea.Edit.RPSSoftwareCosts.SelectRow_Click(this)">
+    <td style="height: 38px;">
+        <div class="d-flex" style="height: 100%">
+            <div class="selector"> </div>
+
+        
+        <select name="Business.IdeaRunningCost.RunningCostId"
+                value="@Model.RunningCostId"
+                onchange="SilkFlo.ViewModels.Business.Idea.Edit.RPSSoftwareCosts.RunningCost_Change(this)">
+            @foreach (var runningCost in Model.RunningCosts)
+            {
+                if (Model.RunningCostId == runningCost.Id)
+                {
+                    <option value="@runningCost.Id"
+                            period="@runningCost.FrequencyId"
+                            cost="@runningCost.Cost"
+                            selected="">
+                        @runningCost.Name2
+                    </option>
+                }
+                else
+                {
+                    <option value="@runningCost.Id"
+                            frequencyId="@runningCost.FrequencyId"
+                            cost="@runningCost.Cost">
+                        @runningCost.Name2
+                    </option>
+                }
+            }
+        </select>
+
+
+        </div>
+    </td>
+    <td style="height: 38px;">
+         
+         <div contenteditable="true"
+              name="Business.IdeaRunningCost.LicenceCount"
+              class="text-right"
+              role="textbox"
+              onpaste="const text = event.clipboardData.getData('Text'); event.preventDefault(); event.target.innerHTML = text;"
+              style="padding: 0.5rem 0.5rem 0.5rem 0.5rem; height: 100%; background: white;"
+              onkeydown="KeyPressPositiveIntegerOnly(event)"
+              oninput="SilkFlo.ViewModels.Business.Idea.Edit.RPSSoftwareCosts.LicenceCount_Input(this)">@Model.LicenceCount.ToString()</div>
+    </td>
+    <td style="text-align: right;"
+        class="readOnly"><span class="p-2" name="Business.IdeaRunningCost.CostPerYear">@Model.CostPerYear</span></td>
+    <td style="text-align: right;" class="readOnly"><span class="p-2" name="Business.IdeaRunningCost.CostPerMonth">@Model.CostPerMonth</span></td>
+    <td style="text-align: right;" class="readOnly"><span class="p-2" name="Business.IdeaRunningCost.TotalCostPerYear" value="@Model.TotalCostPerYearValue">@Model.TotalCostPerYear</span></td>
+    <td style="text-align: right;" class="readOnly"><span class="p-2" name="Business.IdeaRunningCost.TotalCostPerMonth" value="@Model.TotalCostPerMonthValue">@Model.TotalCostPerMonth</span></td>
+</tr>

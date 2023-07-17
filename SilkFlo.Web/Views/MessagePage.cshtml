@@ -1,0 +1,25 @@
+@model SilkFlo.Web.ViewModels.MessagePage
+
+<div class="account account_SignIn">
+
+    @await Html.PartialAsync("Account/_Brand")
+
+    <div class="account_Right account_Right_SignIn">
+        <div>
+            <div class="panel-heading">
+                <h1>@Html.Raw(Model.Title)</h1>
+            </div>
+
+            <div class="panel-body">
+                <p>@Html.Raw(Model.Message)</p>
+                @if (Model.ShowContinueButton)
+                {
+                    <a class="btn btn-brand"
+                       href="/">
+                        Continue
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

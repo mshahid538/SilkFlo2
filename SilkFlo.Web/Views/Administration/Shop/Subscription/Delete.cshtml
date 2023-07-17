@@ -1,0 +1,128 @@
+@model SilkFlo.Web.Models.Shop.Subscription
+<div class="container-fluid">
+
+    <form asp-action="Delete"
+          method="post">
+        <div class="TitleBar">
+            <h2>Delete Subscription</h2>
+
+            <h3>Are you sure you?</h3>
+
+            <div class="grid_1fr_auto">
+                <div class="toolbar">
+                    <!-- Buttons -->
+                    <button formaction="/Administration/Shop/Subscription/Delete"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-danger">Delete</button>
+                    <button formaction="/Administration/Shop/Subscription/Cancel"
+                            formmethod="post"
+                            type="submit"
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+
+                <div class="toolbar">
+                    <a href="/Administration/Shop/Subscription">Back to List</a>
+                </div>
+            </div>
+        </div>
+    @if (!ViewContext.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false,
+                                "",
+                                new { @class = "text-danger" })
+    }
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.CreatedById)
+        @Html.HiddenFor(x => x.CreatedDate)
+        @Html.HiddenFor(x => x.UpdatedById)
+        @Html.HiddenFor(x => x.UpdatedDate)
+
+        @Html.HiddenFor(x => x.AgencyDiscountId)
+        @Html.HiddenFor(x => x.AgencyId)
+        @Html.HiddenFor(x => x.AgencyTypeId)
+        @Html.HiddenFor(x => x.Amount)
+        @Html.HiddenFor(x => x.CancelToken)
+        @Html.HiddenFor(x => x.CouponId)
+        @Html.HiddenFor(x => x.DateCancelled)
+        @Html.HiddenFor(x => x.DateEnd)
+        @Html.HiddenFor(x => x.DateStart)
+        @Html.HiddenFor(x => x.Discount)
+        @Html.HiddenFor(x => x.InvoiceId)
+        @Html.HiddenFor(x => x.InvoiceNumber)
+        @Html.HiddenFor(x => x.InvoiceUrl)
+        @Html.HiddenFor(x => x.PriceId)
+        @Html.HiddenFor(x => x.TenantId)
+        <div class="grid_auto_1fr">
+
+            <!-- Amount -->
+            <div>@Html.DisplayNameFor(x => x.Amount)</div>
+            <div>@Html.DisplayFor(x => x.Amount)</div>
+
+            <!-- CancelToken -->
+            <div>@Html.DisplayNameFor(x => x.CancelToken)</div>
+            <div>@Html.DisplayFor(x => x.CancelToken)</div>
+
+            <!-- Discount -->
+            <div>@Html.DisplayNameFor(x => x.Discount)</div>
+            <div>@Html.DisplayFor(x => x.Discount)</div>
+
+            <!-- DateStart -->
+            <div>@Html.DisplayNameFor(x => x.DateStart)</div>
+            <div>@Html.DisplayFor(x => x.DateStart)</div>
+
+            <!-- DateCancelled -->
+            <div>@Html.DisplayNameFor(x => x.DateCancelled)</div>
+            <div>@Html.DisplayFor(x => x.DateCancelled)</div>
+
+            <!-- DateEnd -->
+            <div>@Html.DisplayNameFor(x => x.DateEnd)</div>
+            <div>@Html.DisplayFor(x => x.DateEnd)</div>
+
+            <!-- InvoiceId -->
+            <div>@Html.DisplayNameFor(x => x.InvoiceId)</div>
+            <div>@Html.DisplayFor(x => x.InvoiceId)</div>
+
+            <!-- InvoiceUrl -->
+            <div>@Html.DisplayNameFor(x => x.InvoiceUrl)</div>
+            <div>@Html.DisplayFor(x => x.InvoiceUrl)</div>
+
+            <!-- InvoiceNumber -->
+            <div>@Html.DisplayNameFor(x => x.InvoiceNumber)</div>
+            <div>@Html.DisplayFor(x => x.InvoiceNumber)</div>
+
+            <!-- AgencyDiscountString -->
+            <div>@Html.DisplayNameFor(x => x.AgencyDiscountString)</div>
+            <div>@Html.DisplayFor(x => x.AgencyDiscountString)</div>
+
+            <!-- AgencyString -->
+            <div>@Html.DisplayNameFor(x => x.AgencyString)</div>
+            <div>@Html.DisplayFor(x => x.AgencyString)</div>
+
+            <!-- AgencyTypeString -->
+            <div>@Html.DisplayNameFor(x => x.AgencyTypeString)</div>
+            <div>@Html.DisplayFor(x => x.AgencyTypeString)</div>
+
+            <!-- CouponString -->
+            <div>@Html.DisplayNameFor(x => x.CouponString)</div>
+            <div>@Html.DisplayFor(x => x.CouponString)</div>
+
+            <!-- PriceString -->
+            <div>@Html.DisplayNameFor(x => x.PriceString)</div>
+            <div>@Html.DisplayFor(x => x.PriceString)</div>
+
+            <!-- TenantString -->
+            <div>@Html.DisplayNameFor(x => x.TenantString)</div>
+            <div>@Html.DisplayFor(x => x.TenantString)</div>
+
+            <!-- CreatedBy -->
+            <div>Created By</div>
+            <div>@Html.DisplayFor(x => x.CreatedBy)</div>
+
+            <!-- Created Date -->
+            <div>@Html.DisplayNameFor(x => x.CreatedDate)</div>
+            <div>@Html.DisplayFor(x => x.CreatedDateString)</div>
+        </div>
+    </form>
+</div>

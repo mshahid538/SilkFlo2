@@ -1,0 +1,170 @@
+@model SilkFlo.Web.ViewModels.Business.Application.Summary
+@if (Model.Applications.Any())
+{
+    var pageSize = 5;
+    var pageIndex = 0;
+    <div class="p-2 border bg-light silkflo_tile">
+
+        <table class="noSelect table">
+            <thead>
+            <tr>
+                <th>Is Used</th>
+                <th>Application</th>
+                <th>Is Thin Client</th>
+                <th>Version</th>
+                <th>Language</th>
+            </tr>
+            </thead>
+            <tbody name="Business.Applications">
+            @foreach (var application in Model.Applications)
+            {
+                var pageId = pageIndex / pageSize + 1;
+
+                var style = "";
+                if (pageId != 1)
+                {
+                    style = "display: none;";
+                }
+
+                var isSelectedId = $"isSelected_{application.Id}";
+
+                <tr name="Business.Application"
+                    pageId="@pageId"
+                    style="@style">
+                    <input name="Business.Application.Id"
+                           type="hidden"
+                           value="@application.Id" />
+
+                    <td style="width: 80px;">
+                        <div class="form-check form-switch">
+                            @{
+                                var isChecked = "";
+                                if (application.IsSelected)
+                                {
+                                    isChecked = "checked";
+                                }
+                            }
+                            <input applicationselect=""
+                                   @Html.Raw(isChecked)
+                                   class="form-check-input"
+                                   id="@isSelectedId"
+                                   name="Business.Application.IsSelected"
+                                   onchange="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation ( 'FormEdit_BusinessIdea' );"
+                                   type="checkbox">
+                        </div>
+                    </td>
+                    <td>
+                        <label asp-for="@isSelectedId">@application.Name</label>
+                    </td>
+
+                    <td>
+                        <div class="form-check form-switch">
+                            @{
+                                isChecked = "";
+                                if (application.IsThinClient)
+                                {
+                                    isChecked = "checked";
+                                }
+                            }
+                            <input applicationselect=""
+                                   @Html.Raw(isChecked)
+                                   class="form-check-input"
+                                   name="Business.Application.IsThinClient"
+                                   onchange="SilkFlo.ViewModels.Business.Idea.Edit.Calculations.EaseOfImplementation ( 'FormEdit_BusinessIdea' );"
+                                   type="checkbox">
+                        </div>
+                    </td>
+
+                    <td style="padding-top: 2px; padding-bottom: 2px; width: 250px;">
+                        <select class="form-select"
+                                name="Business.Application.VersionId"
+                                style="margin-bottom: 0; padding-top: 2px; padding-bottom: 2px;">
+                            @foreach (var version in application.Versions)
+                            {
+                                <option value="@version.Id">@version.Name</option>
+                            }
+                        </select>
+                    </td>
+                    <td style="padding-top: 2px; padding-bottom: 2px; width: 350px;">
+                        <select class="form-select"
+                                name="Business.Application.LanguageId"
+                                style="margin-bottom: 0; padding-top: 2px; padding-bottom: 2px;">
+                            @foreach (var language in Model.Languages)
+                            {
+                                <option value="@language.Id">@language.Name</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                pageIndex++;
+            }
+            </tbody>
+        </table>
+
+
+        @* Page Count*@
+        @if (Model.Applications.Count > pageSize)
+        {
+            var pageCount = Model.Applications.Count / pageSize;
+            if (Model.Applications.Count % pageSize > 0)
+                pageCount++;
+
+            <div class="grid_1fr_auto">
+                <div></div>
+                <div>
+                    <ul class="pagination" style="margin-bottom: 0">
+                        <li id="paginationFirst"
+                            class="page-item disabled">
+                            <a class="page-link pointer noSelect"
+                               onclick="">&#171;</a>
+                        </li>
+
+
+                        <li paginationId="1"
+                            class="page-item active">
+                            <a class="page-link pointer noSelect"
+                               onclick="SilkFlo.SelectApplicationPage('1');">1</a>
+                        </li>
+                        @for (var i = 2; i <= pageCount; i++)
+                        {
+                            <li paginationId="@i"
+                                class="page-item">
+                                <a class="page-link pointer noSelect"
+                                   onclick="SilkFlo.SelectApplicationPage('@i');">@i.ToString()</a>
+                            </li>
+                        }
+                        <li id="paginationLast"
+                            class="page-item">
+                            <a class="page-link pointer noSelect"
+                               onclick="SilkFlo.SelectApplicationPage('2');">&raquo;</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+    <input type="hidden" name="Business.Idea.IdeaApplicationVersion" value =""/>
+    <div id="Business.Idea.IdeaApplicationVersion_InvalidFeedback"
+         name="Business.Idea.IdeaApplicationVersion_InvalidFeedback"
+         class="invalid-feedback" silkFlo-feedback=""></div>
+    }
+else
+{
+    <h3>To add applications go to <a href="/Settings/tenant/Platform-Setup/Applications">Settings > Platform Setup > Applications</a></h3>
+    <input name="Business.Idea.IdeaApplicationVersion"
+           type="hidden"
+           value="DO NOT DELETE. This element is used to show error message."/>
+    <div id="Business.Idea.IdeaApplicationVersion_InvalidFeedback"
+         name="Business.Idea.IdeaApplicationVersion_InvalidFeedback"
+         class="invalid-feedback"
+         silkflo-feedback=""></div>
+}
+
+@*
+    Usage:
+
+    @await Html.PartialAsync(
+        "Shared/Business/Idea/_ApplicationsTable",
+        new SilkFlo.Web.ViewModels.Business.Application.Summary (Model.Applications, Model.Languages))
+*@
