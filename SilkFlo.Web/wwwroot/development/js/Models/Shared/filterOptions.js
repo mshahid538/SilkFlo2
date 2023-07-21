@@ -1340,10 +1340,10 @@ height: 527px;">
               <h2 class="modal-title" name="Title">Welcome to Silkflo!</h2>
               <h3 class="header-modal-version">V.12.4</h3>
               
-              <h2 class="silkflo_modal_title" name="Title" style="margin-top:25px">Main Dashboard</h2>
-              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">This is where you can see entire program performance, by ideas, project in build and automations deployed.</p>
+             
+              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">SilkFlo helps you adopt govern and manage automation and AI at scale. Let's take a quick tour to get your started.</p>
             </div>
-            <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="showExplore()"><span>Next</span></button>
+            <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="showDashboardTooltip()"><span>Start Tour</span></button>
           </div>
         </div>
       </div>`;
@@ -1433,8 +1433,8 @@ height: 527px;">
 function showPlatformSetup() {
     //hide
     // Open the modal
-    $("#SilkfloWorkshopModal").modal("hide");
-
+    $(".tooltipWorkShop").css('display', 'none');
+    $('#menu li.active').removeClass('active');
     var modalViewCode = `
       <div class="modal fade" id="SilkfloPlatformSetupModal" tabindex="-1" aria-labelledby="Message Box"
         aria-hidden="true">
@@ -1443,11 +1443,9 @@ height: 527px;">
           <div class="modal-content silkflo-modal-content">
             <div class="modal-header"></div>
             <div class="modal-body" name="Message">
-              <h2 class="modal-title" name="Title">Welcome to Silkflo!</h2>
-              <h3 class="header-modal-version">V.12.4</h3>
+              <h2 class="modal-title" name="Title">Tour Complete!</h2>
              
-              <h2 class="silkflo_modal_title" name="Title" style="margin-top:25px">Platform Setup</h2>
-              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">This is where you, the System Admin, can setup the Silkflo platform for your business - Very important!.</p>
+              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">You've finished the quick tour of SilkFlo. If you have any further questions, please visit our help docs or contact support@silkflo.com</p>
             </div>
             <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="hidePlatformSetupModal()"><span>Finish</span></button>
           </div>
@@ -1462,5 +1460,103 @@ height: 527px;">
 }
 
 function hidePlatformSetupModal() {
+    const sidebarDashboardContainer = document.getElementById('SideBar.Dashboard.Container');
+
+    // Add the "active" class to the element
+    if (sidebarDashboardContainer) {
+        sidebarDashboardContainer.classList.add('active');
+    }
+    /*  $('#SideBar.Dashboard.Container').addClass('active');*/
     $("#SilkfloPlatformSetupModal").modal("hide");
+}
+
+function showDashboardTooltip() {
+    //hide
+    // Open the modalconst 
+    liElement = document.getElementById('SideBar.Dashboard.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+
+    $("#SilkfloModal").modal("hide");
+    $('.tooltipDashboard').css('display', 'block');
+    const newTopPosition = top - 15;
+    $("#tooltip1arrow").css('top', top);
+    $("#tooltip1arrow").css('left', '175px');
+    $('#tooltip1').css('left', '182px');
+    $('#tooltip1').css('top', newTopPosition);
+
+
+}
+
+function showDashboardTourTooltip() {
+    //hide
+    // Open the modalconst 
+    liElement = document.getElementById('SideBar.Dashboard.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+
+    $("#SilkfloModal").modal("hide");
+    $('.tooltipDashboard').css('display', 'block');
+    const newTopPosition = top - 15;
+    $("#tooltip1arrow").css('top', top);
+    $("#tooltip1arrow").css('left', '175px');
+    $('#tooltip1').css('left', '182px');
+    $('#tooltip1').css('top', newTopPosition);
+
+
+}
+
+function showExploreTooltip() {
+    //hide
+    // Open the modal
+    $('.tooltipDashboard').css('display', 'none');
+    $('.tooltipExplore').css('display', 'block');
+    // Open the modalconst 
+    liElement = document.getElementById('SideBar.Explore.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+    const newTopPosition = top - 15;
+    $("#tooltip2arrow").css('top', top);
+    $('#tooltip2').css('top', newTopPosition);
+    $("#tooltip2arrow").css('left', '175px');
+    $('#tooltip2').css('left', '182px');
+
+    $('#menu li.active').removeClass('active');
+    const sidebarExploreContainer = document.getElementById('SideBar.Explore.Container');
+
+    // Add the "active" class to the element
+    if (sidebarExploreContainer) {
+        sidebarExploreContainer.classList.add('active');
+    }
+}
+function showWorkShopTooltip() {
+    //hide
+    // Open the modal
+    $(".tooltipExplore").css('display', 'none');
+    $('.tooltipWorkShop').css('display', 'block');
+    liElement = document.getElementById('SideBar.Workshop.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+    const newTopPosition = top - 15;
+    $("#tooltip3arrow").css('top', top);
+    /* $("#tooltip3arrow").css('left', '178px');*/
+    $('#tooltip3').css('top', newTopPosition);
+    $("#tooltip3arrow").css('left', '193px');
+    $('#tooltip3').css('left', '200px');
+    $('#menu li.active').removeClass('active');
+    const sidebarExploreContainer = document.getElementById('SideBar.Workshop.Container');
+
+    // Add the "active" class to the element
+    if (sidebarExploreContainer) {
+        sidebarExploreContainer.classList.add('active');
+    }
+
 }

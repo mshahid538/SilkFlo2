@@ -120,6 +120,11 @@ namespace SilkFlo.Web.Controllers.Shop
                     return BadRequest(feedback);
                 }
 
+                if (model.IsMsUser)
+                {
+                    model.Password = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{model.Email}-SILKFLOUserSecretKey-{model.IsMsUser}"));
+                }
+
                 // Check the ReCaptcha Token
                 var response = await _signUpService.SignUp(model.ReCaptchaToken);
 

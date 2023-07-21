@@ -11,10 +11,12 @@ namespace SilkFlo.Web.Controllers.Shop
         [HttpGet("shop/subscribe/priceId/{priceId}/referrerCode/{referrerCode}")]
         public async Task<IActionResult> ClientSubscribe(
             string priceId,
-            string referrerCode = "")
+            string referrerCode = "",
+            string entity = "")
         {
             var feedback = new ViewModels.Feedback();
-
+            var base64EncodedBytes = System.Convert.FromBase64String(entity);
+            var email = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
             try
             {
                 // Guard Clause
@@ -83,7 +85,10 @@ namespace SilkFlo.Web.Controllers.Shop
                 };
 
                 viewModel.Product.Price = new Models.Shop.Price(price);
-
+                if (!String.IsNullOrEmpty(email))
+                {
+                    viewModel.Email = email;
+                }
 
 
                 bool addFreeTrial;

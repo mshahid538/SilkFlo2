@@ -526,9 +526,7 @@ public partial class AccountController : AbstractAPI
     // /account/signin
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SignIn(
-        SignIn model,
-        [FromQuery(Name = "returnUrl")] string returnUrl = "")
+    public async Task<IActionResult> SignIn(SignIn model, [FromQuery(Name = "returnUrl")] string returnUrl = "")
     {
         // Guard Clause
         if (model == null)
@@ -718,7 +716,22 @@ public partial class AccountController : AbstractAPI
         var signInUrl = $"{azureAdOptions.Instance}{azureAdOptions.TenantId}/oauth2/v2.0/authorize?" +
             $"client_id={azureAdOptions.ClientId}&response_type=code%20id_token&" +
             $"response_mode=form_post&nonce={Guid.NewGuid()}" +
-            $"redirect_uri={azureAdOptions.CallbackPath.TrimStart('/')}&state={Guid.NewGuid()}&scope={azureAdOptions.Scopes}";
+            $"redirect_uri={azureAdOptions.CallbackPath.TrimStart('/')}&state=silkflo_user&scope={azureAdOptions.Scopes}";
+
+        // Redirect the user to the sign-in URL
+        return Redirect(signInUrl);
+    }
+
+    public async Task<IActionResult> SignUpMicrosoft(string priceId)
+    {
+        // Retrieve the Azure AD app settings from configuration
+        var azureAdOptions = _configuration.GetSection("AzureAd").Get<SilkFlo.Web.Models.AzureAdOptions>();
+
+        // Construct the sign-in URL
+        var signInUrl = $"{azureAdOptions.Instance}{azureAdOptions.TenantId}/oauth2/v2.0/authorize?" +
+            $"client_id={azureAdOptions.ClientId}&response_type=code%20id_token&" +
+            $"response_mode=form_post&nonce={Guid.NewGuid()}" +
+            $"redirect_uri={azureAdOptions.CallbackPath.TrimStart('/')}&state={priceId}&scope={azureAdOptions.Scopes}";
 
         // Redirect the user to the sign-in URL
         return Redirect(signInUrl);
@@ -757,7 +770,7 @@ public partial class AccountController : AbstractAPI
                 //    }
                 //}
                 var firstName = claims.FirstOrDefault(c => c.Type == "given_name");
-                var lastName= claims.FirstOrDefault(c => c.Type == "family_name");
+                var lastName = claims.FirstOrDefault(c => c.Type == "family_name");
 
 
                 var emailClaim = claims.FirstOrDefault(c => c.Type == "email");
@@ -767,31 +780,56 @@ public partial class AccountController : AbstractAPI
                 }
                 #endregion
 
-                var user = (await _unitOfWork.Users.FindAsync(x => x.Email == emailClaim.Value || x.EmailNew == emailClaim.Value)).FirstOrDefault();
-                user.FirstName = !String.IsNullOrEmpty(firstName?.Value) ? firstName?.Value : user.FirstName;
-                user.LastName = !String.IsNullOrEmpty(lastName?.Value) ? lastName?.Value : user.FirstName;
 
-                await _unitOfWork.UserRoles.GetForUserAsync(user);
-                await _unitOfWork.Roles.GetRoleForAsync(user.UserRoles);
+                if (!String.IsNullOrEmpty(state))
+                {
+                    if (state == "silkflo_user")
+                    {
+                        var user = (await _unitOfWork.Users.FindAsync(x => x.Email == emailClaim.Value || x.EmailNew == emailClaim.Value)).FirstOrDefault();
+                        await _unitOfWork.UserRoles.GetForUserAsync(user);
+                        await _unitOfWork.Roles.GetRoleForAsync(user.UserRoles);
 
-                var returnUrl = await SignInAsync(
-                    user,
-                    new Services.Models.Account.SignIn() { RememberMe = true, StaySignedIn = true },
-                    "",
-                    true,
-                    true);
+                        if (!user.IsEmailConfirmed)
+                        {
+                            // Redirect to Sign Up Confirmation
+                            throw new Exception("Please confirm your email!");
+                        }
 
-                return RedirectToAction("Index", "Home");
+                        var returnUrl = await SignInAsync(
+                            user,
+                            new Services.Models.Account.SignIn() { RememberMe = true, StaySignedIn = true },
+                            "",
+                            true,
+                            true);
 
+                        if (returnUrl == "/account/signin")
+                            return Redirect("/account/signin");
+
+                        if (returnUrl == "/Account/SubscriptionExpired")
+                            return Redirect("/Account/SubscriptionExpired");
+
+                        // Exit
+                        if (returnUrl == null
+                        || !Url.IsLocalUrl(returnUrl))
+                            return RedirectToAction("Index", "Home");
+
+                        if (Url.IsLocalUrl(returnUrl))
+                            return Redirect(returnUrl);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return Redirect($"/shop/subscribe/priceId/{state}?entity={System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(emailClaim.Value))}");
+                    }
+                }
             }
+            return Redirect("/Account/SignIn");
         }
         catch (MsalException ex)
         {
-
+            return Redirect("/Account/SignIn");
         }
-
-
-        return View();
     }
 
     #endregion

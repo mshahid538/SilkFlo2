@@ -1,5 +1,5 @@
 @model SilkFlo.Web.ViewModels.Dashboard.Page.Home
-
+@await Html.PartialAsync("_tooltip")
 <div class="container"
      id="dashboard">
     
@@ -26,6 +26,16 @@
     if (hasNewHash) {
         setTimeout(() => {
             showTooltips();
+        }, 600)
+        // Perform actions or make API calls here
+    }
+
+    var hasNewHash = window.location.hash.includes("#tour");
+
+    // Check if the current URL contains #new
+    if (hasNewHash) {
+        setTimeout(() => {
+            showTourTooltips();
         }, 600)
         // Perform actions or make API calls here
     }

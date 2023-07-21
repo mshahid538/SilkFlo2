@@ -1,12 +1,37 @@
-﻿<div class="silkflo_tooltip" id="tooltip1">
-    <h2 class="silkflo_tooltip-title"><img src="~/Icons/info.png" />Main Dashboard</h2>
-    <p class="silkflo_tooltip-content">This is where you can see entier program performance, by ideas, project in build and automations deployed.</p>
-    <a class="silkflo_tooltip-close" onclick="hideTooltip()">×</a>
+﻿<div class="tooltipDashboard" style="display:none">
+    <div class="arrow-left" id="tooltip1arrow"></div>
+    <div class="silkflo_tooltip" id="tooltip1">
+        <h2 class="silkflo_tooltip-title"><img src="~/Icons/info.png" />Main Dashboard</h2>
+        <p class="silkflo_tooltip-content">This is where you can see entier program performance, by ideas, project in build and automations deployed.</p>
+        @*<a class="silkflo_tooltip-close" onclick="hideTooltip()">×</a>*@
+        <button type="button" class="btn silkflo_tooltip-Next" onclick="showExploreTooltip()"><span>Next</span></button>
+    </div>
 </div>
-@*<script>
-    $(document).ready(function () {
-        $('.showtooltip').mouseover(function () {
-            $('#tooltip1').show();
-        });
-    });
-</script>*@
+<div class="tooltipExplore" style="display:none">
+    <div class="arrow-left" id="tooltip2arrow"></div>
+    <div class="silkflo_tooltip" id="tooltip2" style="display:block; height:157px">
+        <h2 class="silkflo_tooltip-title"><img src="~/Icons/info.png" />Explore</h2>
+        <p class="silkflo_tooltip-content">Explore, like and follow the idea and automations shared from across the business and see the people who are part of your digital journey.</p>
+        @*<a class="silkflo_tooltip-close" onclick="hideTooltip()">×</a>*@
+        <br />
+        <p><button type="button" class="btn silkflo_tooltip-Next" style="top:86px" onclick="showWorkShopTooltip()"><span>Next</span></button></p>
+    </div>
+</div>
+<div class="tooltipWorkShop" style="display:none">
+    <div class="arrow-left" id="tooltip3arrow"></div>
+    <div class="silkflo_tooltip" id="tooltip3" style="display:block; height:156px">
+        <h2 class="silkflo_tooltip-title"><img src="~/Icons/info.png" />Workshop</h2>
+        <p class="silkflo_tooltip-content">Provides you Automation teams with a standardized framework to review, qualify and priortize your automation and AI pipeline.</p>
+        @*        <a class="silkflo_tooltip-close" onclick="hideTooltip()">×</a>*@
+        <button type="button" class="btn silkflo_tooltip-Next" style="top:86px" onclick="showPlatformSetup()"><span>Next</span></button>
+    </div>
+</div>
+<div class="tooltipAgency" style="display:none">
+    <div class="arrow-left" id="tooltip4arrow"></div>
+    <div class="silkflo_tooltip" id="tooltip4" style="display:block">
+        <h2 class="silkflo_tooltip-title"><img src="~/Icons/info.png" />Agency Setting</h2>
+        <p class="silkflo_tooltip-content">This is where you can see entier program performance, by ideas, project in build and automations deployed.</p>
+        @*<a class="silkflo_tooltip-close" onclick="hideTooltip()">×</a>*@
+        <button type="button" class="btn silkflo_tooltip-Next" onclick="showPlatformSetup()"><span>Next</span></button>
+    </div>
+</div>
