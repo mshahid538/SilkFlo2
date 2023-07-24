@@ -1256,7 +1256,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Speed Multiplier
-        [DisplayName("Robot Speed Multiplier")]
+        [DisplayName("Automation Speed Multiplier")]
         public decimal? RobotSpeedMultiplier
         {
             get => _core.RobotSpeedMultiplier;
@@ -1274,7 +1274,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Work Day Year
-        [DisplayName("Robot Work Day Year")]
+        [DisplayName("Automation Work Day Year")]
         public decimal? RobotWorkDayYear
         {
             get => _core.RobotWorkDayYear;
