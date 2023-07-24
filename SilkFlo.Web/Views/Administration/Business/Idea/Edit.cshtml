@@ -539,7 +539,7 @@
                 @Html.CheckBoxFor(model => model.IsDataSensitive,
                                   new { @class = "form-check-input", @id = "IsDataSensitive" })
                 <label class="form-check-label"
-                       for="IsDataSensitive">Will the RPA access or process sensitive personal data?</label>
+                   for="IsDataSensitive">Will the Automation access or process sensitive personal data?</label>
             </div>
 
             <!-- DecisionDifficultyComment Input -->
@@ -559,7 +559,7 @@
                 @Html.CheckBoxFor(model => model.IsHighRisk,
                                   new { @class = "form-check-input", @id = "IsHighRisk" })
                 <label class="form-check-label"
-                       for="IsHighRisk">Will the RPA access high-risk / high-exposure IT systems?</label>
+                   for="IsHighRisk">Will the Automation access high-risk / high-exposure IT systems?</label>
             </div>
 
             <!-- IsAlternative checkbox Input -->
@@ -567,7 +567,7 @@
                 @Html.CheckBoxFor(model => model.IsAlternative,
                                   new { @class = "form-check-input", @id = "IsAlternative" })
                 <label class="form-check-label"
-                       for="IsAlternative">Alternative Solutions except for RPA?</label>
+                   for="IsAlternative">Alternative Solutions except for Automation?</label>
             </div>
 
             <!-- BenefitExpected Input -->
@@ -686,7 +686,7 @@
             @await Html.PartialAsync("Elements/_LabeledInput",
                 new SilkFlo.Web.ViewModels.Element
                 {
-                    Title = "AHT Robot",
+        Title = "AHT Automation",
                     Id = "AHTRobot",
                     Name = "AHTRobot",
                     Value = Model.AHTRobot?.ToString(CultureInfo.InvariantCulture),
@@ -758,7 +758,7 @@
             @await Html.PartialAsync("Elements/_LabeledInput",
                 new SilkFlo.Web.ViewModels.Element
                 {
-                    Title = "Robot Speed Multiplier",
+                    Title = "Automation Speed Multiplier",
                     Id = "RobotSpeedMultiplier",
                     Name = "RobotSpeedMultiplier",
                     Value = Model.RobotSpeedMultiplier?.ToString(CultureInfo.InvariantCulture),
@@ -770,7 +770,7 @@
             @await Html.PartialAsync("Elements/_LabeledInput",
                 new SilkFlo.Web.ViewModels.Element
                 {
-                    Title = "Robot Work Day Year",
+        Title = "Automation Work Day Year",
                     Id = "RobotWorkDayYear",
                     Name = "RobotWorkDayYear",
                     Value = Model.RobotWorkDayYear?.ToString(CultureInfo.InvariantCulture),
@@ -782,7 +782,7 @@
             @await Html.PartialAsync("Elements/_LabeledInput",
                 new SilkFlo.Web.ViewModels.Element
                 {
-                    Title = "Robot Work Hour Day",
+        Title = "Automation Work Hour Day",
                     Id = "RobotWorkHourDay",
                     Name = "RobotWorkHourDay",
                     Value = Model.RobotWorkHourDay?.ToString(CultureInfo.InvariantCulture),
