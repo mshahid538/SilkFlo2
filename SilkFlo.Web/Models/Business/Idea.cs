@@ -1292,7 +1292,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Work Hour Day
-        [DisplayName("Robot Work Hour Day")]
+        [DisplayName("Automation Work Hour Day")]
         public decimal? RobotWorkHourDay
         {
             get => _core.RobotWorkHourDay;
