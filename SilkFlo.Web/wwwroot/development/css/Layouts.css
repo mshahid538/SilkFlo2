@@ -187,3 +187,35 @@
         .container_gutter_30 > gutter > * {
             margin: 30px;
         }
+
+
+
+
+
+
+.daterangepicker td.active {
+    background-color: #ff8a00 !important;
+    border-color: transparent;
+    color: #fff;
+}
+
+.applyBtn {
+    background-color: #ff8a00 !important;
+    border-radius: 4px !important;
+}
+
+.cancelBtn {
+    color: var(--bs-white) !important;
+    fill: var(--bs-white) !important;
+    background-color: var(--bs-gray-lighter) !important;
+    border-color: var(--bs-gray-lighter) !important;
+    border-radius: 0;
+}
+
+.daterangepicker td.in-range {
+    background-color: #ff8a0047 !important;
+    border-color: transparent;
+    color: #000;
+    border-radius: 0;
+}
+

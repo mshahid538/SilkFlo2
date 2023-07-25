@@ -48,14 +48,21 @@
 									<i>By Date Range</i>
 								</label>
 							</div>
-							<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -15px;">
+							@*<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -15px;">
 								<div>
 									Start Date: <input class="form-control" type="date" id="startDatepicker" disabled />
 								</div>
 								<div style="margin-left:15px">
 									End Date: <input class="form-control" type="date" id="endDatepicker" disabled />
 								</div>
-							</div>
+							</div>*@
+							'<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -13px;">
+								<div>
+									<input type="text" class="form-control" id="daterange" name="daterange" disabled />
+									<input class="form-control" type="hidden" id="startDatepicker" name="startDatepicker" disabled />
+									<input class="form-control" type="hidden" id="endDatepicker" name="endDatepicker" disabled />
+								</div>
+							</div>'
 							<br />
 						</div>
 
