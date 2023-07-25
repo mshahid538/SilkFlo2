@@ -281,7 +281,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region AHT Robot
-        [DisplayName("AHT Robot")]
+        [DisplayName("AHT Automation")]
         public decimal? AHTRobot
         {
             get => _core.AHTRobot;
