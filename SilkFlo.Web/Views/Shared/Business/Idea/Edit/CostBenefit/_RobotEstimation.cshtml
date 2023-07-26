@@ -29,7 +29,7 @@
     }
 }
 
-<h1>Estimation of Robots Needed &amp; Refinement of Benefits</h1>
+<h1>Estimation of Automation Needed &amp; Refinement of Benefits</h1>
 
 
 <div class="d-flex d-flex-guttered flex-wrap">
@@ -39,7 +39,7 @@
         <h2>Vender Used</h2>
 
         <div class="form-group ">
-            <label class="">RPA&nbsp;Software</label>
+            <label class="">Automation&nbsp;Software</label>
 
             <select class="form-select"
                     name="Business.Idea.RunningCostId"
@@ -148,13 +148,13 @@
 
     @*Robot Assumptions*@
     <div>
-        <h2>Robot Assumptions</h2>
+        <h2>Automation Assumptions</h2>
 
         <div class="d-flex d-flex-guttered">
             @await Html.PartialAsync("Elements/_LabeledDiv",
                 new Element
                 {
-                    Title = "Robot Working",
+            Title = "Automation Working",
                     Suffix = "hours/day",
                     Name = "Business.Idea.RobotWorkHourDay",
                     Value = Model.RobotWorkHourDay?.ToString(),
@@ -173,7 +173,7 @@
             @await Html.PartialAsync("Elements/_LabeledDiv",
                 new Element
                 {
-                    Title = "Robot Working",
+            Title = "Automation Working",
                     Suffix = "day/year",
                     Name = "Business.Idea.RobotWorkDayYear",
                     Value = Model.RobotWorkDayYear?.ToString(),
@@ -190,7 +190,7 @@
             @await Html.PartialAsync("Elements/_LabeledDiv",
                 new Element
                 {
-                    Title = "Robot Speed Multiplier",
+            Title = "Automation Speed Multiplier",
                     Name = "Business.Idea.RobotSpeedMultiplier",
                     Value = Model.RobotSpeedMultiplier?.ToString(),
                     InvalidFeedback = "",
@@ -230,7 +230,7 @@
             @await Html.PartialAsync("Elements/_LabeledDiv",
                 new Element
                 {
-                    Title = "AHT Robot Per Transaction",
+            Title = "AHT Automation Per Transaction",
                     Suffix = "minutes",
                     Name = "Business.Idea.AHTRobot",
                     Value = Model.AHTRobot?.ToString("#0.00"),
@@ -256,7 +256,7 @@
     <tr>
         <td style="border-top: none; border-left: none;"></td>
         <th colspan="2">Human</th>
-        <th colspan="2">Automated (Robot)</th>
+                <th colspan="2">Automated (Automation)</th>
     </tr>
     <tr>
         <th>Category</th>

@@ -1,5 +1,20 @@
 ﻿
-function dateRangeClicked(event){
+function dateRangeClicked(event) {
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+        }, function (start, end, label) {
+            debugger
+            const startDatepicker = document.getElementById("startDatepicker");
+            startDatepicker.value = start.format('MM/DD/YYYY');
+            const endDatepicker = document.getElementById("endDatepicker");
+            endDatepicker.value = end.format('MM/DD/YYYY');
+            //console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+        });
+    });
     $('#exampleModalCenter').modal('show');
 }
 
@@ -32,12 +47,16 @@ function onRangeFilter() {
         startDatepicker.disabled = false;
         const endDatepicker = document.getElementById("endDatepicker");
         endDatepicker.disabled = false;
+        const daterange = document.getElementById("daterange");
+        daterange.disabled = false;
     }
-    else{
+    else {
         const startDatepicker = document.getElementById("startDatepicker");
         startDatepicker.disabled = true;
         const endDatepicker = document.getElementById("endDatepicker");
         endDatepicker.disabled = true;
+        const daterange = document.getElementById("daterange");
+        daterange.disabled = true;
     }
 }
 
@@ -280,6 +299,21 @@ function reRenderFilterOptionModal() {
 
 //workshops filters behaviours
 function showWorkshopModal() {
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+        }, function (start, end, label) {
+            debugger
+            const startDatepicker = document.getElementById("startDatepicker");
+            startDatepicker.value = start.format('MM/DD/YYYY');
+            const endDatepicker = document.getElementById("endDatepicker");
+            endDatepicker.value = end.format('MM/DD/YYYY');
+            //console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+        });
+    });
     $('#workshopFilterModal').modal('show');
 }
 

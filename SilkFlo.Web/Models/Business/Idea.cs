@@ -281,7 +281,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region AHT Robot
-        [DisplayName("AHT Robot")]
+        [DisplayName("AHT Automation")]
         public decimal? AHTRobot
         {
             get => _core.AHTRobot;
@@ -923,7 +923,7 @@ namespace SilkFlo.Web.Models.Business
 
         #region Will the RPA access or process sensitive personal data?
         [Required]
-        [DisplayName("Will the RPA access or process sensitive personal data?")]
+        [DisplayName("Will the  access or process sensitive personal data?")]
         public bool IsDataSensitive
         {
             get => _core.IsDataSensitive;
@@ -959,9 +959,9 @@ namespace SilkFlo.Web.Models.Business
         public bool IsDraft_IsInValid { get; set; }
         #endregion
 
-        #region Will the RPA access high-risk / high-exposure IT systems?
+        #region Will the access high-risk / high-exposure IT systems?
         [Required]
-        [DisplayName("Will the RPA access high-risk / high-exposure IT systems?")]
+        [DisplayName("Will the access high-risk / high-exposure IT systems?")]
         public bool IsHighRisk
         {
             get => _core.IsHighRisk;
@@ -1256,7 +1256,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Speed Multiplier
-        [DisplayName("Robot Speed Multiplier")]
+        [DisplayName("Automation Speed Multiplier")]
         public decimal? RobotSpeedMultiplier
         {
             get => _core.RobotSpeedMultiplier;
@@ -1274,7 +1274,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Work Day Year
-        [DisplayName("Robot Work Day Year")]
+        [DisplayName("Automation Work Day Year")]
         public decimal? RobotWorkDayYear
         {
             get => _core.RobotWorkDayYear;
@@ -1292,7 +1292,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Work Hour Day
-        [DisplayName("Robot Work Hour Day")]
+        [DisplayName("Automation Work Hour Day")]
         public decimal? RobotWorkHourDay
         {
             get => _core.RobotWorkHourDay;

@@ -120,7 +120,7 @@ namespace SilkFlo.Web.Models.Business
 
             businessRoleCustom = new Data.Core.Domain.Business.Role
             {
-                Name = "RPA Developer",
+                Name = "Automation Developer",
                 Sort = 0,
                 Client = this.GetCore(),
             };

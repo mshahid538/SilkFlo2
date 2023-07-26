@@ -12,7 +12,7 @@
     {
         @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
         {
-            Title = "RPA Software Costs",
+    Title = "Automation Software Costs",
             DeleteOnClick = javascriptNamespace + "Delete_Click ();",
             DeleteName = "DeleteButton",
 
@@ -26,7 +26,7 @@
     }
     else
     {
-        <h2 style="margin-top:0 !important;">RPA Software Costs</h2>
+        <h2 style="margin-top:0 !important;">Automation Software Costs</h2>
         @await Html.PartialAsync("Business/Idea/Edit/CostBenefit/CostEstimates/RPASoftwareCosts/_NoRows")
     }
 </div>

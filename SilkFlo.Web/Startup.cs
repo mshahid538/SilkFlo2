@@ -104,7 +104,7 @@ namespace SilkFlo.Web
                                                   "Program Manager",
                                                   "Idea Approver",
                                                   "Authorised User",
-                                                  "RPA Sponsor",
+                                                  "Automation Sponsor",
                                                   "Standard User",
                                                   "Agency User",
                                                   "Agency Administrator"));
@@ -116,7 +116,7 @@ namespace SilkFlo.Web
                                                               "Program Manager",
                                                               "Idea Approver",
                                                               "Authorised User",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Standard User",
                                                               "Agency User"));
 
@@ -127,7 +127,7 @@ namespace SilkFlo.Web
                                                               "Program Manager",
                                                               "Idea Approver",
                                                               "Authorised User",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Standard User",
                                                               "Agency User"));
 
@@ -195,7 +195,7 @@ namespace SilkFlo.Web
                                                               "Administrator",
                                                               "Account Owner",
                                                               "Program Manager",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Agency User"));
 
                 options.AddPolicy(Policy.ViewTenantDashboards,
@@ -203,7 +203,7 @@ namespace SilkFlo.Web
                                                               "Administrator",
                                                               "Account Owner",
                                                               "Program Manager",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Agency User"));
 
                 options.AddPolicy(Policy.ViewCostInfoInAutomationPipeline,
@@ -212,7 +212,7 @@ namespace SilkFlo.Web
                                                                   "Account Owner",
                                                                   "Program Manager",
                                                                   "Authorised User",
-                                                                  "RPA Sponsor",
+                                                                  "Automation Sponsor",
                                                                   "Agency User"));
 
 
