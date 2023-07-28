@@ -308,7 +308,24 @@
 
 
     <div silkflo-url="User/GetInviteTeamMemberModal"></div>
-
-
+   
+    
 </body>
+<script>
+    $(function () {
+        $('input[name="dtRange"]').daterangepicker({
+            opens: 'left',
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+        }, function (start, end, label) {
+
+            //const startDatepicker = document.getElementById("startDatepicker");
+            //startDatepicker.value = start.format('MM/DD/YYYY');
+            //const endDatepicker = document.getElementById("endDatepicker");
+            //endDatepicker.value = end.format('MM/DD/YYYY');
+            console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+        });
+    });
+</script>
 </html>
