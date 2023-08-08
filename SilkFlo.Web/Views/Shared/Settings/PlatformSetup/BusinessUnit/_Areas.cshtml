@@ -3,12 +3,13 @@
      onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();">
     + Add Area
 </div>
+<hr style="margin: 0px;color: #5f5f5f;background-color: #5f5f5f;" />
 @foreach (var team in Model)
 {
     var url = "GetSubAreas/teamId/" + @team.Id;
 
     <div class="row" style="width:100%; margin-left: 0px; padding:0px;">
-        <div class="col-11" url="@url" style="padding:5px;"
+        <div class="col-11" url="@url" style="padding:8px 15px"
              column="Area"
              name="Business.Team"
              id="@team.Id"
@@ -20,8 +21,8 @@
                 <input name="Business.Team.Id" type="hidden" value="@team.Id" />
                 <input name="Business.Team.DepartmentId" type="hidden" value="@team.DepartmentId" />
             </div>
-        <div class="col-1" style="padding: 5px;">
-             <img src="~/Icons/delete.png" id="@team.Id" width="24px" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
+        <div class="col-1" style="padding:8px 5px">
+             <img src="~/Icons/delete.png" id="@team.Id" width="20px" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
          </div>
     </div>
 

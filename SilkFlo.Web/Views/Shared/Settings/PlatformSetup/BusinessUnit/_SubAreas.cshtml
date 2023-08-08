@@ -3,10 +3,11 @@
      onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();">
     + Add Sub-Area
 </div>
+<hr style="margin: 0px;color: #5f5f5f;background-color: #5f5f5f;" />
 @foreach (var process in Model)
 {
    <div class="row" style="width:100%; margin-left: 0px;padding:0px;">
-        <div class="col-10" column="SubArea" style="padding:5px;"
+        <div class="col-10" column="SubArea" style="padding:8px 15px"
          name="Business.Process"
          id="@process.Id"
          ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click(event);"
@@ -16,8 +17,8 @@
         <input name="Business.Process.Id" type="hidden" value="@process.Id" />
         <input name="Business.Process.TeamId" type="hidden" value="@process.TeamId" />
     </div>
-    <div class="col-1" style="padding:5px;">
-    <img src="~/Icons/delete.png" id="@process.Id" width="24px" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
+        <div class="col-1" style="padding:8px 5px">
+    <img src="~/Icons/delete.png" id="@process.Id" width="20px" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
         </div>
         </div>
     <hr style="margin: 0px;color: #5f5f5f;background-color: #5f5f5f;" />
