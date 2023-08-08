@@ -1,5 +1,33 @@
 @model List<SilkFlo.Web.Models.Business.Department>
+<style>
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover {
+        /* background: var(--bs-gray-light); */
+        color: black !important;
+        background-color: #f1f1f1 !important;
+    }
 
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]:hover{
+        color: black !important;
+        background-color: #f1f1f1 !important;
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select {
+        background: #f8f9fa;
+    }
+
+        div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Department"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Team"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Process"].select {
+            color: black !important;
+            background-color: #f1f1f1 !important;
+        }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Team"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Process"].select {
+        color: black !important;
+        background-color: #f1f1f1 !important;
+    }
+    /* .listbtn:hover{
+        color:white;
+    }*/
+</style>
 <div id="Settings.PlatformSetup.BusinessUnits.Container"
      asp-policy="Manage Tenant Settings">
 
@@ -12,30 +40,31 @@
                SearchId = "Settings.PlatformSetup.BusinessUnits.Search.Id",
                SearchPlaceHolder = "Search Business Units ...",
 
-               EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();",
-               EditName = "EditButton",
+               //EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();",
+               //EditName = "EditButton",
 
                SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_Click ();",
-               SaveName = "SaveButton",
+               SaveName = "SaveButton", NewClass="btn btn-warning",
 
-               DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();",
-               DeleteName = "DeleteButton",
+               //DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();",
+               //DeleteName = "DeleteButton", 
 
                CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click ();",
-               CancelName = "CancelButton",
+               CancelName = "CancelButton"
 
-               NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
-                NewName = "NewButton"
+        //       NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
+        //NewName = "NewButton", NewClass="btnSubmit btn btn-warning"
            })
 
         
 
             <div name="Settings.PlatformSetup.BusinessUnits"
-                 class="d-flex-guttered flex-wrap">
+             class="d-flex-guttered flex-wrap col-12" style="background-color: white;">
 
- 
 
-                <div name="BusinessUnit" style="min-width: 150px;">
+
+            <div name="BusinessUnit" class="col-4 p-0 m-0">
+                @*style="min-width: 150px;">*@
                     
                     <div name="Header"
                         onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
@@ -48,12 +77,12 @@
                     </div>
 
                 </div>
-             
-                
 
-                <div name="Area" style="min-width: 150px; margin-left:">
-                    
-                    <div name="Header"
+
+
+            <div name="Area" class="col-4 p-0 m-0">
+                @* style="min-width: 150px; margin-left:">*@
+                <div name="Header"
                         onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
                         Area
                     </div>
@@ -63,14 +92,15 @@
                     </div>
 
                 </div>
-            
-                
 
-                <div name="SubArea" style="min-width: 150px;">
+
+
+            <div name="SubArea" class="col-4 p-0 m-0">
+                @*style="min-width: 150px;">*@
                     
                     <div name="Header"
                         onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
-                        Sub-Area
+                        Sub Area
                     </div>
                     
                     <div name="List">
