@@ -241,22 +241,22 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
 
 
-        //const elementName = 'NewButton';
-        //const newButtonElement = contentElement.querySelector(`[name="${elementName}"]`);
+        const elementName = 'NewButton';
+        const newButtonElement = contentElement.querySelector(`[name="${elementName}"]`);
 
-        //// Guard Clause
-        //if (!newButtonElement)
-        //{
-        //    console.log(`${logPrefix}Element with name ${elementName} missing`);
-        //    return;
-        //}
+        // Guard Clause
+        if (!newButtonElement)
+        {
+            console.log(`${logPrefix}Element with name ${elementName} missing`);
+            return;
+        }
 
 
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewToolTip = text;
-        //SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewButtonElement = newButtonElement;
+        SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewButtonElement = newButtonElement;
 
-        //newButtonElement.onmousemove = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.ShowNewToolTip;
-        //newButtonElement.onmouseout = Delaney.UI.ToolTip.Hide;
+        newButtonElement.onmousemove = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.ShowNewToolTip;
+        newButtonElement.onmouseout = Delaney.UI.ToolTip.Hide;
 
     },
 
@@ -470,14 +470,14 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         }
 
 
-        //let name = 'NewButton';
-        //const newButton = contentElement.querySelector(`[name="${name}"]`);
-
-        //// Guard Clause
-        //if (!newButton) {
-        //    console.log(`${logPrefix}Element with name ${name} missing`);
-        //    return;
-        //}
+        let name = 'NewButton';
+        const newButton = contentElement.querySelector(`[name="${name}"]`);
+        
+        // Guard Clause
+        if (!newButton) {
+            console.log(`${logPrefix}Element with name ${name} missing`);
+            return;
+        }
 
 
         //name = 'EditButton';
@@ -502,12 +502,12 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
 
         // Show/Hide New Button
-        //if (SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedHeader) {
-        //    newButton.classList.remove('hide');
-        //}
-        //else {
-        //    newButton.classList.add('hide');
-        //}
+        if (SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedHeader) {
+            newButton.classList.remove('hide');
+        }
+        else {
+            newButton.classList.add('hide');
+        }
 
 
         // Show/Hide Edit Button
@@ -526,7 +526,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
 
 
-        let name = 'SaveButton';
+         name = 'SaveButton';
         const saveButton = contentElement.querySelector(`[name="${name}"]`);
 
         // Guard Clause
@@ -556,9 +556,9 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             cancelButton.classList.remove('hide');
             saveButton.classList.remove('hide');
 
-            //newButton.classList.add('hide');
-            editButton.classList.add('hide');
-            deleteButton.classList.add('hide');
+            newButton.classList.add('hide');
+            //editButton.classList.add('hide');
+            //deleteButton.classList.add('hide');
         }
         else {
             cancelButton.classList.add('hide');
@@ -566,12 +566,12 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
 
             //// New Button
-            //if (SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedColumn) {
-            //    newButton.classList.remove('hide');
-            //}
-            //else {
-            //    newButton.classList.add('hide');
-            //}
+            if (SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedColumn) {
+                newButton.classList.remove('hide');
+            }
+            else {
+                newButton.classList.add('hide');
+            }
 
 
 
@@ -780,7 +780,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
     {
         const name = event.target.getAttribute('name');
 
-        if (name === 'EditButton' || name === 'SaveButton' || name === 'CancelButton' )//|| name === 'NewButton' )
+        if (name === 'EditButton' || name === 'SaveButton' || name === 'CancelButton' || name === 'NewButton' )
         {
             return;
         }
@@ -824,6 +824,9 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
     // Cancel existing edit.
     New_Click: function ()
     {
+
+      //  let name = 'NewButton';
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click: ';
 
 
@@ -980,6 +983,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     Cancel_Click: function ()
     {
+       
         //window.removeEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.LostFocus_Click);
 
         // Guard Clause
@@ -1006,6 +1010,14 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DivCell = null;
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.OldNameCell = null;
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateView();
+            const element = document.querySelector("[name='NewButton']");
+           
+            if (element) {
+                // Replace 'classToRemove' with the actual class name you want to remove
+                element.classList.remove('hide');
+            } else {
+                console.error("Element not found.");
+            }
             return;
         }
 
@@ -1055,7 +1067,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateView();
 
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SetMessage('Cancelled', 'text-warning');
-
+       
     },
 
     Save_Click: function ()
@@ -1528,16 +1540,16 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateView();
 
 
-        //name = 'NewButton';
-        //const elementNewButton = parent.querySelector(`[name="${name}"]`);
+        name = 'NewButton';
+        const elementNewButton = parent.querySelector(`[name="${name}"]`);
 
-        //// Guard Clause
-        //if (!elementNewButton)
-        //{
-        //    console.log(`${logPrefix}Element with name ${name} missing`);
-        //    return;
-        //}
+        // Guard Clause
+        if (!elementNewButton)
+        {
+            console.log(`${logPrefix}Element with name ${name} missing`);
+            return;
+        }
 
-        //elementNewButton.classList.remove('hide');
+        elementNewButton.classList.remove('hide');
     }
 };

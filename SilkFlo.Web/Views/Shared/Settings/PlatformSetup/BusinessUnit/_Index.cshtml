@@ -24,9 +24,12 @@
         color: black !important;
         background-color: #f1f1f1 !important;
     }
-    /* .listbtn:hover{
-        color:white;
-    }*/
+
+    .btn {
+        
+        border-radius: 5px;
+      
+    }
 </style>
 <div id="Settings.PlatformSetup.BusinessUnits.Container"
      asp-policy="Manage Tenant Settings">
@@ -44,16 +47,16 @@
                //EditName = "EditButton",
 
                SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_Click ();",
-               SaveName = "SaveButton", NewClass="btn btn-warning",
+        SaveName = "SaveButton", SaveClass="btnSubmit btn btn-warning hide",
 
                //DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();",
                //DeleteName = "DeleteButton", 
 
                CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click ();",
-               CancelName = "CancelButton"
+        CancelName = "CancelButton", CancelClass="btn btn btn-danger hide",
 
-        //       NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
-        //NewName = "NewButton", NewClass="btnSubmit btn btn-warning"
+               NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
+               NewName = "NewButton", NewClass="btnSubmit btn btn-warning",
            })
 
         
