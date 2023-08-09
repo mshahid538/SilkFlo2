@@ -1,5 +1,5 @@
 @model List<SilkFlo.Web.Models.Business.Team>
-<div name="button" style="color:#a6a6a6" class="listbtn"
+<div name="button" id="btnNewArea" style="color:#a6a6a6; padding:10px 15px;" class="listbtn"
      onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();">
     + Add Area
 </div>
@@ -9,7 +9,7 @@
     var url = "GetSubAreas/teamId/" + @team.Id;
 
     <div class="row" style="width:100%; margin-left: 0px; padding:0px;">
-        <div class="col-11" url="@url" style="padding:8px 15px"
+        <div class="col-11" url="@url" style="padding:10px 15px"
              column="Area"
              name="Business.Team"
              id="@team.Id"
@@ -21,7 +21,7 @@
                 <input name="Business.Team.Id" type="hidden" value="@team.Id" />
                 <input name="Business.Team.DepartmentId" type="hidden" value="@team.DepartmentId" />
             </div>
-        <div class="col-1" style="padding:8px 5px">
+        <div class="col-1" style="padding:10px 5px">
              <img src="~/Icons/delete.png" id="@team.Id" width="20px" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
          </div>
     </div>

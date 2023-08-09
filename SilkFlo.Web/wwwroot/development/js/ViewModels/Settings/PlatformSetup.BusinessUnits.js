@@ -972,8 +972,9 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         inputId.name = idValue;
         inputId.type = 'hidden';
         div.appendChild(inputId);
-
-
+        divTextBox.focus();
+        divTextBox.scrollIntoView({ behavior: "smooth" });
+        divTextBox.scrollTop = 0;
         //window.removeEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.LostFocus_Click);
 
 
