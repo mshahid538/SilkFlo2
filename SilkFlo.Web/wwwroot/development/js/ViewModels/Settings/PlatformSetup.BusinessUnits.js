@@ -11,7 +11,7 @@ if (!SilkFlo.ViewModels.Settings.PlatformSetup)
 
 // BusinessUnits Namespace: Code to manage the content inside the Business Units tab
 SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
-
+  
     SelectedColumn: null,
     SelectedHeader: null,
     SelectedCell: null,
@@ -334,7 +334,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     DeSelectCells: function (listElement)
     {
-        
+        debugger
         // Guard Clause
         if (!listElement)
         {
@@ -358,7 +358,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     DeSelectrRows: function (list) {
 
-        
+      
         // Guard Clause
         if (!list) {
             const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectrRows: ';
@@ -371,7 +371,10 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         }
         const length = ListChild.length;
         for (let i = 0; i < length; i++) {
-            const RowsChild = ListChild[i].children;
+            const selectedRow = ListChild[i];
+            selectedRow.classList.remove('selectedRow');
+            selectedRow.classList.remove('select');
+            const RowsChild = selectedRow.children;
             if (!RowsChild) {
                 continue;
             }
@@ -406,6 +409,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader(headerElement); 
         //SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectCells(columnElement);
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell = element;
+        listElement.classList.add('selectedRow');
         element.classList.add('select');
 
         const name = element.getAttribute('name');
@@ -845,16 +849,24 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         let nameValue = 'Business.Department.Name';
         let idValue = 'Business.Department.Id';
         const div = document.createElement('div');
+        
         div.setAttribute('url', '');
         div.setAttribute('column', column);
         div.setAttribute('name', newName);
         if (targetName) {
             div.setAttribute('targetName', targetName);
         }
+        div.classList.add('selectedRow');
+
+     
+       
         div.classList.add('select');
         div.addEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click);
         div.addEventListener('dblclick', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click);
-        listElement.appendChild(div);
+       
+        //listElement.appendChild(div);
+
+
         const divTextBox = document.createElement('div');
         divTextBox.setAttribute('name', nameValue);
         divTextBox.setAttribute('role', 'textbox');
@@ -867,10 +879,23 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         inputId.name = idValue;
         inputId.type = 'hidden';
         div.appendChild(inputId);
+       
+
+
+
+     
+
+        const lastDivElement = listElement.lastElementChild;
+
+        // Insert the new div element before the last div element
+        listElement.insertBefore(div, lastDivElement);
+
+
         divTextBox.focus();
         divTextBox.scrollIntoView({ behavior: "smooth" });
         divTextBox.scrollTop = 0;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell = div;
+        SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.selectedRow = div;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();
     },
     NewArea_Click: function () {
@@ -929,8 +954,10 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         div.classList.add('select');
         div.addEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click);
         div.addEventListener('dblclick', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click);
-        listElement.appendChild(div);
+        const lastDivElement = listElement.lastElementChild;
 
+        // Insert the new div element before the last div element
+        listElement.insertBefore(div, lastDivElement);
 
         const divTextBox = document.createElement('div');
         divTextBox.setAttribute('name', nameValue);
@@ -1012,7 +1039,10 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         div.classList.add('select');
         div.addEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click);
         div.addEventListener('dblclick', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click);
-        listElement.appendChild(div);
+        const lastDivElement = listElement.lastElementChild;
+
+        // Insert the new div element before the last div element
+        listElement.insertBefore(div, lastDivElement);
 
 
         const divTextBox = document.createElement('div');
@@ -1386,7 +1416,6 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
     Save_CallBack: function (str)
     {
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_CallBack: ';
-
 
         let isNew = false;
         if (str)

@@ -1,34 +1,59 @@
 @model List<SilkFlo.Web.Models.Business.Department>
 <style>
+    .bg-light {
+        background-color: #FFFFFF !important;
+    }
     div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover {
         /* background: var(--bs-gray-light); */
         color: black !important;
-        background-color: #f1f1f1 !important;
+        background-color: #EDEDED !important;
+        border-right: solid 4px #E73A3A !important;
+       
     }
 
     div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]:hover{
         color: black !important;
-        background-color: #f1f1f1 !important;
+        background-color: #EDEDED !important;
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department.Row"].selectedRow,
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.SubArea.Row"].selectedRow,
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Area.Row"].selectedRow {
+        color: black !important;
+        background-color: #EDEDED !important;
+        border-right: solid 4px #E73A3A !important;
     }
 
     div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select {
-        background: white !important;
+        background: #ffffff !important;
     }
 
+    
         div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Department"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Team"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Process"].select {
             color: black !important;
-            background-color: #f1f1f1 !important;
+            background-color: #EDEDED !important;
+            /*border-right: solid 4px #E73A3A !important;*/
         }
 
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover .child-div {
+        color: black !important;
+        font-weight:500;/* Change the color to your desired color */
+    }
     div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Team"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Process"].select {
         color: black !important;
-        background-color: #f1f1f1 !important;
+        background-color: #EDEDED !important;
+        /*border-right: solid 4px #E73A3A !important;*/
     }
 
     div[name="Settings.PlatformSetup.BusinessUnits"] > div {
-        border: solid 1px #dfe0eabd !important;
+        border: solid 1px #EDEDED !important;
     }
 
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:hover .child-div {
+        color: black !important;
+        font-weight: 500;
+    }
     .p-0 {
         padding: 0 !important;
     }
