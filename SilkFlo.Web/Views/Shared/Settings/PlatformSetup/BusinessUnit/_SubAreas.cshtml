@@ -2,7 +2,7 @@
 
 @foreach (var process in Model)
 {
-    <div class="row" name="Business.SubArea.Row" style="width:100%; margin-left: 0px;padding:0px;">
+    <div class="row" id="@process.Id" name="Business.SubArea.Row" style="width:100%; margin-left: 0px;padding:0px;">
         <div class="col-10" column="SubArea" style="padding:10px 15px"
          name="Business.Process"
          id="@process.Id"
@@ -13,7 +13,7 @@
         <input name="Business.Process.Id" type="hidden" value="@process.Id" />
         <input name="Business.Process.TeamId" type="hidden" value="@process.TeamId" />
     </div>
-        <div class="col-1" style="padding:10px 5px">
+        <div class="col-1" style="padding:10px 5px" id="@process.Id" name="Business.Process">
             <span title="Delete">
                 <svg xmlns="http://www.w3.org/2000/svg" id="@process.Id" width="16" height="16" fill="currentColor" class="bi bi-trash child-div" viewBox="0 0 16 16" style="color:#A1A1AE;" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
