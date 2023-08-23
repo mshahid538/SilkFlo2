@@ -4,7 +4,46 @@
 
     var isReadOnly = Model.IsReadOnly.ToString().ToLower();
 }
+<style>
+    .dayRangeEnd {
+        border-top-right-radius: calc(var(--border-radius)*2/3);
+        border-bottom-right-radius: calc(var(--border-radius)*2/3);
+        background-color: #ff8a00 !important;
+        color: #fff;
+    }
 
+    .dayRangeStart {
+        border-top-left-radius: calc(var(--border-radius)*2/3);
+        border-bottom-left-radius: calc(var(--border-radius)*2/3);
+        background-color: #ff8a00 !important;
+        color: #fff;
+        position: relative;
+        transition: all .3s ease-in-out;
+    }
+
+    .dayRangeMiddle {
+        background-color: #ff8a0066 !important;
+        color: #161616 !important;
+        transition: all .3s ease-in-out;
+    }
+
+    .btn-day:hover {
+        background-color: #ff8a00 !important; /* New background color on hover */
+        border-color: #ff8a00 !important; /* New border color on hover */
+        /* You can adjust the colors to your preference */
+    }
+
+
+    .datePicker-btn-month, .datePicker-btn-previous, .datePicker-btn-next {
+        background-color: #ff8a00 !important; /* New background color on hover */
+        border-color: #ff8a00 !important; /* New border color on hover */
+    }
+
+    .btn.btn-day.btn-danger {
+        background-color: #ff8a00 !important; /* New background color on hover */
+        border-color: #ff8a00 !important; /* New border color on hover */
+    }
+</style>
 
     <h2>Estimated Build Timeline</h2>
     <div class="gantt-table table-responsive text-nowrap">

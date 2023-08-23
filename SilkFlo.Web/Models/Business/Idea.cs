@@ -923,7 +923,7 @@ namespace SilkFlo.Web.Models.Business
 
         #region Will the RPA access or process sensitive personal data?
         [Required]
-        [DisplayName("Will the  access or process sensitive personal data?")]
+        [DisplayName("Will the RPA access or process sensitive personal data?")]
         public bool IsDataSensitive
         {
             get => _core.IsDataSensitive;
@@ -959,9 +959,9 @@ namespace SilkFlo.Web.Models.Business
         public bool IsDraft_IsInValid { get; set; }
         #endregion
 
-        #region Will the access high-risk / high-exposure IT systems?
+        #region Will the RPA access high-risk / high-exposure IT systems?
         [Required]
-        [DisplayName("Will the access high-risk / high-exposure IT systems?")]
+        [DisplayName("Will the RPA access high-risk / high-exposure IT systems?")]
         public bool IsHighRisk
         {
             get => _core.IsHighRisk;

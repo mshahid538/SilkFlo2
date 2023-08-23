@@ -3,6 +3,9 @@ function dateRangeClicked(event) {
     $(function () {
         $('input[name="daterange"]').daterangepicker({
             opens: 'left',
+            showDropdowns: true,
+            minYear: 2010,
+            maxYear: parseInt(moment().format('YYYY'), 10),
             locale: {
                 format: 'DD-MM-YYYY'
             },
@@ -302,6 +305,9 @@ function showWorkshopModal() {
     $(function () {
         $('input[name="daterange"]').daterangepicker({
             opens: 'left',
+            showDropdowns: true,
+            minYear: 2010,
+            maxYear: parseInt(moment().format('YYYY'), 10),
             locale: {
                 format: 'DD-MM-YYYY'
             },

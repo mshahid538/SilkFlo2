@@ -1,91 +1,156 @@
 @model List<SilkFlo.Web.Models.Business.Department>
+<style>
+    .bg-light {
+        background-color: #FFFFFF !important;
+    }
 
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover {
+        /* background: var(--bs-gray-light); */
+        color: black !important;
+        background-color: #EDEDED !important;
+        /*border-right: solid 4px #E73A3A !important;*/
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]:hover {
+        color: black !important;
+        background-color: #EDEDED !important;
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department.Row"].selectedRow,
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.SubArea.Row"].selectedRow,
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Area.Row"].selectedRow {
+        color: black !important;
+        background-color: #EDEDED !important;
+        /*border-right: solid 4px #E73A3A !important;*/
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select {
+        background: #ffffff !important;
+    }
+
+
+        div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Department"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Team"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Process"].select {
+            color: black !important;
+            background-color: #EDEDED !important;
+            /*border-right: solid 4px #E73A3A !important;*/
+        }
+
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover .child-div,
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div.selectedRow .child-div {
+        color: black !important;
+        font-weight: 500;
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Team"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Process"].select {
+        color: black !important;
+        background-color: #EDEDED !important;
+        /*border-right: solid 4px #E73A3A !important;*/
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] > div {
+        border: solid 1px #EDEDED !important;
+    }
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:hover .child-div {
+        color: black !important;
+        font-weight: 500;
+    }
+
+    .p-0 {
+        padding: 0 !important;
+    }
+
+    .btn {
+        border-radius: 5px !important;
+    }
+</style>
 <div id="Settings.PlatformSetup.BusinessUnits.Container"
      asp-policy="Manage Tenant Settings">
 
 
     <div class="p-3 border bg-light silkflo_tile">
-        
+
         @await Html.PartialAsync("Elements/_ToolBar", new SilkFlo.Web.ViewModels.Elements.ToolBar.Bar
-           {
-               SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Search();",
-               SearchId = "Settings.PlatformSetup.BusinessUnits.Search.Id",
-               SearchPlaceHolder = "Search Business Units ...",
+        {
+        SearchOnKeyUp = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Search();",
+        SearchId = "Settings.PlatformSetup.BusinessUnits.Search.Id",
+        SearchPlaceHolder = "Search Business Units ...",
 
-               EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();",
-               EditName = "EditButton",
+        //EditOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();",
+        //EditName = "EditButton",
 
-               SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_Click ();",
-               SaveName = "SaveButton",
+        SaveOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_Click ();",
+        SaveName = "SaveButton", SaveClass="btnSubmit btn btn-warning hide",
 
-               DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();",
-               DeleteName = "DeleteButton",
+        //DeleteOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();",
+        //DeleteName = "DeleteButton",
 
-               CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click ();",
-               CancelName = "CancelButton",
+        CancelOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click ();",
+        CancelName = "CancelButton", CancelClass="btn btn btn-danger hide",
 
-               NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
-                NewName = "NewButton"
-           })
+        NewOnClick = "SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click ();",
+        NewName = "NewButton", NewClass="btnSubmit btn btn-warning",
+        })
 
-        
 
-            <div name="Settings.PlatformSetup.BusinessUnits"
-                 class="d-flex-guttered flex-wrap">
 
- 
+        <div name="Settings.PlatformSetup.BusinessUnits"
+             class="d-flex-guttered flex-wrap col-12" style="background-color: white;">
 
-                <div name="BusinessUnit" style="min-width: 150px;">
-                    
-                    <div name="Header"
-                        onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
-                        Business Unit
-                    </div>
-                    
-                    <div name="List">
-                        @await Html.PartialAsync("Settings/PlatformSetup/BusinessUnit/_BusinessUnits", Model)
 
-                    </div>
+
+            <div name="BusinessUnit" class="col-4 p-0 m-0">
+                @*style="min-width: 150px;">*@
+
+                <div name="Header"
+                     onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
+                    Business Unit
+                </div>
+
+                <div name="List">
+                    @await Html.PartialAsync("Settings/PlatformSetup/BusinessUnit/_BusinessUnits", Model)
 
                 </div>
-             
-                
-
-                <div name="Area" style="min-width: 150px; margin-left:">
-                    
-                    <div name="Header"
-                        onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
-                        Area
-                    </div>
-                    
-                    <div name="List">
-                        
-                    </div>
-
-                </div>
-            
-                
-
-                <div name="SubArea" style="min-width: 150px;">
-                    
-                    <div name="Header"
-                        onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
-                        Sub-Area
-                    </div>
-                    
-                    <div name="List">
-                        
-                    </div>
-
-                </div>
-                
-
-                
 
             </div>
+
+
+
+            <div name="Area" class="col-4 p-0 m-0">
+                @* style="min-width: 150px; margin-left:">*@
+                <div name="Header"
+                     onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
+                    Area
+                </div>
+
+                <div name="List">
+                </div>
+
+            </div>
+
+
+
+            <div name="SubArea" class="col-4 p-0 m-0">
+                @*style="min-width: 150px;">*@
+
+                <div name="Header"
+                     onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click ( this );">
+                    Sub Area
+                </div>
+
+                <div name="List">
+                </div>
+
+            </div>
+
+
+
+
+        </div>
     </div>
-    
+
     @await Html.PartialAsync(
-        "Elements/_FooterStatusMessage",
-        "Message")
+    "Elements/_FooterStatusMessage",
+    "Message")
 </div>

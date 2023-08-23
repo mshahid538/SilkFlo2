@@ -361,8 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/SilkFlo.Web/wwwroot/production/js/SilkFlo.min.js
-/SilkFlo.Web/wwwroot/development/js/datePicker/moment.min.js
-/SilkFlo.Web/wwwroot/development/js/datePicker/daterangepicker.min.js
-/SilkFlo.Web/wwwroot/development/css/daterangepicker.css
-/SilkFlo.Web/wwwroot/production/css/SilkFlo.min.css
