@@ -7,7 +7,7 @@
         /* background: var(--bs-gray-light); */
         color: black !important;
         background-color: #EDEDED !important;
-        border-right: solid 4px #E73A3A !important;
+        /*border-right: solid 4px #E73A3A !important;*/
        
     }
 
@@ -21,7 +21,7 @@
     div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Area.Row"].selectedRow {
         color: black !important;
         background-color: #EDEDED !important;
-        border-right: solid 4px #E73A3A !important;
+        /*border-right: solid 4px #E73A3A !important;*/
     }
 
     div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select {
@@ -36,7 +36,8 @@
         }
 
 
-    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover .child-div {
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover .child-div, div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div.selectedRow .child-div 
+    {
         color: black !important;
         font-weight:500;/* Change the color to your desired color */
     }

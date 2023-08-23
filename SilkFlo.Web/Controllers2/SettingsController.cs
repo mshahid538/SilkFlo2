@@ -323,7 +323,31 @@ namespace SilkFlo.Web.Controllers
         }
 
 
+        [HttpGet("/api/Settings/PlatformSetup/BusinessUnits/GetDepartments")]
+        public async Task<IActionResult> GetDepartments()
+        {
+           
 
+            try
+            {
+                var client = await GetClientAsync();
+
+                if (client == null)
+                    return NegativeFeedback();
+
+                await _unitOfWork.BusinessDepartments.GetForClientAsync(client);
+                var model = new Models.Business.Client(client);
+
+                string html = await _viewToString.PartialAsync("Shared/Settings/PlatformSetup/BusinessUnit/_BusinessUnits", model.Departments);
+
+                return Content(html);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return Content("Error fetching data");
+            }
+        }
 
         [HttpGet("/api/Settings/PlatformSetup/BusinessUnits/GetAreas/departmentId/{departmentId}")]
         public async Task<IActionResult> GetAreas(string departmentId)

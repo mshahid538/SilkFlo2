@@ -57,7 +57,7 @@ SilkFlo.Models.Abstract = {
         logErrors = true)
     {
         const logPrefix = 'SilkFlo.Models.Abstract.GetModelFromParent: ';
-
+        debugger
         // Guard Clause
         if (!parentElement)
         {

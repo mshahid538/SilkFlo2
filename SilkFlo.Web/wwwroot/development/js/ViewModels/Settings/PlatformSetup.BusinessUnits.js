@@ -1,4 +1,5 @@
 ﻿let SelectedDivRow = null;
+
 if (!SilkFlo.ViewModels)
     SilkFlo.ViewModels = {};
 
@@ -13,6 +14,8 @@ if (!SilkFlo.ViewModels.Settings.PlatformSetup)
 // BusinessUnits Namespace: Code to manage the content inside the Business Units tab
 SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
+
+  
     SelectedColumn: null,
     SelectedHeader: null,
     SelectedCell: null,
@@ -27,11 +30,14 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     EditToolTip: null,
     EditButtonElement: null,
-
+    oldID: null,
+    isAdd: null,
+    isEdit: null,
 
     // SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.GetParent
     GetParent: function ()
     {
+        
         const id = 'Settings.PlatformSetup.BusinessUnits.Container';
 
         const element = document.getElementById(id);
@@ -50,6 +56,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
     // SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SetMessage
     SetMessage: function (text, cls)
     {
+        
         const parent = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.GetParent();
 
         if (!parent)
@@ -73,6 +80,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     SelectHeader_Click: function (element)
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader_Click: ';
 
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click();
@@ -93,6 +101,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     Select_Click: function (event)
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click: ';
 
 
@@ -142,6 +151,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         
     DeSelectHeader: function (tableElement)
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectHeader';
 
         const columns = tableElement.children;
@@ -168,6 +178,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
     // Select the table header
     SelectHeader: function (headerElement)
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectHeader: ';
 
         // Guard Clause
@@ -215,6 +226,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     ShowNewToolTip: function ()
     {
+        
         const toolTip = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewToolTip;
         const element = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewButtonElement;
         Delaney.UI.ToolTip.Show(event, toolTip, element);
@@ -222,6 +234,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     UpdateNewButtonToolTip: function (text)
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateNewButtonToolTip: ';
 
         if (!text)
@@ -263,6 +276,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     UpdateEditButtonToolTip: function (text)
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateEditButtonToolTip: ';
 
         if (!text)
@@ -301,7 +315,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     UpdateDeleteButtonToolTip: function (text) {
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateDeleteButtonToolTip: ';
-
+        
         if (!text) {
             return;
         }
@@ -335,7 +349,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     DeSelectCells: function (listElement)
     {
-        debugger
+        
         // Guard Clause
         if (!listElement)
         {
@@ -358,8 +372,8 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
 
     DeSelectrRows: function (list) {
-
-      
+        
+       
         // Guard Clause
         if (!list) {
             const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectrRows: ';
@@ -451,18 +465,21 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     ShowEditToolTip: function ()
     {
+        
         const toolTip = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.EditToolTip;
         const element = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.EditButtonElement;
         Delaney.UI.ToolTip.Show(event, toolTip, element);
     },
 
     ShowDeleteToolTip: function () {
+        
         const toolTip = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeleteToolTip;
         const element = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeleteButtonElement;
         Delaney.UI.ToolTip.Show(event, toolTip, element);
     },
 
     UpdateView: function () {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateView: ';
 
         const elementId = 'Settings.PlatformSetup.BusinessUnits.Container';
@@ -593,7 +610,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     GetList: function (element)
     {
-       
+      
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.GetList: ';
 
         // Guard Clause
@@ -603,7 +620,36 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             return;
         }
 
-
+        let name = element.getAttribute('name');
+        if (!name) {
+            console.log(`${logPrefix}element parameter missing`);
+            return;
+        }
+        const contentId = 'Settings.PlatformSetup.BusinessUnits.Container';
+        const contentElement = document.getElementById(contentId);
+        let url = "";
+        let List = "List";
+        //if (name === "Business.Department") {
+        //    //url = "api/settings/Tenant/platformSetup/BusinessUnits/Department";
+        //    url = "/api/Settings/PlatformSetup/BusinessUnits/GetDepartments";
+        //    const targetTable = contentElement.querySelector(`[name=BusinessUnit]`);
+        //    if (!targetTable) {
+        //        console.log(`${logPrefix}Element with name ${targetTable} missing`);
+        //        return;
+        //    }
+        //    targetTable.style.display = 'flex';
+        //    const targetElement = targetTable.querySelector(`[name="${List}"]`);
+        //    // Guard Clause
+        //    if (!targetElement) {
+        //        console.log(`${logPrefix}Element with name ${name} missing`);
+        //        return;
+        //    }
+        //    targetElement.innerHTML = '';
+        //    SilkFlo.DataAccess.UpdateElement(
+        //        url,
+        //        null,
+        //        targetElement);
+        //}
 
         const targetTableName = element.getAttribute('targetName');
 
@@ -614,8 +660,8 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             return;
         }
 
-        const contentId = 'Settings.PlatformSetup.BusinessUnits.Container';
-        const contentElement = document.getElementById(contentId);
+      
+      
 
         // Guard Clause
         if (!contentElement)
@@ -637,8 +683,8 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
         targetTableElement.style.display = 'flex';
 
-        const name = 'List';
-        const targetElement = targetTableElement.querySelector(`[name="${name}"]`);
+      
+        const targetElement = targetTableElement.querySelector(`[name="${List}"]`);
         // Guard Clause
         if (!targetElement) {
             console.log(`${logPrefix}Element with name ${name} missing`);
@@ -646,7 +692,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         }
 
 
-        let url = element.getAttribute('url');
+       url = element.getAttribute('url');
 
         // Guard Clause
         if (!url)
@@ -700,9 +746,10 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
     Edit_Click: function ()
     {
         
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click: ';
 
-
+        isEdit = "Edit";
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click ();
         
 
@@ -737,8 +784,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             console.log(`${logPrefix}Element with name ${name} missing`);
             return;
         }
-
-
+      
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DivCell = textBoxElement;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.OldNameCell = inputNameOld;
 
@@ -832,6 +878,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     NewBusinessUnits_Click: function () {
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewBusinessUnits_Click: ';
+        oldID = null;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click();
             const elementId = 'Settings.PlatformSetup.BusinessUnits.Container';
             const element = document.getElementById(elementId);
@@ -841,6 +888,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         const listElement = columnElement.querySelector(`[name="${name}"]`);
         if (!listElement) {
             console.log(`${logPrefix}Element with name ${name} missing`);
+            isAdd = null;
             return;
         }
         name = columnElement.getAttribute('name');
@@ -849,8 +897,9 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         let targetName = 'Area';
         let nameValue = 'Business.Department.Name';
         let idValue = 'Business.Department.Id';
+        const divRow = document.createElement('div');
+
         const div = document.createElement('div');
-        
         div.setAttribute('url', '');
         div.setAttribute('column', column);
         div.setAttribute('name', newName);
@@ -858,16 +907,10 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             div.setAttribute('targetName', targetName);
         }
         div.classList.add('selectedRow');
-
-     
-       
         div.classList.add('select');
         div.addEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click);
         div.addEventListener('dblclick', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click);
-       
         //listElement.appendChild(div);
-
-
         const divTextBox = document.createElement('div');
         divTextBox.setAttribute('name', nameValue);
         divTextBox.setAttribute('role', 'textbox');
@@ -880,30 +923,24 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         inputId.name = idValue;
         inputId.type = 'hidden';
         div.appendChild(inputId);
-       
-
-
-
-     
-
         const lastDivElement = listElement.lastElementChild;
-
         // Insert the new div element before the last div element
         listElement.insertBefore(div, lastDivElement);
-
-
         divTextBox.focus();
         divTextBox.scrollIntoView({ behavior: "smooth" });
         divTextBox.scrollTop = 0;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell = div;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.selectedRow = div;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();
+        //SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectrRows(listElement);
+        this.isAdd = "Add";
     },
+
     NewArea_Click: function () {
        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewBusinessUnits_Click: ';
 
-
+        oldID = null;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click();
         const targetElement = document.getElementById('btnNewArea');
         const listElement = targetElement.parentElement;
@@ -922,7 +959,9 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
                     }
                 }
             });
+            isAdd = null;
             return;
+           
         }
 
 
@@ -983,12 +1022,15 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell = div;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();
+        //SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectrRows(listElement);
+        this.isAdd = "Add";
     },
+
     NewSubArea_Click: function () {
         
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewBusinessUnits_Click: ';
-
-
+        oldID = null;
+        isAdd = "addNew";
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click();
         const targetElement = document.getElementById('btnNewSubArea');
         const listElement = targetElement.parentElement;
@@ -1007,6 +1049,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
                     }
                 }
             });
+            isAdd = null;
             return;
         }
 
@@ -1069,6 +1112,8 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell = div;
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Edit_Click();
+        //SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectrRows(listElement);
+        this.isAdd = "Add";
     },
 
     New_Click: function ()
@@ -1077,7 +1122,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
 
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewBusinessUnits_Click();
-      //  debugger
+      //  
       ////  let name = 'NewButton';
         
       //  const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.New_Click: ';
@@ -1327,6 +1372,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     Save_Click: function ()
     {
+        
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_Click: ';
 
 
@@ -1334,19 +1380,24 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         if (!SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell)
         {
             console.log(`${logPrefix}SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.OldNameCell missing`);
+            isAdd = null;
             return;
         }
 
 
         const parent = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell;
-
-
+        debugger
+        var id = parent.getAttribute('id');
+        if (id) {
+            oldID = id;
+        }
 
         const name = parent.getAttribute('name');
 
         if (!name)
         {
             console.log(logPrefix + 'name is missing');
+            isAdd = null;
             return;
         }
 
@@ -1393,6 +1444,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         if (!model)
         {
             console.log(logPrefix + 'Model is missing');
+            isAdd = null;
             return;
         }
 
@@ -1400,7 +1452,7 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         if (!model.Name)
         {
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SetMessage('Please provide a name.', 'text-warning');
-
+            isAdd = null;
             return;
         }
 
@@ -1416,49 +1468,47 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
 
     Save_CallBack: function (str)
     {
+        debugger
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Save_CallBack: ';
-
         let isNew = false;
+        let isEdit = false;
+        if (str === "Saved Area" && this.oldID !== null) {
+            str = this.oldID;
+            isEdit = true;
+        }
+        if (str === "" && this.oldID !== null) {
+           
+            isEdit = true;
+        }
         if (str)
         {
             isNew = true;
         }
-
-
-
-
         // Guard Clause
         if (!SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell) {
             console.log(`${logPrefix}SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell missing`);
+            isAdd = null;
             return;
         }
-
-
         // Guard Clause
         if (!SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DivCell)
         {
             console.log(`${logPrefix}SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DivCell missing`);
+            isAdd = null;
             return;
         }
-
-
         // Guard Clause
         if (!SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.OldNameCell)
         {
             console.log(`${logPrefix}SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.OldNameCell missing`);
+            isAdd = null;
             return;
         }
-
-
         const selectedElement = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell;
         const textBoxElement = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DivCell;
         const oldNameElement = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.OldNameCell;
         oldNameElement.value = textBoxElement.innerHTML;
-
-
         const name = selectedElement.getAttribute('name');
-
-
         if (isNew)
         {
             let url = '';
@@ -1470,17 +1520,15 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             {
                 url = `GetSubAreas/teamId/${str}`;
             }
-
-
             if (url)
             {
                 selectedElement.setAttribute('url', url);
             }
+            
 
+          
             selectedElement.id = str;
         }
-
-
         let text = 'Saved Department';
         let idName = 'Business.Department.Id';
         if (name === 'Business.Team')
@@ -1493,31 +1541,36 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             text = 'Saved Sub-Area';
             idName = 'Business.Process.Id';
         }
-
-
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Cancel_Click();
         SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SetMessage(text, 'text-success');
-
-
-
         if (isNew)
         {
             const idProperty = selectedElement.querySelector(`[name="${idName}"]`);
             if (!idProperty) {
                 console.log(`${logPrefix}Element with name ${idName} missing`);
+                isAdd = null;
                 return;
             }
-
+            if ( this.oldID !== null) {
+                idProperty.value = oldID;
+            }
             idProperty.value = str;
-
+            
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select(selectedElement);
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.UpdateView();
             SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.GetList(selectedElement);
         }
+        
+        if (!isEdit) {
+            SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.refreshList(selectedElement)
+        }
+          
+               
+        
     },
 
     Delete_Click: function () {
-        debugger
+        
 
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click: ';
         const svgElement = event.target;
@@ -1571,65 +1624,10 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
                 'Settings.PlatformSetup.BusinessUnits.Container'
             );
     },
-
-
-    //Delete_Click: function ()
-    //{
-       
-        
-    //    const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click: ';
-
-    //    if (!SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell)
-    //    {
-    //        console.log(logPrefix + 'SelectedCell missing');
-    //        return;
-    //    }
-
-    //    if (!SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell.id) {
-    //        console.log(logPrefix + 'SelectedCell.id missing');
-    //        return;
-    //    }
-
-    //    const parent = SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell;
-
-    //    // Guard Clause
-    //    if (!parent) {
-    //        console.log(`${logPrefix}SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell missing`);
-    //        return;
-    //    }
-
-
-    //    let name = parent.getAttribute('name');
-
-    //    if (!name) {
-    //        console.log(logPrefix + 'name is missing');
-    //        return;
-    //    }
-
-
-    //    name = name.replace('.', '/');
-    //    const url = `/api/Models/${name}/Delete/Id/${SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.SelectedCell.id}`;
-
-    //    name = name.replace('/', ' ');
-    //    name = name.replace('Department', 'Unit');
-    //    name = name.replace('Team', 'Area');
-    //    name = name.replace('Process', 'Sub-Area');
-
-
-    //    SilkFlo.Models.Abstract.Delete
-    //    (
-    //        url,
-    //        name,
-    //        '',
-    //        SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_CallBack,
-    //        SilkFlo.DataAccess.Feedback,
-    //        'Settings.PlatformSetup.BusinessUnits.Container'
-    //    );
-    //},
   
     Delete_CallBack: function()
     {
-        debugger
+      
         const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_CallBack: ';
         const parentDiv = SelectedDivRow;
         if (!parentDiv) {
@@ -1683,6 +1681,26 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
             }
 
             listElement.innerHTML = '';
+           
+             name = 'SubArea';
+             const columnElement1 = MainDiv.querySelector(`[name="${name}"]`);
+
+            // Guard Clause
+            if (!columnElement1) {
+                console.log(`${logPrefix}Element with name ${name} missing`);
+                return;
+            }
+
+            name = 'List';
+             listElement1 = columnElement1.querySelector(`[name="${name}"]`);
+
+            // Guard Clause
+            if (!listElement1) {
+                console.log(`${logPrefix}Element with name ${name} missing`);
+                return;
+            }
+
+            listElement1.innerHTML = '';
         }
         else if (name === 'Business.Team')
         {
@@ -1864,5 +1882,248 @@ SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits = {
         }
 
         elementNewButton.classList.remove('hide');
-    }
+    },
+
+    refreshList: function (element) {
+      
+       const logPrefix = 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.refreshList: ';
+        if (!element) {
+                console.log(`${logPrefix}element parameter missing`);
+                return;
+        }
+        const elementName = element.getAttribute('name');
+        let name = 'Business.Department.Row';
+        let parentid = null;
+        let ColName = 'BusinessUnit';
+        if (elementName === 'Business.Department') {
+            name = 'Business.Department.Row';
+            ColName = 'BusinessUnit'
+        }
+        if (elementName === 'Business.Team') {
+            name = 'Business.Area.Row';
+            ColName = 'Area';
+        }
+        if (elementName === 'Business.Process') {
+            name = 'Business.SubArea.Row';
+            ColName = 'SubArea'
+        }
+       
+        if (!name) {
+                console.log(`${logPrefix}element parameter missing`);
+                return;
+            }
+        const contentId = 'Settings.PlatformSetup.BusinessUnits.Container';
+        const contentElement = document.getElementById(contentId);
+        let url = "";
+        let List = "List";
+        const targetTable = contentElement.querySelector('[name="' + ColName + '"]');
+        if (!targetTable) {
+                console.log(`${logPrefix}Element with name ${targetTable} missing`);
+                return;
+            }
+        const targetList = targetTable.querySelector(`[name="${List}"]`);
+        if (!targetList) {
+                console.log(`${logPrefix}Element with name ${name} missing`);
+                return;
+        }
+        SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.DeSelectrRows(targetList);
+        var Listchilds = targetList.children;
+        if (Listchilds.length < 2)
+        {
+            console.log(`${logPrefix}Listlength is less than 2`);
+            return;
+        }
+        debugger
+        var secondLast = Listchilds[Listchilds.length - 2];
+       
+       
+        if (elementName === 'Business.Team') {
+            var getID = secondLast.querySelector('input[name="Business.Team.DepartmentId"]');
+
+            if (getID) {
+                parentid = getID.value;
+            }
+        }
+        if (elementName === 'Business.Process') {
+            var getID = secondLast.querySelector('input[name="Business.Team.Id"]');
+
+            if (getID) {
+                parentid = getID.value;
+            }
+        }
+        
+        secondLast.parentNode.removeChild(secondLast);
+        SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.CreateRow(element, parentid);
+    },
+
+    CreateRow: function (element, parentid) {
+        debugger
+        const elementName = element.getAttribute('name');
+        let rowName = 'Business.Department.Row';
+        let ColName = 'BusinessUnit';
+        let textboxName = 'Business.Department.Name';
+        let targetArea = 'Area';
+        let inputName = 'Business.Department.Id';
+        if (elementName === 'Business.Department') {
+            rowName = 'Business.Department.Row';
+            ColName = 'BusinessUnit'
+            targetArea = 'Area';
+            textboxName = 'Business.Department.Name';
+            inputName = 'Business.Department.Id';
+        }
+        if (elementName === 'Business.Team') {
+            rowName = 'Business.Area.Row';
+            ColName = 'Area';
+            targetArea = 'SubArea';
+            textboxName = 'Business.Team.Name';
+            inputName = 'Business.Team.Id';
+            intparentID ='Business.Team.DepartmentId'
+        }
+        if (elementName === 'Business.Process') {
+            rowName = 'Business.SubArea.Row';
+            ColName = 'SubArea'
+            targetArea = '';
+            textboxName = 'Business.Process.Name'; 
+            inputName = 'Business.Process.Id';
+            intparentID = 'Business.Process.TeamId'
+        }
+       
+       
+
+
+        const url = element.getAttribute('url');
+        const id = element.getAttribute('id');
+        const container = document.createElement('div');
+        container.classList.add('row', 'selectedRow');
+        container.setAttribute('name', rowName);
+        container.style.width = '100%';
+        container.style.marginLeft = '0px';
+        container.style.padding = '0px';
+        container.setAttribute('id',id);
+
+
+        // Create the col-11 element
+        const col11 = document.createElement('div');
+        col11.classList.add('col-11');
+        col11.style.padding = '10px 15px';
+        col11.setAttribute('id',id);
+        col11.setAttribute('url', url);
+        col11.setAttribute('column', ColName);
+        col11.setAttribute('name', elementName);
+        col11.setAttribute('targetname', targetArea);
+        col11.setAttribute('dblclick', 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click(event)');
+        //col11.addEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click );
+        //col11.addEventListener('dblclick', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click);
+
+
+        // Create the text box div
+        const textBoxDiv = document.createElement('div');
+        textBoxDiv.setAttribute('name', textboxName);
+        textBoxDiv.setAttribute('role', 'textbox');
+        textBoxDiv.classList.add('child-div');
+        textBoxDiv.style.color = '#353535';
+        const text = element.querySelector('[name="' + textboxName + '"][role="textbox"]');
+        if (!text) {
+            return;
+        }
+        textBoxDiv.textContent = text.textContent;
+
+        // Append the text box div to col-11
+        col11.appendChild(textBoxDiv);
+
+        // Create the input elements
+        const inputOldName = document.createElement('input');
+        inputOldName.name = 'NameOld';
+        inputOldName.type = 'hidden';
+        inputOldName.value = text.textContent;
+        col11.appendChild(inputOldName);
+        
+            const inputId = document.createElement('input');
+            inputId.name = inputName;
+            inputId.type = 'hidden';
+            inputId.value = id;
+            // Append the input elements to col-11
+            col11.appendChild(inputId);
+        if (elementName === 'Business.Team' || elementName === 'Business.Process') {
+            const inputParentId = document.createElement('input');
+            inputParentId.name = intparentID;
+            inputParentId.type = 'hidden';
+            inputParentId.value = parentid;
+            // Append the input elements to col-11
+            col11.appendChild(inputParentId);
+        }
+        
+       
+
+        // Create the col-1 element
+        const col1 = document.createElement('div');
+        col1.classList.add('col-1');
+        col1.style.padding = '10px 5px';
+        col1.setAttribute('name', elementName);
+        col1.setAttribute('id',id);
+
+         // Create the span element
+        const spanElement = document.createElement('span');
+        spanElement.setAttribute('title', 'Delete');
+       
+
+        // Create the SVG element
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('width', '16');
+        svg.setAttribute('height', '16');
+        svg.setAttribute('fill', 'currentColor');
+        svg.classList.add('bi', 'bi-trash', 'child-div');
+        svg.setAttribute('viewBox', '0 0 16 16');
+        svg.style.color = '#A1A1AE';
+        svg.setAttribute('onclick', 'SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click();');
+
+        // Create the path elements
+        const path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path1.setAttribute('d', 'M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z');
+
+        const path2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path2.setAttribute('d', 'M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z');
+
+        // Append path elements to the SVG
+        svg.appendChild(path1);
+        svg.appendChild(path2);
+
+        spanElement.appendChild(svg);
+        // Append the SVG to the col-1 element
+        col1.appendChild(spanElement);
+
+        // Append col-11 and col-1 to the main container
+        container.appendChild(col11);
+        container.appendChild(col1);
+
+        // Create the HR element
+        const hr = document.createElement('hr');
+        hr.style.margin = '0px';
+        hr.style.color = '#5f5f5f';
+        hr.style.backgroundColor = '#5f5f5f';
+
+        // Append HR to the main container
+        container.appendChild(hr);
+
+        // Append the main container to the desired location in the DOM
+        const contentId = 'Settings.PlatformSetup.BusinessUnits.Container';
+        const contentElement = document.getElementById(contentId);
+     
+        let List = "List";
+        const targetTable = contentElement.querySelector('[name="' + ColName + '"]');
+        if (!targetTable) {
+            console.log(`${logPrefix}Element with name ${targetTable} missing`);
+            return;
+        }
+        const targetList = targetTable.querySelector(`[name="${List}"]`);
+        const lastDivElement = targetList.lastElementChild;
+        // Insert the new div element before the last div element
+        targetList.insertBefore(container, lastDivElement);
+        col11.addEventListener('click', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click);
+        col11.addEventListener('dblclick', SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click);
+    },
+
+   
+    
 };

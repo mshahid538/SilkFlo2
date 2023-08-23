@@ -49,6 +49,36 @@ namespace SilkFlo.Web.APIControllers.Settings
             }
         }
 
+
+        [HttpGet("api/settings/Tenant/platformSetup/BusinessUnits/GetDepartsents")]
+        public async Task<IActionResult> GetDepartsents()
+        {
+            // Authorization Clause
+            if (!(await AuthorizeAsync(Policy.ManageTenantSettings)).Succeeded)
+                return NegativeFeedback();
+
+            try
+            {
+                var client = await GetClientAsync();
+
+                if (client == null)
+                    return NegativeFeedback();
+
+                await _unitOfWork.BusinessDepartments.GetForClientAsync(client);
+                var model = new Models.Business.Client(client);
+
+                string html = await _viewToString.PartialAsync("Settings/PlatformSetup/BusinessUnit/_BusinessUnits", model.Departments);
+
+                return Content(html);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return Content("Error fetching data");
+            }
+        }
+
+
         [HttpGet("api/settings/Tenant/platformSetup/Documents")]
         public async Task<IActionResult> GetTemplateDocuments()
         {
