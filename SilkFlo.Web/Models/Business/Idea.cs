@@ -281,7 +281,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region AHT Robot
-        [DisplayName("AHT Automation")]
+        [DisplayName("AHT Robot")]
         public decimal? AHTRobot
         {
             get => _core.AHTRobot;
@@ -1256,7 +1256,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Speed Multiplier
-        [DisplayName("Automation Speed Multiplier")]
+        [DisplayName("Robot Speed Multiplier")]
         public decimal? RobotSpeedMultiplier
         {
             get => _core.RobotSpeedMultiplier;
@@ -1274,7 +1274,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Work Day Year
-        [DisplayName("Automation Work Day Year")]
+        [DisplayName("Robot Work Day Year")]
         public decimal? RobotWorkDayYear
         {
             get => _core.RobotWorkDayYear;
@@ -1292,7 +1292,7 @@ namespace SilkFlo.Web.Models.Business
         #endregion
 
         #region Robot Work Hour Day
-        [DisplayName("Automation Work Hour Day")]
+        [DisplayName("Robot Work Hour Day")]
         public decimal? RobotWorkHourDay
         {
             get => _core.RobotWorkHourDay;

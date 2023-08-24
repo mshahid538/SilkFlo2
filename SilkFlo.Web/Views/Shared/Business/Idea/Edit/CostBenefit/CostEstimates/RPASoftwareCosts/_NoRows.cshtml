@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService _authorizationService
 
-<p>Please add some Running Costs to the system before assigning Automation Software Costs to your idea.</p>
+<p>Please add some Running Costs to the system before assigning RPA Software Costs to your idea.</p>
 
 @if ((await _authorizationService.AuthorizeAsync(User, SilkFlo.Web.Policy.ManageTenantSettings)).Succeeded)
 {

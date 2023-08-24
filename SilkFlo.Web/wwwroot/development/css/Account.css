@@ -4,7 +4,8 @@
     grid-template-columns: 1fr auto;
 }
 
-.account_Left {
+.account_Left
+{
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -14,34 +15,39 @@
     height: 100%;
 }
 
-    .account_Left .logo-and-text,
-    .account_Left .logo {
-        order: 0;
-        flex: 0 1 auto;
-        align-self: auto;
-        margin-top: 1rem;
-        margin-left: 2rem;
-        margin-right: 2rem;
-    }
+.account_Left .logo-and-text,
+.account_Left .logo
+{
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
 
-        .account_Left .logo-and-text svg,
-        .account_Left .logo svg {
-            height: 55px;
-        }
+.account_Left .logo-and-text svg,
+.account_Left .logo svg
+{
+    height: 55px;
+}
 
-    .account_Left .logo-and-text {
-        display: none;
-    }
+.account_Left .logo-and-text
+{
+    display: none;
+}
 
-    .account_Left .brand-text {
-        order: 0;
-        flex: 1 1 auto;
-        align-self: center;
-        height: 100%;
-        display: flex;
-        margin-top: 1rem;
-        height: 55px;
-    }
+.account_Left .brand-text
+{
+    order: 0;
+    flex: 1 1 auto;
+    align-self: center;
+    height: 100%;
+    display: flex;
+    margin-top: 1rem;
+    height: 55px;
+
+}
 
 
 .account h1 {
@@ -73,7 +79,8 @@
 }*/
 
 
-.brand > svg {
+.brand > svg
+{
 }
 
 
@@ -81,11 +88,13 @@
 
 @media (min-width: 800px) {
 
-    .account_Left .logo-and-text {
+    .account_Left .logo-and-text
+    {
         display: block;
     }
 
-    .account_Left .logo {
+    .account_Left .logo
+    {
         display: none;
     }
 
@@ -101,6 +110,7 @@
         line-height: calc(2vw);
         letter-spacing: 0.05rem;
     }
+
 }
 
 
@@ -145,9 +155,9 @@
     top: 0;
 }
 
-    .account_Left * {
-        color: white;
-    }
+.account_Left * {
+    color: white;
+}
 
 
 
@@ -164,17 +174,17 @@
     justify-content: center;
 }
 
-    .account_Right > * {
-        margin-left: 2rem;
-        margin-right: 2rem;
-        align-self: center;
-        justify-self: center;
-    }
-
-.account_Right_SignIn > * {
-    min-width: 300px;
-    max-width: 500px;
+.account_Right > * {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    align-self: center;
+    justify-self: center;
 }
+
+    .account_Right_SignIn > * {
+        min-width: 300px;
+         max-width: 500px;
+    }
 
 .account_Right .form-floating,
 .account_Right .form-check,
@@ -182,412 +192,3 @@
 .account_Right p {
     margin-bottom: 1rem;
 }
-
-
-
-
-.btn_Login {
-    color: #FFF;
-    text-align: center;
-    font-size: 19px;
-    border-radius: 4px;
-    background: #FF8A00;
-    font-weight: 600;
-    line-height: 24px;
-    width: 100%;
-}
-
-.btn-Microsoft {
-    border-radius: 4px;
-    border: 1px solid #FF8A00;
-    color: #FF8A00;
-    text-align: center;
-    /* Inter / Body 1 Medium */
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    letter-spacing: 0.44px;
-}
-
-.header-center {
-    text-align: center;
-}
-
-    .header-center h1 {
-        color: #363853;
-        text-align: center;
-        font-size: 40px;
-        font-weight: 600;
-    }
-
-    .header-center p {
-        /*  font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 25px;
-       
-        align-items: center;
-        text-align: center;
-        color: #606173;*/
-        color: #606173;
-        text-align: center;
-        font-size: 24px;
-    }
-
-.input {
-    color: #8897A2;
-    border-radius: 4px;
-    background: #ECECEF;
-    font-size: 16px !important;
-    border-radius: 4px;
-    line-height: 24px;
-    /*    align-items: center;
-    background: #ececef;
-    border-radius: 3px;
-    padding: 0.3rem 1.1rem;
-    font-size: 1rem;*/
-}
-
-.panel-heading hr {
-    background: #ECECEF !important;
-    height: 1px !important;
-}
-
-.link {
-    display: contents !important;
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-}
-
-    .link p {
-        color: #363853;
-        font-size: 16px;
-        font-weight: 500;
-        line-height: 24px;
-    }
-
-        .link p a {
-            color: #FF8A00 !important;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 24px;
-            text-decoration-line: underline !important;
-        }
-
-.account_Right .form-floating, .account_Right .form-check, .account_Right .btn, .account_Right p {
-    margin-bottom: 1px !important;
-}
-
-.or {
-    text-align: center;
-    color: #bbbbbe;
-}
-
-.terms p {
-    color: #000;
-    font-size: 12px;
-    margin-top: 45px;
-    line-height: 24px;
-}
-
-    .terms p a {
-        color: #000 !important;
-        font-size: 12px;
-        margin-top: 45px;
-        line-height: 24px;
-        text-decoration: underline !important;
-    }
-
-.regcom-fromgroup select {
-    background: #ececef;
-    -moz-appearance: button-arrow-down; /* Firefox */
-    -webkit-appearance: scrollbarbutton-down; /* Safari and Chrome */
-    appearance: menulist;
-    color: black;
-    border-radius: 3px;
-    background-color: #ececef;
-    border-radius: 3px;
-    font-size: 14px;
-}
-
-.frm-group select {
-    background: #ececef;
-    -moz-appearance: button-arrow-down; /* Firefox */
-    -webkit-appearance: scrollbarbutton-down; /* Safari and Chrome */
-    appearance: menulist;
-    color: black;
-    border-radius: 3px;
-    background-color: #ececef;
-    border-radius: 3px;
-    font-size: 14px;
-}
-    /* with the :focus here, we show grey when using the element */
-    .frm-group select:focus {
-        color: #868e96;
-    }
-
-.frm-group option {
-    color: #868e96;
-}
-
-    .frm-group option:first-of-type {
-        color: #868e96;
-        text-align: center;
-    }
-
-.dropdown {
-    background-color: #ececef;
-    /* height: calc(3.5rem + 2px); */
-    /* padding: 1rem 1.1rem; */
-    border-radius: 3px;
-    color: #7c7d89;
-}
-
-.desc {
-    color: gray;
-    font-size: 13px;
-    align-items: center;
-    text-align: center;
-}
-
-.regcom-fromgroup {
-    margin-bottom: 0.5rem !important;
-}
-
-.btn-Back {
-    text-decoration: underline;
-    font-size: 15px;
-    text-align: center;
-    color: #ff8a00;
-}
-
-.btn-steps {
-    width: 100px;
-    background-color: #ececef;
-    margin: 10px;
-}
-
-.foot {
-    /*position: fixed;*/
-    /*    bottom: 5rem;*/
-    width: 121px;
-    flex: none;
-    padding: 3px;
-    height: 10px;
-}
-
-.btn-steps-row {
-    flex-wrap: nowrap;
-    text-align: center;
-    align-items: center;
-    margin-left: 15px;
-    margin-right: 15px;
-}
-
-.frm-group {
-    margin-bottom: 0.5rem !important;
-}
-
-.or h2 {
-    margin-top: 24px;
-    margin-bottom: 24px;
-    width: 100%;
-    text-align: center;
-    border-bottom: 1px solid #ECECEF;
-    line-height: 0.1em;
-}
-
-    .or h2 span {
-        background: #fff;
-        padding: 0 10px;
-        color: #bbbbbe;
-        font-size: 14px;
-    }
-
-.tooltipDashboard {
-    display: block;
-    display: block;
-}
-
-.tooltipExplore {
-    display: block;
-}
-
-.tooltipWorkShop {
-    display: block;
-}
-
-.tooltipAgency {
-    display: block;
-}
-.arrow-left {
-    width: 0;
-    height: 0;
-    z-index: 1000;
-    position: absolute;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 10px solid white;
-}
-.silkflo_tooltip {
-    z-index: 1000;
-    height: 141px;
-    position: absolute;
-    background: white;
-    box-shadow: 0px 0px 15px 0px rgba(214, 215, 216, 0.5);
-    border-radius: 13px;
-    padding: 10px;
-    width: 16rem;
-}
-
-.silkflo_tooltip-title {
-    color: #334155;
-    margin-block-start: 0px !important;
-    margin-block-end: 0px !important;
-    margin-inline-start: 0px !important;
-    font-size: 13px;
-}
-
-
-
-.silkflo_tooltip-content {
-    color: #6f7a8a;
-    margin-top: 10px;
-    font-size: 13px;
-    text-align: justify;
-    margin-bottom: -12px;
-}
-
-.silkflo_tooltip-Next {
-    width: 30%;
-    position: absolute;
-    top: 71px;
-    right: -29px;
-    cursor: pointer;
-    color: #6f7a8a;
-    font-size: 15px;
-    font-weight: 500;
-    background-color: #ff8a00;
-    border-radius: 3PX;
-    color: white;
-    border: 0px;
-    margin: 2rem 2.4rem;
-    padding: 0.2rem;
-}
-
-.silkflo_tooltip-close {
-    position: absolute;
-    top: 2px;
-    right: 10px;
-    cursor: pointer;
-    color: #6f7a8a;
-    font-size: 1.2rem;
-    font-weight: bolder;
-}
-
-    .silkflo_tooltip-close:hover {
-        color: #334155;
-    }
-
-.silkflo_tooltip-Div {
-    position: relative;
-}
-
-.silkflo_tooltip h2 img {
-    width: 17px;
-    margin-right: 10px;
-}
-
-.silkflo_tooltipContainer {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    border-radius: 4px;
-}
-
-.silkflo_tooltip-Div:hover .silkflo_tooltipContainer {
-    display: block;
-}
-
-
-.silkflo-logo {
-    border-radius: 120px;
-    width: 120px;
-    height: 120px;
-    flex-shrink: 0;
-}
-
-
-
-
-
-
-
-
-.info {
-    text-align: center;
-}
-
-    .info .left {
-        width: 10rem;
-        text-align: left;
-    }
-
-    .info .left, .info .right {
-        display: inline-block;
-        font-size: 15px;
-        font-weight: 500;
-        color: #686872;
-    }
-
-    .info .right {
-        width: 10rem;
-        text-align: left;
-    }
-
-.logo-img {
-    width: 4rem;
-}
-
-.loader {
-    border: 7px solid #f9d7b0;
-    border-radius: 50%;
-    border-top: 7px solid #fd8b00;
-    width: 35px;
-    height: 35px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
-    margin: auto;
-}
-
-/* Safari */
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-/*.hide_div{
-    display:none;
-}*/

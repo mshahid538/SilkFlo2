@@ -734,7 +734,7 @@ namespace SilkFlo.Web.Insert
                     user = await AddUserAndRole(
                         domainName,
                         tenantId,
-                        "Automation",
+                        "RPA",
                         "Sponsor",
                         roles.Where(x => x.Id == ((int)Data.Core.Enumerators.Role.RPASponsor).ToString()),
                         1,

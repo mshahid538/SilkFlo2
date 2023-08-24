@@ -34,11 +34,11 @@ namespace SilkFlo.Web.ViewModels.Business.Idea.CostBenefit
         public int? EmployeeCount { get; set; }
 
         [Range(0, 24,
-            ErrorMessage = "Automation Working Hours/Day must be between 0 and 24.")]
+            ErrorMessage = "Robot Working Hours/Day must be between 0 and 24.")]
         public int? RobotWorkHourDay { get; set; }
 
         [Range(0, 365,
-            ErrorMessage = "Automation Working Days/Year must be between 0 and 365.")]
+            ErrorMessage = "Robot Working Days/Year must be between 0 and 365.")]
         public int? RobotWorkDayYear { get; set; }
 
         [Range(0, int.MaxValue)]

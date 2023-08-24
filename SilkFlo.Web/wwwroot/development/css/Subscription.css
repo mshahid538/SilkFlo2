@@ -1,70 +1,75 @@
 
 
-.subscription_card .sign,
-.subscription_card .signDiscount {
-    font-family: "Roboto",sans-serif;
-    font-weight: 100;
-}
+    .subscription_card .sign,
+    .subscription_card .signDiscount
+    {
+        font-family: "Roboto",sans-serif;
+        font-weight: 100;
+    }
 
-.subscription_card .sign {
-    font-size: 3rem;
-    margin-right: 1rem;
-}
+    .subscription_card .sign {
+        font-size: 3rem;
+        margin-right: 1rem;
+    }
 
-.subscription_card .signDiscount {
-    font-size: 1.25rem;
-}
+    .subscription_card .signDiscount {
+        font-size: 1.25rem;
+    }
 
-.subscription_card .price,
-.subscription_card .priceDiscount,
-.subscription_card .discountPercent {
-    align-items: center;
-    justify-content: space-evenly;
-    font-weight: 100;
-    font-family: "Roboto",sans-serif;
-    line-height: 1;
-}
+    .subscription_card .price,
+    .subscription_card .priceDiscount,
+    .subscription_card .discountPercent
+    {
+        align-items: center;
+        justify-content: space-evenly;
+        font-weight: 100;
+        font-family: "Roboto",sans-serif;
+        line-height: 1;
+    }
 
-.subscription_card .price {
-    font-size: 3.75rem;
-    margin: 5px;
-}
-
-
-
-.subscription_card .priceDiscount {
-    font-size: 1.25rem;
-}
+    .subscription_card .price {
+        font-size: 3.75rem;
+        margin: 5px;
+    }
 
 
-.subscription_card .discountPercent {
-    font-size: 1.25rem;
-}
 
-.subscription_card .discountLabel {
-    font-size: 1.25rem;
-    font-weight: 300;
-    font-family: "Roboto",sans-serif;
-}
+    .subscription_card .priceDiscount
+    {
+        font-size: 1.25rem;
+    }
 
-.subscription_card .month,
-.subscription_card .monthDiscount {
-    font-family: "Roboto",sans-serif;
-    font-weight: 300;
-}
 
-.subscription_card .month {
-    font-size: 1.25rem;
-}
+    .subscription_card .discountPercent
+    {
+        font-size: 1.25rem;
+    }
 
-.subscription_card .monthDiscount {
-    font-size: 1.25rem;
-}
+   .subscription_card .discountLabel
+    {
+        font-size: 1.25rem;
+        font-weight: 300;
+        font-family: "Roboto",sans-serif;
+    }
 
-.subscription_card .strikeThrough {
-    position: relative;
-    padding: 0 0.25rem;
-}
+    .subscription_card .month,
+    .subscription_card .monthDiscount {
+        font-family: "Roboto",sans-serif;
+        font-weight: 300;
+    }
+
+    .subscription_card .month {
+        font-size: 1.25rem;
+    }
+
+    .subscription_card .monthDiscount {
+        font-size: 1.25rem;
+    }
+
+    .subscription_card .strikeThrough {
+        position: relative;
+        padding: 0 0.25rem;
+    }
 
     .subscription_card .strikeThrough::after {
         position: absolute;
@@ -79,23 +84,24 @@
     }
 
 
-.wizardMap {
-    display: flex;
-    position: relative;
-    max-width: 420px;
-    padding: 0 0 0;
-    width: 100%;
-    z-index: 10;
-    margin: 0 auto;
-    background: none repeat scroll 0 0;
-    -moz-box-orient: horizontal;
-    -moz-box-direction: normal;
-    flex-direction: row;
-    -moz-box-pack: justify;
-    justify-content: space-between;
-    -moz-box-align: center;
-    align-items: start;
-}
+    .wizardMap {
+        display: flex;
+        position: relative;
+        max-width: 420px;
+        padding: 0 0 0;
+
+        width: 100%;
+        z-index: 10;
+        margin: 0 auto;
+        background: none repeat scroll 0 0;
+        -moz-box-orient: horizontal;
+        -moz-box-direction: normal;
+        flex-direction: row;
+        -moz-box-pack: justify;
+        justify-content: space-between;
+        -moz-box-align: center;
+        align-items: start;
+    }
 
 .wizardWayPointSelected {
     text-align: center;
@@ -148,21 +154,21 @@
     transition: background-color 0.3s ease 0;
 }
 
-    .wizardWayPointSelected .iconCompleted::after {
-        content: " ";
-        display: block;
-        background: transparent none repeat scroll 0 0;
-        border-width: 2px;
-        border-style: none none solid solid;
-        position: relative;
-        height: 6px;
-        width: 6px;
-        top: 5px;
-        left: 4px;
-        border-color: rgb(234, 245, 255);
-        transition: transform 0.3s ease 0, height 0.3s ease 0, width 0.3s ease 0;
-        transform: rotate(225deg);
-    }
+            .wizardWayPointSelected .iconCompleted::after {
+                content: " ";
+                display: block;
+                background: transparent none repeat scroll 0 0;
+                border-width: 2px;
+                border-style: none none solid solid;
+                position: relative;
+                height: 6px;
+                width: 6px;
+                top: 5px;
+                left: 4px;
+                border-color: rgb(234, 245, 255);
+                transition: transform 0.3s ease 0, height 0.3s ease 0, width 0.3s ease 0;
+                transform: rotate(225deg);
+            }
 
 
 
@@ -243,58 +249,34 @@
         background: var(--bs-gray-light) !important;
         color: white !important;
         border: 0 !important;
-        padding-bottom: 9px !important;
+    padding-bottom: 9px !important;
     }
 
 .subscription .nav-tabs {
     border-bottom: 2px solid var(--bs-gray-light) !important;
 }
 
-.subscription .feature {
-    font-size: 0.9rem;
-    line-height: 2rem;
-}
+    .subscription .feature
+    {
+        font-size: 0.9rem;
+        line-height: 2rem;
+    }
 
 
 
 
 
-.title_bar h5 {
-    font-size: 0.6rem;
-}
-
-@media (min-width: 480px) {
     .title_bar h5 {
+        font-size: 0.6rem;
+                    }
+
+@media (min-width: 480px)
+{
+    .title_bar h5
+    {
         font-size: 0.8rem;
     }
 }
-
-.btn-plan {
-    width: 8rem;
-    height: 40px;
-    left: 1134px;
-    top: 460px;
-    background-color: #F8F9FD !important;
-    border-radius: 4px;
-    color: #FF8A00 !important;
-    border: 2px solid #FF8A00 !important;
-    margin-right: 10px;
-    font-weight: bold !important;
-}
-
-.btn-plan-active {
-    width: 8rem;
-    height: 40px;
-    left: 1134px;
-    top: 460px;
-    background-color: #FF8A00 !important;
-    border-radius: 4px;
-    color: #FFF !important;
-    margin-right: 10px;
-}
-
-
-
 
 
 
@@ -305,7 +287,7 @@
 .silkflo-modal-content-img {
     width: 370px;
     height: 200px;
-    margin-bottom: 24px;
+    margin-bottom:24px;
 }
 
 /*.header-modal-version {
@@ -315,8 +297,8 @@
 }*/
 
 /*.Gray-box {*/
-/*   height: 8rem;*/
-/*background-color: #d8d8d8;
+    /*   height: 8rem;*/
+    /*background-color: #d8d8d8;
     text-align: center;
 }*/
 
@@ -325,7 +307,6 @@
     border-radius: 8px !important;
     outline: 0 !important;
 }
-
 .silkflo_modal_title {
     width: 282px !important;
     height: 13px !important;
@@ -385,13 +366,14 @@
     border-radius: 3PX;
     color: white;
     height: 48px;
-    border: 0px;
+     border: 0px; 
     margin: 2rem 2.4rem;
     padding: 0.2rem;
 }
 
 
 .header-modal-version {
+  
     width: 243px;
     height: 11px;
     left: 603px;
@@ -404,8 +386,7 @@
     align-items: center;
     color: #FF8A00;
 }
-
-.silkflo-modal-content-width {
+    .silkflo-modal-content-width {
     /* position: absolute; */
     width: 370px;
     left: 535px;

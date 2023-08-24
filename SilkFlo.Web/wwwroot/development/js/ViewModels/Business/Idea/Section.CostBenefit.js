@@ -982,7 +982,7 @@ SilkFlo.ViewModels.Business.Idea.Section.CostBenefit = {
             ['IdeaStageId', 'RoleId', 'Allocation', 'Day'],
             'Business.ImplementationCost.');
 
-        //This is holds the contents of the table 'Automation Software Costs' in the UI
+        //This is holds the contents of the table 'RPA Software Costs' in the UI
         const ideaRunningCosts = SilkFlo.Models.Abstract.GetModelCollectionFromParent(
             parent,
             'Business.IdeaRunningCost',

@@ -206,27 +206,3 @@ SilkFlo.Models2.Shop.Subscription = {
         SilkFlo.DataAccess.Feedback(feedback, id);
     }
 };
-
-function individualClicked() {
-    debugger;
-    $("#btnTeam").removeClass('btn-plan-active');
-    $("#btnTeam").addClass('btn-plan');
-    $("#btnIndv").addClass('btn-plan');
-    $("#btnIndv").addClass('btn-plan-active');
-
-    var x = document.getElementById("divIndividual");
-    var y = document.getElementById("divTeam");
-    x.style.display = "block";
-    y.style.display = "none";
-    
-}
-function teamClicked() {
-    debugger;
-    var x = document.getElementById("divIndividual");
-    var y = document.getElementById("divTeam");
-    x.style.display = "none";
-    y.style.display = "block";
-    $("#btnIndv").removeClass('btn-plan-active');
-    $("#btnTeam").addClass('btn-plan-active');
-   
-}

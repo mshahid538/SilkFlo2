@@ -205,29 +205,22 @@
 								</label>
 							</div>
 							<div class="form-check" style="margin-left:15px">
-								<input class="form-check-input" id="datRangeRadio" type="radio" value="DATERANGE" name="dateSpanRd" onclick="onRangeFilter(event)" />
-								<label class="form-check-label" for="dateRangeRadio" style="white-space: nowrap;">
+								<input class="form-check-input" id="weekRadio" type="radio" value="DATERANGE" name="dateSpanRd" onclick="onRangeFilter(event)" />
+								<label class="form-check-label" for="weekRadio" style="white-space: nowrap;">
 									<i>By Date Range</i>
 								</label>
 							</div>
-							<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -13px;">
-								<div>
-									<input type="text" class="form-control" id="daterange" name="daterange" disabled />
-									<input class="form-control" type="hidden" id="startDatepicker" name="startDatepicker" disabled />
-									<input class="form-control" type="hidden" id="endDatepicker" name="endDatepicker" disabled />
-								</div>
-							</div>
-							@*<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -15px;">
+							<div id="perf-datesFilter" class="d-flex" style="margin-left:15px;margin-top: -15px;">
 							<div>
-							Start Date: <input class="form-control" type="date" id="startDatepicker" disabled />
+								Start Date: <input class="form-control" type="date" id="startDatepicker" disabled />
 							</div>
 							<div style="margin-left:15px">
-							End Date: <input class="form-control" type="date" id="endDatepicker" disabled />
+								End Date: <input class="form-control" type="date" id="endDatepicker" disabled />
 							</div>
-							</div>*@
+						</div>
 							<br />
 						</div>
-
+						
 					</div>
 
 
@@ -246,13 +239,13 @@
 								{
 									<div class="form-check">
 										<input class="form-check-input"
-										   displayName="All"
-										   id="toggleFilterDepartment"
-										   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
-										   type="checkbox">
+											   displayName="All"
+											   id="toggleFilterDepartment"
+											   onclick="SilkFlo.Pages.Cards.FilterCriteria.ToggleFilters ( event, 'filterDepartment', SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements );"
+											   type="checkbox">
 										<label class="form-check-label"
-										   for="toggleFilterDepartment"
-										   style="white-space: nowrap;">
+											   for="toggleFilterDepartment"
+											   style="white-space: nowrap;">
 											<i>Select All</i>
 										</label>
 									</div>
@@ -263,14 +256,14 @@
 								{
 									<div class="form-check">
 										<input class="form-check-input"
-										   displayName="@item.Name"
-										   id="@item.Id"
-										   name="filterDepartment"
-										   onclick="SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements ();SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterDepartment' );"
-										   type="checkbox">
+											   displayName="@item.Name"
+											   id="@item.Id"
+											   name="filterDepartment"
+											   onclick="SilkFlo.Pages.Cards.Business.Department.GetFilterTeamElements ();SilkFlo.Pages.Cards.FilterCriteria.UnSelectFilter ( event, 'toggleFilterDepartment' );"
+											   type="checkbox">
 										<label class="form-check-label"
-										   for="@item.Id"
-										   style="white-space: nowrap;">
+											   for="@item.Id"
+											   style="white-space: nowrap;">
 											@item.Name
 										</label>
 									</div>
@@ -328,7 +321,7 @@
 									</label>
 								</div>
 
-								@if (Model.POList != null && Model.POList.Count > 0)
+								@if(Model.POList != null && Model.POList.Count > 0)
 								{
 									foreach (var po in Model.POList)
 									{

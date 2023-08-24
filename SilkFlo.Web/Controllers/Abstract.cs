@@ -59,8 +59,7 @@ namespace SilkFlo.Web.Controllers
             Data.Core.Domain.User user,
             Services.Models.Account.SignIn signIn,
             string returnUrl,
-            bool isPracticeUser,
-            bool isMSFlow = false)
+            bool isPracticeUser)
         {
             // Guard Clause
             if (user.UserRoles.Count == 0)
@@ -179,7 +178,7 @@ namespace SilkFlo.Web.Controllers
 
             var expiratoryDate = await GetExpiratoryDate(user);
             Services.Models.Cookie.Save(user,
-                isMSFlow ? false : signIn.StaySignedIn,
+                signIn.StaySignedIn,
                 expiratoryDate,
                 this);
 
@@ -202,18 +201,18 @@ namespace SilkFlo.Web.Controllers
 
 
             Add(Services.Cookie.RememberMe,
-                isMSFlow ? false : signIn.RememberMe,
+                signIn.RememberMe,
                 DateTime.Now.AddDays(30),
                 true);
 
 
             Add(Services.Cookie.StaySignedIn,
-                isMSFlow ? false : signIn.StaySignedIn,
+                signIn.StaySignedIn,
                 DateTime.Now.AddDays(30),
                 true);
 
 
-            if (signIn.StaySignedIn || signIn.RememberMe || isMSFlow)
+            if (signIn.StaySignedIn || signIn.RememberMe)
                 Add(Services.Cookie.Email,
                     user.Email,
                     DateTime.Now.AddDays(30),

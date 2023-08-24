@@ -8,30 +8,33 @@
     --silkflo_header: 67px;
     --silkflo_content_padding: 20px;
     --silkflo_shadow: 0 0 15px 5px rgba(0,0,0, 0.1);
+    
 }
 
 
 /* Remove Arrows/Spinners:  Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button
+{
     -webkit-appearance: none;
     margin: 0;
 }
 
 /* Remove Arrows/Spinners: Firefox */
-input[type=number] {
+input[type=number]
+{
     -moz-appearance: textfield;
 }
 
 
 
 .noSelect {
-    -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
@@ -50,16 +53,16 @@ input[type=number] {
     border-top: solid 1px var(--bs-gray-lighter);
 }
 
-    .silkFloFooter p {
-        margin: 3px var(--silkflo_content_padding);
-        text-align: end;
-        font-size: 0.8rem;
-    }
+.silkFloFooter p {
+    margin: 3px var(--silkflo_content_padding);
+    text-align: end;
+    font-size: 0.8rem;
+}
 
 
 *.mandatory:after {
     content: "*";
-    margin-left: 6px;
+    margin-left:6px;
     color: var(--bs-danger);
 }
 
@@ -79,20 +82,21 @@ form h5 {
     margin-bottom: 0.5rem !important;
 }
 
-.silkFlo_submitIdea {
+.silkFlo_submitIdea
+{
     padding-bottom: 50px;
 }
 
-    .silkFlo_submitIdea .form_mandatory .form-control,
-    .silkFlo_submitIdea .form_mandatory .form-select {
-        margin-bottom: 0;
-    }
+.silkFlo_submitIdea .form_mandatory .form-control,
+.silkFlo_submitIdea .form_mandatory .form-select
+{
+    margin-bottom: 0;
+}
 
-    .silkFlo_submitIdea label {
-        margin-bottom: 0.25rem;
-        ;
-        display: block;
-    }
+.silkFlo_submitIdea label {
+    margin-bottom: 0.25rem;;
+    display: block;
+}
 
 
 
@@ -132,7 +136,7 @@ form h5 {
 
 .inputAndButton select,
 .inputAndButton input {
-    border-radius: 0.25rem 0 0.25rem 0 !important;
+        border-radius: 0.25rem 0 0.25rem  0 !important;
 }
 
 .subLabel {
@@ -151,9 +155,9 @@ form h5 {
     margin-bottom: 2.5rem;
 }
 
-    .calculation_result * {
-        margin: 0 !important;
-    }
+.calculation_result * {
+    margin:0 !important;
+}
 
 
 .rotate180 {
@@ -177,8 +181,7 @@ form h5 {
 
 
 .silkflo_tile_container > .row {
-    margin-bottom: 1rem;
-    ;
+    margin-bottom: 1rem;;
 }
 
 .silkflo_tile_light {
@@ -190,33 +193,34 @@ form h5 {
 
 
 
-    .silkflo_tile_light th {
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        background: var(--bs-gray-lightest);
-    }
+.silkflo_tile_light th {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background: var(--bs-gray-lightest);
+}
+.silkflo_tile_light td {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 
-    .silkflo_tile_light td {
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-    }
+}
 
 
 
-.silkflo_tile {
+.silkflo_tile
+{
     box-shadow: 0 100px 80px #eeeeee, 0 41.7776px 33.4221px #eeeeee, 0 22.3363px 17.869px #eeeeee, 0 12.5216px 10.0172px #eeeeee, 0 6.6501px 5.32008px #eeeeee, 0 2.76726px 2.21381px #eeeeee;
     box-shadow: 0 100px 80px rgba(238, 238, 238, 0.11), 0 41.7776px 33.4221px rgba(238, 238, 238, 0.079074), 0 22.3363px 17.869px rgba(238, 238, 238, 0.0655718), 0 12.5216px 10.0172px rgba(238, 238, 238, 0.055), 0 6.6501px 5.32008px rgba(238, 238, 238, 0.0444282), 0 2.76726px 2.21381px rgba(238, 238, 238, 0.030926);
     border-radius: var(--tile-radius);
 }
 
 
-    /*.silkflo_tile thead > tr {
+/*.silkflo_tile thead > tr {
         border-bottom: 1.2px solid var(--bs-background);
     }*/
 
@@ -402,7 +406,8 @@ a:hover .Icon_Part_Selected {
 
 
 
-#tooltip {
+#tooltip
+{
     background: white;
     border: 2px solid var(--bs-gray-lightest);
     border-radius: 5px;
@@ -433,55 +438,57 @@ a:hover .Icon_Part_Selected {
 }
 
 .pill-warning {
-    color: var(--bs-white) !important;
-    background-color: var(--bs-warning-lighter);
-    border-color: var(--bs-warning-lighter);
+  color: var(--bs-white) !important;
+  background-color: var(--bs-warning-lighter);
+  border-color: var(--bs-warning-lighter);
 }
 
 .pill-dark {
-    color: var(--bs-white) !important;
-    background-color: var(--bs-gray-lighter);
-    border-color: var(--bs-gray-lighter);
+  color: var(--bs-white) !important;
+  background-color: var(--bs-gray-lighter);
+  border-color: var(--bs-gray-lighter);
 }
 
 
 
 .pill-danger {
-    color: var(--bs-white) !important;
-    background-color: var(--bs-red-lighter);
-    border-color: var(--bs-red-lighter);
+  color: var(--bs-white) !important;
+  background-color: var(--bs-red-lighter);
+  border-color: var(--bs-red-lighter);
 }
 
 .pill-info {
-    color: var(--bs-white) !important;
-    background-color: var(--bs-info);
-    border-color: var(--bs-info);
+  color: var(--bs-white) !important;
+  background-color: var(--bs-info);
+  border-color: var(--bs-info);
 }
 
 .pill-success {
-    color: var(--bs-white) !important;
-    background-color: var(--bs-success);
-    border-color: var(--bs-success);
+  color: var(--bs-white) !important;
+  background-color: var(--bs-success);
+  border-color: var(--bs-success);
 }
 
 
-.idea_summary_context_menu {
+.idea_summary_context_menu
+{
     display: none;
     width: 160px;
     background: white;
-    z-index: 2000;
+    z-index:2000;
     box-shadow: 0 0 15px 5px #000000;
     box-shadow: 0 0 15px 5px rgba(0,0,0, 0.1);
 }
 
-.contextMenu {
+.contextMenu
+{
     display: none;
     background: white;
-    z-index: 2000;
+    z-index:2000;
     box-shadow: 0 0 15px 5px #000000;
     box-shadow: 0 0 15px 5px rgba(0,0,0, 0.1);
     font-size: 0.9625rem;
-    padding-left: 0;
+        padding-left: 0;
     margin-bottom: 0;
     border-radius: 8px;
 }
@@ -507,7 +514,8 @@ a:hover .Icon_Part_Selected {
 
 
 
-#ModelSubmitIdeaContainer {
+#ModelSubmitIdeaContainer
+{
     overflow: hidden;
 }
 
@@ -517,25 +525,25 @@ a:hover .Icon_Part_Selected {
     cursor: pointer;
 }
 
-    .ModalSubmitIdeaBtnBack:hover {
-        color: var(--bs-red-lightist);
-    }
+.ModalSubmitIdeaBtnBack:hover {
+    color: var(--bs-red-lightist);
+}
 
-    .ModalSubmitIdeaBtnBack > * {
-        fill: var(--bs-danger)
-    }
+.ModalSubmitIdeaBtnBack > * {
+    fill: var(--bs-danger)
+}
 
-    .ModalSubmitIdeaBtnBack:hover > * {
-        fill: var(--bs-red-lightist)
-    }
+.ModalSubmitIdeaBtnBack:hover > * {
+    fill: var(--bs-red-lightist)
+}
 
 .ModalSubmitIdeaPages {
     display: flex;
 }
 
-    .ModalSubmitIdeaPages > * {
-        min-width: 798px;
-    }
+.ModalSubmitIdeaPages > * {
+    min-width: 798px;
+}
 
 
 
@@ -552,14 +560,14 @@ a:hover .Icon_Part_Selected {
     align-content: space-between;
 }
 
-    .ModalSubmitIdeaBody > * {
-        width: 100%;
-    }
+.ModalSubmitIdeaBody > * {
+    width: 100%;
+}
 
-        .ModalSubmitIdeaBody > * > * {
-            margin-top: 0 !important;
-            margin-bottom: 6px !important;
-        }
+.ModalSubmitIdeaBody > * > * {
+    margin-top: 0 !important;
+    margin-bottom: 6px !important;
+}
 
 
 .ModalSubmitIdeaFooter {
@@ -578,6 +586,7 @@ a:hover .Icon_Part_Selected {
 
 
 .modal-footer_SpaceBetween {
+
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
@@ -595,13 +604,15 @@ a:hover .Icon_Part_Selected {
 
 
 
-.detail_gauge_container > * {
+.detail_gauge_container > *
+{
     background: #EDF0F2;
     border: 1px solid #000000;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.modal_gauge_container > * {
+.modal_gauge_container > *
+{
     background: white;
     border: 1px solid #000000;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -615,23 +626,23 @@ a:hover .Icon_Part_Selected {
 }
 
 
-    .profileButton .bar {
-        height: 6px;
-        width: 100%;
-        background: transparent;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-        -webkit-transition: all 0.5s ease;
+.profileButton .bar {
+    height: 6px;
+    width: 100%;
+    background: transparent;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
         -o-transition: all 0.5s ease;
         -ms-transition: all 0.5s ease;
         transition: all 0.5s ease;
-    }
+}
 
-    .profileButton:hover .bar {
-        display: block;
-        background: var(--bs-danger);
-    }
+.profileButton:hover .bar {
+    display: block;
+    background: var(--bs-danger);
+}
 
 
 .ideaCard {
@@ -657,33 +668,39 @@ a:hover .Icon_Part_Selected {
 }
 
 
-    .ideaCard h1,
-    .noIdeaCardDeployed h1 {
-        line-height: 1.5;
-    }
+.ideaCard h1,
+.noIdeaCardDeployed h1 {
+    line-height: 1.5;
 
-.ideaCard > * {
+}
+
+.ideaCard > *
+{
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
-.noIdeaCardDeployed > * {
+.noIdeaCardDeployed > *
+{
     width: 100%;
     padding-left: 80px;
     padding-right: 80px;
 }
 
-.ideaCard .text {
+.ideaCard .text
+{
     font-size: 0.75rem;
 }
 
-.ideaCard .summary {
+.ideaCard .summary
+{
     overflow-y: auto;
     overflow-x: hidden;
     height: 70px;
 }
 
-.ideaCard .footer {
+.ideaCard .footer 
+{
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -694,7 +711,8 @@ a:hover .Icon_Part_Selected {
 
 
 
-.ideaCard .button {
+.ideaCard .button
+{
     background: var(--bs-gray-even-lightest);
     cursor: pointer;
     height: 36px;
@@ -702,82 +720,93 @@ a:hover .Icon_Part_Selected {
     font-weight: 600;
     font-size: 0.75rem;
     line-height: 0.75rem;
-    transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out; 
 }
 
-.likes button {
+.likes button
+{
     margin-right: calc(var(--margin)*4);
 }
 
 
 
-    .ideaCard .button svg,
-    .likes button svg {
-        margin-right: 10px;
-        width: 15px;
-    }
+.ideaCard .button svg,
+.likes button svg
+{
+    margin-right: 10px;
+    width: 15px;
 
-.ideaCard .button span {
+}
+
+.ideaCard .button span
+{
     display: inline-flex;
     align-items: center;
 }
 
 
 .ideaCard .follow,
-.likes .follow {
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
+.likes .follow
+{
+    border-top-left-radius:  var(--border-radius);
+    border-top-right-radius:  var(--border-radius);
     stroke: var(--bs-orange);
     fill: transparent;
 }
 
-    .ideaCard .follow.selected,
-    .likes .follow.selected {
-        fill: var(--bs-orange);
-    }
-
-    .ideaCard .follow:hover,
-    .likes .follow:hover {
-        stroke: var(--bs-orange-lighter);
-        fill: var(--bs-orange-lighter);
-    }
-
-.ideaCard .vote {
-    border-top-left-radius: var(--border-radius);
+.ideaCard .follow.selected,
+.likes .follow.selected
+{
+    fill: var(--bs-orange);
 }
 
-    .ideaCard .vote .shine,
-    .likes .vote .shine {
-        fill: transparent;
-        transition: 0.3s ease-in-out;
-    }
+.ideaCard .follow:hover,
+.likes .follow:hover
+{
+    stroke: var(--bs-orange-lighter);
+    fill: var(--bs-orange-lighter);
+}
 
-    .ideaCard .vote:hover .shine,
-    .ideaCard .vote.selected .shine,
-    .likes .vote:hover .shine,
-    .likes .vote.selected .shine {
-        fill: #fff;
-    }
+.ideaCard .vote {
+    border-top-left-radius:  var(--border-radius);
+}
+
+.ideaCard .vote .shine,
+.likes .vote .shine
+{
+    fill: transparent;
+    transition: 0.3s ease-in-out;
+}
+
+.ideaCard .vote:hover .shine,
+.ideaCard .vote.selected .shine,
+.likes .vote:hover .shine,
+.likes .vote.selected .shine
+{
+    fill:#fff;
+}
 
 
-    .ideaCard .vote .heart,
-    .likes .vote .heart {
-        fill: transparent;
-        stroke: #eb0749;
-        transition: all 0.3s ease-in-out;
-    }
+.ideaCard .vote .heart,
+.likes .vote .heart{
+    fill: transparent;
+    stroke: #eb0749;
+    transition: all 0.3s ease-in-out;
+}
 
-    .ideaCard .vote:hover .heart,
-    .likes .vote:hover .heart {
-        fill: #eb0749;
-        stroke: #eb0749;
-    }
+.ideaCard .vote:hover .heart,
+.likes .vote:hover .heart
+{
+    fill: #eb0749;
+    stroke: #eb0749;
+}
 
-    .ideaCard .vote.selected .heart,
-    .likes .vote.selected .heart {
-        fill: #eb0749;
-        stroke: #eb0749;
-    }
+.ideaCard .vote.selected .heart,
+.likes .vote.selected .heart
+{
+    fill: #eb0749;
+    stroke: #eb0749;
+}
 
 .likes svg {
     width: 15px;
@@ -813,10 +842,8 @@ a:hover .Icon_Part_Selected {
 
 
 .InvitationCard-btn {
-    display: flex !important;
-    ;
-    justify-content: space-between !important;
-    ;
+    display: flex !important;;
+    justify-content: space-between !important;;
     border-radius: var(--border-radius);
     background: var(--bs-gray-lightest);
     padding: 1rem;
@@ -824,42 +851,42 @@ a:hover .Icon_Part_Selected {
     fill: var(--bs-info);
 }
 
-    .InvitationCard-btn:hover {
-        background: var(--bs-gray-even-lightest);
-    }
+.InvitationCard-btn:hover {
+    background: var(--bs-gray-even-lightest);
+}
 
-    .InvitationCard-btn > * {
-        cursor: pointer;
-    }
+.InvitationCard-btn > * {
+    cursor: pointer;
+}
 
-    .InvitationCard-btn:hover * {
-        color: var(--bs-gray-light) !important;
-    }
+.InvitationCard-btn:hover * {
+    color: var(--bs-gray-light) !important;
+}
 
-    .InvitationCard-btn .mail {
-        background: white;
-        width: 35px;
-        height: 35px;
-        line-height: 32px;
-        border-radius: 18px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
+.InvitationCard-btn .mail {
+    background: white;
+    width: 35px;
+    height: 35px;
+    line-height: 32px;
+    border-radius: 18px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right: 0;
+    margin: auto;
+}
 
-        .InvitationCard-btn .mail > svg {
-            width: 18px;
-            height: 16px;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
+.InvitationCard-btn .mail > svg {
+    width: 18px;
+    height:16px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right: 0;
+    margin: auto;
+}
 
 .Collaborator_Selected {
     display: flex;
@@ -869,7 +896,8 @@ a:hover .Icon_Part_Selected {
 }
 
 
-.Collaborators_Potential {
+.Collaborators_Potential
+{
     background: white;
     overflow: hidden;
     height: 100%;
@@ -884,20 +912,22 @@ a:hover .Icon_Part_Selected {
 }
 
 
-    .Collaborator_Selected .Label,
-    .Collaborators_Potential .Label {
-        cursor: pointer;
-    }
+.Collaborator_Selected .Label,
+.Collaborators_Potential  .Label{
+    cursor: pointer;
+}
 
 
 .Collaborator_Selected .collaborator,
-.Collaborators .collaborator {
+.Collaborators .collaborator
+{
     border-radius: var(--border-radius);
     border: 1px solid #000000;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.Collaborators .collaborator {
+.Collaborators .collaborator
+{
     padding: 0.5rem;
     margin-bottom: 1rem;
     background: white;
@@ -908,16 +938,19 @@ a:hover .Icon_Part_Selected {
 }
 
 .Collaborator_Selected .Label .Right,
-.Collaborators_Potential .Label .Right {
+.Collaborators_Potential .Label .Right
+{
     display: none;
 }
 
 .Collaborators_Potential .Remove,
-.Collaborators_Potential .Roles {
+.Collaborators_Potential .Roles
+{
     display: none;
 }
 
-.Remove {
+.Remove
+{
     color: var(--bs-danger);
     flex: 0 1 auto;
     align-self: auto;
@@ -927,15 +960,15 @@ a:hover .Icon_Part_Selected {
     border-radius: var(--border-radius);
 }
 
-    .Remove:hover {
-        background: var(--bs-red-lightist)
-    }
+.Remove:hover{
+    background: var(--bs-red-lightist)
+}
 
 .Collaborators_Potential .collaborator .Right svg {
     height: 1rem;
 }
 
-.Collaborators_Potential .collaborator:hover .Right {
+.Collaborators_Potential .collaborator:hover .Right{
     display: block;
 }
 
@@ -945,17 +978,19 @@ a:hover .Icon_Part_Selected {
     cursor: pointer;
 }
 
-    .areaSelect:hover {
-        background: #000000;
-        background: rgba(0, 0, 0, 0.075);
-        color: var(--bs-dark);
-    }
+.areaSelect:hover
+{
+    background: #000000;
+    background: rgba(0, 0, 0, 0.075);
+    color: var(--bs-dark);
+}
 
 
 
 
 
-.Search {
+.Search
+{
     border: 1px solid #000000;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
@@ -970,76 +1005,76 @@ a:hover .Icon_Part_Selected {
     margin-right: 0.5rem;
 }
 
-    .Search .inputLine {
-        display: flex;
-        padding: 0 0.5rem 0.5rem 1.1rem;
-    }
+.Search .inputLine {
+    display: flex;
+    padding: 0 0.5rem 0.5rem 1.1rem;
+}
 
-    .Search .icon {
-        stroke: var(--bs-gray-light);
-        flex: 0 1 auto;
-    }
+.Search .icon {
+    stroke: var(--bs-gray-light);
+    flex: 0 1 auto;
+}
 
-    .Search input,
-    .Search:focus-visible input {
-        flex: 1 1 auto;
-        margin-left: 0.5rem;
-        border: none;
-        outline: none;
-    }
+.Search input,
+.Search:focus-visible input
+{
+    flex: 1 1 auto;
+    margin-left: 0.5rem;
+    border: none;
+    outline: none;
+}
 
 ::placeholder,
-::-webkit-input-placeholder {
+::-webkit-input-placeholder{
     color: var(--bs-gray-light);
 }
 
-.pulse-background-green {
+.pulse-background-green
+{
     animation: pulse-green 2s
 }
 
 @keyframes pulse-green {
-    0% {
-        background-color: transparent;
-    }
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: var(--bs-green-lightist);
+  }
 
-    50% {
-        background-color: var(--bs-green-lightist);
-    }
-
-    100% {
-        background-color: transparent;
-    }
+  100% {
+    background-color: transparent;
+  }
 }
 
 
 
-.pulse-background-red {
+.pulse-background-red
+{
     animation: pulse-red 2s
 }
 
 @keyframes pulse-red {
-    0% {
-        background-color: transparent;
-    }
-
-    50% {
-        background-color: var(--bs-red-lightist);
-    }
-
-    100% {
-        background-color: transparent;
-    }
+  0% {
+      background-color: transparent;
+  }
+  50% {
+    background-color: var(--bs-red-lightist);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
-.glow-border-red {
+.glow-border-red
+{
     animation: glow-border-red-frames 1s
 }
 
 @keyframes glow-border-red-frames {
     0% {
         border: 4px transparent;
-    }
-
+       }
     100% {
         border: 4px var(--bs-red-lightist);
     }
@@ -1048,38 +1083,37 @@ a:hover .Icon_Part_Selected {
 
 
 
-.glow-background-red {
+.glow-background-red
+{
     animation: glow-red 1s;
 }
 
 @keyframes glow-red {
-    0% {
-        background-color: transparent;
-    }
-
-    100% {
-        background-color: var(--bs-red-lightist);
-    }
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: var(--bs-red-lightist);
+  }
 }
 
 
 
-.pulse-font-weight {
+.pulse-font-weight
+{
     animation: pulse-font-weight-400-800 1s;
 }
 
 @keyframes pulse-font-weight-400-800 {
-    0% {
-        font-weight: 400;
-    }
-
-    50% {
-        font-weight: 600;
-    }
-
-    100% {
-        font-weight: 400;
-    }
+  0% {
+    font-weight: 400;
+  }
+  50% {
+    font-weight: 600;
+  }
+  100% {
+    font-weight: 400;
+  }
 }
 
 
@@ -1095,32 +1129,34 @@ a:hover .Icon_Part_Selected {
     border-bottom: 0.5rem solid var(--bs-gray-even-lightest);
 }
 
-    .silkflo-tab > .silkflo-tab-label {
-        margin: 1rem 1rem;
-        padding-bottom: 0.25rem;
-        cursor: pointer;
-        position: relative;
-    }
+.silkflo-tab > .silkflo-tab-label {
+    margin: 1rem 1rem;
+    padding-bottom: 0.25rem;
+    cursor: pointer;
+    position: relative;
+}
 
 
 
-        .silkflo-tab > .silkflo-tab-label::after {
-            top: 100%;
-            position: absolute;
-            left: 50%;
-            height: 4px;
-            width: 0;
-            background: var(--bs-brand-fallback);
-            background: var(--bs-brand);
-            content: "";
-            transition: all 0.3s ease-out;
-        }
+.silkflo-tab > .silkflo-tab-label::after
+{
+    top: 100%;
+    position: absolute;
+    left: 50%;
+    height: 4px;
+    width: 0;
+    background: var(--bs-brand-fallback);
+    background: var(--bs-brand);
+    content: "";
+    transition: all 0.3s ease-out;
+}
 
-        .silkflo-tab > .silkflo-tab-label:hover::after,
-        .silkflo-tab > .active.silkflo-tab-label::after {
-            left: 0;
-            width: 100%;
-        }
+.silkflo-tab > .silkflo-tab-label:hover::after,
+.silkflo-tab > .active.silkflo-tab-label::after
+{
+    left: 0;
+    width: 100%;
+}
 
 
 
@@ -1141,53 +1177,55 @@ a:hover .Icon_Part_Selected {
 
 
 .grow-wrap {
-    /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
-    display: grid;
+  /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
+  display: grid;
+}
+.grow-wrap::after {
+  /* Note the weird space! Needed to preventy jumpy behavior */
+  content: attr(data-replicated-value) " ";
+
+  /* This is how textarea text behaves */
+  white-space: pre-wrap;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+.grow-wrap > textarea {
+  /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+  resize: none;
+
+  /* Firefox shows scrollbar on growth, you can hide like this. */
+  overflow: hidden;
+}
+.grow-wrap > textarea,
+.grow-wrap::after {
+  /* Identical styling required!! */
+  padding: 0.5rem;
+  font: inherit;
+
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
 }
 
-    .grow-wrap::after {
-        /* Note the weird space! Needed to preventy jumpy behavior */
-        content: attr(data-replicated-value) " ";
-        /* This is how textarea text behaves */
-        white-space: pre-wrap;
-        /* Hidden from view, clicks, and screen readers */
-        visibility: hidden;
-    }
-
-    .grow-wrap > textarea {
-        /* You could leave this, but after a user resizes, then it ruins the auto sizing */
-        resize: none;
-        /* Firefox shows scrollbar on growth, you can hide like this. */
-        overflow: hidden;
-    }
-
-    .grow-wrap > textarea,
-    .grow-wrap::after {
-        /* Identical styling required!! */
-        padding: 0.5rem;
-        font: inherit;
-        /* Place on top of each other */
-        grid-area: 1 / 1 / 2 / 2;
-    }
-
-.automationGoal td:nth-child(2) {
-    text-align: end;
-}
+.automationGoal td:nth-child(2) { text-align: end; }
 
 
-.tile_grid_auto_1fr {
+.tile_grid_auto_1fr
+{
     display: grid;
     grid-template-columns: auto 1fr;
-}
+ }
 
-.tile_grid_auto_auto_auto_auto {
+.tile_grid_auto_auto_auto_auto
+{
     display: grid;
     grid-template-columns: auto auto auto auto;
 }
 
 
 
-.tile_topleft {
+.tile_topleft
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1198,7 +1236,8 @@ a:hover .Icon_Part_Selected {
     border-left: 1px solid #ddd !important;
 }
 
-.tile_topMiddle {
+.tile_topMiddle
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1207,7 +1246,8 @@ a:hover .Icon_Part_Selected {
     border-top: 1px solid #ddd !important;
 }
 
-.tile_topRight {
+.tile_topRight
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1218,7 +1258,8 @@ a:hover .Icon_Part_Selected {
     border-right: 1px solid #ddd !important;
 }
 
-.tile_middleleft {
+.tile_middleleft
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1227,7 +1268,8 @@ a:hover .Icon_Part_Selected {
     border-left: 1px solid #ddd !important;
 }
 
-.tile_middle {
+.tile_middle
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1235,7 +1277,8 @@ a:hover .Icon_Part_Selected {
     background: white;
 }
 
-.tile_bottomleft {
+.tile_bottomleft
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1247,7 +1290,8 @@ a:hover .Icon_Part_Selected {
     margin-bottom: 1rem;
 }
 
-.tile_middleRight {
+.tile_middleRight
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1256,7 +1300,8 @@ a:hover .Icon_Part_Selected {
     border-right: 1px solid #ddd !important;
 }
 
-.tile_bottomMiddle {
+.tile_bottomMiddle
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1266,7 +1311,8 @@ a:hover .Icon_Part_Selected {
     margin-bottom: 1rem;
 }
 
-.tile_bottomRight {
+.tile_bottomRight
+{
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
@@ -1278,7 +1324,8 @@ a:hover .Icon_Part_Selected {
     margin-bottom: 1rem;
 }
 
-.tile_heading {
+.tile_heading
+{
     background: var(--bs-gray-lightest);
     font-weight: bold;
 }
@@ -1290,8 +1337,10 @@ a:hover .Icon_Part_Selected {
 
 
 
-div[name="Settings.PlatformSetup.BusinessUnits"] > div {
+div[name="Settings.PlatformSetup.BusinessUnits"] > div
+{
     border: solid 2px var(--border-color);
+
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -1301,79 +1350,90 @@ div[name="Settings.PlatformSetup.BusinessUnits"] > div {
 }
 
 
-div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"] {
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]
+{
     border-bottom: solid 2px var(--border-color);
     padding: 0.5rem 1rem;
+
     font-weight: bold;
     flex: 0 1 auto;
     align-self: auto;
     cursor: pointer;
+
 }
 
-    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select,
-    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select {
-        background: var(--bs-gray-even-lightest);
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"].select,
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select
+{
+    background: var(--bs-gray-even-lightest);
+}
+
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div.edit {
+        background: white;
+        outline: 2px solid var(--bs-gray-light);
+        outline-offset: -2px;
+        cursor: text;
     }
-
-
-div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div.edit {
-    background: white;
-    outline: 2px solid var(--bs-gray-light);
-    outline-offset: -2px;
-    cursor: text;
-}
 
 
 
 div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Department"].select,
 div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Team"].select,
-div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Process"].select {
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] div[name="Business.Process"].select
+{
     background: var(--bs-gray-light);
     color: white;
 }
 
 div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Department"].select,
 div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Team"].select,
-div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Process"].select {
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"].select div[name="Business.Process"].select
+{
     background: var(--bs-gray);
     color: white;
 }
 
 
-div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]:hover {
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="Header"]:hover
+{
     background: var(--bs-gray-light);
     color: white;
 }
 
 
-div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] {
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"]
+{
     border-bottom: solid 1px var(--border-color);
     flex: 1 0 auto;
     align-self: auto;
 }
 
 
-    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div {
-        padding: 0.5rem 1rem;
-        cursor: pointer;
+div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div
+{
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+    div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover {
+        background: var(--bs-gray-light);
+        color: white;
     }
 
-        div[name="Settings.PlatformSetup.BusinessUnits"] div[name="List"] > div:not(.edit):hover {
-            background: var(--bs-gray-light);
-            color: white;
-        }
 
-
-div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable] {
+div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable]
+{
     display: inline-block;
     width: 100%;
     height: 1.5rem;
     outline: none;
 }
 
-    div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable]:hover {
-        color: black;
-    }
+div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable]:hover
+{
+    color: black;
+}
 
 
 .table-silkflo thead tr,
@@ -1382,13 +1442,15 @@ div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable] {
 }
 
 .table-silkflo thead th,
-.table-silkflo-display thead th {
+.table-silkflo-display thead th
+{
     padding-top: 1rem;
     padding-bottom: 1rem;
 }
 
 .table-silkflo tr:not(.edit):first-child,
-.table-silkflo-display tr:first-child {
+.table-silkflo-display tr:first-child
+{
     border-top: solid 1px var(--border-color)
 }
 
@@ -1402,39 +1464,43 @@ div[name="Settings.PlatformSetup.BusinessUnits"] div[contenteditable] {
     cursor: pointer;
 }
 
-.table-silkflo tr.select:not(.edit),
-.table-silkflo tr.select:not(.edit):hover,
-.table tr.select:not(.edit),
-.table tr.select:not(.edit):hover {
-    background: var(--row-selected-background);
-    color: var(--row-selected-color);
-    --bs-table-accent-bg: var(--row-selected-background);
-}
-
-    .table-silkflo tr.select:not(.edit) a,
-    .table tr.select:not(.edit) a {
-        color: var(--bs-red-lightist);
+    .table-silkflo tr.select:not(.edit),
+    .table-silkflo tr.select:not(.edit):hover,
+    .table tr.select:not(.edit),
+    .table tr.select:not(.edit):hover
+    {
+        background: var(--row-selected-background);
+        color: var(--row-selected-color);
+        --bs-table-accent-bg: var(--row-selected-background);
     }
+
+.table-silkflo tr.select:not(.edit) a,
+.table tr.select:not(.edit) a
+{
+    color: var(--bs-red-lightist);
+}
 
 table[name="Business.RoleCosts"] .form-group,
 table[name="Business.RunningCosts"] .form-group,
 table[name="Business.OtherRunningCosts"] .form-group,
 table[name="Business.IdeaRunningCosts"] .form-group,
 table[name="Business.IdeaOtherRunningCosts"] .form-group,
-table[name="Business.ImplementationCosts"] .form-group {
+table[name="Business.ImplementationCosts"] .form-group
+{
     margin: 0.5rem !important;
 }
 
 
 
-    table[name="Business.RoleCosts"] .form-group > *,
-    table[name="Business.RunningCosts"] .form-group > *,
-    table[name="Business.OtherRunningCosts"] .form-group > *,
-    table[name="Business.IdeaRunningCosts"] .form-group > *,
-    table[name="Business.IdeaOtherRunningCosts"] .form-group > *,
-    table[name="Business.ImplementationCosts"] .form-group > * {
-        padding: 0;
-    }
+table[name="Business.RoleCosts"] .form-group > *,
+table[name="Business.RunningCosts"] .form-group > *,
+table[name="Business.OtherRunningCosts"] .form-group > *,
+table[name="Business.IdeaRunningCosts"] .form-group > *,
+table[name="Business.IdeaOtherRunningCosts"] .form-group > *,
+table[name="Business.ImplementationCosts"] .form-group > *
+{
+    padding: 0;
+}
 
 table[name="Business.RoleCosts"] .form-control,
 table[name="Business.RoleCosts"] .form-select,
@@ -1444,10 +1510,13 @@ table[name="Business.OtherRunningCosts"] .form-control,
 table[name="Business.OtherRunningCosts"] .form-select,
 table[name="Business.IdeaRunningCosts"] .form-control,
 table[name="Business.IdeaRunningCosts"] .form-select,
+
 table[name="Business.IdeaOtherRunningCosts"] .form-control,
 table[name="Business.IdeaOtherRunningCosts"] .form-select,
+
 table[name="Business.ImplementationCosts"] .form-control,
-table[name="Business.ImplementationCosts"] .form-select {
+table[name="Business.ImplementationCosts"] .form-select
+{
     font-size: 0.8rem !important;
 }
 
@@ -1456,7 +1525,8 @@ table[name="Business.RunningCosts"] .form-select,
 table[name="Business.OtherRunningCosts"] .form-select,
 table[name="Business.IdeaRunningCosts"] .form-select,
 table[name="Business.IdeaOtherRunningCosts"] .form-select,
-table[name="Business.ImplementationCosts"] .form-select {
+table[name="Business.ImplementationCosts"] .form-select
+{
     padding-right: 0 !important;
     padding-left: 0.25rem !important;
     height: 2rem !important;
@@ -1469,7 +1539,8 @@ table[name="Business.RunningCosts"] .form-control,
 table[name="Business.OtherRunningCosts"] .form-control,
 table[name="Business.IdeaRunningCosts"] .form-control,
 table[name="Business.IdeaOtherRunningCosts"] .form-control,
-table[name="Business.ImplementationCosts"] .form-control {
+table[name="Business.ImplementationCosts"] .form-control
+{
     padding-right: 0.25rem !important;
     padding-left: 0.25rem !important;
     height: 32px !important;
@@ -1481,7 +1552,8 @@ table[name="Business.Versions"] tr:not(.edit):first-child,
 table[name="Business.SoftwareVenders"] tr:not(.edit):first-child,
 table[name="Business.RoleCosts"] tr:not(.edit):first-child,
 table[name="Business.RunningCosts"] tr:not(.edit):first-child,
-table[name="Business.OtherRunningCosts"] tr:not(.edit):first-child {
+table[name="Business.OtherRunningCosts"] tr:not(.edit):first-child
+{
     border-top: solid 1px var(--border-color)
 }
 
@@ -1495,7 +1567,8 @@ table[name="Business.SoftwareVenders"] tr.edit:hover,
 table[name="Business.RoleCosts"] tr.edit,
 table[name="Business.RoleCosts"] tr.edit:hover,
 table[name="Business.RunningCosts"] tr.edit,
-table[name="Business.RunningCosts"] tr.edit:hover {
+table[name="Business.RunningCosts"] tr.edit:hover
+{
     --bs-table-accent-bg: white;
     outline: 1px solid var(--border-color);
     outline-offset: -1px;
@@ -1504,17 +1577,19 @@ table[name="Business.RunningCosts"] tr.edit:hover {
 
 
 
-    table[name="Business.Versions"] tr.edit td:not(:last-child),
+table[name="Business.Versions"] tr.edit td:not(:last-child),
     table[name="Business.SoftwareVenders"] tr.edit td:not(:last-child),
     table[name="Business.RoleCosts"] tr.edit td:not(:last-child),
     table[name="Business.RunningCosts"] tr.edit td:not(:last-child),
     table[name="Business.OtherRunningCosts"] tr.edit td:not(:last-child),
     table[name="Business.IdeaRunningCosts"] tr.edit td:not(:last-child),
-    table[name="Business.IdeaOtherRunningCosts"] tr.edit td:not(:last-child) {
+    table[name="Business.IdeaOtherRunningCosts"] tr.edit td:not(:last-child)
+{
         border-right: 1px solid var(--border-color);
     }
 
-    table[name="Business.Versions"] tr.edit td:last-child {
+    table[name="Business.Versions"] tr.edit td:last-child
+    {
         background: var(--row-selected-background) !important;
         box-shadow: none;
         color: white;
@@ -1529,7 +1604,8 @@ table[name="Business.RunningCosts"] tr.edit:hover {
     table[name="Business.OtherRunningCosts"] tr.edit div[role="textbox"],
     table[name="Business.IdeaRunningCosts"] tr.edit div[role="textbox"],
     table[name="Business.IdeaOtherRunningCosts"] tr.edit div[role="textbox"],
-    table[name="Business.ImplementationCosts"] tr.edit div[role="textbox"] {
+    table[name="Business.ImplementationCosts"] tr.edit div[role="textbox"]
+    {
         cursor: text;
     }
 
@@ -1539,22 +1615,26 @@ table[name="Business.RunningCosts"] tr.edit:hover {
         table[name="Business.RunningCosts"] tr.edit div[role="textbox"]:focus-visible,
         table[name="Business.OtherRunningCosts"] tr.edit div[role="textbox"]:focus-visible,
         table[name="Business.IdeaRunningCosts"] tr.edit div[role="textbox"]:focus-visible,
-        table[name="Business.IdeaOtherRunningCosts"] tr.edit div[role="textbox"]:focus-visible {
+        table[name="Business.IdeaOtherRunningCosts"] tr.edit div[role="textbox"]:focus-visible
+        {
             outline: none;
         }
 
 
-.displayField {
+.displayField
+{
     padding: 0.5rem;
 }
 
-.selector {
+.selector
+{
     width: 0.5rem;
     background: var(--bs-danger);
     display: none;
 }
 
-.select .selector {
+.select .selector
+{
     display: block;
 }
 
@@ -1565,11 +1645,13 @@ table[name="Business.RunningCosts"] tr.edit .editField,
 table[name="Business.OtherRunningCosts"] tr.edit .editField,
 table[name="Business.IdeaRunningCosts"] tr.edit .editField,
 table[name="Business.IdeaOtherRunningCosts"] tr.edit .editField,
-table[name="Business.ImplementationCosts"] tr.edit .editField {
+table[name="Business.ImplementationCosts"] tr.edit .editField
+{
     display: block;
 }
 
-tr.edit .editFlexField {
+tr.edit .editFlexField
+{
     display: flex;
 }
 
@@ -1577,7 +1659,8 @@ table[name="Business.SoftwareVenders"] tr.edit .displayField,
 table[name="Business.RoleCosts"] tr.edit .displayField,
 table[name="Business.RunningCosts"] tr.edit .displayField,
 table[name="Business.OtherRunningCosts"] tr.edit .displayField,
-table[name="Business.ImplementationCosts"] tr.edit .displayField {
+table[name="Business.ImplementationCosts"] tr.edit .displayField
+{
     display: none;
 }
 
@@ -1591,7 +1674,8 @@ table[name="Business.RoleCosts"] tr:not(.edit) .editField,
 table[name="Business.RunningCosts"] tr:not(.edit) .editField,
 table[name="Business.OtherRunningCosts"] tr:not(.edit) .editField,
 table[name="Business.ImplementationCosts"] tr:not(.edit) .editField,
-tr:not(.edit) .editFlexField {
+tr:not(.edit) .editFlexField
+{
     display: none;
 }
 
@@ -1601,56 +1685,68 @@ tr:not(.edit) .editFlexField {
 table[name="Business.Versions"] tr:not(.edit) .displayField,
 table[name="Business.SoftwareVenders"] tr:not(.edit) .displayField,
 table[name="Business.RoleCosts"] tr:not(.edit) .displayField,
-table[name="Business.RunningCosts"] tr:not(.edit) .displayField,
-table[name="Business.OtherRunningCosts"] tr:not(.edit) .displayField,
-table[name="Business.ImplementationCosts"] tr:not(.edit) .displayField {
+table[name="Business.RunningCosts"] tr:not(.edit)  .displayField,
+table[name="Business.OtherRunningCosts"] tr:not(.edit)  .displayField,
+table[name="Business.ImplementationCosts"] tr:not(.edit)  .displayField
+{
     display: block;
 }
 
 
-table[name="Business.Idea.VolumeSplitEstimations"] div[role="textbox"] {
+table[name="Business.Idea.VolumeSplitEstimations"] div[role="textbox"]
+{
     width: 100%;
 }
 
-    table[name="Business.Idea.VolumeSplitEstimations"] div[role="textbox"]:focus-visible {
-        outline: none;
-    }
+table[name="Business.Idea.VolumeSplitEstimations"] div[role="textbox"]:focus-visible
+{
+    outline: none;
+}
 
 
 tr > td.readOnly,
-tr span.readOnly {
+tr span.readOnly
+{
     background: var(--readOnly-background)
 }
 
-tr:hover span.readOnly {
+tr:hover span.readOnly
+{
     background: var(--bs-table-hover-bg) !important;
 }
 
 
 table.table-hover tbody tr:not(.select, .total):hover > td.readOnly,
-table.table-hover tbody tr:not(.select, .total):hover {
+table.table-hover tbody tr:not(.select, .total):hover
+{
     background: var(--bs-table-hover-bg) !important;
 }
 
-.form h1 {
+.form h1
+{
     margin-top: 3rem !important;
     margin-bottom: 1rem !important;
 }
 
-.form h2 {
+.form h2
+
+{
     margin-top: 2rem !important;
 }
 
-tr.total {
+tr.total
+{
     border-top: 2px solid var(--border-color);
 }
 
-    tr.total:hover {
-        --bs-table-accent-bg: transparent !important;
-        cursor: default !important;
-    }
+tr.total:hover
+{
+    --bs-table-accent-bg: transparent !important;
+    cursor: default !important;
+}
 
-.table-bordered-silkflo .edit {
+.table-bordered-silkflo .edit
+{
     background: white;
 }
 
@@ -1662,15 +1758,17 @@ tr.total {
 }*/
 
 .table-bordered-silkflo tbody td,
-.table-bordered-header-silkflo th {
+.table-bordered-header-silkflo th
+{
     border-style: solid;
     border-width: 1px 1px;
-    border-right: -1px;
+    border-right: -1px; 
 }
 
 
 
-.table-bordered-silkflo select {
+.table-bordered-silkflo select
+{
     width: 100%;
     height: 100%;
     border: none;
@@ -1678,33 +1776,39 @@ tr.total {
     border-radius: 0;
 }
 
-    .table-bordered-silkflo div:focus-visible,
-    .table-bordered-silkflo select:focus-visible {
-        outline: none;
-    }
+.table-bordered-silkflo div:focus-visible,
+.table-bordered-silkflo select:focus-visible
+{
+    outline: none;
+}
 
-.transformOrigin {
+.transformOrigin
+{
     transform-origin: center;
 }
 
-.bubbleGrow:hover {
+.bubbleGrow:hover
+{
     stroke-width: 20;
 }
 
-spanPrimary {
+spanPrimary
+{
     display: inline-block;
     color: var(--bs-primary)
 }
 
 
-.generator {
+.generator
+{
     fill: white;
 }
 
-.btn:hover .generator {
+.btn:hover .generator
+{
     transform-origin: center;
-    animation-name: rotate;
-    animation-duration: 0.75s;
+    animation-name: rotate; 
+    animation-duration: 0.75s; 
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 }
@@ -1712,13 +1816,8 @@ spanPrimary {
 
 
 @keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
 }
 
 
@@ -1726,9 +1825,11 @@ spanPrimary {
     filter: brightness(1.1);
     cursor: pointer;
     filter: var(--svgFilter);
+     
 }
 
-.clickMe:active {
+.clickMe:active
+{
     filter: brightness(1.05) var(--svgFilter);
 }
 
@@ -1736,108 +1837,121 @@ spanPrimary {
 
 
 
-.rules {
+.rules
+{
     animation: 1s linear 0s 1 normal none running gKTHBZ;
 }
 
-    .rules ul {
-        list-style: none;
-        padding-left: 0;
-    }
+.rules ul
+{
+    list-style: none;
+    padding-left: 0;                        
+}
 
-    .rules .Message {
-        font-size: 1rem;
-        line-height: 1rem;
-        margin-bottom: 0.5rem;
-    }
+.rules .Message
+{
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 0.5rem;
+}
 
-    .rules .isInValid {
-        font-size: 0.8rem;
-        line-height: 1rem;
-        padding-left: 1.5rem;
-    }
-
-
-
-
-    .rules .isValid {
-        font-size: 0.8rem;
-        line-height: 1rem;
-        padding-left: 1.5rem;
-        background-image: url(/Icons/Tick.svg);
-        background-repeat: no-repeat;
-        background-position: left top;
-    }
+.rules .isInValid
+{
+    font-size: 0.8rem;
+    line-height: 1rem;
+    padding-left: 1.5rem;
+}
 
 
-.grecaptcha-badge {
+
+
+.rules .isValid
+{
+    font-size: 0.8rem;
+    line-height: 1rem;
+    padding-left: 1.5rem;
+    background-image: url(/Icons/Tick.svg);
+    background-repeat: no-repeat; 
+    background-position: left top;
+}
+
+
+.grecaptcha-badge
+{
     bottom: 50px !important;
     right: 10px;
 }
 
 
-ul.tickList {
+ul.tickList
+{
     list-style: none;
     padding-left: 0;
 }
 
-    ul.tickList li {
-        font-size: 1rem;
-        background-image: url(/Icons/Tick.svg);
-        background-repeat: no-repeat;
-        background-position: left top;
-        padding-left: 1.5rem;
-        line-height: 1rem;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
+ul.tickList li
+{
+    font-size: 1rem;
+    background-image: url(/Icons/Tick.svg);
+    background-repeat: no-repeat; 
+    background-position: left top;
+    padding-left: 1.5rem;
+    line-height: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
 
 
-.Toolbar.FilterRightside {
+.Toolbar.FilterRightside
+{
     border: 1px solid var(--bs-gray-lighter);
     border-top-right-radius: var(--border-radius) !important;
     border-bottom-right-radius: var(--border-radius) !important;
 }
 
-    .Toolbar.FilterRightside:focus-visible {
-        outline: 1px solid var(--bs-gray-light);
-    }
+.Toolbar.FilterRightside:focus-visible
+{
+    outline: 1px solid var(--bs-gray-light);
+}
 
-.QuestionIcon {
-    width: 16px;
+.QuestionIcon
+{
+    width:16px;
     margin-left: 0.5rem;
     fill: var(--bs-gray-light);
 }
 
-.QuestionIconLight {
-    width: 16px;
+.QuestionIconLight
+{
+    width:16px;
     margin-left: 0.5rem;
     fill: white;
 }
 
-    .QuestionIcon:hover,
-    .QuestionIconLight:hover {
-        animation: pulse-size 1.5s;
-        animation-iteration-count: infinite;
-    }
+.QuestionIcon:hover,
+.QuestionIconLight:hover
+{
+    animation: pulse-size 1.5s;
+    animation-iteration-count: infinite;
+}
 
-        .QuestionIcon:hover path,
-        .QuestionIconLight:hover path {
-            fill: var(--bs-info);
-            animation: pulse-QuestionIcon 1.5s;
-            animation-iteration-count: infinite;
-        }
+.QuestionIcon:hover path,
+.QuestionIconLight:hover path
+{
+    fill: var(--bs-info);
+    animation: pulse-QuestionIcon 1.5s;
+    animation-iteration-count: infinite;
+}
 
 @keyframes pulse-QuestionIcon {
     0% {
         opacity: 1;
-    }
-
+       }
     50% {
         opacity: 0.5;
-    }
-
-    100% {
+        }
+    100%
+    {
         opacity: 1;
     }
 }
@@ -1845,18 +1959,18 @@ ul.tickList {
 @keyframes pulse-size {
     0% {
         transform: scale(1.1);
-    }
-
+       }
     50% {
         transform: scale(2);
-    }
-
-    100% {
+        }
+    100%
+    {
         transform: scale(1.1);
     }
 }
 
-.HotSpotCard {
+.HotSpotCard
+{
     box-shadow: var(--silkflo_shadow);
     left: 2rem;
     top: 0.25rem;
@@ -1864,25 +1978,23 @@ ul.tickList {
     font-size: 0.8rem;
 }
 
-.HotSpotHeader {
+.HotSpotHeader
+{
     display: flex;
     justify-content: end;
     padding-top: 0.5rem;
     padding-right: 0.5rem;
 }
 
-.HotSpotContent {
+.HotSpotContent
+{
     padding: 0 0.5rem 0.5rem 0.5rem;
     color: var(--bs-dark);
 }
 
 
 
-.SilkFloFilter label {
+.SilkFloFilter label
+{
     font-size: 0.9rem;
-}
-
-.billing-plan-active {
-    border: 1px solid #FF8A00 !important;
-
 }

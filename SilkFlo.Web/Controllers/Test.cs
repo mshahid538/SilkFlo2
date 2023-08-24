@@ -11,30 +11,13 @@ namespace SilkFlo.Web.Controllers
 {
     public class Test : Controller
     {
-        public IActionResult index()
+        public IActionResult Index()
         {
             return View();
         }
-
-       public IActionResult End()
+        public IActionResult Dashboard()
         {
-            return View("Subscription/_EndNotification");
-        }  
-        public IActionResult gracePeriod()
-        {
-            return View("Subscription/GracePeriod");
-        } 
-        public IActionResult pre2day()
-        {
-            return View("Subscription/PreEnd2day");
-        }
-        public IActionResult pre7day()
-        {
-            return View("Subscription/preEnd7day");
-        }
-        public IActionResult preLast()
-        {
-            return View("Subscription/PreEndLast");
+            return View();
         }
     }
 

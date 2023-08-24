@@ -108,7 +108,7 @@ namespace SilkFlo.Web.ViewModels
         {
             var isLive = environment == Security.Environment.Production;
 
-            await SilkFlo.Web.Services2.Models.PaymentManager.UpdatePricesAsync(unitOfWork); // Payment.Manager.UpdatePricesAsync(unitOfWork);
+            await Payment.Manager.UpdatePricesAsync(unitOfWork);
 
 
             var cores = (await unitOfWork.SharedPeriods.GetAllAsync()).ToList();
@@ -116,8 +116,6 @@ namespace SilkFlo.Web.ViewModels
             var pricesAnnual = (await unitOfWork.ShopPrices.FindAsync(x => x.PeriodId == Enumerators.Period.Annual.ToString()
                                                                      && x.IsActive
                                                                      && x.IsLive == isLive)).ToList();
-
-            //var pricesAnnual223 = await unitOfWork.ShopPrices.GetAllAsync();
 
             var pricesAnnualModel = Models.Shop.Price.Create(pricesAnnual);
 

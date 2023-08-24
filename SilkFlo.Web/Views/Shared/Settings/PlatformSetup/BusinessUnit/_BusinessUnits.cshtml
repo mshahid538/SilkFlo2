@@ -1,38 +1,18 @@
 @model List<SilkFlo.Web.Models.Business.Department>
 
+
 @foreach (var department in Model)
 {
     var url = "GetAreas/departmentId/" + @department.Id;
-
-
-
-    <div class="row" name="Business.Department.Row" id="@department.Id" style="width:100%; margin-left: 0px; padding:0px;">
-        <div class="col-11" style="padding:10px 15px" ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click (event);"
-         onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click (event);" url="@url"
+    <div url="@url"
          column="BusinessUnit"
          name="Business.Department"
          id="@department.Id"
-         targetName="Area">
-            <div name="Business.Department.Name" role="textbox" class="child-div" style="color:#353535;">@department.Name</div>
-            <input name="NameOld" type="hidden" value="@department.Name" />
-            <input name="Business.Department.Id" type="hidden" value="@department.Id" />
-        </div>
-        <div class="col-1 " style="padding:10px 5px" name="Business.Department" id="@department.Id">
-            <span title="Delete">
-                <svg xmlns="http://www.w3.org/2000/svg" id="@department.Id" width="16" height="16" fill="currentColor" class="bi bi-trash child-div" viewBox="0 0 16 16" style="color:#A1A1AE;" onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Delete_Click ();">
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
-                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
-                </svg>
-            </span>
-
-        </div>
-        <hr style="margin: 0px;color: #5f5f5f;background-color: #5f5f5f;" />
+         targetName="Area"
+         ondblclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Dbl_Click (event);"
+         onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.Select_Click (event);">
+        <div name="Business.Department.Name" role="textbox">@department.Name</div>
+        <input name="NameOld" type="hidden" value="@department.Name" />
+        <input name="Business.Department.Id" type="hidden" value="@department.Id" />
     </div>
-
 }
-
-<div name="button" id="btnNewBusiness" style="padding:10px 15px; color:#A1A1AE" class="listbtn"
-     onclick="SilkFlo.ViewModels.Settings.PlatformSetup.BusinessUnits.NewBusinessUnits_Click ();">
-    + Add Business Unit
-</div>
-

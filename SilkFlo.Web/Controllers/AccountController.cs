@@ -20,31 +20,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using SilkFlo.Data.Core;
+using SilkFlo.Data.Core.Domain;
 using SilkFlo.Email;
+using SilkFlo.Web.Models.Business;
+using SilkFlo.Web.Models.Shop;
 using SilkFlo.Web.Services;
 using SilkFlo.Web.Services.Models.Account;
 using SignInResult = SilkFlo.Data.Core.SignInResult;
-using Microsoft.Identity.Client;
-using SilkFlo.Web.Models;
-using System.Collections.Generic;
-using System.Net.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace SilkFlo.Web.Controllers;
 
 [Route("[controller]/[action]")]
 public partial class AccountController : AbstractAPI
 {
-    private readonly IConfiguration _configuration;
-    private readonly SaasFullfilmentManager _manager; 
     public AccountController(IUnitOfWork unitOfWork,
         ViewToString viewToString,
-        IAuthorizationService authorization, IConfiguration configuration) : base(unitOfWork, viewToString, authorization)
+        IAuthorizationService authorization) : base(unitOfWork, viewToString, authorization)
     {
-        _configuration = configuration;
-        _manager = new SaasFullfilmentManager(_configuration);
     }
 
 
@@ -420,7 +412,7 @@ public partial class AccountController : AbstractAPI
     #endregion
 
 
-    private async Task<DateTime> GetExpiratoryDate(Data.Core.Domain.User user)
+    private async Task<DateTime> GetExpiratoryDate(User user)
     {
         var expiratoryDate = DateTime.MaxValue;
 
@@ -438,9 +430,9 @@ public partial class AccountController : AbstractAPI
             return expiratoryDate;
 
 
-        // subscription valid? 
+        // subscription valid?
         var subscription =
-            await new SilkFlo.Web.Models.Business.Client(user.Client)
+            await new Client(user.Client)
                 .GetLastSubscriptionAsync(_unitOfWork);
 
 
@@ -452,6 +444,7 @@ public partial class AccountController : AbstractAPI
         expiratoryDate = DateTime.Now;
         return expiratoryDate;
     }
+
 
     #region Sign In
 
@@ -526,7 +519,9 @@ public partial class AccountController : AbstractAPI
     // /account/signin
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SignIn(SignIn model, [FromQuery(Name = "returnUrl")] string returnUrl = "")
+    public async Task<IActionResult> SignIn(
+        SignIn model,
+        [FromQuery(Name = "returnUrl")] string returnUrl = "")
     {
         // Guard Clause
         if (model == null)
@@ -558,7 +553,7 @@ public partial class AccountController : AbstractAPI
             return View(model);
 
 
-        Data.Core.Domain.User user = null;
+        User user = null;
 
         var isPracticeUser = false;
         var signInResult = SignInResult.Failed;
@@ -706,132 +701,6 @@ public partial class AccountController : AbstractAPI
                 return View(model);
         }
     }
-
-    public async Task<IActionResult> SignInMicrosoft()
-    {
-        // Retrieve the Azure AD app settings from configuration
-        var azureAdOptions = _configuration.GetSection("AzureAd").Get<SilkFlo.Web.Models.AzureAdOptions>();
-
-        // Construct the sign-in URL
-        var signInUrl = $"{azureAdOptions.Instance}{azureAdOptions.TenantId}/oauth2/v2.0/authorize?" +
-            $"client_id={azureAdOptions.ClientId}&response_type=code%20id_token&" +
-            $"response_mode=form_post&nonce={Guid.NewGuid()}" +
-            $"redirect_uri={azureAdOptions.CallbackPath.TrimStart('/')}&state=silkflo_user&scope={azureAdOptions.Scopes}";
-
-        // Redirect the user to the sign-in URL
-        return Redirect(signInUrl);
-    }
-
-    public async Task<IActionResult> SignUpMicrosoft(string priceId)
-    {
-        // Retrieve the Azure AD app settings from configuration
-        var azureAdOptions = _configuration.GetSection("AzureAd").Get<SilkFlo.Web.Models.AzureAdOptions>();
-
-        // Construct the sign-in URL
-        var signInUrl = $"{azureAdOptions.Instance}{azureAdOptions.TenantId}/oauth2/v2.0/authorize?" +
-            $"client_id={azureAdOptions.ClientId}&response_type=code%20id_token&" +
-            $"response_mode=form_post&nonce={Guid.NewGuid()}" +
-            $"redirect_uri={azureAdOptions.CallbackPath.TrimStart('/')}&state={priceId}&scope={azureAdOptions.Scopes}";
-
-        // Redirect the user to the sign-in URL
-        return Redirect(signInUrl);
-    }
-
-    public async Task<IActionResult> SignInMicrosoftCallback(string code, string id_token, string state, string session_state)
-    {
-        // Retrieve the Azure AD app settings from configuration
-        var azureAdOptions = _configuration.GetSection("AzureAd").Get<SilkFlo.Web.Models.AzureAdOptions>();
-
-        try
-        {
-            if (!String.IsNullOrEmpty(id_token))
-            {
-                #region Token claims
-                var handler = new JwtSecurityTokenHandler();
-                var jwtToken = handler.ReadJwtToken(id_token); // tokenResponse.AccessToken);
-
-                var specificClaims = new List<string>();
-
-                // Retrieve specific claims based on the scopes
-                var claims = jwtToken.Claims;
-                var openidSubClaim = claims.FirstOrDefault(c => c.Type == "sub");
-                if (openidSubClaim != null)
-                {
-                    specificClaims.Add(openidSubClaim.Value);
-                }
-
-                //var profileClaims = new string[] { "given_name", "family_name", "name", "preferred_username", "birthdate", "gender" };
-                //foreach (var profileClaim in profileClaims)
-                //{
-                //    var claim = claims.FirstOrDefault(c => c.Type == profileClaim);
-                //    if (claim != null)
-                //    {
-                //        specificClaims.Add(claim.Value);
-                //    }
-                //}
-                var firstName = claims.FirstOrDefault(c => c.Type == "given_name");
-                var lastName = claims.FirstOrDefault(c => c.Type == "family_name");
-
-
-                var emailClaim = claims.FirstOrDefault(c => c.Type == "email");
-                if (emailClaim != null)
-                {
-                    specificClaims.Add(emailClaim.Value);
-                }
-                #endregion
-
-
-                if (!String.IsNullOrEmpty(state))
-                {
-                    if (state == "silkflo_user")
-                    {
-                        var user = (await _unitOfWork.Users.FindAsync(x => x.Email == emailClaim.Value || x.EmailNew == emailClaim.Value)).FirstOrDefault();
-                        await _unitOfWork.UserRoles.GetForUserAsync(user);
-                        await _unitOfWork.Roles.GetRoleForAsync(user.UserRoles);
-
-                        if (!user.IsEmailConfirmed)
-                        {
-                            // Redirect to Sign Up Confirmation
-                            throw new Exception("Please confirm your email!");
-                        }
-
-                        var returnUrl = await SignInAsync(
-                            user,
-                            new Services.Models.Account.SignIn() { RememberMe = true, StaySignedIn = true },
-                            "",
-                            true,
-                            true);
-
-                        if (returnUrl == "/account/signin")
-                            return Redirect("/account/signin");
-
-                        if (returnUrl == "/Account/SubscriptionExpired")
-                            return Redirect("/Account/SubscriptionExpired");
-
-                        // Exit
-                        if (returnUrl == null
-                        || !Url.IsLocalUrl(returnUrl))
-                            return RedirectToAction("Index", "Home");
-
-                        if (Url.IsLocalUrl(returnUrl))
-                            return Redirect(returnUrl);
-
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        return Redirect($"/shop/subscribe/priceId/{state}?entity={System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(emailClaim.Value))}");
-                    }
-                }
-            }
-            return Redirect("/Account/SignIn");
-        }
-        catch (MsalException ex)
-        {
-            return Redirect("/Account/SignIn");
-        }
-    }
-
     #endregion
 
     #region Sign Out
@@ -1122,197 +991,4 @@ public partial class AccountController : AbstractAPI
                 ShowContinueButton = false
             });
     }
-
-	#region new Login & sign Up
-
-	[HttpGet]
-	public ActionResult Login()
-	{
-		return View("Login_1");
-	}
-	[HttpGet]
-	public ActionResult SignUp_1()
-	{
-		return View("SignUp_1");
-	}
-
-	[HttpGet]
-	public ActionResult OTP()
-	{
-		return View("SignUpOTP");
-	}
-
-	[HttpGet]
-	public ActionResult RegisterCompany()
-	{
-		return View("RegCompany");
-	}
-
-    [HttpGet]
-    public async Task<IActionResult> AzureMarketplace([FromQuery] string token)
-    {
-        try
-        {
-            var feedback = new ViewModels.Feedback
-            {
-                NamePrefix = "Account.SignUp."
-            };
-
-            if (String.IsNullOrWhiteSpace(token))
-            {
-                feedback.Elements.Add("InvalidToken", "Couldn't identify this purchase. Reopen this SaaS subscription in the Azure portal or in Microsoft 365 Admin Center and select \"Configure Account\" or \"Manage Account\" again.");
-                feedback.IsValid = false;
-            }
-
-            if (!feedback.IsValid)
-                return BadRequest(feedback);
-
-            //var resolveApiResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<Services.Models.ResolveSubscriptionResponse>("{\"id\":\"12345678-9012-3456-7890-123456789012\",\"subscriptionName\":\"Contoso Cloud Solution\",\"offerId\":\"offer1\",\"planId\":\"team-standard-v1\",\"quantity\":20,\"subscription\":{\"id\":\"12345678-9012-3456-7890-123456789012\",\"publisherId\":\"contoso\",\"offerId\":\"offer1\",\"name\":\"Contoso Cloud Solution\",\"saasSubscriptionStatus\":\"PendingFulfillmentStart\",\"beneficiary\":{\"emailId\":\"test@test.com\",\"objectId\":\"12345678-9012-3456-7890-123456789012\",\"tenantId\":\"12345678-9012-3456-7890-123456789012\",\"puid\":\"1234567890\"},\"purchaser\":{\"emailId\":\"test@test.com\",\"objectId\":\"12345678-9012-3456-7890-123456789012\",\"tenantId\":\"12345678-9012-3456-7890-123456789012\",\"puid\":\"1234567890\"},\"planId\":\"silver\",\"term\":{\"termUnit\":\"P1M\",\"startDate\":\"2023-06-01T00:00:00Z\",\"endDate\":\"2023-06-30T00:00:00Z\"},\"autoRenew\":true,\"isTest\":false,\"isFreeTrial\":false,\"allowedCustomerOperations\":[\"Delete\",\"Update\",\"Read\"],\"sandboxType\":\"None\",\"lastModified\":\"2023-06-01T00:00:00Z\",\"quantity\":5,\"sessionMode\":\"None\"}}");
-            var resolveApiResponse = await _manager.ResolveSubscription(token);
-            //ViewBag.ResolveApiResponse = Newtonsoft.Json.JsonConvert.SerializeObject(resolveApiResponse);
-            //TempData["ResolveApiResponse"] = Newtonsoft.Json.JsonConvert.SerializeObject(resolveApiResponse);
-            //TempData.Keep("ResolveApiResponse");
-            return View("AzureMarketplace", resolveApiResponse);
-        }
-        catch(InvalidOperationException ex)
-        {
-            return View("", ex.Message);
-        }
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateMSUserAccount([FromBody] Services.Models.ResolveSubscriptionResponse response)
-    {
-        var feedback = new ViewModels.Feedback
-        {
-            NamePrefix = "Account.SignUp."
-        };
-
-        var resolveApiResponse = response; // Newtonsoft.Json.JsonConvert.DeserializeObject<SilkFlo.Web.Services.Models.ResolveSubscriptionResponse>(TempData["ResolveApiResponse"] as string);
-
-        #region User-Creation
-        var signUpModel = new Services.Models.Account.SignUp()
-        {
-            Name = resolveApiResponse.subscription.purchaser.emailId.TrimEnd('@'),
-            Email = resolveApiResponse.subscription.purchaser.emailId,
-            Password = $"{Guid.NewGuid()}@",
-            Website = resolveApiResponse.subscription.purchaser.emailId.Split("@")[1],
-            FirstName = resolveApiResponse.subscription.purchaser.emailId.Split("@")[0],
-            LastName = resolveApiResponse.subscription.purchaser.emailId.Split("@")[0],
-            
-            //optional for Marketplace users
-            Address1 = "",
-            Address2 = "",
-            City = "",
-            State = "",
-            PostCode = "",
-        };
-
-
-        var client = await _unitOfWork.BusinessClients.GetByNameAsync(signUpModel.Name);
-        if (client != null)
-        {
-            feedback.Elements.Add("Name", "This company name is already in use.");
-            feedback.IsValid = false;
-        }
-
-        if (!feedback.IsValid)
-            return BadRequest(feedback);
-
-        var user = await _unitOfWork.Users.GetByEmailAsync(signUpModel.Email);
-        if (user != null)
-        {
-            feedback.Elements.Add("USer", "This User is already in use.");
-            feedback.IsValid = false;
-        }
-
-        if (!feedback.IsValid)
-            return BadRequest(feedback);
-
-        //Save the content
-        var clientSilkFlo = await _unitOfWork.BusinessClients.GetByNameAsync(Data.Core.Settings.ApplicationName);
-
-        var tenant = await Models.Business.Client.CreateAsync(
-            _unitOfWork,
-            "",
-            signUpModel.Name,
-            signUpModel.FirstName,
-            signUpModel.LastName,
-            signUpModel.Email,
-            signUpModel.Password,
-            signUpModel.Address1,
-            signUpModel.Address2,
-            signUpModel.City,
-            signUpModel.State,
-            signUpModel.PostCode,
-            0,
-            new Models.Business.Client(clientSilkFlo),
-            false);
-
-        //if (tenant == null) throw new ArgumentNullException(nameof(tenant));
-
-        //if (tenant.AccountOwner == null) throw new ArgumentNullException(nameof(tenant.AccountOwner));
-
-        //// Send confirm email message
-        tenant.AccountOwner.EmailNew = tenant.AccountOwner.Email;
-        var prices = await _unitOfWork.ShopPrices.GetAllAsync();
-        var subs = new Models.Shop.Subscription
-        {
-            TenantId = tenant.Id,
-            //Id = resolveApiResponse.subscription.id,
-            DateStart = resolveApiResponse.subscription.term.startDate, // stripeSubscription.StartDate,
-            DateEnd = resolveApiResponse.subscription.term.endDate, // stripeSubscription.CurrentPeriodEnd.AddDays(1),
-            Price = new Models.Shop.Price(prices.FirstOrDefault(x => x.Id == resolveApiResponse.planId))
-        };
-        tenant.Subscription = subs;
-        //await SendEmailConfirmationMessageAsync(tenant.AccountOwner.GetCore());
-
-        //// Send welcome email
-        //var callbackUrl = Url.CompleteSignUp(tenant.Id, Request.Scheme);
-        //await SendWelcomeEmailAsync(tenant.GetCore());
-
-        //// should not entertain Stripe
-
-        //const string message = "Cannot create a Stripe customer.";
-        //Log(message);
-
-        tenant.SubscriptionStatus = SubscriptionStatus.Subscribed;
-        ////.StripeId = customer.Id;
-
-        await _unitOfWork.CompleteAsync();
-        #endregion
-
-        #region Subscribe-User
-        //var clientModels = new Models.Business.Client(client);
-        //clientModels.Subscription = await clientModels.GetLastSubscriptionAsync(_unitOfWork);
-
-        //var prices = await _unitOfWork.ShopPrices.GetAllAsync();
-
-        var subscriptions = new Data.Core.Domain.Shop.Subscription
-        {
-            TenantId = tenant.Id,
-            //Id = resolveApiResponse.subscription.id,
-            DateStart = resolveApiResponse.subscription.term.startDate, // stripeSubscription.StartDate,
-            DateEnd = resolveApiResponse.subscription.term.endDate, // stripeSubscription.CurrentPeriodEnd.AddDays(1),
-            Price = prices.FirstOrDefault(x => x.Id == resolveApiResponse.planId)
-            //Coupon = coupon,
-            //Discount = discount
-        };
-
-        await _unitOfWork.AddAsync(subscriptions);
-        await _unitOfWork.CompleteAsync();
-
-        #endregion
-
-        await _manager.ActivateSubscription(resolveApiResponse.subscription.id, resolveApiResponse.subscription.planId, resolveApiResponse.subscription.quantity);
-
-        return Ok(); // Redirect("Account/AMActivatedLoading"); //View("AzureMarketplaceActivatedLoading");
-    }
-
-    [HttpGet]
-	public ActionResult AMActivatedLoading()
-	{
-		return View("AzureMarketplaceActivatedLoading");
-	}
-	#endregion
 }

@@ -26,8 +26,6 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using SilkFlo.Web.Insert;
 using static SilkFlo.Web.Insert.KeyValueData;
 using SilkFlo.Web.Controllers2.FileUpload;
-using Microsoft.Identity.Web;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 //using SilkFlo.ThirdPartyServices;
 
 namespace SilkFlo.Web
@@ -104,7 +102,7 @@ namespace SilkFlo.Web
                                                   "Program Manager",
                                                   "Idea Approver",
                                                   "Authorised User",
-                                                  "Automation Sponsor",
+                                                  "RPA Sponsor",
                                                   "Standard User",
                                                   "Agency User",
                                                   "Agency Administrator"));
@@ -116,7 +114,7 @@ namespace SilkFlo.Web
                                                               "Program Manager",
                                                               "Idea Approver",
                                                               "Authorised User",
-                                                              "Automation Sponsor",
+                                                              "RPA Sponsor",
                                                               "Standard User",
                                                               "Agency User"));
 
@@ -127,7 +125,7 @@ namespace SilkFlo.Web
                                                               "Program Manager",
                                                               "Idea Approver",
                                                               "Authorised User",
-                                                              "Automation Sponsor",
+                                                              "RPA Sponsor",
                                                               "Standard User",
                                                               "Agency User"));
 
@@ -195,7 +193,7 @@ namespace SilkFlo.Web
                                                               "Administrator",
                                                               "Account Owner",
                                                               "Program Manager",
-                                                              "Automation Sponsor",
+                                                              "RPA Sponsor",
                                                               "Agency User"));
 
                 options.AddPolicy(Policy.ViewTenantDashboards,
@@ -203,7 +201,7 @@ namespace SilkFlo.Web
                                                               "Administrator",
                                                               "Account Owner",
                                                               "Program Manager",
-                                                              "Automation Sponsor",
+                                                              "RPA Sponsor",
                                                               "Agency User"));
 
                 options.AddPolicy(Policy.ViewCostInfoInAutomationPipeline,
@@ -212,7 +210,7 @@ namespace SilkFlo.Web
                                                                   "Account Owner",
                                                                   "Program Manager",
                                                                   "Authorised User",
-                                                                  "Automation Sponsor",
+                                                                  "RPA Sponsor",
                                                                   "Agency User"));
 
 
@@ -278,7 +276,6 @@ namespace SilkFlo.Web
             });
             #endregion
 
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -290,16 +287,6 @@ namespace SilkFlo.Web
                     options.LoginPath = "/account/signin";
                     options.LogoutPath = "/account/signout";
                 });
-
-            //services.AddAuthentication(options =>
-            //{
-            //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //options.DefaultSignInScheme = "AzureAD";
-            //options.DefaultScheme = "Cookies";
-            //options.SignInScheme = "AzureAD";
-            //});
-
-            //services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
         }
 
 
@@ -361,7 +348,7 @@ namespace SilkFlo.Web
 
 
             SetupEmail(app).GetAwaiter();
-            SilkFlo.Web.Services2.Models.PaymentManager.SetUpWebHooks(); // Payment.Manager.SetUpWebHooks();
+            Payment.Manager.SetUpWebHooks();
         }
 
         private static async Task InsertData(IApplicationBuilder app)
@@ -542,7 +529,7 @@ namespace SilkFlo.Web
             }
 
             Email.Service.Setup(
-                isProduction, //remove it and send true directly
+                isProduction,
                 testEmail,
                 domain);
         }

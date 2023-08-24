@@ -21,38 +21,8 @@ namespace SilkFlo.Web.ViewModels.Workshop
             var stageGroup = stageGroups.SingleOrDefault(x => string.Equals(x.Name, stageGroupName, StringComparison.CurrentCultureIgnoreCase));
 
             var tileUrls = new List<string>();
-			switch (stageGroupName.ToLower())
-			{
-				case "review":
-					tileUrls.Add("StageGroup/" + stageGroup + "/TotalIdeas");
-					tileUrls.Add("StageGroup/" + stageGroup + "/AwaitingReview");
-					break;
-				case "assess":
-					tileUrls.Add("StageGroup/" + stageGroup + "/TotalIdeas");
-					tileUrls.Add("StageGroup/" + stageGroup + "/PotentialBenefit");
-					tileUrls.Add("StageGroup/" + stageGroup + "/PotentialHourSavings");
-					tileUrls.Add("StageGroup/" + stageGroup + "/AwaitingReview");
-					break;
-				case "decision":
-					tileUrls.Add("StageGroup/" + stageGroup + "/PotentialBenefit");
-					tileUrls.Add("StageGroup/" + stageGroup + "/EstimatedOneTimeCost");
-					tileUrls.Add("StageGroup/" + stageGroup + "/EstimatedRunningCosts");
-					break;
-				case "build":
-					tileUrls.Add("StageGroup/" + stageGroup + "/TotalInBuild");
-					tileUrls.Add("StageGroup/" + stageGroup + "/PotentialBenefit");
-					tileUrls.Add("StageGroup/" + stageGroup + "/TotalAtRisk");
-					tileUrls.Add("StageGroup/" + stageGroup + "/TotalBenefitAtRisk");
-					tileUrls.Add("StageGroup/" + stageGroup + "/EstimatedOneTimeCost");
-					//tileUrls.Add("StageGroup/" + stageGroup + "/AverageBuildTime");
-					break;
-				case "deployed":
-					tileUrls.Add("StageGroup/" + stageGroup + "/TotalInDeployed");
-					tileUrls.Add("StageGroup/" + stageGroup + "/PotentialBenefit");
-					tileUrls.Add("StageGroup/" + stageGroup + "/PotentialHourSavings");
-					break;
-			}
-			var pipeLine = await PipeLine.BuildAsync(
+
+            var pipeLine = await PipeLine.BuildAsync(
                 unitOfWork,
                 authorization,
                 stageGroup,

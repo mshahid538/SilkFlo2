@@ -104,7 +104,5 @@ namespace SilkFlo.Web.Services.Models.Account
         public string ReCaptchaToken { get; set; }
 
         public bool ShowAddress { get; set; } = true;
-        public string PriceId { get; set; }
-        public bool IsMsUser { get; set; }
     }
 }

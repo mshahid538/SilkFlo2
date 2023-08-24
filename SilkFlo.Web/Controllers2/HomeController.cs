@@ -10,20 +10,11 @@ namespace SilkFlo.Web.Controllers
     public partial class HomeController
     {
 
-        private IActionResult IndexView(bool returnStringContent, string hash)
+        private IActionResult IndexView(bool returnStringContent)
         {
-            if (!String.IsNullOrEmpty(hash))
-            {
-                return Redirect(returnStringContent ?
-                    "./api/Dashboard" :
-                    $"./Dashboard/Performance#{hash}");
-            }
-            else
-            {
-                return Redirect(returnStringContent ?
-                    "./api/Dashboard" :
-                    "./Dashboard/Performance");
-            }
+            return Redirect(returnStringContent ? 
+                "./api/Dashboard" :
+                "./Dashboard");
         }
 
         [Route("/api/Explore/Leaderboard")]

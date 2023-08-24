@@ -11,12 +11,10 @@ namespace SilkFlo.Web.Controllers.Shop
         [HttpGet("shop/subscribe/priceId/{priceId}/referrerCode/{referrerCode}")]
         public async Task<IActionResult> ClientSubscribe(
             string priceId,
-            string referrerCode = "",
-            string entity = "")
+            string referrerCode = "")
         {
             var feedback = new ViewModels.Feedback();
-            var base64EncodedBytes = System.Convert.FromBase64String(entity);
-            var email = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+
             try
             {
                 // Guard Clause
@@ -85,10 +83,7 @@ namespace SilkFlo.Web.Controllers.Shop
                 };
 
                 viewModel.Product.Price = new Models.Shop.Price(price);
-                if (!String.IsNullOrEmpty(email))
-                {
-                    viewModel.Email = email;
-                }
+
 
 
                 bool addFreeTrial;
@@ -134,7 +129,7 @@ namespace SilkFlo.Web.Controllers.Shop
                 }
 
 
-                viewModel.StripePublicKey = SilkFlo.Web.Services2.Models.PaymentManager.StripePublicKey; // Payment.Manager.StripePublicKey;
+                viewModel.StripePublicKey = Payment.Manager.StripePublicKey;
                 viewModel.Countries.Add(new Models.Shared.Country());
                 var countries = await _unitOfWork.SharedCountries.GetAllAsync();
                 foreach (var core in countries)
@@ -146,8 +141,7 @@ namespace SilkFlo.Web.Controllers.Shop
                     viewModel.Countries.Add(model);
                 }
 
-                //return View("/Views/Shop/Subscribe/Page.cshtml", viewModel);
-                return View("/Views/Account/SignUp_1.cshtml", viewModel); //, viewModel);
+                return View("/Views/Shop/Subscribe/Page.cshtml", viewModel);
             }
             catch (Exception ex)
             {

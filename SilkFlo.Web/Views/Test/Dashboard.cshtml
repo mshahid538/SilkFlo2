@@ -1,0 +1,707 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="/Icons/Icon.png"  itemprop="image" property="og:image">
+    <meta http-equiv="Cache-Control"  content="no-cache, no-store, must-revalidate" />
+    <title>SilkFlo</title>
+    <link href="/Icons/Icon.png" rel="icon" type="image/png">
+    <script src="/library/jquery-3.5.1.min.js"></script>
+    <script src="/library/bootstrap/bootstrap.bundle.js"></script>
+    <link href="/development/css/Layouts.css" rel="stylesheet" />
+    <link href="/development/css/Public.css" rel="stylesheet" />
+    <link href="/development/css/SideBar.css" rel="stylesheet" />
+    <link href="/development/css/SilkFlo.css" rel="stylesheet" />
+    <link href="/development/css/SilkFlo2.css" rel="stylesheet" />
+    <link href="/development/css/morris.css" rel="stylesheet" />
+    <link href="/development/css/Subscription.css" rel="stylesheet" />
+    <link href="/development/css/bootstrap.css" rel="stylesheet" />
+    <link href="/development/css/Chart.css" rel="stylesheet" />
+    <link href="/development/css/Account.css" rel="stylesheet" />
+    <link href="/development/css/DropDown.css" rel="stylesheet" />
+    <script src="~/development/js/morris.min.js"></script>
+    <script src="~/development/js/raphael-min.js"></script>
+    <style >
+        .cmbWorkspace{
+            margin-bottom: 12px;
+            border-radius: 4px;
+            background-color: #C2C2C2;
+            height: 45px;
+        }
+        .lblWorkspace{
+            color: #C4C4C4;
+            font-size: 14px;
+            letter-spacing: 0.76px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            line-height: 21px;
+           
+        }
+        .lblUpdate{
+            font-style: italic;
+            color: #c1c1c1;
+            font-size: 12px;
+            font-weight:400;
+            margin-top: -9px;
+        }
+        .valuecard {
+            min-width: 260px;
+            max-width: 380px;
+            padding-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            background-color: white !important;
+            border-radius: 5px;
+            margin-right: 10px;
+            flex-wrap: wrap;
+            justify-content: left;
+            align-content: start;
+            overflow: visible;
+        }
+
+        .graphcard {
+            min-width:260px;
+            max-width: 575px;
+            padding-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            background-color: white !important;
+            border-radius: 5px;
+            margin-right: 10px;
+            flex-wrap: wrap;
+            justify-content: left;
+            align-content: start;
+            overflow: visible;
+        }
+        .lblValue{
+            text-align: center;
+            font-size: 43px;
+            font-weight: 700;
+
+        }
+
+        .lblValuesmall {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: -8px;
+            margin-bottom: 25px;
+        }
+        .btnFailed{
+            background-color: #ffb573;
+            color: white;
+        }
+        .btnSuccess{
+            background-color: #73abff;
+            color: white;
+        }
+
+        .btnFill {
+            background-color: #363853;
+            margin-left: 10px;
+            color: white;
+        }
+
+        .btnOutline {
+            background-color: white;
+            color:#363853;
+            margin-left:5px;
+            border: #363853 1px solid !important
+        }
+
+        .btnbadge {
+            width: 101px;
+            border: 0;
+            border-radius: 4px;
+           
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            padding-bottom: 3px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+           
+            lineChart();
+          
+
+            $(window).resize(function () {
+               
+                window.lineChart.redraw();
+               
+            });
+        });
+
+       
+
+        function lineChart() {
+            window.lineChart = Morris.Line({
+                element: 'line-chart1',
+                data: [
+                    { y: '2006', a: 100, b: 90 },
+                    { y: '2007', a: 75, b: 65 },
+                    { y: '2008', a: 50, b: 40 },
+                    { y: '2009', a: 75, b: 65 },
+                    { y: '2010', a: 50, b: 40 },
+                    { y: '2011', a: 75, b: 65 },
+                    { y: '2012', a: 100, b: 90 }
+                ],
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                labels: ['Series A', 'Series B'],
+                lineColors: ['#ffb573', '#73abff'],
+                lineWidth: '1px',
+                resize: true,
+                redraw: true
+            });
+
+            window.lineChart = Morris.Line({
+                element: 'line-chart2',
+                data: [
+                    { y: '2006', a: 100, b: 90 },
+                    { y: '2007', a: 75, b: 65 },
+                    { y: '2008', a: 50, b: 40 },
+                    { y: '2009', a: 75, b: 65 },
+                    { y: '2010', a: 50, b: 40 },
+                    { y: '2011', a: 75, b: 65 },
+                    { y: '2012', a: 100, b: 90 }
+                ],
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                labels: ['Series A', 'Series B'],
+                lineColors: ['#ffb573', '#73abff'],
+                lineWidth: '1px',
+                resize: true,
+                redraw: true
+            });
+
+            window.lineChart = Morris.Line({
+                element: 'line-chart3',
+                data: [
+                    { y: '2006', a: 100, b: 90 },
+                    { y: '2007', a: 75, b: 65 },
+                    { y: '2008', a: 50, b: 40 },
+                    { y: '2009', a: 75, b: 65 },
+                    { y: '2010', a: 50, b: 40 },
+                    { y: '2011', a: 75, b: 65 },
+                    { y: '2012', a: 100, b: 90 }
+                ],
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                labels: ['Series A', 'Series B'],
+                lineColors: ['#fff', '#fff'],
+                lineWidth: '1px',
+                resize: true,
+                redraw: true
+            }); 
+            window.lineChart = Morris.Line({
+                element: 'line-chart5',
+                data: [
+                    { y: '2006', a: 100, b: 90 },
+                    { y: '2007', a: 75, b: 65 },
+                    { y: '2008', a: 50, b: 40 },
+                    { y: '2009', a: 75, b: 65 },
+                    { y: '2010', a: 50, b: 40 },
+                    { y: '2011', a: 75, b: 65 },
+                    { y: '2012', a: 100, b: 90 }
+                ],
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                //labels: ['Series A', 'Series B'],
+                lineColors: ['#fff', '#fff'],
+                lineWidth: '1px',
+                resize: true,
+                redraw: true
+            });
+            window.lineChart = Morris.Line({
+                element: 'line-chart4',
+                data: [
+                    { y: '2006', a: 100, b: 90 },
+                    { y: '2007', a: 75, b: 65 },
+                    { y: '2008', a: 50, b: 40 },
+                    { y: '2009', a: 75, b: 65 },
+                    { y: '2010', a: 50, b: 40 },
+                    { y: '2011', a: 75, b: 65 },
+                    { y: '2012', a: 100, b: 90 }
+                ],
+                xkey: 'y',
+                ykeys: ['a', 'b'],
+                
+                lineColors: ['#fff', '#fff'],
+                lineWidth: '1px',
+                resize: true,
+                redraw: true
+            });
+            
+        }
+
+     
+        </script>
+
+</head>
+<body>
+
+
+
+
+   
+    <div class="d-print-none sideBar_wide silkFlo_flex_wrap_right" id="topBar" style="overflow: hidden;">
+       @* <div class="Search" style="    max-width: 241px; max-height: 33px; margin-bottom: 4px;  border-radius: 6px;">
+            <div class="inputLine">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.49 12.49" style="width:15px" class="icon" src="/Icons/Search.svg">
+                    <circle cx="5.62" cy="5.62" r="4.99" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.25px"></circle>
+                    <line x1="11.87" y1="11.87" x2="9.3" y2="9.3" style="stroke-linecap:round;stroke-linejoin:round;stroke-width:1.25px"></line>
+                </svg>
+                <input autocomplete="off" id="" placeholder="Search Here ..." style="font-size:15px">
+
+                <button class="btn-close" onclick="const input = document.getElementById('Settings.Roles.Search'); if (input.value.length> 0)
+    {input.value = '';input.focus();SilkFlo.ViewModels.Settings.CollaboratorRole.Search(null, 'Settings.Roles.Table');}"></button>
+            </div>
+        </div>*@
+        <img src="~/Icons/notification.png" width="20px" style=" margin-bottom: 14px; margin-right: 8px;" />
+        <img src="~/Icons/profile.png" width="34px" style="margin-bottom: 8px; margin-right: 8px;" />
+        <a>
+            <div class="profileButton">
+               
+                <div class="d-flex">
+                   
+                    <div>
+                        <h5>Matsui Jurina</h5>
+                        <h6>Matsuian@mail.com</h6>
+                    </div>
+                    <div class="d-flex" style="align-items: center; margin-left: 18px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" style="fill:black" src="/Icons/Arrow Down - simple.svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.469701 0.969669C0.762594 0.676776 1.23747 0.676776 1.53036 0.969669L6.00003 5.43934L10.4697 0.96967C10.7626 0.676778 11.2375 0.676778 11.5304 0.969671C11.8233 1.26256 11.8233 1.73744 11.5304 2.03033L6.53036 7.03033C6.38971 7.17098 6.19894 7.25 6.00003 7.25C5.80112 7.25 5.61035 7.17098 5.4697 7.03033L0.469701 2.03033C0.176807 1.73744 0.176807 1.26256 0.469701 0.969669Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="sideBar_wide" id="layout">
+        <div class="d-print-none noSelect sidebar transition"  id="sidebar">
+            <div class="silkFlo_flex_wrap_spaced">
+                <div class="sidebar-header">
+                    <a data-bs-target="tooltip"
+                       data-placement="right"
+                       id="Logo"
+                       name="ToggleSidebar"
+                       title="Toggle Sidebar">
+                        <img alt="Logo" class="logo" ignore="ignore" src="/Icons/Logo.svg" />
+                    </a>
+                    <a data-bs-target="tooltip"
+                       data-placement="right"
+                       href="/"
+                       name="ShowHomePage"
+                       title="Show Home Page">
+                        <img alt="Logo" class="silkFlo text" ignore="ignore" src="/Icons/SilkFlo.svg" />
+                    </a>
+                </div>
+                <a id="ToggleSidebar"
+                   name="ToggleSidebar"
+                   nodecoration="">
+                   
+                    <img id="sideBar_arrow" src="/Icons/SideBar/hamburger.png" style="transition: all 1s;" />
+                </a>
+            </div>
+
+
+            <nav aria-label="navigation" class="collapse" >
+                <div id="btnSubmitContainer" style="padding-right: 20.5px;">
+                    <a class="btn btn-warning btnSubmit" style="border-radius: 4px;" id="btnSubmit" name="Submit" data-bs-target="tooltip" data-placement="right" title="Submit a new idea">
+                        <img alt="Icon" ignore="ignore" src="/Icons/SideBar/Submit Idea.svg" style="width: 20px; height: 20px;">
+                        <span class="text">Submit Idea</span>
+
+                    </a>
+                </div>
+                <ul class="list-unstyled" id="menu" style="margin-right: 1px;">
+                    <li class="active " title="Tooltip Content" id="SideBar.Dashboard.Container" on="">
+                        <a aria-current="true" class="collapsed " data-bs-target="tooltip" data-placement="right" id="SideBar.Dashboard" onclick="SilkFlo.SideBar.OnClick ( '/Dashboard' )" title="Show Dashboard">
+                            <div class="silkFlo_flex_wrap_spaced ">
+
+                                <div class="pointer ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" class="icon" src="/Icons/SideBar/Dashboard.svg"><title>Dashboard</title><circle class="sidebar_Icon_Selected" cx="13.5" cy="15.5" r="6.5"></circle><path class="sidebar_Icon" d="M19.78,8.67,13.45,2.29A19.11,19.11,0,0,0,11.72.68,2.75,2.75,0,0,0,10,0,2.75,2.75,0,0,0,8.28.68,19.11,19.11,0,0,0,6.55,2.29L.22,8.67a.77.77,0,1,0,1.1,1.08l.43-.44v3.4a7.15,7.15,0,0,0,5.5,7,11.89,11.89,0,0,0,5.5,0,7.15,7.15,0,0,0,5.5-7V9.31l.43.44a.77.77,0,1,0,1.1-1.08ZM8.62,18.36a3,3,0,0,1-.2-1.74l0-.1A1.56,1.56,0,0,1,9.55,15.3a1.72,1.72,0,0,1,.9,0,1.56,1.56,0,0,1,1.11,1.22l0,.1a3,3,0,0,1-.2,1.74A10.62,10.62,0,0,1,8.62,18.36Zm8.09-5.65A5.6,5.6,0,0,1,13.09,18a4.36,4.36,0,0,0,0-1.61l0-.11a3.09,3.09,0,0,0-2.22-2.41,3.14,3.14,0,0,0-1.72,0,3.09,3.09,0,0,0-2.22,2.41l0,.11a4.36,4.36,0,0,0,0,1.61,5.6,5.6,0,0,1-3.62-5.24v-5L7.64,3.38A16.28,16.28,0,0,1,9.21,1.9,1.25,1.25,0,0,1,10,1.54a1.25,1.25,0,0,1,.79.36,16.28,16.28,0,0,1,1.57,1.48l4.35,4.38Z"></path></svg>
+                                    <span class="text " id="SideBar.Dashboard.Title">
+                                        Dashboard
+                                    </span>
+                                </div>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24" class="selectBa r" id="selectBar" src="/Icons/SideBar/Select Bar.svg"><path class="cls-1" d="M3,0H6A0,0,0,0,1,6,0V24a0,0,0,0,1,0,0H3a3,3,0,0,1-3-3V3A3,3,0,0,1,3,0Z"></path></svg>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- Ideas -->
+                    <li id="SideBar.Ideas.Container" class="tooltipShow">
+                        <a aria-current="false" aria-expanded="false" class="collapsed"  id="SideBar.Ideas"  >
+                            <div class="silkFlo_flex_wrap_spaced">
+                                <div class="pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" class="icon" src="/Icons/SideBar/Explore.svg">
+                                        <title>Ideas</title>
+                                        <circle class="sidebar_Icon_Selected" cx="13.5" cy="15.5" r="6.5"></circle>
+                                        <path class="sidebar_Icon" d="M19.64,6.24A7.87,7.87,0,0,0,13.76.36a13.23,13.23,0,0,0-6.13,0A7.9,7.9,0,0,0,1.74,6.24a13.5,13.5,0,0,0,0,6.13A8.27,8.27,0,0,0,2.1,13.5a3.38,3.38,0,1,0,4.4,4.4,8.27,8.27,0,0,0,1.13.36,13.5,13.5,0,0,0,6.13,0,7.9,7.9,0,0,0,5.88-5.89A13.23,13.23,0,0,0,19.64,6.24ZM3.38,18.46a1.84,1.84,0,0,1-.55-3.59,1.3,1.3,0,0,0,.1.15l.2.31a8,8,0,0,0,1.54,1.54l.31.2.15.1A1.82,1.82,0,0,1,3.38,18.46ZM18.15,12a6.36,6.36,0,0,1-4.74,4.74,11.86,11.86,0,0,1-5.43,0,6.28,6.28,0,0,1-1.64-.64c-.17-.09-.33-.21-.5-.32l-.24-.16A6.07,6.07,0,0,1,4.36,14.4l-.17-.25a5,5,0,0,1-.31-.49A6.28,6.28,0,0,1,3.24,12a11.86,11.86,0,0,1,0-5.43A6.36,6.36,0,0,1,8,1.85a11.86,11.86,0,0,1,5.43,0,6.36,6.36,0,0,1,4.74,4.74A11.86,11.86,0,0,1,18.15,12Z"></path>
+                                        <path class="sidebar_Icon" d="M13.31,10.1H8.08a.77.77,0,1,0,0,1.54h5.23a.77.77,0,0,0,0-1.54Z"></path>
+                                        <path class="sidebar_Icon" d="M10.94,7.74A.76.76,0,0,0,10.17,7H7A.77.77,0,1,0,7,8.51h3.13A.77.77,0,0,0,10.94,7.74Z"></path>
+                                    </svg>
+                                    <span class="text" silkflo-hotspot="SiderBar-Ideas">Ideas</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- Automations -->
+                    <li id="SideBar.Automations.Container">
+                        <a class="pointer" data-bs-target="tooltip" data-placement="right" id="SideBar.Workshop"  title="Show Workshop">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" class="icon" src="/Icons/SideBar/Workshop.svg">
+                                <title>Automations</title>
+                                <circle class="sidebar_Icon_Selected" cx="13.5" cy="15.5" r="6.5"></circle>
+                                <path class="sidebar_Icon" d="M13.22,8.63,11.47,10.2a2.39,2.39,0,0,1-.26.23L11,10.15,10.26,9a6.41,6.41,0,0,0-.46-.63A1.24,1.24,0,0,0,9,7.92a1.28,1.28,0,0,0-.89.24,6.46,6.46,0,0,0-.6.49L5.75,10.23a.77.77,0,1,0,1,1.14L8.53,9.8a2.39,2.39,0,0,1,.26-.23L9,9.85,9.74,11a6.41,6.41,0,0,0,.46.63,1.24,1.24,0,0,0,.81.45,1.28,1.28,0,0,0,.89-.24,6.46,6.46,0,0,0,.6-.49l1.75-1.58a.77.77,0,1,0-1-1.14Z"></path>
+                                <path class="sidebar_Icon" d="M19.62,6.7A8.48,8.48,0,0,0,13.3.38a14.43,14.43,0,0,0-6.6,0A8.48,8.48,0,0,0,.38,6.7a14.43,14.43,0,0,0,0,6.6A8.48,8.48,0,0,0,6.7,19.62a14.43,14.43,0,0,0,6.6,0,8.48,8.48,0,0,0,6.32-6.32A14.43,14.43,0,0,0,19.62,6.7ZM13,18.12a12.78,12.78,0,0,1-5.9,0A6.92,6.92,0,0,1,1.88,13a12.78,12.78,0,0,1,0-5.9A6.92,6.92,0,0,1,7.05,1.88a12.78,12.78,0,0,1,5.9,0,6.92,6.92,0,0,1,5.17,5.17,12.78,12.78,0,0,1,0,5.9A6.92,6.92,0,0,1,13,18.12Z"></path>
+                            </svg>
+                            <span class="text" silkflo-hotspot="SiderBar-Automations">Automations</span>
+                        </a>
+                    </li>
+                    <!-- Peoples -->
+                    <li id="SideBar.Ideas.Container" class="tooltipShow">
+                        <a aria-current="false" aria-expanded="false" class="collapsed" id="SideBar.Ideas">
+                            <div class="silkFlo_flex_wrap_spaced">
+                                <div class="pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" class="icon" src="/Icons/SideBar/Explore.svg">
+                                        <title>Peoples</title>
+                                        <circle class="sidebar_Icon_Selected" cx="13.5" cy="15.5" r="6.5"></circle>
+                                        <path class="sidebar_Icon" d="M19.64,6.24A7.87,7.87,0,0,0,13.76.36a13.23,13.23,0,0,0-6.13,0A7.9,7.9,0,0,0,1.74,6.24a13.5,13.5,0,0,0,0,6.13A8.27,8.27,0,0,0,2.1,13.5a3.38,3.38,0,1,0,4.4,4.4,8.27,8.27,0,0,0,1.13.36,13.5,13.5,0,0,0,6.13,0,7.9,7.9,0,0,0,5.88-5.89A13.23,13.23,0,0,0,19.64,6.24ZM3.38,18.46a1.84,1.84,0,0,1-.55-3.59,1.3,1.3,0,0,0,.1.15l.2.31a8,8,0,0,0,1.54,1.54l.31.2.15.1A1.82,1.82,0,0,1,3.38,18.46ZM18.15,12a6.36,6.36,0,0,1-4.74,4.74,11.86,11.86,0,0,1-5.43,0,6.28,6.28,0,0,1-1.64-.64c-.17-.09-.33-.21-.5-.32l-.24-.16A6.07,6.07,0,0,1,4.36,14.4l-.17-.25a5,5,0,0,1-.31-.49A6.28,6.28,0,0,1,3.24,12a11.86,11.86,0,0,1,0-5.43A6.36,6.36,0,0,1,8,1.85a11.86,11.86,0,0,1,5.43,0,6.36,6.36,0,0,1,4.74,4.74A11.86,11.86,0,0,1,18.15,12Z"></path>
+                                        <path class="sidebar_Icon" d="M13.31,10.1H8.08a.77.77,0,1,0,0,1.54h5.23a.77.77,0,0,0,0-1.54Z"></path>
+                                        <path class="sidebar_Icon" d="M10.94,7.74A.76.76,0,0,0,10.17,7H7A.77.77,0,1,0,7,8.51h3.13A.77.77,0,0,0,10.94,7.74Z"></path>
+                                    </svg>
+                                    <span class="text" silkflo-hotspot="SiderBar-Ideas">Peoples</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- Settings -->
+                    <li id="SideBar.Settings.Container">
+                        <a aria-current="false" aria-expanded="false" class="collapsed"  >
+                            <div class="silkFlo_flex_wrap_spaced">
+
+                                <div class="pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" class="icon" src="/Icons/SideBar/Settings.svg">
+                                        <title>Settings</title>
+                                        <circle class="sidebar_Icon_Selected" cx="13.5" cy="15.5" r="6.5"></circle>
+                                        <path class="sidebar_Icon" d="M20,9.56a2.52,2.52,0,0,0-2.48-2.13h-.66c-.06-.15-.12-.3-.19-.44l.47-.47a2.51,2.51,0,0,0,.25-3.26,3.64,3.64,0,0,0-.62-.62,2.51,2.51,0,0,0-3.26.25L13,3.36l-.44-.19V2.51A2.52,2.52,0,0,0,10.44,0a3.24,3.24,0,0,0-.88,0A2.52,2.52,0,0,0,7.43,2.51v.66L7,3.36l-.47-.47a2.51,2.51,0,0,0-3.26-.25,3.64,3.64,0,0,0-.62.62,2.51,2.51,0,0,0,.25,3.26L3.36,7c-.07.14-.13.29-.19.44H2.51A2.52,2.52,0,0,0,0,9.56a3.24,3.24,0,0,0,0,.88H0a2.52,2.52,0,0,0,2.48,2.13h.66c.06.15.12.3.19.44l-.47.47a2.51,2.51,0,0,0-.25,3.26,3.64,3.64,0,0,0,.62.62,2.51,2.51,0,0,0,3.26-.25L7,16.64l.44.19v.66A2.52,2.52,0,0,0,9.56,20a3.24,3.24,0,0,0,.88,0,2.52,2.52,0,0,0,2.13-2.48v-.66l.44-.19.47.47a2.51,2.51,0,0,0,3.26.25,3.64,3.64,0,0,0,.62-.62,2.51,2.51,0,0,0-.25-3.26L16.64,13c.07-.14.13-.29.19-.44h.66A2.52,2.52,0,0,0,20,10.44,3.24,3.24,0,0,0,20,9.56ZM17.49,11H16.28a.78.78,0,0,0-.74.56l.74.21h0l-.74-.21A5.82,5.82,0,0,1,15,12.8a.77.77,0,0,0,.13.92l.86.85a1,1,0,0,1,.09,1.25,1.07,1.07,0,0,1-.3.3A1,1,0,0,1,14.57,16l-.85-.86A.77.77,0,0,0,12.8,15a5.82,5.82,0,0,1-1.21.5l.21.74h0l-.21-.74a.78.78,0,0,0-.56.74v1.21a1,1,0,0,1-.82,1,1.48,1.48,0,0,1-.42,0,1,1,0,0,1-.82-1V16.28a.78.78,0,0,0-.56-.74A5.82,5.82,0,0,1,7.2,15a.77.77,0,0,0-.92.13l.55.54h0l-.55-.54L5.43,16a1,1,0,0,1-1.25.09,1.07,1.07,0,0,1-.3-.3A1,1,0,0,1,4,14.57l.86-.85A.77.77,0,0,0,5,12.8l-.67.37h0L5,12.8a5.82,5.82,0,0,1-.5-1.21l-.74.21h0l.74-.21A.78.78,0,0,0,3.72,11H2.51a1,1,0,0,1-1-.82,1.48,1.48,0,0,1,0-.42,1,1,0,0,1,1-.82H3.72a.78.78,0,0,0,.74-.56L3.72,8.2h0l.74.21A5.82,5.82,0,0,1,5,7.2l-.67-.37h0L5,7.2a.77.77,0,0,0-.13-.92L4,5.43a1,1,0,0,1-.09-1.25,1.07,1.07,0,0,1,.3-.3A1,1,0,0,1,5.43,4l.85.86.55-.54h0l-.55.54A.77.77,0,0,0,7.2,5a5.82,5.82,0,0,1,1.21-.5A.78.78,0,0,0,9,3.72V2.51a1,1,0,0,1,.82-1,1.48,1.48,0,0,1,.42,0,1,1,0,0,1,.82,1V3.72a.78.78,0,0,0,.56.74l.21-.74h0l-.21.74A5.82,5.82,0,0,1,12.8,5a.77.77,0,0,0,.92-.13L14.57,4a1,1,0,0,1,1.25-.09,1.07,1.07,0,0,1,.3.3A1,1,0,0,1,16,5.43l-.86.85A.77.77,0,0,0,15,7.2a5.82,5.82,0,0,1,.5,1.21l.74-.21h0l-.74.21a.78.78,0,0,0,.74.56h1.21a1,1,0,0,1,1,.82,1.48,1.48,0,0,1,0,.42A1,1,0,0,1,17.49,11Z"></path>
+                                        <path class="sidebar_Icon" d="M10,6.67A3.33,3.33,0,1,0,13.33,10,3.33,3.33,0,0,0,10,6.67Zm0,5.12A1.79,1.79,0,1,1,11.79,10,1.79,1.79,0,0,1,10,11.79Z"></path>
+                                    </svg>
+                                    <span class="text">Settings</span>
+                                </div>
+                            </div>
+                        </a>
+
+                    
+                    </li>
+                </ul>
+            </nav>
+
+           
+
+            <div style="margin-top: auto; margin-bottom: 24px;">
+
+                <div style="margin: 0 0 24px 0; border-top: 2px solid gray;"> </div>
+                <div class="workspace  transitionOpacity"  style="margin-bottom: 32px; margin-left: calc(var(--silkFlo_logo_width) / 2); color: white; opacity: 1;">
+                    <label class="lblWorkspace">Workspace</label>
+                    <select class="silkFlo_select cmbWorkspace">
+                        <option value="62191c34-0c2d-41a1-be18-eb986938b467,7b151fc9-3cfd-4919-9b18-f26ef0bd7b17" selected="selected">SilkFlo (Agency)</option>
+                        <option value="14aececd-174c-4c5a-99a5-9a6042ad5060">Amsted Rail Headquarters</option>
+                        <option value="-2,827fb872-b5b9-470c-843f-516b2cd56f88">Delaneys.space</option>
+                        <option value="f7eda9d6-42c7-4a25-85b4-79ee40bfd26f">FD Intelligence Ltd.</option>
+                        <option value="-1,2c684d67-3795-4dcd-8bd5-faf356bceb8c">Lion's Heart</option>
+                        <option value="d9ee8262-3e94-4d61-b540-855d4cb9d621">PSI CRO AG</option>
+                        <option value="72d554b7-f90d-4bcc-9805-a1f7868a4213">Referrer Agency (Agency)</option>
+                        <option value="2ff5dea6-d53d-4207-8490-23f01514513a,a1daa16a-6d49-4fcf-9135-394c6fafcb21">Reseller Agency (Agency)</option>
+                    </select>
+
+
+
+
+                   @* <div id="NavigationIsPracticeAccount_Container" class="form-check form-switch">
+                        <input class="form-check-input" data-val="false" data-val-required="" id="NavigationIsPracticeAccount" style="cursor: pointer;" oninput="SilkFlo.SideBar.PracticeAccount_OnInput(this, 'Navigation.SelectorClientId');" type="checkbox">
+
+
+                        <label class="form-check-label" style="color: inherit; cursor: pointer;" for="NavigationIsPracticeAccount">Use Practice Account</label>
+
+
+                        <div class="invalid-feedback" id="NavigationIsPracticeAccount_InvalidFeedback">
+                            Required
+                        </div>
+                    </div>*@
+
+
+
+                </div>
+                <div class="narrowHide"
+                     id="NavigationInviteTeam"
+                     style="text-align: left; margin-bottom: 48px; margin-right:15px; margin-left:15px;">
+                    <label class="text-secondary"
+                           style="margin-bottom: 12px;">
+                        Invite your team and start collaborating!
+                    </label>
+                    <button class="btn btn-warning btn_Login" >
+                        Invite Team Member
+                    </button>
+                </div>
+
+               
+            </div>
+
+        </div>
+        <div class="main transition" id="content" style="opacity: 1; margin-left: var(--silkFlo_sidebar_width_wide);">
+            <div class="container" id="dashboard">
+
+                <div class="TitleBar" style="padding-top: 0px">
+                    
+                    <div class="silkflo-tab">
+                        <h3 class="silkflo-tab-label" name="Dashboard.Personal.Tab" parentid="dashboard" displaypath="Dashboard/Personal">Personal</h3>
+                        <h3 class="silkflo-tab-label active" name="Dashboard.value.Tab" parentid="dashboard" displaypath="Dashboard/value" getonselect="">Value</h3>
+                    </div>
+
+                </div>
+
+                <div name="container">
+                
+                    <div parentid="dashboard" displaypath="Dashboard/value" name="Dashboard.Value.Content" style="display: block;">
+                        <div class="container silkflo_tile_container">
+                            <div class="flex-wrap row" style="margin-top: -1rem;">
+                                <div id="filterOptions">
+                                    <div style="margin-top:1rem; float:right">
+                                        <button type="button" class="btn btn-warning " style=" background-color: white; border-color: #c1c1c1; border-radius: 5px; color: black;">
+                                            <img src="~/Icons/refresh.png" width="14px" />
+                                            <span style="color: black !important;  font-size: 14px;">Refresh all Charts</span>
+                                        </button>
+                                    </div>
+                                    <div style="margin-top:1rem; float:right; margin-right: 10px;">
+                                        <button type="button" class="btn btn-warning " style=" background-color: white; border-color: #c1c1c1; border-radius: 5px; color: black;">
+                                            <img src="~/Icons/export.png" width="14px" />
+                                            <span style="color: black !important;  font-size: 14px;">Export </span>
+                                        </button>
+                                    </div>
+                                    <div style="margin-top:1rem">
+                                        <button type="button" class="btn btn-warning " style=" background-color: white; border-color: #c1c1c1; border-radius: 5px; color: black;">
+                                            <img src="~/Icons/sort.png" width="14px" />
+                                            <span style="color: black !important;  font-size: 14px;">Filter Charts</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-wrap row">
+                                <div class="valuecard col-4 border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Retun on Invesment</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 2 min ago.
+                                    </h3>
+                                    <h1 class="lblValue">3,487m</h1>
+                                    <h1 class="lblValuesmall" style="color:forestgreen">+ 0.98%</h1>
+                                </div>
+
+                                <div class="valuecard col-4  border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;"/>
+                                    </div>
+                                    <h1 style="font-size: 19px;">Failed Executions</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 2 min ago.
+                                    </h3>
+                                    <h1 class="lblValue">12</h1>
+                                    <p class="lblValuesmall" style="color:red">&pound; 3,459.89(-14.3%)%</p>
+                                </div>
+                                <div class="valuecard col-4 border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Avaliable daily hours</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 1 hour ago.
+                                    </h3>
+
+                                    <div class="lblValue">
+                                        <h1 class="lblValue">13 hrs 56 mins</h1>
+                                        <p class="lblValuesmall" style="color:red"> - 34.7%</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="flex-wrap row">
+                                <div class="graphcard col-6 m-6 border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Estimated Vs actual Benefits</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 12 min ago.
+                                    </h3>
+                                    <button class="btnbadge btnFailed" >Deploved</button>
+                                    <button class="btnbadge btnSuccess" >Estimated</button>
+                                  
+                                    <div id="line-chart1" ></div>
+                                </div>
+
+                                <div class="graphcard col-6  border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Failed vs Successful Executions</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 2 min ago.
+                                    </h3>
+                                    <h1 class="lblValue" style="float: left; font-size: 22px;"> $15,879.90  </h1>
+                                    <h1 class="lblValuesmall" style="color:red; float: left; position:absolute; margin-top:30px">- 1.34%</h1>
+                                 
+                                    <button class="btnbadge btnSuccess" style="float:right">Successful</button>
+                                    <button class="btnbadge btnFailed" style="float:right; margin-right: 5px;">Failed</button>
+                                    <div id="line-chart2" ></div>
+                                </div>
+                               
+
+                            </div>
+
+                            <div class="flex-wrap row">
+                                <div class="graphcard col-6 m-6 border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Process by Average Utilization</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 12 min ago.
+                                    </h3>
+                              
+
+                                    <div id="line-chart3"></div>
+                                </div>
+
+                                <div class="valuecard col-4 border bg-light silkflo_tile" style="max-height: 157px;">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Value of time gained</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 6 min ago.
+                                    </h3>
+
+                                    <div class="lblValue">
+                                        <h1 class="lblValue">$1,768.90</h1>
+                                        <p class="lblValuesmall" style="color:red"> - 1.34%</p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="flex-wrap row" style="justify-content:flex-end">
+                               
+
+                                <div class="valuecard col-4  border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Value of time gained</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 6 min ago.
+                                    </h3>
+                                    <h1 class="lblValue">13 hrs 56 mins</h1>
+                                    <p class="lblValuesmall" style="color:red">&pound; 1.34%</p>
+                                </div>
+                                <div class="valuecard col-4 border bg-light silkflo_tile">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Avaliable daily hours</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 12 hour ago.
+                                    </h3>
+
+                                    <div class="lblValue">
+                                        <h1 class="lblValue">12 hrs 56 mins</h1>
+                                        <p class="lblValuesmall" style="color:red"> - 34.7%</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="flex-wrap row">
+                                <div class="valuecard col-4 border bg-light silkflo_tile" >
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Budget Estimation Accuracy</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 2 min ago.
+                                    </h3>
+
+                                    <div class="lblValue">
+                                        <h1 class="lblValue" style="margin-top: 147px">12.9%</h1>
+                                        <p class="lblValuesmall" style="color:red "> + 11.98%</p>
+                                    </div>
+                                </div>
+                                <div class="graphcard col-8 m-6 border bg-light silkflo_tile" style="width:65% ;max-width:65%">
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Most Used</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 12 min ago.
+                                    </h3>
+                                    <div class="row">
+                                        <button class="btnbadge btnFill">Technology</button>
+                                        <button  class="btnbadge btnOutline">Vendors</button>
+                                        <button class="btnbadge btnOutline">Applications </button>
+                                    </div>
+                                    <div id="line-chart4"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex-wrap row">
+                                <div class="graphcard col-8 m-6 border bg-light silkflo_tile" >
+                                    <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                        <img src="~/Icons/refresh.png" style="width:15px;" />
+                                    </div>
+                                    <h1 style="font-size: 19px;">Total Monthly Savings</h1>
+                                    <h3 class="lblUpdate">
+                                        Updated 12 min ago.
+                                    </h3>
+                                    <div class="row">
+                                        <button class="btnbadge btnFill">
+                                            Hours Saved
+                                        </button>
+                                        <button  class="btnbadge btnOutline" >Currency Saved</button>
+                                    </div>
+                                    <div id="line-chart5"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <script>
+
+            </script>
+        </div>
+    </div>
+
+
+
+    <div class="silkFloFooter">
+        <p id="footerId" class="text-right">Copyright &copy 2020-2023 SilkFlo. All rights reserved.</p>
+    </div>
+
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+</body>
+</html>

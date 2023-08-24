@@ -1480,15 +1480,14 @@ SilkFlo.ViewModels.Subscribe = {
 
             const form = document.getElementById('payment-form');
 
-            if (!form) {
-                console.log("payment-form not found");
+            if (!form)
                 return;
-            }
+
 
             // Add an on submet listener on the form.
-            //form.addEventListener(
-            //    'submit',
-            //    SilkFlo.ViewModels.Subscribe.Stripe.Form_OnSubmit);
+            form.addEventListener(
+                'submit',
+                SilkFlo.ViewModels.Subscribe.Stripe.Form_OnSubmit);
         },
 
 
@@ -1497,98 +1496,8 @@ SilkFlo.ViewModels.Subscribe = {
 
 
         // SilkFlo.ViewModels.Subscribe.Stripe.CreateSetupIntent_CallBack
-        //CreateSetupIntent_CallBack: function (clientSecret) {
-        //    debugger
-        //    const logPrefix = 'SilkFlo.ViewModels.Subscribe.Stripe.CreateSetupIntent_CallBack: ';
-
-        //    // Guard Clause
-        //    if (!clientSecret) {
-        //        console.log(`${logPrefix}clientSecret parameter missing`);
-        //        return;
-        //    }
-
-
-        //    // Guard Clause
-        //    if (!SilkFlo.ViewModels.Subscribe.Stripe.Object) {
-        //        console.log(`${logPrefix}SilkFlo.ViewModels.Subscribe.Stripe.Object parameter missing`);
-        //        return;
-        //    }
-
-
-        //    const parent = SilkFlo.ViewModels.Subscribe.GetParent();
-        //    if (!parent)
-        //        return;
-
-
-        //    const name = 'Account.SignUp.BillingAddressContinue';
-        //    let elementContinue = parent.querySelector(`[name="${name}"]`);
-
-        //    // Guard Clause
-        //    if (!elementContinue) {
-        //        let name2 = "Account.SignUp.AccountDetailsContinue";
-        //        const contdButton = parent.querySelector(`[name="${name2}"]`);
-
-        //        if (contdButton) {
-        //            elementContinue = contdButton;
-        //        }
-        //        else {
-        //            console.log(`${logPrefix}Element with name ${name} missing`);
-        //            return;
-        //        }
-        //    }
-
-        //    SilkFlo.RemoveSpinner(elementContinue);
-
-
-        //    const id = 'payment-form';
-        //    const element = document.getElementById(id);
-
-        //    // Guard Clause
-        //    if (!element) {
-        //        console.log(`${logPrefix}Element with id ${id} missing`);
-        //        return;
-        //    }
-
-        //    element.style.display = '';
-
-
-        //    const appearance =
-        //    {
-        //        theme: 'stripe',
-        //        labels: 'floating'
-        //    };
-
-        //    const stripe = SilkFlo.ViewModels.Subscribe.Stripe.Object;
-
-        //    const options = {
-        //        clientSecret: clientSecret,
-        //        appearance: appearance,
-        //    };
-
-        //    // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
-        //    //SilkFlo.ViewModels.Subscribe.Stripe.StripeElements = stripe.elements(options);
-
-        //    var elements = stripe.elements(options);
-        //    const style = {
-        //        base: {
-        //            // Add your base input styles here. For example:
-        //            fontSize: '16px',
-        //            color: '#32325d',
-        //        },
-        //    };
-
-        //    // Create and mount the Payment Element
-        //    //const paymentElement = SilkFlo.ViewModels.Subscribe.Stripe.StripeElements.create('card', {style});
-        //    const paymentElement = elements.create('card', { style });
-        //    paymentElement.mount('#payment-element');
-
-        //    //const elementsGroup = new ElementsGroup([paymentElement]);
-
-        //    SilkFlo.ViewModels.Subscribe.Stripe.StripeElements = paymentElement;
-        //},
-
-
-        CreateSetupIntent_CallBack: function (clientSecret) {
+        CreateSetupIntent_CallBack: function (clientSecret)
+        {
             const logPrefix = 'SilkFlo.ViewModels.Subscribe.Stripe.CreateSetupIntent_CallBack: ';
 
             // Guard Clause
@@ -1597,117 +1506,62 @@ SilkFlo.ViewModels.Subscribe = {
                 return;
             }
 
+
             // Guard Clause
             if (!SilkFlo.ViewModels.Subscribe.Stripe.Object) {
                 console.log(`${logPrefix}SilkFlo.ViewModels.Subscribe.Stripe.Object parameter missing`);
                 return;
             }
 
+
             const parent = SilkFlo.ViewModels.Subscribe.GetParent();
-            if (!parent) 
+            if (!parent)
                 return;
 
 
-            //const name = 'Account.SignUp.BillingAddressContinue';
-            //const elementContinue = parent.querySelector(`[name="${name}"]`);
+            const name = 'Account.SignUp.BillingAddressContinue';
+            const elementContinue = parent.querySelector(`[name="${name}"]`);
 
-            //// Guard Clause
-            //if (!elementContinue) {
-            //    console.log(`${logPrefix}Element with name ${name} missing`);
-            //    return;
-            //}
+            // Guard Clause
+            if (!elementContinue) {
+                console.log(`${logPrefix}Element with name ${name} missing`);
+                return;
+            }
 
-            //SilkFlo.RemoveSpinner(elementContinue);
+            SilkFlo.RemoveSpinner(elementContinue);
 
 
             const id = 'payment-form';
-            const form = document.getElementById(id);
+            const element = document.getElementById(id);
 
             // Guard Clause
-            if (!form) {
+            if (!element) {
                 console.log(`${logPrefix}Element with id ${id} missing`);
                 return;
             }
 
-            form.style.display = '';
+            element.style.display = '';
 
-            const style = {
-                base: {
-                    // Add your base input styles here. For example:
-                    fontSize: '16px',
-                    color: '#32325d',
-                },
-            };
-
-            // Create Stripe payment element
-            const stripe = SilkFlo.ViewModels.Subscribe.Stripe.Object;
 
             const appearance =
             {
                 theme: 'stripe',
                 labels: 'floating'
             };
+
+            const stripe = SilkFlo.ViewModels.Subscribe.Stripe.Object;
+
             const options = {
                 clientSecret: clientSecret,
                 appearance: appearance,
             };
 
-            const elements = stripe.elements(options);
-            SilkFlo.ViewModels.Subscribe.Stripe.StripeElements = elements;
+            // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
+            SilkFlo.ViewModels.Subscribe.Stripe.StripeElements = stripe.elements(options);
 
-            const cardElement = elements.create('card', { style });
-            cardElement.mount('#payment-element');
-
-            // Handle form submission
-            const paymentFormSubs = document.getElementById('payment-form-subs');
-
-            // Add an event listener for the 'click' event
-            paymentFormSubs.addEventListener('click', async (event) => {
-                debugger
-                event.preventDefault();
-
-                const parent = SilkFlo.ViewModels.Subscribe.GetParent();
-                if (!parent)
-                    return;
-
-                const model = SilkFlo.Models.Abstract.GetModelFromParent(
-                    parent,
-                    [
-                        'ClientId',
-                        'PriceId'],
-                    'Account.SignUp.');
-
-
-                //uncomment this for local
-                //const url = `https://localhost:44349/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
-
-                const url = `https://silkflo-test.azurewebsites.net/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
-
-                //const { error } = await stripe.confirmSetup({
-                //    elements: stripe.elements(),
-                //    confirmParams: {
-                //        return_url: url // replace with your actual URL
-                //    }
-                //});
-
-                const { setupIntent, error } = await stripe.confirmCardSetup(
-                    clientSecret,
-                    {
-                        payment_method: {
-                            card: cardElement,
-                        },
-                        return_url: url
-                    }
-                );
-
-                if (error) {
-                    console.log(`${logPrefix}Error confirming setup: ${error}`);
-                    // TODO: handle error
-                } else {
-                    console.log(`${logPrefix}Setup confirmed`);
-                    window.location.href = url;
-                }
-            });
+            // Create and mount the Payment Element
+            const paymentElement = SilkFlo.ViewModels.Subscribe.Stripe.StripeElements.create('payment');
+            paymentElement.mount('#payment-element');
         },
 
 
@@ -1720,10 +1574,10 @@ SilkFlo.ViewModels.Subscribe = {
             const logPrefix = 'SilkFlo.ViewModels.Subscribe.Stripe.Form_OnSubmit: ';
 
             // Guard Clause
-            //if (!event) {
-            //    console.log(`${logPrefix}event parameter missing`);
-            //    return;
-            //}
+            if (!event) {
+                console.log(`${logPrefix}event parameter missing`);
+                return;
+            }
 
             // Guard Clause
             if (!SilkFlo.ViewModels.Subscribe.Stripe.StripeElements) {
@@ -1747,10 +1601,9 @@ SilkFlo.ViewModels.Subscribe = {
 
 
             const elements = SilkFlo.ViewModels.Subscribe.Stripe.StripeElements;
-            //const url = `https://localhost:44349/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
-            const url = `https://silkflo-test.azurewebsites.net/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
+            const url = `https://localhost:5001/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
 
-            //event.preventDefault();
+            event.preventDefault();
             const stripe = SilkFlo.ViewModels.Subscribe.Stripe.Object;
             const { error } = stripe.confirmSetup({
                 elements,
