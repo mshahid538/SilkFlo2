@@ -1,0 +1,355 @@
+﻿@model SilkFlo.Web.Models.Charts.vmCharts
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <style>
+        .cmbWorkspace {
+            margin-bottom: 12px;
+            border-radius: 4px;
+            background-color: #C2C2C2;
+            height: 45px;
+        }
+
+        .lblWorkspace {
+            color: #C4C4C4;
+            font-size: 14px;
+            letter-spacing: 0.76px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            line-height: 21px;
+        }
+
+        .lblUpdate {
+            font-style: italic;
+            color: #c1c1c1;
+            font-size: 12px;
+            font-weight: 400;
+            margin-top: -9px;
+        }
+
+        .valuecard {
+            min-width: 260px;
+            max-width: 380px;
+            padding-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            background-color: white !important;
+            border-radius: 5px;
+            margin-right: 10px;
+            flex-wrap: wrap;
+            justify-content: left;
+            align-content: start;
+            overflow: visible;
+        }
+
+        .graphcard {
+            min-width: 260px;
+            max-width: 575px;
+            padding-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            background-color: white !important;
+            border-radius: 5px;
+            margin-right: 10px;
+            flex-wrap: wrap;
+            justify-content: left;
+            align-content: start;
+            overflow: visible;
+        }
+
+        .lblValue {
+            text-align: center;
+            font-size: 43px;
+            font-weight: 700;
+        }
+
+        .lblValuesmall {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: -8px;
+            margin-bottom: 25px;
+        }
+
+        .btnFailed {
+            background-color: #ffb573;
+            color: white;
+        }
+
+        .btnSuccess {
+            background-color: #73abff;
+            color: white;
+        }
+
+        .btnFill {
+            background-color: #363853;
+            margin-left: 10px;
+            color: white;
+        }
+
+        .btnOutline {
+            background-color: white;
+            color: #363853;
+            margin-left: 5px;
+            border: #363853 1px solid !important
+        }
+
+        .btnbadge {
+            width: 101px;
+            border: 0;
+            border-radius: 4px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 11px;
+            padding-bottom: 3px;
+        }
+    </style>
+
+
+
+
+
+
+
+
+    <div class="d-print-none sideBar_wide silkFlo_flex_wrap_right" id="topBar" style="overflow: hidden;">
+        @* <div class="Search" style="    max-width: 241px; max-height: 33px; margin-bottom: 4px;  border-radius: 6px;">
+        <div class="inputLine">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.49 12.49" style="width:15px" class="icon" src="/Icons/Search.svg">
+        <circle cx="5.62" cy="5.62" r="4.99" style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.25px"></circle>
+        <line x1="11.87" y1="11.87" x2="9.3" y2="9.3" style="stroke-linecap:round;stroke-linejoin:round;stroke-width:1.25px"></line>
+        </svg>
+        <input autocomplete="off" id="" placeholder="Search Here ..." style="font-size:15px">
+
+        <button class="btn-close" onclick="const input = document.getElementById('Settings.Roles.Search'); if (input.value.length> 0)
+        {input.value = '';input.focus();SilkFlo.ViewModels.Settings.CollaboratorRole.Search(null, 'Settings.Roles.Table');}"></button>
+        </div>
+        </div>*@
+        <img src="~/Icons/notification.png" width="20px" style=" margin-bottom: 14px; margin-right: 8px;" />
+        <img src="~/Icons/profile.png" width="34px" style="margin-bottom: 8px; margin-right: 8px;" />
+        <a>
+            <div class="profileButton">
+
+                <div class="d-flex">
+
+                    <div>
+                        <h5>Matsui Jurina</h5>
+                        <h6>Matsuian@mail.com</h6>
+                    </div>
+                    <div class="d-flex" style="align-items: center; margin-left: 18px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" style="fill:black" src="/Icons/Arrow Down - simple.svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.469701 0.969669C0.762594 0.676776 1.23747 0.676776 1.53036 0.969669L6.00003 5.43934L10.4697 0.96967C10.7626 0.676778 11.2375 0.676778 11.5304 0.969671C11.8233 1.26256 11.8233 1.73744 11.5304 2.03033L6.53036 7.03033C6.38971 7.17098 6.19894 7.25 6.00003 7.25C5.80112 7.25 5.61035 7.17098 5.4697 7.03033L0.469701 2.03033C0.176807 1.73744 0.176807 1.26256 0.469701 0.969669Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="sideBar_wide" id="layout">
+
+        <div class="container" id="dashboard">
+
+            <div class="TitleBar" style="padding-top: 0px">
+
+                <div class="silkflo-tab">
+                    <h3 class="silkflo-tab-label" name="Dashboard.Personal.Tab" parentid="dashboard" displaypath="Dashboard/Personal">Personal</h3>
+                    <h3 class="silkflo-tab-label active" name="Dashboard.value.Tab" parentid="dashboard" displaypath="Dashboard/value" getonselect="">Value</h3>
+                </div>
+
+            </div>
+
+            <div name="container">
+
+                <div parentid="dashboard" displaypath="Dashboard/value" name="Dashboard.Value.Content" style="display: block;">
+                    <div class="container silkflo_tile_container">
+                        <div class="flex-wrap row" style="margin-top: -1rem;">
+                            <div id="filterOptions">
+                                <div style="margin-top:1rem; float:right">
+                                    <button type="button" class="btn btn-warning " style=" background-color: white; border-color: #c1c1c1; border-radius: 5px; color: black;">
+                                        <span title="refresh">
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                                <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                            </svg>
+                                        </span>
+                                        <span style="color: black !important;  font-size: 14px;">Refresh all Charts</span>
+                                    </button>
+                                </div>
+                                <div style="margin-top:1rem; float:right; margin-right: 10px;">
+                                    <button type="button" class="btn btn-warning " style=" background-color: white; border-color: #c1c1c1; border-radius: 5px; color: black;">
+                                        <span title="refresh">
+                                            @* <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                            <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                            </svg>*@
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 x="0px" y="0px"
+                                                 width="16" height="16" fill="currentColor" class="bi bi-trash"
+                                                 viewBox="0 0 172 172"
+                                                 style="color:#A1A1AE;">
+                                                <g fill="#000000" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#1fb141"><path d="M21.5,21.5v129h64.5v-32.25v-64.5v-32.25zM86,53.75c0,17.7805 14.4695,32.25 32.25,32.25c17.7805,0 32.25,-14.4695 32.25,-32.25c0,-17.7805 -14.4695,-32.25 -32.25,-32.25c-17.7805,0 -32.25,14.4695 -32.25,32.25zM118.25,86c-17.7805,0 -32.25,14.4695 -32.25,32.25c0,17.7805 14.4695,32.25 32.25,32.25c17.7805,0 32.25,-14.4695 32.25,-32.25c0,-17.7805 -14.4695,-32.25 -32.25,-32.25z"></path></g></g>
+                                            </svg>
+                                        </span>
+                                        <span style="color: black !important;  font-size: 14px;">Export </span>
+                                    </button>
+                                </div>
+                                <div style="margin-top:1rem">
+                                    <button type="button" class="btn btn-warning " style=" background-color: white; border-color: #c1c1c1; border-radius: 5px; color: black;">
+                                        <span title="refresh">
+                                            <span title="refresh">
+                                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32.000000 32.000000" preserveAspectRatio="xMidYMid meet">
+                                                    <g transform="translate(0.000000,32.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                                                        <path d="M50 269 c0 -6 18 -34 40 -61 36 -46 40 -56 40 -110 l0 -59 30 23 c24 17 30 29 30 59 0 27 10 49 40 87 22 27 40 55 40 61 0 7 -36 11 -110 11 -74 0 110 -4 -110 -11z m190 -15 c0 -15 -66 -84 -80 -84 -14 0 -80 69 -80 84 0 3 36 6 80 6 44 0 80 -3 80 -6z m-70 -133 c0 -17 -4 -33 -10 -36 -6 -4 -10 8 -10 29 0 20 5 36 10 36 6 0 10 -13 10 -29z" />
+                                                    </g>
+                                                </svg>
+
+                                            </span>
+                                        </span>
+                                        <span style="color: black !important;  font-size: 14px;">Filter Charts</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="flex-wrap row" style="margin-bottom:0px !important">
+                            <div class="valuecard col-4 border bg-light silkflo_tile">
+                                <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                    <span title="Refresh">
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                            <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <h1 style="font-size: 19px;">Retun on Invesment</h1>
+                                <h3 class="lblUpdate">
+                                    Updated 2 min ago.
+                                </h3>
+                                <h1 class="lblValue">3,487m</h1>
+                                <h1 class="lblValuesmall" style="color:forestgreen">+ 0.98%</h1>
+                            </div>
+
+                            <div class="valuecard col-4  border bg-light silkflo_tile">
+                                <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                    <span title="Refresh">
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                            <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <h1 style="font-size: 19px;">Failed Executions</h1>
+                                <h3 class="lblUpdate">
+                                    Updated 2 min ago.
+                                </h3>
+                                <h1 class="lblValue">12</h1>
+                                <p class="lblValuesmall" style="color:red">&pound; 3,459.89(-14.3%)%</p>
+                            </div>
+                            <div class="valuecard col-4 border bg-light silkflo_tile">
+                                <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                    <span title="Refresh">
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                            <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <h1 style="font-size: 19px;">Avaliable daily hours</h1>
+                                <h3 class="lblUpdate">
+                                    Updated 1 hour ago.
+                                </h3>
+
+                                <div class="lblValue">
+                                    <h1 class="lblValue">13 hrs 56 mins</h1>
+                                    <p class="lblValuesmall" style="color:red"> - 34.7%</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    <div class="flex-wrap row" >
+                      
+
+
+                        @if (Model.lineChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_lineChart.cshtml", Model.lineChart)
+                        }
+                        @if (Model.barChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_barChart.cshtml", Model.barChart)
+                        } 
+                        <div class="valuecard col-3 mt-2 r-2  border bg-light silkflo_tile" style="max-height: 157px;  max-width: 283px !important;">
+                            <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                <span title="Refresh">
+                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                        <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <h1 style="font-size: 19px;">Value of time gained</h1>
+                            <h3 class="lblUpdate">
+                                Updated 6 min ago.
+                            </h3>
+
+                            <div class="lblValue">
+                                <h1 class="lblValue">$1,768.90</h1>
+                                <p class="lblValuesmall" style="color:red"> - 1.34%</p>
+                            </div>
+                        </div>
+                        <div class="valuecard col-3 mt-2 border bg-light silkflo_tile" style="max-height: 157px;  max-width: 283px !important;">
+                            <div style="margin-bottom: 12px; float: right; font-size: 15px;">
+                                <span title="Refresh">
+                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 32 32" style="color:#A1A1AE;" onclick="refresh()">
+                                        <path d="M 16 4 C 10.886719 4 6.617188 7.160156 4.875 11.625 L 6.71875 12.375 C 8.175781 8.640625 11.710938 6 16 6 C 19.242188 6 22.132813 7.589844 23.9375 10 L 20 10 L 20 12 L 27 12 L 27 5 L 25 5 L 25 8.09375 C 22.808594 5.582031 19.570313 4 16 4 Z M 25.28125 19.625 C 23.824219 23.359375 20.289063 26 16 26 C 12.722656 26 9.84375 24.386719 8.03125 22 L 12 22 L 12 20 L 5 20 L 5 27 L 7 27 L 7 23.90625 C 9.1875 26.386719 12.394531 28 16 28 C 21.113281 28 25.382813 24.839844 27.125 20.375 Z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <h1 style="font-size: 19px;">Budget Estimation Accuracy</h1>
+                            <h3 class="lblUpdate">
+                                Updated 2 min ago.
+                            </h3>
+
+                            <div class="lblValue">
+                                <h1 class="lblValue">12.9%</h1>
+                                <p class="lblValuesmall" style="color:red "> + 11.98%</p>
+                            </div>
+                        </div>
+                        @if (Model.pieChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_pieChart.cshtml", Model.pieChart)
+                        }
+                       
+                        @if (Model.doughnutChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_doughnutChart.cshtml", Model.doughnutChart)
+                        }
+                        @if (Model.polarChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_polarChart.cshtml", Model.polarChart)
+                        } @if (Model.scatterChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_scatterChart.cshtml", Model.scatterChart)
+                        } @if (Model.bubbleChart != null)
+                        {
+                            @Html.Partial($"~/Views/Shared/Charts/_bubbleChart.cshtml", Model.bubbleChart)
+                        }
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+
+    </script>
+
+    
+
+
+
+  

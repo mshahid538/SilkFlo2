@@ -1,0 +1,9 @@
+{
+  "lineChart": true,
+  "barChart": false,
+  "pieChart": true,
+  "bubbleChart": true,
+  "doughnutChart": false,
+  "scatterChart": true,
+  "polarChart": true
+}

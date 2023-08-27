@@ -1,0 +1,79 @@
+﻿@model SilkFlo.Web.Models.Charts.ChartPageViewModel
+
+@{
+    ViewData["Title"] = "Charts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Charts</h1>
+
+<div class="container silkflo_tile_container">
+
+  
+
+    @{
+        ViewBag.Title = "All Charts";
+    }
+
+                <div id="ideaCards">
+
+                    <div>
+                        <div class="d-flex-guttered flex-wrap">
+                            @foreach (var chart in Model.lstChart)
+                        {
+                          
+
+                                <div class="ideaCard p-3 border bg-light silkflo_tile" style="display: flex; flex-wrap: wrap; justify-content: center; align-content: start; overflow: visible">
+                                    @Html.Partial($"~/Views/Shared/Charts/_{chart.strType}Chart.cshtml", chart)
+                                </div>
+                            
+                        }
+
+                        </div>
+                    </div>
+                </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+   
+
+</div>
+
