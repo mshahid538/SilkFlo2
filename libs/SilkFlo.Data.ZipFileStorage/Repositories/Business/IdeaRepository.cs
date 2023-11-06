@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Idea) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Idea> SingleOrDefaultAsync(Func<Idea, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeas.Where<Idea>(predicate).FirstOrDefault<Idea>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Idea>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Idea>) dataSetAsync.BusinessIdeas.OrderBy<Idea, string>((Func<Idea, string>) (m => m.Name)).ThenBy<Idea, string>((Func<Idea, string>) (m => m.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (m => m.Summary));
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Idea>> FindAsync(Func<Idea, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Idea>) dataSetAsync.BusinessIdeas.Where<Idea>(predicate).OrderBy<Idea, string>((Func<Idea, string>) (m => m.Name)).ThenBy<Idea, string>((Func<Idea, string>) (m => m.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (m => m.Summary));
     }
 
@@ -85,7 +85,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Idea) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Name == name));
     }
 
@@ -102,9 +102,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.ApplicationStabilityId == applicationStability.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.ApplicationStabilityId = applicationStability.Id;
@@ -143,9 +143,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.AutomationGoalId == automationGoal.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.AutomationGoalId = automationGoal.Id;
@@ -179,9 +179,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.AverageNumberOfStepId == averageNumberOfStep.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.AverageNumberOfStepId = averageNumberOfStep.Id;
@@ -220,9 +220,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.ClientId == client.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.ClientId = client.Id;
@@ -261,9 +261,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.DataInputPercentOfStructuredId == dataInputPercentOfStructured.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.DataInputPercentOfStructuredId = dataInputPercentOfStructured.Id;
@@ -302,9 +302,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.DecisionCountId == decisionCount.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.DecisionCountId = decisionCount.Id;
@@ -338,9 +338,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.DecisionDifficultyId == decisionDifficulty.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.DecisionDifficultyId = decisionDifficulty.Id;
@@ -379,9 +379,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.DepartmentId == department.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.DepartmentId = department.Id;
@@ -415,9 +415,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.DocumentationPresentId == documentationPresent.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.DocumentationPresentId = documentationPresent.Id;
@@ -456,9 +456,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.InputDataStructureId == inputDataStructure.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.InputDataStructureId = inputDataStructure.Id;
@@ -497,9 +497,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.InputId == input.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.InputId = input.Id;
@@ -538,9 +538,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.NumberOfWaysToCompleteProcessId == numberOfWaysToCompleteProcess.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.NumberOfWaysToCompleteProcessId = numberOfWaysToCompleteProcess.Id;
@@ -579,9 +579,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.ProcessId == process.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.ProcessId = process.Id;
@@ -615,9 +615,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.ProcessOwnerId == processOwner.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.ProcessOwnerId = processOwner.Id;
@@ -651,9 +651,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.ProcessPeakId == processPeak.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.ProcessPeakId = processPeak.Id;
@@ -687,9 +687,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.ProcessStabilityId == processStability.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.ProcessStabilityId = processStability.Id;
@@ -723,9 +723,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.RuleId == rule.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.RuleId = rule.Id;
@@ -759,9 +759,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.RunningCostId == runningCost.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.RunningCostId = runningCost.Id;
@@ -795,9 +795,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.SubmissionPathId == submissionPath.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.SubmissionPathId = submissionPath.Id;
@@ -831,9 +831,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.TaskFrequencyId == taskFrequency.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.TaskFrequencyId = taskFrequency.Id;
@@ -867,9 +867,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeas.Where<Idea>((Func<Idea, bool>) (x => x.TeamId == team.Id)).OrderBy<Idea, string>((Func<Idea, string>) (x => x.Name)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.SubTitle)).ThenBy<Idea, string>((Func<Idea, string>) (x => x.Summary)).ToList<Idea>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Idea item in lst)
         {
           item.TeamId = team.Id;
@@ -909,10 +909,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Collaborator collaborator1 = collaborator;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         collaborator1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == collaborator.IdeaId));
         collaborator1 = (Collaborator) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -935,10 +935,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Comment comment1 = comment;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         comment1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == comment.IdeaId));
         comment1 = (Comment) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -961,10 +961,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Document document1 = document;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         document1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == document.IdeaId));
         document1 = (Document) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -987,10 +987,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Follow follow1 = follow;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         follow1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == follow.IdeaId));
         follow1 = (Follow) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1018,10 +1018,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaApplicationVersion applicationVersion = ideaApplicationVersion;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         applicationVersion.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == ideaApplicationVersion.IdeaId));
         applicationVersion = (IdeaApplicationVersion) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1049,10 +1049,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaOtherRunningCost otherRunningCost = ideaOtherRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         otherRunningCost.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == ideaOtherRunningCost.IdeaId));
         otherRunningCost = (IdeaOtherRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1075,10 +1075,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaRunningCost ideaRunningCost1 = ideaRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaRunningCost1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == ideaRunningCost.IdeaId));
         ideaRunningCost1 = (IdeaRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1101,10 +1101,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaStage ideaStage1 = ideaStage;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaStage1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == ideaStage.IdeaId));
         ideaStage1 = (IdeaStage) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1127,10 +1127,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         UserAuthorisation userAuthorisation1 = userAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userAuthorisation1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == userAuthorisation.IdeaId));
         userAuthorisation1 = (UserAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1153,10 +1153,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Vote vote1 = vote;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         vote1.Idea = dataSet.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => x.Id == vote.IdeaId));
         vote1 = (Vote) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1166,7 +1166,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Idea) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeas.SingleOrDefault<Idea>((Func<Idea, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

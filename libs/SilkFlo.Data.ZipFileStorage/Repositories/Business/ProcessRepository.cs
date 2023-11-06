@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Process) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessProcesses.SingleOrDefault<Process>((Func<Process, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Process> SingleOrDefaultAsync(Func<Process, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessProcesses.Where<Process>(predicate).FirstOrDefault<Process>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Process>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Process>) dataSetAsync.BusinessProcesses.OrderBy<Process, string>((Func<Process, string>) (m => m.Name));
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Process>> FindAsync(Func<Process, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Process>) dataSetAsync.BusinessProcesses.Where<Process>(predicate).OrderBy<Process, string>((Func<Process, string>) (m => m.Name));
     }
 
@@ -84,7 +84,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Process) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessProcesses.SingleOrDefault<Process>((Func<Process, bool>) (x => x.Name == name));
     }
 
@@ -101,9 +101,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessProcesses.Where<Process>((Func<Process, bool>) (x => x.ClientId == client.Id)).OrderBy<Process, string>((Func<Process, string>) (x => x.Name)).ToList<Process>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Process item in lst)
         {
           item.ClientId = client.Id;
@@ -137,9 +137,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessProcesses.Where<Process>((Func<Process, bool>) (x => x.TeamId == team.Id)).OrderBy<Process, string>((Func<Process, string>) (x => x.Name)).ToList<Process>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Process item in lst)
         {
           item.TeamId = team.Id;
@@ -179,10 +179,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.Process = dataSet.BusinessProcesses.SingleOrDefault<Process>((Func<Process, bool>) (x => x.Id == idea.ProcessId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -192,7 +192,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Process) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessProcesses.SingleOrDefault<Process>((Func<Process, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (id == null)
         return (Discount) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopDiscounts.SingleOrDefault<Discount>((Func<Discount, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<Discount> SingleOrDefaultAsync(Func<Discount, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopDiscounts.Where<Discount>(predicate).FirstOrDefault<Discount>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Discount>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Discount>) dataSetAsync.ShopDiscounts;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Discount>> FindAsync(Func<Discount, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopDiscounts.Where<Discount>(predicate);
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (string.IsNullOrEmpty(name))
         return (Discount) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopDiscounts.SingleOrDefault<Discount>((Func<Discount, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.AgencyDiscount = dataSet.ShopDiscounts.SingleOrDefault<Discount>((Func<Discount, bool>) (x => x.Id == client.AgencyDiscountId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -137,10 +137,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       else
       {
         Subscription subscription1 = subscription;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         subscription1.AgencyDiscount = dataSet.ShopDiscounts.SingleOrDefault<Discount>((Func<Discount, bool>) (x => x.Id == subscription.AgencyDiscountId));
         subscription1 = (Subscription) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -150,7 +150,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (string.IsNullOrEmpty(name))
         return (Discount) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopDiscounts.SingleOrDefault<Discount>((Func<Discount, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

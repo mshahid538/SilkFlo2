@@ -125,9 +125,9 @@ namespace SilkFlo.Data.Core.Repositories.Business
 
     Task GetClientForAsync(IEnumerable<Process> processes);
 
-    Task GetClientForAsync(SilkFlo.Data.Core.Domain.Business.Role role);
+    Task GetClientForAsync(SilkFlo.Data.Core.Domain.Business.BusinessRole role);
 
-    Task GetClientForAsync(IEnumerable<SilkFlo.Data.Core.Domain.Business.Role> roles);
+    Task GetClientForAsync(IEnumerable<SilkFlo.Data.Core.Domain.Business.BusinessRole> roles);
 
     Task GetClientForAsync(RoleCost roleCost);
 

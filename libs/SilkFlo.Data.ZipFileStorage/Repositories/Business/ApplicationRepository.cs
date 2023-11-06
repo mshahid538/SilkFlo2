@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (SilkFlo.Data.Core.Domain.Business.Application) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessApplications.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Application>((Func<SilkFlo.Data.Core.Domain.Business.Application, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<SilkFlo.Data.Core.Domain.Business.Application> SingleOrDefaultAsync(Func<SilkFlo.Data.Core.Domain.Business.Application, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessApplications.Where<SilkFlo.Data.Core.Domain.Business.Application>(predicate).FirstOrDefault<SilkFlo.Data.Core.Domain.Business.Application>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<SilkFlo.Data.Core.Domain.Business.Application>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<SilkFlo.Data.Core.Domain.Business.Application>) dataSetAsync.BusinessApplications.OrderBy<SilkFlo.Data.Core.Domain.Business.Application, string>((Func<SilkFlo.Data.Core.Domain.Business.Application, string>) (m => m.Name));
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<SilkFlo.Data.Core.Domain.Business.Application>> FindAsync(Func<SilkFlo.Data.Core.Domain.Business.Application, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<SilkFlo.Data.Core.Domain.Business.Application>) dataSetAsync.BusinessApplications.Where<SilkFlo.Data.Core.Domain.Business.Application>(predicate).OrderBy<SilkFlo.Data.Core.Domain.Business.Application, string>((Func<SilkFlo.Data.Core.Domain.Business.Application, string>) (m => m.Name));
     }
 
@@ -84,7 +84,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (SilkFlo.Data.Core.Domain.Business.Application) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessApplications.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Application>((Func<SilkFlo.Data.Core.Domain.Business.Application, bool>) (x => x.Name == name));
     }
 
@@ -101,9 +101,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessApplications.Where<SilkFlo.Data.Core.Domain.Business.Application>((Func<SilkFlo.Data.Core.Domain.Business.Application, bool>) (x => x.ClientId == client.Id)).OrderBy<SilkFlo.Data.Core.Domain.Business.Application, string>((Func<SilkFlo.Data.Core.Domain.Business.Application, string>) (x => x.Name)).ToList<SilkFlo.Data.Core.Domain.Business.Application>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (SilkFlo.Data.Core.Domain.Business.Application item in lst)
         {
           item.ClientId = client.Id;
@@ -143,10 +143,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         SilkFlo.Data.Core.Domain.Business.Version version1 = version;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         version1.Application = dataSet.BusinessApplications.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Application>((Func<SilkFlo.Data.Core.Domain.Business.Application, bool>) (x => x.Id == version.ApplicationId));
         version1 = (SilkFlo.Data.Core.Domain.Business.Version) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -156,7 +156,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (SilkFlo.Data.Core.Domain.Business.Application) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessApplications.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Application>((Func<SilkFlo.Data.Core.Domain.Business.Application, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

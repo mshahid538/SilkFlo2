@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (Achievement) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAchievements.SingleOrDefault<Achievement>((Func<Achievement, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<Achievement> SingleOrDefaultAsync(Func<Achievement, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAchievements.Where<Achievement>(predicate).FirstOrDefault<Achievement>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Achievement>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Achievement>) dataSetAsync.SharedAchievements.OrderBy<Achievement, int>((Func<Achievement, int>) (m => m.Sort)).ThenBy<Achievement, string>((Func<Achievement, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Achievement>> FindAsync(Func<Achievement, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Achievement>) dataSetAsync.SharedAchievements.Where<Achievement>(predicate).OrderBy<Achievement, int>((Func<Achievement, int>) (m => m.Sort)).ThenBy<Achievement, string>((Func<Achievement, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Achievement) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAchievements.SingleOrDefault<Achievement>((Func<Achievement, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         UserAchievement userAchievement1 = userAchievement;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userAchievement1.Achievement = dataSet.SharedAchievements.SingleOrDefault<Achievement>((Func<Achievement, bool>) (x => x.Id == userAchievement.AchievementId));
         userAchievement1 = (UserAchievement) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -124,7 +124,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Achievement) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAchievements.SingleOrDefault<Achievement>((Func<Achievement, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

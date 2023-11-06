@@ -512,7 +512,7 @@ namespace SilkFlo.Web.Models.Business
                 throw new NullReferenceException("Data.Core.IUnitOfWork cannot be null");
 
             // Check unique
-            var message = await Data.Persistence.UnitOfWork.IsUniqueAsync(GetCore());
+            var message = await unitOfWork.IsUniqueAsync(GetCore());// Data.Persistence.UnitOfWork.IsUniqueAsync(GetCore());
 
             if (string.IsNullOrWhiteSpace(message)) 
                 return feedback;

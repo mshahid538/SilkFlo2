@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (UserAchievement) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserAchievements.SingleOrDefault<UserAchievement>((Func<UserAchievement, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<UserAchievement> SingleOrDefaultAsync(Func<UserAchievement, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserAchievements.Where<UserAchievement>(predicate).FirstOrDefault<UserAchievement>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<UserAchievement>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<UserAchievement>) dataSetAsync.UserAchievements;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<UserAchievement>> FindAsync(Func<UserAchievement, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserAchievements.Where<UserAchievement>(predicate);
     }
 
@@ -95,9 +95,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.UserAchievements.Where<UserAchievement>((Func<UserAchievement, bool>) (x => x.AchievementId == achievement.Id)).ToList<UserAchievement>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserAchievement item in lst)
         {
           item.AchievementId = achievement.Id;
@@ -131,9 +131,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.UserAchievements.Where<UserAchievement>((Func<UserAchievement, bool>) (x => x.UserId == user.Id)).ToList<UserAchievement>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserAchievement item in lst)
         {
           item.UserId = user.Id;

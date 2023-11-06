@@ -206,38 +206,38 @@ namespace SilkFlo.Web.Insert
                                              .SingleOrDefaultAsync(x => x.Id == tenantId);
                 if (tenant == null)
                 {
-                    string[] streetNames = { "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts" };
-                    var streetNamesCount = streetNames.Length - 1;
+                    //string[] streetNames = { "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee", "Perez", "Thompson", "White", "Harris", "Sanchez", "Clark", "Ramirez", "Lewis", "Robinson", "Walker", "Young", "Allen", "King", "Wright", "Scott", "Torres", "Nguyen", "Hill", "Flores", "Green", "Adams", "Nelson", "Baker", "Hall", "Rivera", "Campbell", "Mitchell", "Carter", "Roberts" };
+                    //var streetNamesCount = streetNames.Length - 1;
 
-                    var random = new Random();
-                    var streetNameIndex = random.Next(0, streetNamesCount);
-                    var streetName = streetNames[streetNameIndex];
+                    //var random = new Random();
+                    //var streetNameIndex = random.Next(0, streetNamesCount);
+                    //var streetName = streetNames[streetNameIndex];
 
-                    var buildingNumber = random.Next(1, 500);
+                    //var buildingNumber = random.Next(1, 500);
 
-                    var country = await unitOfWork.SharedCountries.GetByNameAsync("united kingdom");
+                    //var country = await unitOfWork.SharedCountries.GetByNameAsync("united kingdom");
 
-                    var industries = (await unitOfWork.SharedIndustries.GetAllAsync()).ToList();
-                    var industryIndex = random.Next(0, industries.Count());
-                    var industryId = industries[industryIndex].Id;
+                    //var industries = (await unitOfWork.SharedIndustries.GetAllAsync()).ToList();
+                    //var industryIndex = random.Next(0, industries.Count());
+                    //var industryId = industries[industryIndex].Id;
 
-                    tenant = new Data.Core.Domain.Business.Client
-                    {
-                        Name = name,
-                        Country = country,
-                        CurrencyId = currencyId,
-                        LanguageId = languageId,
-                        IndustryId = industryId,
-                        Address1 = buildingNumber + " " + streetName + " Street",
-                        PostCode = "1234",
-                        TypeId = "Client39",
-                        Website = "TEST",
-                        IsActive = true,
-                    };
+                    //tenant = new Data.Core.Domain.Business.Client
+                    //{
+                    //    Name = name,
+                    //    Country = country,
+                    //    CurrencyId = currencyId,
+                    //    LanguageId = languageId,
+                    //    IndustryId = industryId,
+                    //    Address1 = buildingNumber + " " + streetName + " Street",
+                    //    PostCode = "1234",
+                    //    TypeId = "Client39",
+                    //    Website = "TEST",
+                    //    IsActive = true,
+                    //};
 
                     var model = new Models.Business.Client(tenant);
 
-                    await unitOfWork.AddAsync(tenant);
+                    //await unitOfWork.AddAsync(tenant);
                     await model.SetupTenantAsync(unitOfWork);
                     await PracticeData.CreatePracticeAccountAsync(
                         tenant,
@@ -249,22 +249,22 @@ namespace SilkFlo.Web.Insert
                 }
 
 
-                var subscription = await unitOfWork.ShopSubscriptions
-                                                   .SingleOrDefaultAsync(x => x.TenantId == tenantId
-                                                                           && x.DateCancelled == null
-                                                                           && x.AgencyId == agency.Id);
+                //var subscription = await unitOfWork.ShopSubscriptions
+                //                                   .SingleOrDefaultAsync(x => x.TenantId == tenantId
+                //                                                           && x.DateCancelled == null
+                //                                                           && x.AgencyId == agency.Id);
 
-                if (subscription != null)
-                    return tenant;
+                //if (subscription != null)
+                //    return tenant;
 
 
-                subscription = new Data.Core.Domain.Shop.Subscription
-                {
-                    Tenant = tenant,
-                    Agency = agency,
-                    DateStart = DateTime.Now,
-                };
-                await unitOfWork.AddAsync(subscription);
+                //subscription = new Data.Core.Domain.Shop.Subscription
+                //{
+                //    Tenant = tenant,
+                //    Agency = agency,
+                //    DateStart = DateTime.Now,
+                //};
+                //await unitOfWork.AddAsync(subscription);
 
                 return tenant;
             }

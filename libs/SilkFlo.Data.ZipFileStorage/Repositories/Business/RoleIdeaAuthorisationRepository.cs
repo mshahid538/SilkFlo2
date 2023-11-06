@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (RoleIdeaAuthorisation) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRoleIdeaAuthorisations.SingleOrDefault<RoleIdeaAuthorisation>((Func<RoleIdeaAuthorisation, bool>) (x => x.Id == id));
     }
 
@@ -39,7 +39,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<RoleIdeaAuthorisation> SingleOrDefaultAsync(
       Func<RoleIdeaAuthorisation, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRoleIdeaAuthorisations.Where<RoleIdeaAuthorisation>(predicate).FirstOrDefault<RoleIdeaAuthorisation>();
     }
 
@@ -68,7 +68,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<RoleIdeaAuthorisation>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<RoleIdeaAuthorisation>) dataSetAsync.BusinessRoleIdeaAuthorisations;
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IEnumerable<RoleIdeaAuthorisation>> FindAsync(
       Func<RoleIdeaAuthorisation, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRoleIdeaAuthorisations.Where<RoleIdeaAuthorisation>(predicate);
     }
 
@@ -94,9 +94,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRoleIdeaAuthorisations.Where<RoleIdeaAuthorisation>((Func<RoleIdeaAuthorisation, bool>) (x => x.ClientId == client.Id)).ToList<RoleIdeaAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RoleIdeaAuthorisation item in lst)
         {
           item.ClientId = client.Id;
@@ -130,9 +130,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRoleIdeaAuthorisations.Where<RoleIdeaAuthorisation>((Func<RoleIdeaAuthorisation, bool>) (x => x.IdeaAuthorisationId == ideaAuthorisation.Id)).ToList<RoleIdeaAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RoleIdeaAuthorisation item in lst)
         {
           item.IdeaAuthorisationId = ideaAuthorisation.Id;
@@ -153,9 +153,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
         await this.GetForIdeaAuthorisationAsync(ideaAuthorisation);
     }
 
-    public void GetForRole(Role role) => this.GetForRoleAsync(role).RunSynchronously();
+    public void GetForRole(BusinessRole role) => this.GetForRoleAsync(role).RunSynchronously();
 
-    public async Task GetForRoleAsync(Role role)
+    public async Task GetForRoleAsync(BusinessRole role)
     {
       List<RoleIdeaAuthorisation> lst;
       if (role == null)
@@ -166,9 +166,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRoleIdeaAuthorisations.Where<RoleIdeaAuthorisation>((Func<RoleIdeaAuthorisation, bool>) (x => x.RoleId == role.Id)).ToList<RoleIdeaAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RoleIdeaAuthorisation item in lst)
         {
           item.RoleId = role.Id;
@@ -179,13 +179,13 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
     }
 
-    public void GetForRole(IEnumerable<Role> roles) => this.GetForRoleAsync(roles).RunSynchronously();
+    public void GetForRole(IEnumerable<BusinessRole> roles) => this.GetForRoleAsync(roles).RunSynchronously();
 
-    public async Task GetForRoleAsync(IEnumerable<Role> roles)
+    public async Task GetForRoleAsync(IEnumerable<BusinessRole> roles)
     {
       if (roles == null)
         return;
-      foreach (Role role in roles)
+      foreach (BusinessRole role in roles)
         await this.GetForRoleAsync(role);
     }
 

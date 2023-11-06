@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (IdeaAuthorisation) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaAuthorisations.SingleOrDefault<IdeaAuthorisation>((Func<IdeaAuthorisation, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IdeaAuthorisation> SingleOrDefaultAsync(
       Func<IdeaAuthorisation, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaAuthorisations.Where<IdeaAuthorisation>(predicate).FirstOrDefault<IdeaAuthorisation>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<IdeaAuthorisation>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaAuthorisation>) dataSetAsync.SharedIdeaAuthorisations.OrderBy<IdeaAuthorisation, int>((Func<IdeaAuthorisation, int>) (m => m.Sort)).ThenBy<IdeaAuthorisation, string>((Func<IdeaAuthorisation, string>) (m => m.Name));
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<IdeaAuthorisation>> FindAsync(
       Func<IdeaAuthorisation, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaAuthorisation>) dataSetAsync.SharedIdeaAuthorisations.Where<IdeaAuthorisation>(predicate).OrderBy<IdeaAuthorisation, int>((Func<IdeaAuthorisation, int>) (m => m.Sort)).ThenBy<IdeaAuthorisation, string>((Func<IdeaAuthorisation, string>) (m => m.Name));
     }
 
@@ -90,7 +90,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (IdeaAuthorisation) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaAuthorisations.SingleOrDefault<IdeaAuthorisation>((Func<IdeaAuthorisation, bool>) (x => x.Name == name));
     }
 
@@ -118,10 +118,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         RoleIdeaAuthorisation ideaAuthorisation = roleIdeaAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaAuthorisation.IdeaAuthorisation = dataSet.SharedIdeaAuthorisations.SingleOrDefault<IdeaAuthorisation>((Func<IdeaAuthorisation, bool>) (x => x.Id == roleIdeaAuthorisation.IdeaAuthorisationId));
         ideaAuthorisation = (RoleIdeaAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -144,10 +144,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         UserAuthorisation userAuthorisation1 = userAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userAuthorisation1.IdeaAuthorisation = dataSet.SharedIdeaAuthorisations.SingleOrDefault<IdeaAuthorisation>((Func<IdeaAuthorisation, bool>) (x => x.Id == userAuthorisation.IdeaAuthorisationId));
         userAuthorisation1 = (UserAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -157,7 +157,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (IdeaAuthorisation) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaAuthorisations.SingleOrDefault<IdeaAuthorisation>((Func<IdeaAuthorisation, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

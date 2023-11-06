@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (id == null)
         return (HotSpot) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationHotSpots.SingleOrDefault<HotSpot>((Func<HotSpot, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<HotSpot> SingleOrDefaultAsync(Func<HotSpot, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationHotSpots.Where<HotSpot>(predicate).FirstOrDefault<HotSpot>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<IEnumerable<HotSpot>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<HotSpot>) dataSetAsync.ApplicationHotSpots;
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<IEnumerable<HotSpot>> FindAsync(Func<HotSpot, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationHotSpots.Where<HotSpot>(predicate);
     }
 
@@ -84,7 +84,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (string.IsNullOrEmpty(name))
         return (HotSpot) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationHotSpots.SingleOrDefault<HotSpot>((Func<HotSpot, bool>) (x => x.Name == name));
     }
 
@@ -94,7 +94,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (string.IsNullOrEmpty(name))
         return (HotSpot) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationHotSpots.SingleOrDefault<HotSpot>((Func<HotSpot, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

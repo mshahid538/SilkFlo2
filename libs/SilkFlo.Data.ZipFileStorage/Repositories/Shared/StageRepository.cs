@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (Stage) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStages.SingleOrDefault<Stage>((Func<Stage, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<Stage> SingleOrDefaultAsync(Func<Stage, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStages.Where<Stage>(predicate).FirstOrDefault<Stage>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Stage>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Stage>) dataSetAsync.SharedStages.OrderBy<Stage, int>((Func<Stage, int>) (m => m.Sort)).ThenBy<Stage, string>((Func<Stage, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Stage>> FindAsync(Func<Stage, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Stage>) dataSetAsync.SharedStages.Where<Stage>(predicate).OrderBy<Stage, int>((Func<Stage, int>) (m => m.Sort)).ThenBy<Stage, string>((Func<Stage, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Stage) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStages.SingleOrDefault<Stage>((Func<Stage, bool>) (x => x.Name == name));
     }
 
@@ -105,9 +105,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.SharedStages.Where<Stage>((Func<Stage, bool>) (x => x.StageGroupId == stageGroup.Id)).OrderBy<Stage, int>((Func<Stage, int>) (x => x.Sort)).ThenBy<Stage, string>((Func<Stage, string>) (x => x.Name)).ToList<Stage>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Stage item in lst)
         {
           item.StageGroupId = stageGroup.Id;
@@ -147,10 +147,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         IdeaStage ideaStage1 = ideaStage;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaStage1.Stage = dataSet.SharedStages.SingleOrDefault<Stage>((Func<Stage, bool>) (x => x.Id == ideaStage.StageId));
         ideaStage1 = (IdeaStage) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -173,10 +173,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         IdeaStatus ideaStatus1 = ideaStatus;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaStatus1.Stage = dataSet.SharedStages.SingleOrDefault<Stage>((Func<Stage, bool>) (x => x.Id == ideaStatus.StageId));
         ideaStatus1 = (IdeaStatus) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -186,7 +186,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Stage) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStages.SingleOrDefault<Stage>((Func<Stage, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

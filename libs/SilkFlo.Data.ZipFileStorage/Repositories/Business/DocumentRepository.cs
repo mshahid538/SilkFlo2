@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Document) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessDocuments.SingleOrDefault<Document>((Func<Document, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Document> SingleOrDefaultAsync(Func<Document, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessDocuments.Where<Document>(predicate).FirstOrDefault<Document>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Document>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Document>) dataSetAsync.BusinessDocuments.OrderBy<Document, string>((Func<Document, string>) (m => m.ClientId)).ThenBy<Document, string>((Func<Document, string>) (m => m.Filename)).ThenBy<Document, string>((Func<Document, string>) (m => m.Text));
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Document>> FindAsync(Func<Document, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Document>) dataSetAsync.BusinessDocuments.Where<Document>(predicate).OrderBy<Document, string>((Func<Document, string>) (m => m.ClientId)).ThenBy<Document, string>((Func<Document, string>) (m => m.Filename)).ThenBy<Document, string>((Func<Document, string>) (m => m.Text));
     }
 
@@ -91,9 +91,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessDocuments.Where<Document>((Func<Document, bool>) (x => x.ClientId == client.Id)).OrderBy<Document, string>((Func<Document, string>) (x => x.ClientId)).ThenBy<Document, string>((Func<Document, string>) (x => x.Filename)).ThenBy<Document, string>((Func<Document, string>) (x => x.Text)).ToList<Document>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Document item in lst)
         {
           item.ClientId = client.Id;
@@ -127,9 +127,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessDocuments.Where<Document>((Func<Document, bool>) (x => x.IdeaId == idea.Id)).OrderBy<Document, string>((Func<Document, string>) (x => x.ClientId)).ThenBy<Document, string>((Func<Document, string>) (x => x.Filename)).ThenBy<Document, string>((Func<Document, string>) (x => x.Text)).ToList<Document>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Document item in lst)
         {
           item.IdeaId = idea.Id;

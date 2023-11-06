@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (CostType) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCostTypes.SingleOrDefault<CostType>((Func<CostType, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<CostType> SingleOrDefaultAsync(Func<CostType, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCostTypes.Where<CostType>(predicate).FirstOrDefault<CostType>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<CostType>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<CostType>) dataSetAsync.SharedCostTypes;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<CostType>> FindAsync(Func<CostType, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCostTypes.Where<CostType>(predicate);
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (CostType) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCostTypes.SingleOrDefault<CostType>((Func<CostType, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         OtherRunningCost otherRunningCost1 = otherRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         otherRunningCost1.CostType = dataSet.SharedCostTypes.SingleOrDefault<CostType>((Func<CostType, bool>) (x => x.Id == otherRunningCost.CostTypeId));
         otherRunningCost1 = (OtherRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -124,7 +124,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (CostType) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCostTypes.SingleOrDefault<CostType>((Func<CostType, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

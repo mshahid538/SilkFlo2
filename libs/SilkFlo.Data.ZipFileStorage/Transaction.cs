@@ -180,9 +180,9 @@ namespace SilkFlo.Data.Persistence
         {
           int num32 = (int) await unitOfWork.DeleteAsync((Recipient) item.Entity);
         }
-        if (type == typeof (SilkFlo.Data.Core.Domain.Business.Role))
+        if (type == typeof (SilkFlo.Data.Core.Domain.Business.BusinessRole))
         {
-          int num33 = (int) await unitOfWork.DeleteAsync((SilkFlo.Data.Core.Domain.Business.Role) item.Entity);
+          int num33 = (int) await unitOfWork.DeleteAsync((SilkFlo.Data.Core.Domain.Business.BusinessRole) item.Entity);
         }
         if (type == typeof (RoleCost))
         {

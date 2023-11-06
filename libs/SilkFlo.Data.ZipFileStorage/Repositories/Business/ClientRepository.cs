@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Client) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Client> SingleOrDefaultAsync(Func<Client, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessClients.Where<Client>(predicate).FirstOrDefault<Client>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Client>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Client>) dataSetAsync.BusinessClients.OrderBy<Client, string>((Func<Client, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Client>> FindAsync(Func<Client, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Client>) dataSetAsync.BusinessClients.Where<Client>(predicate).OrderBy<Client, string>((Func<Client, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Client) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Name == name));
     }
 
@@ -104,9 +104,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.AccountOwnerId == accountOwner.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.AccountOwnerId = accountOwner.Id;
@@ -140,9 +140,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.AgencyDiscountId == agencyDiscount.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.AgencyDiscountId = agencyDiscount.Id;
@@ -176,9 +176,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.AgencyId == agency.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.AgencyId = agency.Id;
@@ -212,9 +212,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.CountryId == country.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.CountryId = country.Id;
@@ -248,9 +248,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.CurrencyId == currency.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.CurrencyId = currency.Id;
@@ -284,9 +284,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.IndustryId == industry.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.IndustryId = industry.Id;
@@ -320,9 +320,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.LanguageId == language.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.LanguageId = language.Id;
@@ -356,9 +356,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.PracticeId == practiceAccount.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.PracticeId = practiceAccount.Id;
@@ -392,9 +392,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessClients.Where<Client>((Func<Client, bool>) (x => x.TypeId == type.Id)).OrderBy<Client, string>((Func<Client, string>) (x => x.Name)).ToList<Client>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Client item in lst)
         {
           item.TypeId = type.Id;
@@ -434,10 +434,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
                 SilkFlo.Data.Core.Domain.Business.Application application1 = application;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         application1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == application.ClientId));
         application1 = (SilkFlo.Data.Core.Domain.Business.Application) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -460,10 +460,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.Agency = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == client.AgencyId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -486,10 +486,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.PracticeAccount = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == client.PracticeId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -512,10 +512,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Comment comment1 = comment;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         comment1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == comment.ClientId));
         comment1 = (Comment) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -538,10 +538,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Department department1 = department;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         department1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == department.ClientId));
         department1 = (Department) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -564,10 +564,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Document document1 = document;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         document1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == document.ClientId));
         document1 = (Document) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -590,10 +590,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == idea.ClientId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -621,10 +621,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaOtherRunningCost otherRunningCost = ideaOtherRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         otherRunningCost.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == ideaOtherRunningCost.ClientId));
         otherRunningCost = (IdeaOtherRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -647,10 +647,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaRunningCost ideaRunningCost1 = ideaRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaRunningCost1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == ideaRunningCost.ClientId));
         ideaRunningCost1 = (IdeaRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -678,10 +678,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         ImplementationCost implementationCost1 = implementationCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         implementationCost1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == implementationCost.ClientId));
         implementationCost1 = (ImplementationCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -704,10 +704,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Location location1 = location;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         location1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == location.ClientId));
         location1 = (Location) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -730,10 +730,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         ManageTenant manageTenant1 = manageTenant;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         manageTenant1.Tenant = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == manageTenant.TenantId));
         manageTenant1 = (ManageTenant) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -756,10 +756,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Message message1 = message;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         message1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == message.ClientId));
         message1 = (Message) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -782,10 +782,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         OtherRunningCost otherRunningCost1 = otherRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         otherRunningCost1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == otherRunningCost.ClientId));
         otherRunningCost1 = (OtherRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -808,36 +808,36 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Process process1 = process;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         process1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == process.ClientId));
         process1 = (Process) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
-    public void GetClientFor(IEnumerable<SilkFlo.Data.Core.Domain.Business.Role> roles) => this.GetClientForAsync(roles).RunSynchronously();
+    public void GetClientFor(IEnumerable<SilkFlo.Data.Core.Domain.Business.BusinessRole> roles) => this.GetClientForAsync(roles).RunSynchronously();
 
-    public async Task GetClientForAsync(IEnumerable<SilkFlo.Data.Core.Domain.Business.Role> roles)
+    public async Task GetClientForAsync(IEnumerable<SilkFlo.Data.Core.Domain.Business.BusinessRole> roles)
     {
       if (roles == null)
         return;
-      foreach (SilkFlo.Data.Core.Domain.Business.Role role in roles)
+      foreach (SilkFlo.Data.Core.Domain.Business.BusinessRole role in roles)
         await this.GetClientForAsync(role);
     }
 
-    public void GetClientFor(SilkFlo.Data.Core.Domain.Business.Role role) => this.GetClientForAsync(role).RunSynchronously();
+    public void GetClientFor(SilkFlo.Data.Core.Domain.Business.BusinessRole role) => this.GetClientForAsync(role).RunSynchronously();
 
-    public async Task GetClientForAsync(SilkFlo.Data.Core.Domain.Business.Role role)
+    public async Task GetClientForAsync(SilkFlo.Data.Core.Domain.Business.BusinessRole role)
     {
       if (role == null)
         ;
       else
       {
-        SilkFlo.Data.Core.Domain.Business.Role role1 = role;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        SilkFlo.Data.Core.Domain.Business.BusinessRole role1 = role;
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         role1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == role.ClientId));
-        role1 = (SilkFlo.Data.Core.Domain.Business.Role) null;
-        dataSet = (DataSet) null;
+        role1 = (SilkFlo.Data.Core.Domain.Business.BusinessRole) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -860,10 +860,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         RoleCost roleCost1 = roleCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         roleCost1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == roleCost.ClientId));
         roleCost1 = (RoleCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -891,10 +891,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         RoleIdeaAuthorisation ideaAuthorisation = roleIdeaAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaAuthorisation.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == roleIdeaAuthorisation.ClientId));
         ideaAuthorisation = (RoleIdeaAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -917,10 +917,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         RunningCost runningCost1 = runningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         runningCost1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == runningCost.ClientId));
         runningCost1 = (RunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -943,10 +943,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         SoftwareVender softwareVender1 = softwareVender;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         softwareVender1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == softwareVender.ClientId));
         softwareVender1 = (SoftwareVender) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -969,10 +969,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Subscription subscription1 = subscription;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         subscription1.Tenant = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == subscription.TenantId));
         subscription1 = (Subscription) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -995,10 +995,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Subscription subscription1 = subscription;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         subscription1.Agency = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == subscription.AgencyId));
         subscription1 = (Subscription) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1021,10 +1021,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Team team1 = team;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         team1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == team.ClientId));
         team1 = (Team) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1047,10 +1047,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         User user1 = user;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         user1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == user.ClientId));
         user1 = (User) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1073,10 +1073,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         SilkFlo.Data.Core.Domain.Business.Version version1 = version;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         version1.Client = dataSet.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => x.Id == version.ClientId));
         version1 = (SilkFlo.Data.Core.Domain.Business.Version) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -1086,7 +1086,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Client) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessClients.SingleOrDefault<Client>((Func<Client, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

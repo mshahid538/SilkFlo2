@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (id == null)
         return (JobLevel) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMJobLevels.SingleOrDefault<JobLevel>((Func<JobLevel, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<JobLevel> SingleOrDefaultAsync(Func<JobLevel, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMJobLevels.Where<JobLevel>(predicate).FirstOrDefault<JobLevel>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<IEnumerable<JobLevel>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<JobLevel>) dataSetAsync.CRMJobLevels.OrderBy<JobLevel, int>((Func<JobLevel, int>) (m => m.Sort)).ThenBy<JobLevel, string>((Func<JobLevel, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<IEnumerable<JobLevel>> FindAsync(Func<JobLevel, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<JobLevel>) dataSetAsync.CRMJobLevels.Where<JobLevel>(predicate).OrderBy<JobLevel, int>((Func<JobLevel, int>) (m => m.Sort)).ThenBy<JobLevel, string>((Func<JobLevel, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (string.IsNullOrEmpty(name))
         return (JobLevel) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMJobLevels.SingleOrDefault<JobLevel>((Func<JobLevel, bool>) (x => x.Name == name));
     }
 
@@ -110,10 +110,10 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
       else
       {
         Prospect prospect1 = prospect;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         prospect1.JobLevel = dataSet.CRMJobLevels.SingleOrDefault<JobLevel>((Func<JobLevel, bool>) (x => x.Id == prospect.JobLevelId));
         prospect1 = (Prospect) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -123,7 +123,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (string.IsNullOrEmpty(name))
         return (JobLevel) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMJobLevels.SingleOrDefault<JobLevel>((Func<JobLevel, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

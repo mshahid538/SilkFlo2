@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (Message) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Messages.SingleOrDefault<Message>((Func<Message, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<Message> SingleOrDefaultAsync(Func<Message, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Messages.Where<Message>(predicate).FirstOrDefault<Message>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<Message>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Message>) dataSetAsync.Messages;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<Message>> FindAsync(Func<Message, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Messages.Where<Message>(predicate);
     }
 
@@ -95,9 +95,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Messages.Where<Message>((Func<Message, bool>) (x => x.ClientId == client.Id)).ToList<Message>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Message item in lst)
         {
           item.ClientId = client.Id;
@@ -131,9 +131,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Messages.Where<Message>((Func<Message, bool>) (x => x.UserId == user.Id)).ToList<Message>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Message item in lst)
         {
           item.UserId = user.Id;

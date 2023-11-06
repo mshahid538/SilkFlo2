@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (DecisionCount) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionCounts.SingleOrDefault<DecisionCount>((Func<DecisionCount, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<DecisionCount> SingleOrDefaultAsync(Func<DecisionCount, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionCounts.Where<DecisionCount>(predicate).FirstOrDefault<DecisionCount>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<DecisionCount>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DecisionCount>) dataSetAsync.SharedDecisionCounts.OrderByDescending<DecisionCount, Decimal>((Func<DecisionCount, Decimal>) (m => m.Weighting)).ThenBy<DecisionCount, string>((Func<DecisionCount, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<DecisionCount>> FindAsync(Func<DecisionCount, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DecisionCount>) dataSetAsync.SharedDecisionCounts.Where<DecisionCount>(predicate).OrderByDescending<DecisionCount, Decimal>((Func<DecisionCount, Decimal>) (m => m.Weighting)).ThenBy<DecisionCount, string>((Func<DecisionCount, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DecisionCount) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionCounts.SingleOrDefault<DecisionCount>((Func<DecisionCount, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.DecisionCount = dataSet.SharedDecisionCounts.SingleOrDefault<DecisionCount>((Func<DecisionCount, bool>) (x => x.Id == idea.DecisionCountId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -124,7 +124,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DecisionCount) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionCounts.SingleOrDefault<DecisionCount>((Func<DecisionCount, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

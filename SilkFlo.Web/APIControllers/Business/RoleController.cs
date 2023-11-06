@@ -260,7 +260,7 @@ namespace SilkFlo.Web.APIControllers.Business
 
 
                 var core = await _unitOfWork.BusinessRoles.SingleOrDefaultAsync(x => x.Id == model.Id
-                    && (x.ClientId == tenant.Id || x.IsBuiltIn)) ?? new Data.Core.Domain.Business.Role();
+                    && (x.ClientId == tenant.Id || x.IsBuiltIn)) ?? new Data.Core.Domain.Business.BusinessRole();
 
 
                 model.IdeaAuthorisations = model.IdeaAuthorisations

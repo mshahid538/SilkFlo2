@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (IdeaStageStatus) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeaStageStatuses.SingleOrDefault<IdeaStageStatus>((Func<IdeaStageStatus, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IdeaStageStatus> SingleOrDefaultAsync(Func<IdeaStageStatus, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeaStageStatuses.Where<IdeaStageStatus>(predicate).FirstOrDefault<IdeaStageStatus>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<IdeaStageStatus>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaStageStatus>) dataSetAsync.BusinessIdeaStageStatuses.OrderBy<IdeaStageStatus, string>((Func<IdeaStageStatus, string>) (m => m.IdeaStageId)).ThenBy<IdeaStageStatus, DateTime>((Func<IdeaStageStatus, DateTime>) (m => m.Date));
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<IdeaStageStatus>> FindAsync(Func<IdeaStageStatus, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaStageStatus>) dataSetAsync.BusinessIdeaStageStatuses.Where<IdeaStageStatus>(predicate).OrderBy<IdeaStageStatus, string>((Func<IdeaStageStatus, string>) (m => m.IdeaStageId)).ThenBy<IdeaStageStatus, DateTime>((Func<IdeaStageStatus, DateTime>) (m => m.Date));
     }
 
@@ -92,9 +92,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeaStageStatuses.Where<IdeaStageStatus>((Func<IdeaStageStatus, bool>) (x => x.IdeaStageId == ideaStage.Id)).OrderBy<IdeaStageStatus, string>((Func<IdeaStageStatus, string>) (x => x.IdeaStageId)).ThenBy<IdeaStageStatus, DateTime>((Func<IdeaStageStatus, DateTime>) (x => x.Date)).ToList<IdeaStageStatus>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (IdeaStageStatus item in lst)
         {
           item.IdeaStageId = ideaStage.Id;
@@ -128,9 +128,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeaStageStatuses.Where<IdeaStageStatus>((Func<IdeaStageStatus, bool>) (x => x.StatusId == status.Id)).OrderBy<IdeaStageStatus, string>((Func<IdeaStageStatus, string>) (x => x.IdeaStageId)).ThenBy<IdeaStageStatus, DateTime>((Func<IdeaStageStatus, DateTime>) (x => x.Date)).ToList<IdeaStageStatus>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (IdeaStageStatus item in lst)
         {
           item.StatusId = status.Id;

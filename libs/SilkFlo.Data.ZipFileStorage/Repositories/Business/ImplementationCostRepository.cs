@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (ImplementationCost) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessImplementationCosts.SingleOrDefault<ImplementationCost>((Func<ImplementationCost, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<ImplementationCost> SingleOrDefaultAsync(
       Func<ImplementationCost, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessImplementationCosts.Where<ImplementationCost>(predicate).FirstOrDefault<ImplementationCost>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<ImplementationCost>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ImplementationCost>) dataSetAsync.BusinessImplementationCosts;
     }
 
@@ -76,7 +76,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IEnumerable<ImplementationCost>> FindAsync(
       Func<ImplementationCost, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessImplementationCosts.Where<ImplementationCost>(predicate);
     }
 
@@ -93,9 +93,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessImplementationCosts.Where<ImplementationCost>((Func<ImplementationCost, bool>) (x => x.ClientId == client.Id)).ToList<ImplementationCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (ImplementationCost item in lst)
         {
           item.ClientId = client.Id;
@@ -129,9 +129,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessImplementationCosts.Where<ImplementationCost>((Func<ImplementationCost, bool>) (x => x.IdeaStageId == ideaStage.Id)).ToList<ImplementationCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (ImplementationCost item in lst)
         {
           item.IdeaStageId = ideaStage.Id;
@@ -152,9 +152,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
         await this.GetForIdeaStageAsync(ideaStage);
     }
 
-    public void GetForRole(Role role) => this.GetForRoleAsync(role).RunSynchronously();
+    public void GetForRole(BusinessRole role) => this.GetForRoleAsync(role).RunSynchronously();
 
-    public async Task GetForRoleAsync(Role role)
+    public async Task GetForRoleAsync(BusinessRole role)
     {
       List<ImplementationCost> lst;
       if (role == null)
@@ -165,9 +165,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessImplementationCosts.Where<ImplementationCost>((Func<ImplementationCost, bool>) (x => x.RoleId == role.Id)).ToList<ImplementationCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (ImplementationCost item in lst)
         {
           item.RoleId = role.Id;
@@ -178,13 +178,13 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
     }
 
-    public void GetForRole(IEnumerable<Role> roles) => this.GetForRoleAsync(roles).RunSynchronously();
+    public void GetForRole(IEnumerable<BusinessRole> roles) => this.GetForRoleAsync(roles).RunSynchronously();
 
-    public async Task GetForRoleAsync(IEnumerable<Role> roles)
+    public async Task GetForRoleAsync(IEnumerable<BusinessRole> roles)
     {
       if (roles == null)
         return;
-      foreach (Role role in roles)
+      foreach (BusinessRole role in roles)
         await this.GetForRoleAsync(role);
     }
 

@@ -1448,7 +1448,7 @@ namespace SilkFlo.Web.Insert
                                                      "Overview of all automations currently deployed and live.",
                                                      unitOfWork);
 
-
+            await unitOfWork.CompleteAsync();
 
             var ideaStage = await AddStageAsync(Data.Core.Enumerators.Stage.n00_Idea, 0, "Idea", true,false, false, reviewStageGroup, unitOfWork);
             var assessStage = await AddStageAsync(Data.Core.Enumerators.Stage.n01_Assess, 1, "Assess", true, false, false, assessStageGroup, unitOfWork);
@@ -1459,6 +1459,7 @@ namespace SilkFlo.Web.Insert
             var testingStage = await AddStageAsync(Data.Core.Enumerators.Stage.n06_Testing, 6, "Testing", false, true, false, buildStageGroup, unitOfWork);
             var deployedStage = await AddStageAsync(Data.Core.Enumerators.Stage.n07_Deployed, 7, "Deployed", false, false, true, deployedStageGroup, unitOfWork);
 
+            await unitOfWork.CompleteAsync();
 
 
             await AddStatusAsync(Data.Core.Enumerators.IdeaStatus.n00_Idea_AwaitingReview, 0, "Awaiting Review", "pill-warning", "text-warning", ideaStage, unitOfWork, false, true);
@@ -1694,7 +1695,7 @@ namespace SilkFlo.Web.Insert
             }
         }
 
-        public static async Task<bool> InsertSystemRolesAsync(Data.Core.IUnitOfWork unitOfWork)
+        public async Task<bool> InsertSystemRolesAsync(Data.Core.IUnitOfWork unitOfWork)
         {
             var description = "<p>The first user of the client automatically receives the Account Owner role, allowing them to edit the client Settings page.</p>" +
                 "<h3 style=\"margin-top:0 !important;\">16 Policies:</h3>" +
@@ -1717,7 +1718,7 @@ namespace SilkFlo.Web.Insert
                 "<li>Manage Tenant User Roles</li>" +
                 "</ul></div>";
 
-            var core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            var core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.AccountOwner).ToString(),
                 "Account Owner",
@@ -1746,7 +1747,7 @@ namespace SilkFlo.Web.Insert
                 "<li>View Cost Info in Automation Pipeline</li>" +
                 "</ul></div>";
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.ProgramManager).ToString(),
                 "Program Manager",
@@ -1766,7 +1767,7 @@ namespace SilkFlo.Web.Insert
                 "<li>Assign Process Owner</li>" +
                 "</ul></div>";
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.IdeaApprover).ToString(),
                 "Idea Approver",
@@ -1785,7 +1786,7 @@ namespace SilkFlo.Web.Insert
                 "<li>Submit CoE Driven Ideas</li>" +
                 "</ul></div>";
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.AuthorisedUser).ToString(),
                 "Authorised User",
@@ -1805,7 +1806,7 @@ namespace SilkFlo.Web.Insert
                 "<li>View Tenant Dashboards</li>" +
                 "</ul></div>";
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync(//Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.RPASponsor).ToString(),
                 "Automation Sponsor",
@@ -1825,7 +1826,7 @@ namespace SilkFlo.Web.Insert
                             "<li>Share Employee Driven Ideas</li>" +
                             "</ul></div>";
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.StandardUser).ToString(),
                 "Standard User",
@@ -1857,7 +1858,7 @@ namespace SilkFlo.Web.Insert
                             "<li>Can Select a client</li>" +
                             "</ul></div>";
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.AgencyUser).ToString(),
                 "Agency User",
@@ -1875,7 +1876,7 @@ namespace SilkFlo.Web.Insert
                             "</ul></div>";
 
 
-            core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
+            core = await unitOfWork.InsertRoleAsync( //Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.AgencyAdministrator).ToString(),
                 "Agency Administrator",
@@ -2041,7 +2042,7 @@ namespace SilkFlo.Web.Insert
             var core = await unitOfWork.BusinessRoles.GetAsync(id);
             if(core == null)
             {
-                core = new Data.Core.Domain.Business.Role { Name = name, Id = id, Sort = sort, Description = description, IsBuiltIn = true, ClientId = ""};
+                core = new Data.Core.Domain.Business.BusinessRole { Name = name, Id = id, Sort = sort, Description = description, IsBuiltIn = true, ClientId = ""};
                 await unitOfWork.AddAsync(core);
                 core.Id = id;
             }
@@ -2054,7 +2055,7 @@ namespace SilkFlo.Web.Insert
             core = await unitOfWork.BusinessRoles.GetAsync(id);
             if (core == null)
             {
-                core = new Data.Core.Domain.Business.Role { Name = name, Id = id, Sort = sort, Description = description, IsBuiltIn = true, ClientId = "" };
+                core = new Data.Core.Domain.Business.BusinessRole { Name = name, Id = id, Sort = sort, Description = description, IsBuiltIn = true, ClientId = "" };
                 await unitOfWork.AddAsync(core);
                 core.Id = id;
             }
@@ -2067,7 +2068,7 @@ namespace SilkFlo.Web.Insert
             core = await unitOfWork.BusinessRoles.GetAsync(id);
             if (core == null)
             {
-                core = new Data.Core.Domain.Business.Role { Name = name, Id = id, Sort = sort, Description = description, IsBuiltIn = true, ClientId = "" };
+                core = new Data.Core.Domain.Business.BusinessRole { Name = name, Id = id, Sort = sort, Description = description, IsBuiltIn = true, ClientId = "" };
                 await unitOfWork.AddAsync(core);
                 core.Id = id;
             }
@@ -2203,6 +2204,8 @@ namespace SilkFlo.Web.Insert
                 await unitOfWork.AddAsync(core);
                 core.Id = id;
             }
+
+            await unitOfWork.CompleteAsync();
         }
 
 
@@ -2257,50 +2260,51 @@ namespace SilkFlo.Web.Insert
             }
         }
 
-        public static async Task Insert(Data.Core.IUnitOfWork unitOfWork, Data.Core.Domain.User powerUser)
+        public async Task Insert(Data.Core.IUnitOfWork unitOfWork, Data.Core.Domain.User powerUser)
         {
             try
             {
-                await CurrenciesAsync(unitOfWork);
+                await CurrenciesAsync(unitOfWork); await unitOfWork.CompleteAsync();
 
-                await SharedPeriodAsync(unitOfWork);
-                await SubscriptionData.ShopProductsAsync(unitOfWork);
+                await SharedPeriodAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                var subscriptionData = new SubscriptionData();
+                await subscriptionData.ShopProductsAsync(unitOfWork); await unitOfWork.CompleteAsync();
 
                 //ToDo: Get Prices from Stripe
                 //await SubscriptionData.UpdatePricesAsync(unitOfWork, Settings.StripeTestKey);
                 //await SubscriptionData.UpdatePricesAsync(unitOfWork, Settings.StripeLiveKey);
 
-                await PagesAsync(unitOfWork);
-                await CountriesAsync(unitOfWork);
+                await PagesAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await CountriesAsync(unitOfWork); await unitOfWork.CompleteAsync();
 
 
-                await SharedIdeaAuthorizationAsync(unitOfWork);
-                await SharedIndustriesAsync(unitOfWork);
-                await AverageNumberOfStepAsync(unitOfWork);
-                await ApplicationStabilityAsync(unitOfWork);
-                await AutomationGoalAsync(unitOfWork);
-                await DataInputPercentOfStructuredAsync(unitOfWork);
-                await ProcessStabilityAsync(unitOfWork);
-                await InputAsync(unitOfWork);
-                await InputDataStructureAsync(unitOfWork);
-                await ProcessPeakAsync(unitOfWork);
-                await RuleAsync(unitOfWork);
-                await StageAndStatusAsync(unitOfWork);
-                await SubmissionPathsAsync(unitOfWork);
-                await TaskFrequencyAsync(unitOfWork);
-                await NumberOfWaysToCompleteProcessAsync(unitOfWork);
-                await DecisionCountAsync(unitOfWork);
-                await DecisionDifficultyAsync(unitOfWork);
-                await DocumentationPresentAsync(unitOfWork);
-                await LanguagesAsync(unitOfWork);
-                await BuiltInBusinessRoleAsync(unitOfWork);
-                await SharedClientTypeAsync(unitOfWork);
-                await SharedCostTypeAsync(unitOfWork);
-                await SharedAutomationTypeAsync(unitOfWork);
-                await ShopDiscountsAsync(unitOfWork);
-                await CompanySizesAsync(unitOfWork);
-                await JobLevelsAsync(unitOfWork);
-                await HotSpots(unitOfWork);
+                await SharedIdeaAuthorizationAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await SharedIndustriesAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await AverageNumberOfStepAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await ApplicationStabilityAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await AutomationGoalAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await DataInputPercentOfStructuredAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await ProcessStabilityAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await InputAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await InputDataStructureAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await ProcessPeakAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await RuleAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await StageAndStatusAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await SubmissionPathsAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await TaskFrequencyAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await NumberOfWaysToCompleteProcessAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await DecisionCountAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await DecisionDifficultyAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await DocumentationPresentAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await LanguagesAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await BuiltInBusinessRoleAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await SharedClientTypeAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await SharedCostTypeAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await SharedAutomationTypeAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await ShopDiscountsAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await CompanySizesAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await JobLevelsAsync(unitOfWork); await unitOfWork.CompleteAsync();
+                await HotSpots(unitOfWork); await unitOfWork.CompleteAsync();
             }
             catch (Exception e)
             {

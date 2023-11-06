@@ -1003,27 +1003,189 @@ namespace SilkFlo.Web.Controllers.Business
                 Rating = model.Rating
             };
 
-            var uniqueMessage = await UnitOfWork.IsUniqueAsync(idea);
+            var uniqueMessage = await _unitOfWork.IsUniqueAsync(idea);// UnitOfWork.IsUniqueAsync(idea);
             if (!string.IsNullOrWhiteSpace(uniqueMessage))
             {
                 feedback.WarningMessage(uniqueMessage);
                 return BadRequest(feedback);
             }
 
-
-            await Models.Business.IdeaStage.AddWorkFlow(
-                _unitOfWork, 
-                idea);
-
             await _unitOfWork.AddAsync(idea);
+            await _unitOfWork.CompleteAsync();
+
+            // Models.Business.IdeaStage.AddWorkFlow(
+            //    _unitOfWork, 
+            //    idea);
+            #region AddWorkflow
+            var firstStage = Data.Core.Enumerators.Stage.n00_Idea;
+            if (idea.SubmissionPathId == Data.Core.Enumerators.SubmissionPath.COEUser.ToString())
+                firstStage = Data.Core.Enumerators.Stage.n01_Assess;
+
+            var date = DateTime.Now;
+            var ideaStage = new Data.Core.Domain.Business.IdeaStage
+            {
+                Idea = idea,
+                StageId = firstStage.ToString(),
+                DateStartEstimate = date,
+                DateStart = date,
+                IsInWorkFlow = true,
+            };
+
+            await _unitOfWork.AddAsync(ideaStage);
+            await _unitOfWork.CompleteAsync();
+
+            if (firstStage == Data.Core.Enumerators.Stage.n00_Idea)
+            {
+                var ideaStageStatus = new Data.Core.Domain.Business.IdeaStageStatus
+                {
+                    IdeaStageId = ideaStage.Id,
+                    StatusId = Data.Core.Enumerators.IdeaStatus.n00_Idea_AwaitingReview.ToString(),
+                    Date = date
+                };
+                await _unitOfWork.AddAsync(ideaStageStatus);
+                await _unitOfWork.CompleteAsync();
+            }
+            else
+            {
+                var ideaStageStatus = new Data.Core.Domain.Business.IdeaStageStatus
+                {
+                    IdeaStageId = ideaStage.Id,
+                    StatusId = Data.Core.Enumerators.IdeaStatus.n04_Assess_AwaitingReview.ToString(),
+                    Date = date
+                };
+                await _unitOfWork.AddAsync(ideaStageStatus);
+                await _unitOfWork.CompleteAsync();
+            }
+
+            var stages = (await _unitOfWork.SharedStages.FindAsync(x => x.Id != firstStage.ToString())).ToArray();
+            if (firstStage == Data.Core.Enumerators.Stage.n01_Assess)
+                stages = stages.Where(x => x.Id != Data.Core.Enumerators.Stage.n00_Idea.ToString()).ToArray();
+
+            var now = DateTime.Now;
+            foreach (var stage in stages)
+            {
+                ideaStage = new Data.Core.Domain.Business.IdeaStage
+                {
+                    Idea = idea,
+                    DateStartEstimate = now,
+                    Stage = stage
+                };
+
+                now = now.AddSeconds(1);
+                await _unitOfWork.AddAsync(ideaStage);
+            }
+            await _unitOfWork.CompleteAsync();
+            #endregion
+
+            //await Models.Business.Collaborator.UpdateAsync(
+            //    _unitOfWork,
+            //    model.Collaborators,
+            //    idea.Id,
+            //    userId);
+            #region Collaborators UpdateAsync
+            if (model.Collaborators == null || model.Collaborators.Count <= 0)
+            {
+                //await _unitOfWork.CompleteAsync();
+                return Ok();
+            }
 
             var userId = GetUserId();
 
-            await Models.Business.Collaborator.UpdateAsync(
-                _unitOfWork,
-                model.Collaborators,
-                idea.Id,
-                userId);
+            // Get the existing.
+            // We need some field content, before deleting them
+            var cores = (await _unitOfWork
+                    .BusinessCollaborators
+                    .FindAsync(x => x.IdeaId == idea.Id))
+                    .ToArray();
+
+
+
+            // Prepare
+            foreach (var modelC in model.Collaborators)
+            {
+                var core = cores.SingleOrDefault(x => x.UserId == modelC.UserId
+                                                      && x.IdeaId == idea.Id);
+                if (core == null)
+                    continue;
+
+                modelC.IsInvitationConfirmed = core.IsInvitationConfirmed;
+                modelC.InvitedById = core.InvitedById;
+            }
+
+
+
+            // Remove existing
+            // This will also remove connected Business.CollaboratorRole rows
+            await _unitOfWork.BusinessCollaborators.RemoveRangeAsync(cores);
+
+            // The content of this will be used to populate the Business.UserAuthorisation table.
+            var newUserAuthorisation = new List<Data.Core.Domain.Business.UserAuthorisation>();
+
+            foreach (var collaborator in model.Collaborators)
+            {
+                if (collaborator.CollaboratorRoles == null)
+                    continue;
+
+                var collaboratorRoles = new List<Models.Business.CollaboratorRole>();
+
+                var core = collaborator.GetCore();
+                core.IdeaId = idea.Id;
+
+                if (string.IsNullOrWhiteSpace(core.InvitedById))
+                    core.InvitedById = userId;
+
+                await _unitOfWork.AddAsync(core);
+                foreach (var collaboratorRole in collaborator.CollaboratorRoles)
+                {
+                    var collaboratorRoleCore = collaboratorRole.GetCore();
+                    collaboratorRoleCore.Collaborator = collaborator.GetCore();
+                    await _unitOfWork.AddAsync(collaboratorRoleCore);
+
+                    // This will be used to add userAuthorisations
+                    if (collaboratorRoles.All(x => x.RoleId != collaboratorRole.RoleId))
+                        collaboratorRoles.Add(collaboratorRole);
+                }
+
+
+
+                // Remove the userAuthorisation from the de-normalized table
+                var userAuthorisations =
+                    (await _unitOfWork.BusinessUserAuthorisations
+                        .FindAsync(x => x.UserId == collaborator.UserId && x.IdeaId == idea.Id)).ToList();
+
+                await _unitOfWork.BusinessUserAuthorisations.RemoveRangeAsync(userAuthorisations);
+
+
+                // Create Business.UserAuthorisation records
+                foreach (var collaboratorRole in collaboratorRoles)
+                {
+                    var roleIdeaAuthorisation =
+                        await _unitOfWork
+                            .BusinessRoleIdeaAuthorisations
+                            .SingleOrDefaultAsync(x => x.RoleId == collaboratorRole.RoleId);
+
+                    if (newUserAuthorisation
+                        .Any(x => x.UserId == collaborator.UserId
+                                  && x.IdeaId == idea.Id
+                                  && x.IdeaAuthorisationId == roleIdeaAuthorisation.IdeaAuthorisationId))
+                        continue;
+
+                    var userAuthorisation = new Data.Core.Domain.Business.UserAuthorisation
+                    {
+                        UserId = collaborator.UserId,
+                        IdeaId = idea.Id,
+                        CollaboratorRoleId = collaboratorRole.Id,
+                        IdeaAuthorisationId = roleIdeaAuthorisation.IdeaAuthorisationId
+                    };
+
+                    // Add the userAuthorisation to the de-normalized table
+                    newUserAuthorisation.Add(userAuthorisation);
+                }
+            }
+
+            // Add the userAuthorisations to the de-normalized table
+            await _unitOfWork.AddAsync(newUserAuthorisation);
+            #endregion
 
             await _unitOfWork.CompleteAsync();
 
@@ -1141,7 +1303,7 @@ namespace SilkFlo.Web.Controllers.Business
                     feedback.Add("Summary", "Name must be between 1 and 750 in length");
 
 
-                var uniqueMessage = await UnitOfWork.IsUniqueAsync(model.GetCore());
+                var uniqueMessage = await _unitOfWork.IsUniqueAsync(model.GetCore());
                 if (!string.IsNullOrWhiteSpace(uniqueMessage))
                     feedback.Add("Name", "Your idea name is not unique");
 
@@ -1163,36 +1325,63 @@ namespace SilkFlo.Web.Controllers.Business
                 if (!core.IsDraft)
                 {
                     // Add stage if the idea is not draft
-                    if(!core.IsNew)
+                    if (!core.IsNew)
                         await _unitOfWork.BusinessIdeaStages.GetForIdeaAsync(core);
 
                     if (!core.IdeaStages.Any())
-                        await Models.Business.IdeaStage.AddWorkFlow(
+                    {
+                        //First save ideaa
+                        await _unitOfWork.AddAsync(core);
+
+                        //then it's stages and status
+                        await Models.Business.IdeaStage.AddWorkFlow(_unitOfWork, core);
+
+
+                        await _unitOfWork.CompleteAsync();
+
+                        //continue
+                        // Add Applications
+                        await SaveApplicationsListAsync(
+                            model.IdeaApplicationVersions,
+                            model.Id);
+
+                        var userId = GetUserId();
+
+                        await Models.Business.Collaborator.UpdateAsync(
                             _unitOfWork,
-                            core);
+                            model.Collaborators,
+                            model.Id,
+                            userId);
+
+
+                        await _unitOfWork.CompleteAsync();
+                    }
                 }
+                else
+                {
 
 
+                    await _unitOfWork.AddAsync(core);
 
-                await _unitOfWork.AddAsync(core);
+                    await _unitOfWork.CompleteAsync();
+
+                    // Add Applications
+                    await SaveApplicationsListAsync(
+                        model.IdeaApplicationVersions,
+                        model.Id);
+
+                    var userId = GetUserId();
+
+                    await Models.Business.Collaborator.UpdateAsync(
+                        _unitOfWork,
+                        model.Collaborators,
+                        model.Id,
+                        userId);
 
 
+                    await _unitOfWork.CompleteAsync();
 
-                // Add Applications
-                await SaveApplicationsListAsync(
-                    model.IdeaApplicationVersions,
-                    model.Id);
-
-                var userId = GetUserId();
-
-                await Models.Business.Collaborator.UpdateAsync(
-                    _unitOfWork,
-                    model.Collaborators, 
-                    model.Id, 
-                    userId);
-
-
-                await _unitOfWork.CompleteAsync();
+                }
 
                 return Ok();
             }
@@ -2018,16 +2207,30 @@ namespace SilkFlo.Web.Controllers.Business
             if(core == null || core.ClientId != client.Id)
                 return Ok("Unauthorised");
 
-            var model = new Models.Business.Idea(core)
+            //var model = new Models.Business.Idea(core)
+            //{
+            //    UnitOfWork = _unitOfWork
+            //};
+
+            var model = await GetDetailIdeaAsync(id);
+            await _unitOfWork.BusinessDocuments.GetForIdeaAsync(model.GetCore());
+
+            if (model.LastIdeaStage != null)
             {
-                UnitOfWork = _unitOfWork
-            };
+                await _unitOfWork.BusinessIdeaStageStatuses.GetForIdeaStageAsync(model.LastIdeaStage.GetCore());
+                var ideaStageStatus = model.LastIdeaStage.IdeaStageStatuses.OrderBy(x => x.CreatedDate).LastOrDefault();
+                if (ideaStageStatus != null)
+                {
+                    await _unitOfWork.SharedIdeaStatuses.GetStatusForAsync(ideaStageStatus.GetCore());
+                    model.LastIdeaStage.Status = ideaStageStatus.Status;
+                }
+
+                await _unitOfWork.SharedStages.GetStageForAsync(model.LastIdeaStage.GetCore());
+            }
 
             var value = await model.GetEaseOfImplementationAsync();
             //Estimated by Algorithm
             var easeOfImplementationWord = model.EaseOfImplementationFinal;
-
-
 
             // 0	17.5	35	52.5	65	82.5
             var easeOfImplementationFinal = easeOfImplementationWord switch
@@ -2038,15 +2241,9 @@ namespace SilkFlo.Web.Controllers.Business
                 _ => 0
             };
 
-
-
-
-
             const decimal weight = 40;
             const int fps = 240;
             const decimal seconds = 0;
-
-
 
             var colourEstimate = model.EaseOfImplementationWord switch
             {
@@ -2084,8 +2281,6 @@ namespace SilkFlo.Web.Controllers.Business
                 Colour = colourEstimate
             };
 
-
-
             var colourActual = easeOfImplementationFinal switch
             {
                 >= 65 => "var(--bs-green)",
@@ -2110,7 +2305,6 @@ namespace SilkFlo.Web.Controllers.Business
             };
 
             paperActual.Add(circleSectionActual);
-
 
             var actual = new ViewModels.Business.Idea.Gauge.EaseOfImplementation
             {

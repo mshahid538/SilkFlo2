@@ -602,7 +602,7 @@ namespace SilkFlo.Data.Core.Domain.Business
 
     [IgnoreDataMember]
     [XmlIgnore]
-    public List<Role> Roles { get; set; } = new List<Role>();
+    public List<BusinessRole> Roles { get; set; } = new List<BusinessRole>();
 
     [IgnoreDataMember]
     [XmlIgnore]

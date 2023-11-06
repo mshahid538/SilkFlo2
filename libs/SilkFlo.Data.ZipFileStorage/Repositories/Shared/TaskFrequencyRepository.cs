@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (TaskFrequency) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedTaskFrequencies.SingleOrDefault<TaskFrequency>((Func<TaskFrequency, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<TaskFrequency> SingleOrDefaultAsync(Func<TaskFrequency, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedTaskFrequencies.Where<TaskFrequency>(predicate).FirstOrDefault<TaskFrequency>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<TaskFrequency>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<TaskFrequency>) dataSetAsync.SharedTaskFrequencies.OrderBy<TaskFrequency, int>((Func<TaskFrequency, int>) (m => m.Sort)).ThenBy<TaskFrequency, string>((Func<TaskFrequency, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<TaskFrequency>> FindAsync(Func<TaskFrequency, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<TaskFrequency>) dataSetAsync.SharedTaskFrequencies.Where<TaskFrequency>(predicate).OrderBy<TaskFrequency, int>((Func<TaskFrequency, int>) (m => m.Sort)).ThenBy<TaskFrequency, string>((Func<TaskFrequency, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (TaskFrequency) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedTaskFrequencies.SingleOrDefault<TaskFrequency>((Func<TaskFrequency, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.TaskFrequency = dataSet.SharedTaskFrequencies.SingleOrDefault<TaskFrequency>((Func<TaskFrequency, bool>) (x => x.Id == idea.TaskFrequencyId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -124,7 +124,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (TaskFrequency) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedTaskFrequencies.SingleOrDefault<TaskFrequency>((Func<TaskFrequency, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

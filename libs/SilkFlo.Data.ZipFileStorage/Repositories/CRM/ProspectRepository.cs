@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (id == null)
         return (Prospect) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMProspects.SingleOrDefault<Prospect>((Func<Prospect, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<Prospect> SingleOrDefaultAsync(Func<Prospect, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMProspects.Where<Prospect>(predicate).FirstOrDefault<Prospect>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<IEnumerable<Prospect>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Prospect>) dataSetAsync.CRMProspects.OrderBy<Prospect, string>((Func<Prospect, string>) (m => m.CompanyName)).ThenBy<Prospect, string>((Func<Prospect, string>) (m => m.FirstName)).ThenBy<Prospect, string>((Func<Prospect, string>) (m => m.LastName));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<IEnumerable<Prospect>> FindAsync(Func<Prospect, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Prospect>) dataSetAsync.CRMProspects.Where<Prospect>(predicate).OrderBy<Prospect, string>((Func<Prospect, string>) (m => m.CompanyName)).ThenBy<Prospect, string>((Func<Prospect, string>) (m => m.FirstName)).ThenBy<Prospect, string>((Func<Prospect, string>) (m => m.LastName));
     }
 
@@ -86,7 +86,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<Prospect> GetUsingEmailAsync(string email)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMProspects.SingleOrDefault<Prospect>((Func<Prospect, bool>) (x => x.Email.ToLower() == email.ToLower()));
     }
 
@@ -103,9 +103,9 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.CRMProspects.Where<Prospect>((Func<Prospect, bool>) (x => x.ClientTypeId == clientType.Id)).OrderBy<Prospect, string>((Func<Prospect, string>) (x => x.CompanyName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.FirstName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.LastName)).ToList<Prospect>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Prospect item in lst)
         {
           item.ClientTypeId = clientType.Id;
@@ -139,9 +139,9 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.CRMProspects.Where<Prospect>((Func<Prospect, bool>) (x => x.CompanySizeId == companySize.Id)).OrderBy<Prospect, string>((Func<Prospect, string>) (x => x.CompanyName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.FirstName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.LastName)).ToList<Prospect>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Prospect item in lst)
         {
           item.CompanySizeId = companySize.Id;
@@ -175,9 +175,9 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.CRMProspects.Where<Prospect>((Func<Prospect, bool>) (x => x.CountryId == country.Id)).OrderBy<Prospect, string>((Func<Prospect, string>) (x => x.CompanyName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.FirstName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.LastName)).ToList<Prospect>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Prospect item in lst)
         {
           item.CountryId = country.Id;
@@ -211,9 +211,9 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.CRMProspects.Where<Prospect>((Func<Prospect, bool>) (x => x.JobLevelId == jobLevel.Id)).OrderBy<Prospect, string>((Func<Prospect, string>) (x => x.CompanyName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.FirstName)).ThenBy<Prospect, string>((Func<Prospect, string>) (x => x.LastName)).ToList<Prospect>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Prospect item in lst)
         {
           item.JobLevelId = jobLevel.Id;

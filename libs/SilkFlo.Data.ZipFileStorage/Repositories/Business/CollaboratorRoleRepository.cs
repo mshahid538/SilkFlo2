@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (CollaboratorRole) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessCollaboratorRoles.SingleOrDefault<CollaboratorRole>((Func<CollaboratorRole, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<CollaboratorRole> SingleOrDefaultAsync(Func<CollaboratorRole, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessCollaboratorRoles.Where<CollaboratorRole>(predicate).FirstOrDefault<CollaboratorRole>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<CollaboratorRole>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<CollaboratorRole>) dataSetAsync.BusinessCollaboratorRoles;
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IEnumerable<CollaboratorRole>> FindAsync(
       Func<CollaboratorRole, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessCollaboratorRoles.Where<CollaboratorRole>(predicate);
     }
 
@@ -92,9 +92,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessCollaboratorRoles.Where<CollaboratorRole>((Func<CollaboratorRole, bool>) (x => x.CollaboratorId == collaborator.Id)).ToList<CollaboratorRole>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (CollaboratorRole item in lst)
         {
           item.CollaboratorId = collaborator.Id;
@@ -115,9 +115,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
         await this.GetForCollaboratorAsync(collaborator);
     }
 
-    public void GetForRole(Role role) => this.GetForRoleAsync(role).RunSynchronously();
+    public void GetForRole(BusinessRole role) => this.GetForRoleAsync(role).RunSynchronously();
 
-    public async Task GetForRoleAsync(Role role)
+    public async Task GetForRoleAsync(BusinessRole role)
     {
       List<CollaboratorRole> lst;
       if (role == null)
@@ -128,9 +128,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessCollaboratorRoles.Where<CollaboratorRole>((Func<CollaboratorRole, bool>) (x => x.RoleId == role.Id)).ToList<CollaboratorRole>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (CollaboratorRole item in lst)
         {
           item.RoleId = role.Id;
@@ -141,13 +141,13 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
     }
 
-    public void GetForRole(IEnumerable<Role> roles) => this.GetForRoleAsync(roles).RunSynchronously();
+    public void GetForRole(IEnumerable<BusinessRole> roles) => this.GetForRoleAsync(roles).RunSynchronously();
 
-    public async Task GetForRoleAsync(IEnumerable<Role> roles)
+    public async Task GetForRoleAsync(IEnumerable<BusinessRole> roles)
     {
       if (roles == null)
         return;
-      foreach (Role role in roles)
+      foreach (BusinessRole role in roles)
         await this.GetForRoleAsync(role);
     }
 
@@ -170,10 +170,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         UserAuthorisation userAuthorisation1 = userAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userAuthorisation1.CollaboratorRole = dataSet.BusinessCollaboratorRoles.SingleOrDefault<CollaboratorRole>((Func<CollaboratorRole, bool>) (x => x.Id == userAuthorisation.CollaboratorRoleId));
         userAuthorisation1 = (UserAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 

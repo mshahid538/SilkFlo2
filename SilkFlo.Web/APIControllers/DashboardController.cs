@@ -637,7 +637,7 @@ namespace SilkFlo.Web.Controllers
                     return NegativeFeedback();
 
 
-                year ??= DateTime.Now.Year -1;
+                year ??= DateTime.Now.Year;
 
                 var cores = (await _unitOfWork.BusinessIdeas
                     .FindAsync(x => x.ClientId == client.Id && !x.IsDraft))

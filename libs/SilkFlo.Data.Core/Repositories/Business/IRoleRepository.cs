@@ -9,19 +9,19 @@ namespace SilkFlo.Data.Core.Repositories.Business
   {
     bool IncludeDeleted { get; set; }
 
-    Task<Role> GetAsync(string id);
+    Task<BusinessRole> GetAsync(string id);
 
-    Task<Role> SingleOrDefaultAsync(Func<Role, bool> predicate);
+    Task<BusinessRole> SingleOrDefaultAsync(Func<BusinessRole, bool> predicate);
 
-    Task<bool> AddAsync(Role entity);
+    Task<bool> AddAsync(BusinessRole entity);
 
-    Task<bool> AddRangeAsync(IEnumerable<Role> entities);
+    Task<bool> AddRangeAsync(IEnumerable<BusinessRole> entities);
 
-    Task<IEnumerable<Role>> GetAllAsync();
+    Task<IEnumerable<BusinessRole>> GetAllAsync();
 
-    Task<IEnumerable<Role>> FindAsync(Func<Role, bool> predicate);
+    Task<IEnumerable<BusinessRole>> FindAsync(Func<BusinessRole, bool> predicate);
 
-    Task<Role> GetUsingNameAsync(string name);
+    Task<BusinessRole> GetUsingNameAsync(string name);
 
     Task GetForClientAsync(Client client);
 
@@ -45,12 +45,12 @@ namespace SilkFlo.Data.Core.Repositories.Business
     Task GetRoleForAsync(
       IEnumerable<RoleIdeaAuthorisation> roleIdeaAuthorisations);
 
-    Task<Role> GetByNameAsync(string name);
+    Task<BusinessRole> GetByNameAsync(string name);
 
     Task<DataStoreResult> RemoveAsync(string id);
 
-    Task<DataStoreResult> RemoveAsync(Role entity);
+    Task<DataStoreResult> RemoveAsync(BusinessRole entity);
 
-    Task<DataStoreResult> RemoveRangeAsync(IEnumerable<Role> entities);
+    Task<DataStoreResult> RemoveRangeAsync(IEnumerable<BusinessRole> entities);
   }
 }

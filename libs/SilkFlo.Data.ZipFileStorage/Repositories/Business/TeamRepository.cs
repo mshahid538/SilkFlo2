@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Team) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessTeams.SingleOrDefault<Team>((Func<Team, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Team> SingleOrDefaultAsync(Func<Team, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessTeams.Where<Team>(predicate).FirstOrDefault<Team>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Team>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Team>) dataSetAsync.BusinessTeams.OrderBy<Team, string>((Func<Team, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Team>> FindAsync(Func<Team, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Team>) dataSetAsync.BusinessTeams.Where<Team>(predicate).OrderBy<Team, string>((Func<Team, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Team) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessTeams.SingleOrDefault<Team>((Func<Team, bool>) (x => x.Name == name));
     }
 
@@ -104,9 +104,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessTeams.Where<Team>((Func<Team, bool>) (x => x.ClientId == client.Id)).OrderBy<Team, string>((Func<Team, string>) (x => x.Name)).ToList<Team>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Team item in lst)
         {
           item.ClientId = client.Id;
@@ -140,9 +140,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessTeams.Where<Team>((Func<Team, bool>) (x => x.DepartmentId == department.Id)).OrderBy<Team, string>((Func<Team, string>) (x => x.Name)).ToList<Team>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Team item in lst)
         {
           item.DepartmentId = department.Id;
@@ -182,10 +182,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.Team = dataSet.BusinessTeams.SingleOrDefault<Team>((Func<Team, bool>) (x => x.Id == idea.TeamId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -208,10 +208,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Process process1 = process;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         process1.Team = dataSet.BusinessTeams.SingleOrDefault<Team>((Func<Team, bool>) (x => x.Id == process.TeamId));
         process1 = (Process) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -221,7 +221,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Team) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessTeams.SingleOrDefault<Team>((Func<Team, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

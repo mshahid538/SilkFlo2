@@ -24,9 +24,14 @@ namespace SilkFlo.Web.Controllers
 {
     public partial class HomeController : AbstractResubscribe
     {
+        private readonly Data.Core.IUnitOfWork _unitOfWork;
+
         public HomeController(Data.Core.IUnitOfWork unitOfWork,
                               Services.ViewToString viewToString,
-                              IAuthorizationService authorization) : base(unitOfWork, viewToString, authorization) { }
+                              IAuthorizationService authorization) : base(unitOfWork, viewToString, authorization) 
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         [Route("")]
         public async Task<IActionResult> Index()
@@ -38,12 +43,12 @@ namespace SilkFlo.Web.Controllers
             if (userId != null)
             {
                 var user = await _unitOfWork.Users.GetAsync(userId);
-                difference = user.CreatedDate?.Subtract(DateTime.Now).Days;
+                if(user != null)
+                    difference = user.CreatedDate?.Subtract(DateTime.Now).Days;
             }
 
-            if (!Data.Persistence.UnitOfWork.IsLoaded)
-                //return Redirect("maintenance");
-                return View("/Views/Home/maintenance.cshtml");
+            if (_unitOfWork is null) // (!Data.Persistence.UnitOfWork.IsLoaded)
+                return View("/Views/Home/maintenance.cshtml"); //return Redirect("maintenance");
 
             if ((await AuthorizeAsync(Policy.Subscriber)).Succeeded)
                 return IndexView(false, difference == 0 ? "new" : "");
@@ -93,23 +98,23 @@ namespace SilkFlo.Web.Controllers
             return View();
         }
 
-        [Route("Backup")]
-        [Authorize(Policy.CanBackupDataSet)]
-        public IActionResult BackupData()
-        {
-            _unitOfWork.Complete();
+        //[Route("Backup")]
+        //[Authorize(Policy.CanBackupDataSet)]
+        //public IActionResult BackupData()
+        //{
+        //    _unitOfWork.Complete();
 
-            var (zipArchive, memoryStream) = _unitOfWork.Backup();
+        //    var (zipArchive, memoryStream) = _unitOfWork.Backup();
 
-            zipArchive.Dispose();
-            memoryStream.Dispose();
+        //    zipArchive.Dispose();
+        //    memoryStream.Dispose();
 
 
-            // Send to client
-            return File(memoryStream.ToArray(),
-                        "application/zip",
-                        DateTime.Now.ToString("yyyyMMdd HHmmss") + " SilkFlo - Data File.zip");
-        }
+        //    // Send to client
+        //    return File(memoryStream.ToArray(),
+        //                "application/zip",
+        //                DateTime.Now.ToString("yyyyMMdd HHmmss") + " SilkFlo - Data File.zip");
+        //}
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

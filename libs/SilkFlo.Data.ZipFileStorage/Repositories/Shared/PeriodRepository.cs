@@ -34,7 +34,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (Period) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedPeriods.SingleOrDefault<Period>((Func<Period, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<Period> SingleOrDefaultAsync(Func<Period, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedPeriods.Where<Period>(predicate).FirstOrDefault<Period>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Period>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Period>) dataSetAsync.SharedPeriods.OrderBy<Period, int>((Func<Period, int>) (m => m.Sort)).ThenBy<Period, string>((Func<Period, string>) (m => m.Name));
     }
 
@@ -79,7 +79,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Period>> FindAsync(Func<Period, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Period>) dataSetAsync.SharedPeriods.Where<Period>(predicate).OrderBy<Period, int>((Func<Period, int>) (m => m.Sort)).ThenBy<Period, string>((Func<Period, string>) (m => m.Name));
     }
 
@@ -89,7 +89,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Period) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedPeriods.SingleOrDefault<Period>((Func<Period, bool>) (x => x.Name == name));
     }
 
@@ -112,10 +112,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         OtherRunningCost otherRunningCost1 = otherRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         otherRunningCost1.Frequency = dataSet.SharedPeriods.SingleOrDefault<Period>((Func<Period, bool>) (x => x.Id == otherRunningCost.FrequencyId));
         otherRunningCost1 = (OtherRunningCost) null;
-        dataSet = (DataSet) null;
       }
     }
 
@@ -138,10 +137,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Price price1 = price;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         price1.Period = dataSet.SharedPeriods.SingleOrDefault<Period>((Func<Period, bool>) (x => x.Id == price.PeriodId));
         price1 = (Price) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -164,10 +163,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         RunningCost runningCost1 = runningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         runningCost1.Frequency = dataSet.SharedPeriods.SingleOrDefault<Period>((Func<Period, bool>) (x => x.Id == runningCost.FrequencyId));
         runningCost1 = (RunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -177,7 +176,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Period) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedPeriods.SingleOrDefault<Period>((Func<Period, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

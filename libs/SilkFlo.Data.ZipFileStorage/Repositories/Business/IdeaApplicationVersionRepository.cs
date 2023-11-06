@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (IdeaApplicationVersion) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeaApplicationVersions.SingleOrDefault<IdeaApplicationVersion>((Func<IdeaApplicationVersion, bool>) (x => x.Id == id));
     }
 
@@ -39,7 +39,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IdeaApplicationVersion> SingleOrDefaultAsync(
       Func<IdeaApplicationVersion, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeaApplicationVersions.Where<IdeaApplicationVersion>(predicate).FirstOrDefault<IdeaApplicationVersion>();
     }
 
@@ -68,7 +68,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<IdeaApplicationVersion>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaApplicationVersion>) dataSetAsync.BusinessIdeaApplicationVersions;
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IEnumerable<IdeaApplicationVersion>> FindAsync(
       Func<IdeaApplicationVersion, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessIdeaApplicationVersions.Where<IdeaApplicationVersion>(predicate);
     }
 
@@ -94,9 +94,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeaApplicationVersions.Where<IdeaApplicationVersion>((Func<IdeaApplicationVersion, bool>) (x => x.IdeaId == idea.Id)).ToList<IdeaApplicationVersion>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (IdeaApplicationVersion item in lst)
         {
           item.IdeaId = idea.Id;
@@ -130,9 +130,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeaApplicationVersions.Where<IdeaApplicationVersion>((Func<IdeaApplicationVersion, bool>) (x => x.LanguageId == language.Id)).ToList<IdeaApplicationVersion>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (IdeaApplicationVersion item in lst)
         {
           item.LanguageId = language.Id;
@@ -166,9 +166,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessIdeaApplicationVersions.Where<IdeaApplicationVersion>((Func<IdeaApplicationVersion, bool>) (x => x.VersionId == version.Id)).ToList<IdeaApplicationVersion>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (IdeaApplicationVersion item in lst)
         {
           item.VersionId = version.Id;

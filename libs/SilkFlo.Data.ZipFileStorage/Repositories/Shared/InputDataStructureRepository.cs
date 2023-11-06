@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (InputDataStructure) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedInputDataStructures.SingleOrDefault<InputDataStructure>((Func<InputDataStructure, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<InputDataStructure> SingleOrDefaultAsync(
       Func<InputDataStructure, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedInputDataStructures.Where<InputDataStructure>(predicate).FirstOrDefault<InputDataStructure>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<InputDataStructure>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<InputDataStructure>) dataSetAsync.SharedInputDataStructures.OrderByDescending<InputDataStructure, Decimal>((Func<InputDataStructure, Decimal>) (m => m.Weighting)).ThenBy<InputDataStructure, string>((Func<InputDataStructure, string>) (m => m.Name));
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<InputDataStructure>> FindAsync(
       Func<InputDataStructure, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<InputDataStructure>) dataSetAsync.SharedInputDataStructures.Where<InputDataStructure>(predicate).OrderByDescending<InputDataStructure, Decimal>((Func<InputDataStructure, Decimal>) (m => m.Weighting)).ThenBy<InputDataStructure, string>((Func<InputDataStructure, string>) (m => m.Name));
     }
 
@@ -90,7 +90,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (InputDataStructure) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedInputDataStructures.SingleOrDefault<InputDataStructure>((Func<InputDataStructure, bool>) (x => x.Name == name));
     }
 
@@ -113,10 +113,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.InputDataStructure = dataSet.SharedInputDataStructures.SingleOrDefault<InputDataStructure>((Func<InputDataStructure, bool>) (x => x.Id == idea.InputDataStructureId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -126,7 +126,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (InputDataStructure) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedInputDataStructures.SingleOrDefault<InputDataStructure>((Func<InputDataStructure, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

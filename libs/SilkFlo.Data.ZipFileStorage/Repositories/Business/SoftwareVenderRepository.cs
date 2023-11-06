@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (SoftwareVender) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessSoftwareVenders.SingleOrDefault<SoftwareVender>((Func<SoftwareVender, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<SoftwareVender> SingleOrDefaultAsync(Func<SoftwareVender, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessSoftwareVenders.Where<SoftwareVender>(predicate).FirstOrDefault<SoftwareVender>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<SoftwareVender>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<SoftwareVender>) dataSetAsync.BusinessSoftwareVenders;
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<SoftwareVender>> FindAsync(Func<SoftwareVender, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessSoftwareVenders.Where<SoftwareVender>(predicate);
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (SoftwareVender) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessSoftwareVenders.SingleOrDefault<SoftwareVender>((Func<SoftwareVender, bool>) (x => x.Name == name));
     }
 
@@ -104,9 +104,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessSoftwareVenders.Where<SoftwareVender>((Func<SoftwareVender, bool>) (x => x.ClientId == client.Id)).ToList<SoftwareVender>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (SoftwareVender item in lst)
         {
           item.ClientId = client.Id;
@@ -146,10 +146,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         RunningCost runningCost1 = runningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         runningCost1.Vender = dataSet.BusinessSoftwareVenders.SingleOrDefault<SoftwareVender>((Func<SoftwareVender, bool>) (x => x.Id == runningCost.VenderId));
         runningCost1 = (RunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -159,7 +159,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (SoftwareVender) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessSoftwareVenders.SingleOrDefault<SoftwareVender>((Func<SoftwareVender, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

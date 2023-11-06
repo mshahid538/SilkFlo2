@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (id == null)
         return (Currency) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopCurrencies.SingleOrDefault<Currency>((Func<Currency, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<Currency> SingleOrDefaultAsync(Func<Currency, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopCurrencies.Where<Currency>(predicate).FirstOrDefault<Currency>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Currency>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Currency>) dataSetAsync.ShopCurrencies;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Currency>> FindAsync(Func<Currency, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopCurrencies.Where<Currency>(predicate);
     }
 
@@ -101,10 +101,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.Currency = dataSet.ShopCurrencies.SingleOrDefault<Currency>((Func<Currency, bool>) (x => x.Id == client.CurrencyId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -127,10 +127,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       else
       {
         Price price1 = price;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         price1.Currency = dataSet.ShopCurrencies.SingleOrDefault<Currency>((Func<Currency, bool>) (x => x.Id == price.CurrencyId));
         price1 = (Price) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 

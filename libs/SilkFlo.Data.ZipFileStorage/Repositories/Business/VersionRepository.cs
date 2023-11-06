@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (SilkFlo.Data.Core.Domain.Business.Version) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessVersions.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Version>((Func<SilkFlo.Data.Core.Domain.Business.Version, bool>) (x => x.Id == id));
     }
 
@@ -39,7 +39,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<SilkFlo.Data.Core.Domain.Business.Version> SingleOrDefaultAsync(
       Func<SilkFlo.Data.Core.Domain.Business.Version, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessVersions.Where<SilkFlo.Data.Core.Domain.Business.Version>(predicate).FirstOrDefault<SilkFlo.Data.Core.Domain.Business.Version>();
     }
 
@@ -68,7 +68,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<SilkFlo.Data.Core.Domain.Business.Version>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<SilkFlo.Data.Core.Domain.Business.Version>) dataSetAsync.BusinessVersions.OrderByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (m => m.Name)).ThenByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (m => m.ApplicationId));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IEnumerable<SilkFlo.Data.Core.Domain.Business.Version>> FindAsync(
       Func<SilkFlo.Data.Core.Domain.Business.Version, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<SilkFlo.Data.Core.Domain.Business.Version>) dataSetAsync.BusinessVersions.Where<SilkFlo.Data.Core.Domain.Business.Version>(predicate).OrderByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (m => m.Name)).ThenByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (m => m.ApplicationId));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (SilkFlo.Data.Core.Domain.Business.Version) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessVersions.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Version>((Func<SilkFlo.Data.Core.Domain.Business.Version, bool>) (x => x.Name == name));
     }
 
@@ -104,9 +104,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessVersions.Where<SilkFlo.Data.Core.Domain.Business.Version>((Func<SilkFlo.Data.Core.Domain.Business.Version, bool>) (x => x.ApplicationId == application.Id)).OrderByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (x => x.Name)).ThenByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (x => x.ApplicationId)).ToList<SilkFlo.Data.Core.Domain.Business.Version>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (SilkFlo.Data.Core.Domain.Business.Version item in lst)
         {
           item.ApplicationId = application.Id;
@@ -140,9 +140,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessVersions.Where<SilkFlo.Data.Core.Domain.Business.Version>((Func<SilkFlo.Data.Core.Domain.Business.Version, bool>) (x => x.ClientId == client.Id)).OrderByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (x => x.Name)).ThenByDescending<SilkFlo.Data.Core.Domain.Business.Version, string>((Func<SilkFlo.Data.Core.Domain.Business.Version, string>) (x => x.ApplicationId)).ToList<SilkFlo.Data.Core.Domain.Business.Version>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (SilkFlo.Data.Core.Domain.Business.Version item in lst)
         {
           item.ClientId = client.Id;
@@ -187,10 +187,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaApplicationVersion applicationVersion = ideaApplicationVersion;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         applicationVersion.Version = dataSet.BusinessVersions.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Version>((Func<SilkFlo.Data.Core.Domain.Business.Version, bool>) (x => x.Id == ideaApplicationVersion.VersionId));
         applicationVersion = (IdeaApplicationVersion) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -200,7 +200,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (SilkFlo.Data.Core.Domain.Business.Version) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessVersions.SingleOrDefault<SilkFlo.Data.Core.Domain.Business.Version>((Func<SilkFlo.Data.Core.Domain.Business.Version, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (id == null)
         return (Price) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopPrices.SingleOrDefault<Price>((Func<Price, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<Price> SingleOrDefaultAsync(Func<Price, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopPrices.Where<Price>(predicate).FirstOrDefault<Price>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Price>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Price>) dataSetAsync.ShopPrices.OrderBy<Price, string>((Func<Price, string>) (m => m.PeriodId)).ThenBy<Price, string>((Func<Price, string>) (m => m.ProductId));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Price>> FindAsync(Func<Price, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Price>) dataSetAsync.ShopPrices.Where<Price>(predicate).OrderBy<Price, string>((Func<Price, string>) (m => m.PeriodId)).ThenBy<Price, string>((Func<Price, string>) (m => m.ProductId));
     }
 
@@ -95,9 +95,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopPrices.Where<Price>((Func<Price, bool>) (x => x.CurrencyId == currency.Id)).OrderBy<Price, string>((Func<Price, string>) (x => x.PeriodId)).ThenBy<Price, string>((Func<Price, string>) (x => x.ProductId)).ToList<Price>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Price item in lst)
         {
           item.CurrencyId = currency.Id;
@@ -131,9 +131,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopPrices.Where<Price>((Func<Price, bool>) (x => x.PeriodId == period.Id)).OrderBy<Price, string>((Func<Price, string>) (x => x.PeriodId)).ThenBy<Price, string>((Func<Price, string>) (x => x.ProductId)).ToList<Price>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Price item in lst)
         {
           item.PeriodId = period.Id;
@@ -167,9 +167,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopPrices.Where<Price>((Func<Price, bool>) (x => x.ProductId == product.Id)).OrderBy<Price, string>((Func<Price, string>) (x => x.PeriodId)).ThenBy<Price, string>((Func<Price, string>) (x => x.ProductId)).ToList<Price>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Price item in lst)
         {
           item.ProductId = product.Id;
@@ -209,10 +209,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       else
       {
         Subscription subscription1 = subscription;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         subscription1.Price = dataSet.ShopPrices.SingleOrDefault<Price>((Func<Price, bool>) (x => x.Id == subscription.PriceId));
         subscription1 = (Subscription) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 

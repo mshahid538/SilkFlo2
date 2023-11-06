@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (DecisionDifficulty) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionDifficulties.SingleOrDefault<DecisionDifficulty>((Func<DecisionDifficulty, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<DecisionDifficulty> SingleOrDefaultAsync(
       Func<DecisionDifficulty, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionDifficulties.Where<DecisionDifficulty>(predicate).FirstOrDefault<DecisionDifficulty>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<DecisionDifficulty>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DecisionDifficulty>) dataSetAsync.SharedDecisionDifficulties.OrderByDescending<DecisionDifficulty, Decimal>((Func<DecisionDifficulty, Decimal>) (m => m.Weighting)).ThenBy<DecisionDifficulty, string>((Func<DecisionDifficulty, string>) (m => m.Name));
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<DecisionDifficulty>> FindAsync(
       Func<DecisionDifficulty, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DecisionDifficulty>) dataSetAsync.SharedDecisionDifficulties.Where<DecisionDifficulty>(predicate).OrderByDescending<DecisionDifficulty, Decimal>((Func<DecisionDifficulty, Decimal>) (m => m.Weighting)).ThenBy<DecisionDifficulty, string>((Func<DecisionDifficulty, string>) (m => m.Name));
     }
 
@@ -90,7 +90,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DecisionDifficulty) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionDifficulties.SingleOrDefault<DecisionDifficulty>((Func<DecisionDifficulty, bool>) (x => x.Name == name));
     }
 
@@ -113,10 +113,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.DecisionDifficulty = dataSet.SharedDecisionDifficulties.SingleOrDefault<DecisionDifficulty>((Func<DecisionDifficulty, bool>) (x => x.Id == idea.DecisionDifficultyId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -126,7 +126,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DecisionDifficulty) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDecisionDifficulties.SingleOrDefault<DecisionDifficulty>((Func<DecisionDifficulty, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

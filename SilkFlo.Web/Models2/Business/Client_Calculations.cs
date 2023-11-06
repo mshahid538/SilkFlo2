@@ -41,7 +41,7 @@ namespace SilkFlo.Web.Models.Business
             else
             {
 
-                ideas = (await UnitOfWork.BusinessIdeas.FindAsync(x => (x.CreatedDate ?? DateTime.MinValue).Year == (DateTime.Now.Year - 1)
+                ideas = (await UnitOfWork.BusinessIdeas.FindAsync(x => (x.CreatedDate ?? DateTime.MinValue).Year == (DateTime.Now.Year)
                             && x.ClientId == Id
                             && !x.IsDraft))
                     .ToArray();

@@ -89,6 +89,7 @@ namespace SilkFlo.Web.Models.Business
             };
 
             await unitOfWork.AddAsync(ideaStage);
+            await unitOfWork.CompleteAsync();
 
             if (firstStage == Data.Core.Enumerators.Stage.n00_Idea)
             {
@@ -99,6 +100,7 @@ namespace SilkFlo.Web.Models.Business
                     Date = date
                 };
                 await unitOfWork.AddAsync(ideaStageStatus);
+                await unitOfWork.CompleteAsync();
             }
             else
             {
@@ -109,6 +111,7 @@ namespace SilkFlo.Web.Models.Business
                     Date = date
                 };
                 await unitOfWork.AddAsync(ideaStageStatus);
+                await unitOfWork.CompleteAsync();
             }
 
             var stages = (await unitOfWork.SharedStages.FindAsync(x => x.Id != firstStage.ToString())).ToArray();
@@ -128,6 +131,7 @@ namespace SilkFlo.Web.Models.Business
                 now = now.AddSeconds(1);
                 await unitOfWork.AddAsync(ideaStage);
             }
+            await unitOfWork.CompleteAsync();
         }
     }
 }

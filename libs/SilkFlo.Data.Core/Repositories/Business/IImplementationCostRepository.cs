@@ -29,9 +29,9 @@ namespace SilkFlo.Data.Core.Repositories.Business
 
     Task GetForIdeaStageAsync(IEnumerable<IdeaStage> ideaStages);
 
-    Task GetForRoleAsync(Role role);
+    Task GetForRoleAsync(BusinessRole role);
 
-    Task GetForRoleAsync(IEnumerable<Role> roles);
+    Task GetForRoleAsync(IEnumerable<BusinessRole> roles);
 
     Task<DataStoreResult> RemoveAsync(string id);
 

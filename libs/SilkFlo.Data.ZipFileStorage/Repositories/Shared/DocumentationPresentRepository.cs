@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (DocumentationPresent) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDocumentationPresents.SingleOrDefault<DocumentationPresent>((Func<DocumentationPresent, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<DocumentationPresent> SingleOrDefaultAsync(
       Func<DocumentationPresent, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDocumentationPresents.Where<DocumentationPresent>(predicate).FirstOrDefault<DocumentationPresent>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<DocumentationPresent>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DocumentationPresent>) dataSetAsync.SharedDocumentationPresents.OrderByDescending<DocumentationPresent, Decimal>((Func<DocumentationPresent, Decimal>) (m => m.Weighting)).ThenBy<DocumentationPresent, string>((Func<DocumentationPresent, string>) (m => m.Name));
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<DocumentationPresent>> FindAsync(
       Func<DocumentationPresent, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DocumentationPresent>) dataSetAsync.SharedDocumentationPresents.Where<DocumentationPresent>(predicate).OrderByDescending<DocumentationPresent, Decimal>((Func<DocumentationPresent, Decimal>) (m => m.Weighting)).ThenBy<DocumentationPresent, string>((Func<DocumentationPresent, string>) (m => m.Name));
     }
 
@@ -90,7 +90,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DocumentationPresent) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDocumentationPresents.SingleOrDefault<DocumentationPresent>((Func<DocumentationPresent, bool>) (x => x.Name == name));
     }
 
@@ -113,10 +113,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.DocumentationPresent = dataSet.SharedDocumentationPresents.SingleOrDefault<DocumentationPresent>((Func<DocumentationPresent, bool>) (x => x.Id == idea.DocumentationPresentId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -126,7 +126,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DocumentationPresent) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDocumentationPresents.SingleOrDefault<DocumentationPresent>((Func<DocumentationPresent, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

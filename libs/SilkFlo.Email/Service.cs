@@ -49,7 +49,7 @@ namespace SilkFlo.Email
         public static void Setup(bool isProduction, string testEmailAddress, string domain)
         {
             if (Configuration.Default.ApiKey.Count == 0)
-                Configuration.Default.ApiKey.Add("api-key", "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");
+                Configuration.Default.ApiKey.Add("api-key", "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");
             Service.IsProduction = isProduction;
             Service.TestEmailAddress = testEmailAddress;
             Service.Domain = domain;
@@ -142,16 +142,16 @@ namespace SilkFlo.Email
                     {
                         BookmarkLink bookmark2 = (BookmarkLink)bookmark;
                         string value = bookmark2.Value;
-                        if (value.IndexOf(Service.Domain, StringComparison.OrdinalIgnoreCase) == -1)
+                        if (value.IndexOf(Service.Domain, StringComparison.OrdinalIgnoreCase) == -1 && isUserInvite)
                         {
                             if (value.IndexOf("/", StringComparison.Ordinal) != 0)
                                 value = "/" + value;
 
                             value = Service.Domain + value;
                         }
-                        //string displayName = bookmark2.DisplayName;
-                        //if (string.IsNullOrWhiteSpace(displayName))
-                            string displayName = value;
+                        string displayName = bookmark2.DisplayName;
+                        if (string.IsNullOrWhiteSpace(displayName))
+                            displayName = value;
                         StringBuilder interpolatedStringHandler = new StringBuilder();
                         interpolatedStringHandler.Append("<a href=\"");
                         interpolatedStringHandler.Append(value);
@@ -381,7 +381,7 @@ namespace SilkFlo.Email
             return result;
         }
 
-        public static async Task<string> InviteTeamMemberAsync(User proposer, User invitee, bool isUserInvite = false)
+        public static async Task<string> InviteTeamMemberAsync(User proposer, User invitee)
         {
             BookMark[] bookmarks = new BookMark[3]
             {
@@ -390,7 +390,7 @@ namespace SilkFlo.Email
                 (BookMark) new BookmarkLink("PATH", "/SignUp/userId/" + invitee.Id, "Click to complete sign up")
             };
 
-            string str = await Service.SendAsync(proposer.Fullname + " has Invited You to Join SilkFlo", Template.TeamMemberInvitation, new MailBox(Settings.ApplicationName, Service.ApplicationEmailAddress), new MailBox(invitee.Fullname, invitee.Email), bookmarks, isUserInvite);
+            string str = await Service.SendAsync(proposer.Fullname + " has Invited You to Join SilkFlo", Template.TeamMemberInvitation, new MailBox(Settings.ApplicationName, Service.ApplicationEmailAddress), new MailBox(invitee.Fullname, invitee.Email), bookmarks);
             bookmarks = (BookMark[])null;
             return str;
         }

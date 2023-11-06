@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (id == null)
         return (Product) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopProducts.SingleOrDefault<Product>((Func<Product, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<Product> SingleOrDefaultAsync(Func<Product, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopProducts.Where<Product>(predicate).FirstOrDefault<Product>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Product>) dataSetAsync.ShopProducts.OrderBy<Product, int>((Func<Product, int>) (m => m.Sort)).ThenBy<Product, string>((Func<Product, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Product>> FindAsync(Func<Product, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Product>) dataSetAsync.ShopProducts.Where<Product>(predicate).OrderBy<Product, int>((Func<Product, int>) (m => m.Sort)).ThenBy<Product, string>((Func<Product, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (string.IsNullOrEmpty(name))
         return (Product) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopProducts.SingleOrDefault<Product>((Func<Product, bool>) (x => x.Name == name));
     }
 
@@ -110,10 +110,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       else
       {
         Price price1 = price;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         price1.Product = dataSet.ShopProducts.SingleOrDefault<Product>((Func<Product, bool>) (x => x.Id == price.ProductId));
         price1 = (Price) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -123,7 +123,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (string.IsNullOrEmpty(name))
         return (Product) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopProducts.SingleOrDefault<Product>((Func<Product, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

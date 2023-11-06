@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Comment) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessComments.SingleOrDefault<Comment>((Func<Comment, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Comment> SingleOrDefaultAsync(Func<Comment, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessComments.Where<Comment>(predicate).FirstOrDefault<Comment>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Comment>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Comment>) dataSetAsync.BusinessComments.OrderBy<Comment, string>((Func<Comment, string>) (m => m.Text));
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Comment>> FindAsync(Func<Comment, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Comment>) dataSetAsync.BusinessComments.Where<Comment>(predicate).OrderBy<Comment, string>((Func<Comment, string>) (m => m.Text));
     }
 
@@ -92,9 +92,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessComments.Where<Comment>((Func<Comment, bool>) (x => x.ClientId == client.Id)).OrderBy<Comment, string>((Func<Comment, string>) (x => x.Text)).ToList<Comment>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Comment item in lst)
         {
           item.ClientId = client.Id;
@@ -128,9 +128,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessComments.Where<Comment>((Func<Comment, bool>) (x => x.IdeaId == idea.Id)).OrderBy<Comment, string>((Func<Comment, string>) (x => x.Text)).ToList<Comment>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Comment item in lst)
         {
           item.IdeaId = idea.Id;
@@ -164,9 +164,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessComments.Where<Comment>((Func<Comment, bool>) (x => x.SenderId == sender.Id)).OrderBy<Comment, string>((Func<Comment, string>) (x => x.Text)).ToList<Comment>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Comment item in lst)
         {
           item.SenderId = sender.Id;
@@ -206,10 +206,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Recipient recipient1 = recipient;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         recipient1.Comment = dataSet.BusinessComments.SingleOrDefault<Comment>((Func<Comment, bool>) (x => x.Id == recipient.CommentId));
         recipient1 = (Recipient) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 

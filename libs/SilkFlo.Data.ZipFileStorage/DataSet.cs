@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence
 
     public ListExtended<Recipient> BusinessRecipients { get; set; } = new ListExtended<Recipient>();
 
-    public ListExtended<SilkFlo.Data.Core.Domain.Business.Role> BusinessRoles { get; set; } = new ListExtended<SilkFlo.Data.Core.Domain.Business.Role>();
+    public ListExtended<SilkFlo.Data.Core.Domain.Business.BusinessRole> BusinessRoles { get; set; } = new ListExtended<SilkFlo.Data.Core.Domain.Business.BusinessRole>();
 
     public ListExtended<RoleCost> BusinessRoleCosts { get; set; } = new ListExtended<RoleCost>();
 

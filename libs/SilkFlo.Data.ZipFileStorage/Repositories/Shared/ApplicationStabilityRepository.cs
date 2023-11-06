@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (ApplicationStability) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedApplicationStabilities.SingleOrDefault<ApplicationStability>((Func<ApplicationStability, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<ApplicationStability> SingleOrDefaultAsync(
       Func<ApplicationStability, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedApplicationStabilities.Where<ApplicationStability>(predicate).FirstOrDefault<ApplicationStability>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<ApplicationStability>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ApplicationStability>) dataSetAsync.SharedApplicationStabilities.OrderByDescending<ApplicationStability, Decimal>((Func<ApplicationStability, Decimal>) (m => m.Weighting)).ThenBy<ApplicationStability, string>((Func<ApplicationStability, string>) (m => m.Name));
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<ApplicationStability>> FindAsync(
       Func<ApplicationStability, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ApplicationStability>) dataSetAsync.SharedApplicationStabilities.Where<ApplicationStability>(predicate).OrderByDescending<ApplicationStability, Decimal>((Func<ApplicationStability, Decimal>) (m => m.Weighting)).ThenBy<ApplicationStability, string>((Func<ApplicationStability, string>) (m => m.Name));
     }
 
@@ -90,7 +90,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ApplicationStability) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedApplicationStabilities.SingleOrDefault<ApplicationStability>((Func<ApplicationStability, bool>) (x => x.Name == name));
     }
 
@@ -113,10 +113,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.ApplicationStability = dataSet.SharedApplicationStabilities.SingleOrDefault<ApplicationStability>((Func<ApplicationStability, bool>) (x => x.Id == idea.ApplicationStabilityId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -126,7 +126,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ApplicationStability) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedApplicationStabilities.SingleOrDefault<ApplicationStability>((Func<ApplicationStability, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

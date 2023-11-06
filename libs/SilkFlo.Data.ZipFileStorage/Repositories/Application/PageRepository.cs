@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (id == null)
         return (Page) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationPages.SingleOrDefault<Page>((Func<Page, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<Page> SingleOrDefaultAsync(Func<Page, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationPages.Where<Page>(predicate).FirstOrDefault<Page>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<IEnumerable<Page>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Page>) dataSetAsync.ApplicationPages.OrderBy<Page, int>((Func<Page, int>) (m => m.Sort)).ThenBy<Page, string>((Func<Page, string>) (m => m.Name));
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<IEnumerable<Page>> FindAsync(Func<Page, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Page>) dataSetAsync.ApplicationPages.Where<Page>(predicate).OrderBy<Page, int>((Func<Page, int>) (m => m.Sort)).ThenBy<Page, string>((Func<Page, string>) (m => m.Name));
     }
 
@@ -84,7 +84,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (string.IsNullOrEmpty(name))
         return (Page) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationPages.SingleOrDefault<Page>((Func<Page, bool>) (x => x.Name == name));
     }
 
@@ -94,7 +94,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (string.IsNullOrEmpty(name))
         return (Page) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationPages.SingleOrDefault<Page>((Func<Page, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

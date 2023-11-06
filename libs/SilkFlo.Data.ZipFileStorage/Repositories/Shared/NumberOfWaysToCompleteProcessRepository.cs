@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (NumberOfWaysToCompleteProcess) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedNumberOfWaysToCompleteProcesses.SingleOrDefault<NumberOfWaysToCompleteProcess>((Func<NumberOfWaysToCompleteProcess, bool>) (x => x.Id == id));
     }
 
@@ -46,7 +46,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<NumberOfWaysToCompleteProcess> SingleOrDefaultAsync(
       Func<NumberOfWaysToCompleteProcess, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedNumberOfWaysToCompleteProcesses.Where<NumberOfWaysToCompleteProcess>(predicate).FirstOrDefault<NumberOfWaysToCompleteProcess>();
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<NumberOfWaysToCompleteProcess>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<NumberOfWaysToCompleteProcess>) dataSetAsync.SharedNumberOfWaysToCompleteProcesses.OrderByDescending<NumberOfWaysToCompleteProcess, Decimal>((Func<NumberOfWaysToCompleteProcess, Decimal>) (m => m.Weighting)).ThenBy<NumberOfWaysToCompleteProcess, string>((Func<NumberOfWaysToCompleteProcess, string>) (m => m.Name));
     }
 
@@ -93,7 +93,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<NumberOfWaysToCompleteProcess>> FindAsync(
       Func<NumberOfWaysToCompleteProcess, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<NumberOfWaysToCompleteProcess>) dataSetAsync.SharedNumberOfWaysToCompleteProcesses.Where<NumberOfWaysToCompleteProcess>(predicate).OrderByDescending<NumberOfWaysToCompleteProcess, Decimal>((Func<NumberOfWaysToCompleteProcess, Decimal>) (m => m.Weighting)).ThenBy<NumberOfWaysToCompleteProcess, string>((Func<NumberOfWaysToCompleteProcess, string>) (m => m.Name));
     }
 
@@ -103,7 +103,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (NumberOfWaysToCompleteProcess) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedNumberOfWaysToCompleteProcesses.SingleOrDefault<NumberOfWaysToCompleteProcess>((Func<NumberOfWaysToCompleteProcess, bool>) (x => x.Name == name));
     }
 
@@ -126,10 +126,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.NumberOfWaysToCompleteProcess = dataSet.SharedNumberOfWaysToCompleteProcesses.SingleOrDefault<NumberOfWaysToCompleteProcess>((Func<NumberOfWaysToCompleteProcess, bool>) (x => x.Id == idea.NumberOfWaysToCompleteProcessId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -139,7 +139,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (NumberOfWaysToCompleteProcess) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedNumberOfWaysToCompleteProcesses.SingleOrDefault<NumberOfWaysToCompleteProcess>((Func<NumberOfWaysToCompleteProcess, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

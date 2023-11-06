@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (UserRole) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserRoles.SingleOrDefault<UserRole>((Func<UserRole, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<UserRole> SingleOrDefaultAsync(Func<UserRole, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserRoles.Where<UserRole>(predicate).FirstOrDefault<UserRole>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<UserRole>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<UserRole>) dataSetAsync.UserRoles;
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<UserRole>> FindAsync(Func<UserRole, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserRoles.Where<UserRole>(predicate);
     }
 
@@ -94,9 +94,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.UserRoles.Where<UserRole>((Func<UserRole, bool>) (x => x.RoleId == role.Id)).ToList<UserRole>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserRole item in lst)
         {
           item.RoleId = role.Id;
@@ -130,9 +130,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.UserRoles.Where<UserRole>((Func<UserRole, bool>) (x => x.UserId == user.Id)).ToList<UserRole>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserRole item in lst)
         {
           item.UserId = user.Id;

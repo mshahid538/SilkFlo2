@@ -34,7 +34,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
     {
       if (id == null)
         return (Subscription) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopSubscriptions.SingleOrDefault<Subscription>((Func<Subscription, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<Subscription> SingleOrDefaultAsync(Func<Subscription, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ShopSubscriptions.Where<Subscription>(predicate).FirstOrDefault<Subscription>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Subscription>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Subscription>) dataSetAsync.ShopSubscriptions.OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (m => m.DateStart));
     }
 
@@ -79,7 +79,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
 
     public async Task<IEnumerable<Subscription>> FindAsync(Func<Subscription, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Subscription>) dataSetAsync.ShopSubscriptions.Where<Subscription>(predicate).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (m => m.DateStart));
     }
 
@@ -96,9 +96,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopSubscriptions.Where<Subscription>((Func<Subscription, bool>) (x => x.AgencyDiscountId == agencyDiscount.Id)).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (x => x.DateStart)).ToList<Subscription>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Subscription item in lst)
         {
           item.AgencyDiscountId = agencyDiscount.Id;
@@ -132,9 +132,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopSubscriptions.Where<Subscription>((Func<Subscription, bool>) (x => x.AgencyId == agency.Id)).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (x => x.DateStart)).ToList<Subscription>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Subscription item in lst)
         {
           item.AgencyId = agency.Id;
@@ -168,9 +168,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopSubscriptions.Where<Subscription>((Func<Subscription, bool>) (x => x.AgencyTypeId == agencyType.Id)).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (x => x.DateStart)).ToList<Subscription>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Subscription item in lst)
         {
           item.AgencyTypeId = agencyType.Id;
@@ -204,9 +204,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopSubscriptions.Where<Subscription>((Func<Subscription, bool>) (x => x.CouponId == coupon.Id)).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (x => x.DateStart)).ToList<Subscription>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Subscription item in lst)
         {
           item.CouponId = coupon.Id;
@@ -240,9 +240,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopSubscriptions.Where<Subscription>((Func<Subscription, bool>) (x => x.PriceId == price.Id)).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (x => x.DateStart)).ToList<Subscription>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Subscription item in lst)
         {
           item.PriceId = price.Id;
@@ -276,9 +276,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shop
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.ShopSubscriptions.Where<Subscription>((Func<Subscription, bool>) (x => x.TenantId == tenant.Id)).OrderBy<Subscription, DateTime>((Func<Subscription, DateTime>) (x => x.DateStart)).ToList<Subscription>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Subscription item in lst)
         {
           item.TenantId = tenant.Id;

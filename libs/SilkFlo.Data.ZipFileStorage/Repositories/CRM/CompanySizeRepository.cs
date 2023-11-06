@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (id == null)
         return (CompanySize) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMCompanySizes.SingleOrDefault<CompanySize>((Func<CompanySize, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<CompanySize> SingleOrDefaultAsync(Func<CompanySize, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMCompanySizes.Where<CompanySize>(predicate).FirstOrDefault<CompanySize>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<IEnumerable<CompanySize>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<CompanySize>) dataSetAsync.CRMCompanySizes.OrderBy<CompanySize, int>((Func<CompanySize, int>) (m => m.Sort)).ThenBy<CompanySize, string>((Func<CompanySize, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
 
     public async Task<IEnumerable<CompanySize>> FindAsync(Func<CompanySize, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<CompanySize>) dataSetAsync.CRMCompanySizes.Where<CompanySize>(predicate).OrderBy<CompanySize, int>((Func<CompanySize, int>) (m => m.Sort)).ThenBy<CompanySize, string>((Func<CompanySize, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (string.IsNullOrEmpty(name))
         return (CompanySize) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMCompanySizes.SingleOrDefault<CompanySize>((Func<CompanySize, bool>) (x => x.Name == name));
     }
 
@@ -110,10 +110,10 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
       else
       {
         Prospect prospect1 = prospect;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         prospect1.CompanySize = dataSet.CRMCompanySizes.SingleOrDefault<CompanySize>((Func<CompanySize, bool>) (x => x.Id == prospect.CompanySizeId));
         prospect1 = (Prospect) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -123,7 +123,7 @@ namespace SilkFlo.Data.Persistence.Repositories.CRM
     {
       if (string.IsNullOrEmpty(name))
         return (CompanySize) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.CRMCompanySizes.SingleOrDefault<CompanySize>((Func<CompanySize, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

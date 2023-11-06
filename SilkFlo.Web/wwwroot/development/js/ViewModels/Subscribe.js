@@ -1678,7 +1678,10 @@ SilkFlo.ViewModels.Subscribe = {
                     'Account.SignUp.');
 
 
-                const url = `https://app.silkflo.com/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
+                //uncomment this for local
+                //const url = `https://localhost:44349/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
+
+                const url = `https://silkflo-test.azurewebsites.net/shop/SubscriptionComplete/clientId/${model.ClientId}/PriceId/${model.PriceId}`;
 
                 //const { error } = await stripe.confirmSetup({
                 //    elements: stripe.elements(),

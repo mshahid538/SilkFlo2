@@ -34,7 +34,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (Country) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCountries.SingleOrDefault<Country>((Func<Country, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<Country> SingleOrDefaultAsync(Func<Country, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCountries.Where<Country>(predicate).FirstOrDefault<Country>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Country>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Country>) dataSetAsync.SharedCountries.OrderBy<Country, int>((Func<Country, int>) (m => m.Sort)).ThenBy<Country, string>((Func<Country, string>) (m => m.Name));
     }
 
@@ -79,7 +79,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<Country>> FindAsync(Func<Country, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Country>) dataSetAsync.SharedCountries.Where<Country>(predicate).OrderBy<Country, int>((Func<Country, int>) (m => m.Sort)).ThenBy<Country, string>((Func<Country, string>) (m => m.Name));
     }
 
@@ -89,7 +89,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Country) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCountries.SingleOrDefault<Country>((Func<Country, bool>) (x => x.Name == name));
     }
 
@@ -112,10 +112,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.Country = dataSet.SharedCountries.SingleOrDefault<Country>((Func<Country, bool>) (x => x.Id == client.CountryId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -138,10 +138,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Prospect prospect1 = prospect;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         prospect1.Country = dataSet.SharedCountries.SingleOrDefault<Country>((Func<Country, bool>) (x => x.Id == prospect.CountryId));
         prospect1 = (Prospect) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -151,7 +151,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (Country) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedCountries.SingleOrDefault<Country>((Func<Country, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

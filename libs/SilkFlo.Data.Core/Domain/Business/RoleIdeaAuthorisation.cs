@@ -12,7 +12,7 @@ namespace SilkFlo.Data.Core.Domain.Business
     private string _clientId;
     private IdeaAuthorisation _ideaAuthorisation;
     private string _ideaAuthorisationId;
-    private Role _role;
+    private BusinessRole _role;
     private string _roleId;
 
     public RoleIdeaAuthorisation() => this._createdDate = new System.DateTime?(System.DateTime.Now);
@@ -94,7 +94,7 @@ namespace SilkFlo.Data.Core.Domain.Business
 
     [IgnoreDataMember]
     [XmlIgnore]
-    public Role Role
+    public BusinessRole Role
     {
       get => this._role;
       set
@@ -114,7 +114,7 @@ namespace SilkFlo.Data.Core.Domain.Business
         value = value?.Trim();
         this._roleId = value;
         if (this._role != null && this._role.Id != this._roleId)
-          this._role = (Role) null;
+          this._role = (BusinessRole) null;
         this.IsSaved = false;
       }
     }

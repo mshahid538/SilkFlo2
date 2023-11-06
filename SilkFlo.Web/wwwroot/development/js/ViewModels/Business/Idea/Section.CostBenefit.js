@@ -155,7 +155,7 @@ SilkFlo.ViewModels.Business.Idea.Section.CostBenefit = {
         // Guard Clause
         if (!parent)
         {
-            console.log(`${logPrefix}Element with id ${parentId} missing`);
+            console.log(`${logPrefix}Element with id ${id} missing`);
             return;
         }
 

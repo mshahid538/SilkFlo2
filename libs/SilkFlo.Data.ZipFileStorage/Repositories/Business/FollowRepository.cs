@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Follow) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessFollows.SingleOrDefault<Follow>((Func<Follow, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Follow> SingleOrDefaultAsync(Func<Follow, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessFollows.Where<Follow>(predicate).FirstOrDefault<Follow>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Follow>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Follow>) dataSetAsync.BusinessFollows;
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Follow>> FindAsync(Func<Follow, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessFollows.Where<Follow>(predicate);
     }
 
@@ -92,9 +92,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessFollows.Where<Follow>((Func<Follow, bool>) (x => x.IdeaId == idea.Id)).ToList<Follow>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Follow item in lst)
         {
           item.IdeaId = idea.Id;
@@ -128,9 +128,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessFollows.Where<Follow>((Func<Follow, bool>) (x => x.UserId == user.Id)).ToList<Follow>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Follow item in lst)
         {
           item.UserId = user.Id;

@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Collaborator) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessCollaborators.SingleOrDefault<Collaborator>((Func<Collaborator, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Collaborator> SingleOrDefaultAsync(Func<Collaborator, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessCollaborators.Where<Collaborator>(predicate).FirstOrDefault<Collaborator>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Collaborator>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Collaborator>) dataSetAsync.BusinessCollaborators;
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Collaborator>> FindAsync(Func<Collaborator, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessCollaborators.Where<Collaborator>(predicate);
     }
 
@@ -91,9 +91,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessCollaborators.Where<Collaborator>((Func<Collaborator, bool>) (x => x.IdeaId == idea.Id)).ToList<Collaborator>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Collaborator item in lst)
         {
           item.IdeaId = idea.Id;
@@ -127,9 +127,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessCollaborators.Where<Collaborator>((Func<Collaborator, bool>) (x => x.InvitedById == invitedBy.Id)).ToList<Collaborator>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Collaborator item in lst)
         {
           item.InvitedById = invitedBy.Id;
@@ -163,9 +163,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessCollaborators.Where<Collaborator>((Func<Collaborator, bool>) (x => x.UserId == user.Id)).ToList<Collaborator>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Collaborator item in lst)
         {
           item.UserId = user.Id;
@@ -205,10 +205,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         CollaboratorRole collaboratorRole1 = collaboratorRole;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         collaboratorRole1.Collaborator = dataSet.BusinessCollaborators.SingleOrDefault<Collaborator>((Func<Collaborator, bool>) (x => x.Id == collaboratorRole.CollaboratorId));
         collaboratorRole1 = (CollaboratorRole) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 

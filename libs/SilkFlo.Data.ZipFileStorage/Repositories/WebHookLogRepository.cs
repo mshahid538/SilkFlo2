@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (WebHookLog) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.WebHookLogs.SingleOrDefault<WebHookLog>((Func<WebHookLog, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<WebHookLog> SingleOrDefaultAsync(Func<WebHookLog, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.WebHookLogs.Where<WebHookLog>(predicate).FirstOrDefault<WebHookLog>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<WebHookLog>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<WebHookLog>) dataSetAsync.WebHookLogs;
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<WebHookLog>> FindAsync(Func<WebHookLog, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.WebHookLogs.Where<WebHookLog>(predicate);
     }
 

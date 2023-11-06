@@ -30,9 +30,9 @@ namespace SilkFlo.Data.Core.Repositories.Business
 
     Task GetForIdeaAuthorisationAsync(IEnumerable<IdeaAuthorisation> ideaAuthorisations);
 
-    Task GetForRoleAsync(Role role);
+    Task GetForRoleAsync(BusinessRole role);
 
-    Task GetForRoleAsync(IEnumerable<Role> roles);
+    Task GetForRoleAsync(IEnumerable<BusinessRole> roles);
 
     Task<DataStoreResult> RemoveAsync(string id);
 

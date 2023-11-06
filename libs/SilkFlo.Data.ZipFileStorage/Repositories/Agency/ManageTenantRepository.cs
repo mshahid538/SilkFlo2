@@ -31,7 +31,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Agency
     {
       if (id == null)
         return (ManageTenant) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.AgencyManageTenants.SingleOrDefault<ManageTenant>((Func<ManageTenant, bool>) (x => x.Id == id));
     }
 
@@ -39,7 +39,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Agency
 
     public async Task<ManageTenant> SingleOrDefaultAsync(Func<ManageTenant, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.AgencyManageTenants.Where<ManageTenant>(predicate).FirstOrDefault<ManageTenant>();
     }
 
@@ -68,7 +68,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Agency
 
     public async Task<IEnumerable<ManageTenant>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ManageTenant>) dataSetAsync.AgencyManageTenants;
     }
 
@@ -76,7 +76,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Agency
 
     public async Task<IEnumerable<ManageTenant>> FindAsync(Func<ManageTenant, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.AgencyManageTenants.Where<ManageTenant>(predicate);
     }
 
@@ -93,9 +93,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Agency
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.AgencyManageTenants.Where<ManageTenant>((Func<ManageTenant, bool>) (x => x.TenantId == tenant.Id)).ToList<ManageTenant>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (ManageTenant item in lst)
         {
           item.TenantId = tenant.Id;
@@ -129,9 +129,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Agency
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.AgencyManageTenants.Where<ManageTenant>((Func<ManageTenant, bool>) (x => x.UserId == user.Id)).ToList<ManageTenant>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (ManageTenant item in lst)
         {
           item.UserId = user.Id;

@@ -35,7 +35,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (ClientType) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedClientTypes.SingleOrDefault<ClientType>((Func<ClientType, bool>) (x => x.Id == id));
     }
 
@@ -43,7 +43,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<ClientType> SingleOrDefaultAsync(Func<ClientType, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedClientTypes.Where<ClientType>(predicate).FirstOrDefault<ClientType>();
     }
 
@@ -72,7 +72,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<ClientType>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ClientType>) dataSetAsync.SharedClientTypes.OrderBy<ClientType, string>((Func<ClientType, string>) (m => m.Name));
     }
 
@@ -80,7 +80,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<ClientType>> FindAsync(Func<ClientType, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ClientType>) dataSetAsync.SharedClientTypes.Where<ClientType>(predicate).OrderBy<ClientType, string>((Func<ClientType, string>) (m => m.Name));
     }
 
@@ -90,7 +90,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ClientType) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedClientTypes.SingleOrDefault<ClientType>((Func<ClientType, bool>) (x => x.Name == name));
     }
 
@@ -113,10 +113,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.Type = dataSet.SharedClientTypes.SingleOrDefault<ClientType>((Func<ClientType, bool>) (x => x.Id == client.TypeId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -139,10 +139,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Prospect prospect1 = prospect;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         prospect1.ClientType = dataSet.SharedClientTypes.SingleOrDefault<ClientType>((Func<ClientType, bool>) (x => x.Id == prospect.ClientTypeId));
         prospect1 = (Prospect) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -165,10 +165,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Subscription subscription1 = subscription;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         subscription1.AgencyType = dataSet.SharedClientTypes.SingleOrDefault<ClientType>((Func<ClientType, bool>) (x => x.Id == subscription.AgencyTypeId));
         subscription1 = (Subscription) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -178,7 +178,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ClientType) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedClientTypes.SingleOrDefault<ClientType>((Func<ClientType, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

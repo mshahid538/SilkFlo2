@@ -29,6 +29,8 @@ using SilkFlo.Web.Controllers2.FileUpload;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http.Features;
+using SilkFlo.Security;
+using SilkFlo.Data.Core;
 //using SilkFlo.ThirdPartyServices;
 
 namespace SilkFlo.Web
@@ -60,6 +62,7 @@ namespace SilkFlo.Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); // This is need for SilkFlo.Services.Authorization.AuthorizeTagHelper
                                                                                 // services.AddThirdPartyServices(Configuration);
 
+            services.AddScoped<Data.Core.Persistence.ApplicationDbContext>();
             services.AddTransient<IAuthorizationHandler, Services.Authorization.DifferentUserHandler>();
             services.AddTransient<IAuthorizationHandler, Services.Authorization.AnyRoleHandler>();
             services.AddTransient<SilkFlo.Security.API.ReCaptcha.Interfaces.ISignUpService, SilkFlo.Security.API.ReCaptcha.SignUpService>();
@@ -313,7 +316,7 @@ namespace SilkFlo.Web
         /// Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, Data.Core.IUnitOfWork serviceProvider)
         {
 #if DEBUG
             app.UseDeveloperExceptionPage();
@@ -346,43 +349,210 @@ namespace SilkFlo.Web
 
 
 #if RELEASE
-            app.Run(async (context) =>
-            {
-                if (string.IsNullOrWhiteSpace(Startup.PageNotFound))
-                {
-                    using (var unitOfWork = new Data.Persistence.UnitOfWork())
-                    {
-                        var page = unitOfWork.ApplicationPages.GetAsync(Data.Core.Enumerators.Page.PageNotFound.ToString()).Result;
-                        PageNotFound = page == null ? 
-                            "404 Page Not found" : 
-                            page.Text;
-                    }
-                }
-                await context.Response.WriteAsync(PageNotFound);
-            });
+            ////app.Run(async (context) =>
+            ////{
+            ////    if (string.IsNullOrWhiteSpace(Startup.PageNotFound))
+            ////    {
+            ////        using (var unitOfWork = new Data.Persistence.UnitOfWork())
+            ////        {
+            ////            var page = unitOfWork.ApplicationPages.GetAsync(Data.Core.Enumerators.Page.PageNotFound.ToString()).Result;
+            ////            PageNotFound = page == null ? 
+            ////                "404 Page Not found" : 
+            ////                page.Text;
+            ////        }
+            ////    }
+            ////    await context.Response.WriteAsync(PageNotFound);
+            ////});
 #endif
 
-            InsertData(app).GetAwaiter();
+           // InsertData(app, serviceProvider).GetAwaiter();
 
 
-            SetupEmail(app).GetAwaiter();
+            SetupEmail(app, serviceProvider).GetAwaiter();
             SilkFlo.Web.Services2.Models.PaymentManager.SetUpWebHooks(); // Payment.Manager.SetUpWebHooks();
         }
 
-        private static async Task InsertData(IApplicationBuilder app)
+        private static async Task InsertData(IApplicationBuilder app, Data.Core.IUnitOfWork unitOfWork)
         {
-            var dataSet = await Data.Persistence.UnitOfWork.GetDataSetAsync();
+            //using (var scope = serviceProvider.CreateScope())
+            //{
+            //    var unitOfWork = scope.ServiceProvider.GetRequiredService<Data.Core.IUnitOfWork>();
+
+            using (var dataSet1 = new SilkFlo.Data.Core.Persistence.ApplicationDbContext())
+            {
+                var unitOW = new Data.Persistence.UnitOfWork(dataSet1);
+                var password = Security.Settings.Password;
+
+                //Seed-Data SystemSettings
+                //var setting = new Models.Application.Setting(unitOW);
+                //await setting.CreateDefaultTrialPeriod();
+                const int trialPeriod = 30;
+                var id = Enumerators.Setting.TrialPeriod.ToString();
+                var setting = await unitOW.ApplicationSettings.GetAsync(id);
+                if (setting == null)
+                {
+                    setting = new Data.Core.Domain.Application.Setting
+                    {
+                        Value = trialPeriod.ToString()
+                    };
+                    setting.Id = id;
+                    dataSet1.ApplicationSettings.Add(setting);
+                    await dataSet1.SaveChangesAsync();
+                }
+
+                //Seed-Data Roles
+                var Roles = (SilkFlo.Data.Core.Repositories.IRoleRepository)new SilkFlo.Data.Persistence.Repositories.RoleRepository(unitOW);
+                SilkFlo.Data.Core.Domain.Role role = await Roles.GetAsync("-2023");
+                if (role == null)
+                {
+                    role = new SilkFlo.Data.Core.Domain.Role()
+                    {
+                        Name = "Can Backup DataSet",
+                        Description = "",
+                        Sort = -2
+                    };
+                    role.Id = "-2023";
+                    dataSet1.Roles.Add(role);
+                }
+                role = await Roles.GetAsync("-2022");
+                if (role == null)
+                {
+                    role = new SilkFlo.Data.Core.Domain.Role()
+                    {
+                        Name = "UAT Tester",
+                        Description = "",
+                        Sort = -1
+                    };
+                    role.Id = "-2022";
+                    dataSet1.Roles.Add(role);
+                }
+                role = await Roles.GetAsync("-2021");
+                if (role == null)
+                {
+                    role = new SilkFlo.Data.Core.Domain.Role()
+                    {
+                        Name = "Administrator",
+                        Description = "<p>A user with this role has complete access to the solutions and it's data.</p>",
+                        Sort = 0
+                    };
+                    role.Id = "-2021";
+                    dataSet1.Roles.Add(role);
+                }
+                await dataSet1.SaveChangesAsync();
+
+                //Seed-Data SystemRoles
+                KeyValueData keyValueData = new KeyValueData();
+                await keyValueData.InsertSystemRolesAsync(unitOW);
+
+                var email = "admin@scriptbot.io";
+                var adminUser = await unitOW.Users.GetByEmailAsync(email);
+                if (adminUser == null) {
+                    adminUser = await Services.Authorization.User
+                                    .CreateAsync("Douglas",
+                                        "Adams", email, password,
+                                        Data.Core.Enumerators.Role.Administrator,
+                                        unitOW,
+                                        true);
+                    await unitOW.CompleteAsync();
+                }
+
+                var email2 = "jimmy@silkflo.com";
+                var powerUser = await unitOW.Users.GetByEmailAsync(email2);
+                if (powerUser == null)
+                {
+                    powerUser = await Services.Authorization.User
+                                    .CreateAsync("Jimmy",
+                                        "McGill", email2, password,
+                                        Data.Core.Enumerators.Role.Administrator,
+                                        unitOW,
+                                        true);
+                    await unitOW.CompleteAsync();
+                }
+
+                //Seed-Data SystemUsageData
+                ////await keyValueData.Insert(unitOW, adminUser);
+                //await SubscriptionData.ShopProductsAsync(unitOW);
+
+                //Seed-Data CreatingSystemClients
+                var clientSilkFlo = await SilkFloClientAsync(unitOW, powerUser);
+                clientSilkFlo.AccountOwner = powerUser;
+                powerUser.Client = clientSilkFlo;
+
+
+                await TestData.InsertClients(unitOW, clientSilkFlo, powerUser);
+                await unitOW.CompleteAsync();
+                #region Add complimentary companies
+                // Add complimentary companies
+                //await Models.Business.Client.CreateAsync(
+                //    unitOW,
+                //    "d9ee8262-3e94-4d61-b540-855d4cb9d621",
+                //    "PSI CRO AG",
+                //    "Doug",
+                //    "Shannon",
+                //    "Doug.Shannon@psi-cro.com",
+                //    "WaterBottle",
+                //    "Baarerstrasse 113a",
+                //    "Zug",
+                //    "",
+                //    "",
+                //    "6300",
+                //    30,
+                //    new Models.Business.Client(clientSilkFlo),
+                //    true);
+                //await Models.Business.Client.CreateAsync(
+                //    unitOfWork,
+                //    "f7eda9d6-42c7-4a25-85b4-79ee40bfd26f",
+                //    "FD Intelligence Ltd.",
+                //    "Michael",
+                //    "Perrin",
+                //    "m.perrin@FDIntelligence.co.uk",
+                //    "CoffeeCup",
+                //    "56 Palmerston Place",
+                //    "Edinburgh",
+                //    "",
+                //    "",
+                //    "EH12 5AY",
+                //    30,
+                //    new Models.Business.Client(clientSilkFlo),
+                //    true);
+
+
+                //var client = await Models.Business.Client.CreateAsync(
+                //    unitOfWork,
+                //    "14aececd-174c-4c5a-99a5-9a6042ad5060",
+                //    "Amsted Rail Headquarters",
+                //    "Ray",
+                //    "Ludwig",
+                //    "rludwig@amstedrail.com",
+                //    "CoffeeCup",
+                //    "311 S. Wacker Drive",
+                //    "Suite 5300",
+                //    "Chicago",
+                //    "Illinois",
+                //    "60606",
+                //    30,
+                //    new Models.Business.Client(clientSilkFlo),
+                //    true);
+                #endregion
+            }
+
+            return;
+
+            var dataSet = await unitOfWork.GetDataSetAsync(); // Data.Persistence.UnitOfWork.GetDataSetAsync();
             if (dataSet == null)
                 return;
 
-            using var unitOfWork = new Data.Persistence.UnitOfWork();
+            //using var unitOfWork = new Data.Persistence.UnitOfWork();
             try
             {
                 var setting = new Models.Application.Setting(unitOfWork);
                 await setting.CreateDefaultTrialPeriod();
 
-                await Data.Persistence.UnitOfWork.InsertRolesAsync(unitOfWork);
-                await InsertSystemRolesAsync(unitOfWork);
+                await unitOfWork.InsertRolesAsync(unitOfWork);// Data.Persistence.UnitOfWork.InsertRolesAsync(unitOfWork);
+                KeyValueData keyValueData = new KeyValueData();
+                await keyValueData.InsertSystemRolesAsync(unitOfWork);
+
+                await unitOfWork.CompleteAsync();
 
                 var password = Security.Settings.Password;
 
@@ -412,9 +582,10 @@ namespace SilkFlo.Web
                                         unitOfWork,
                                         true);
 
+                await unitOfWork.CompleteAsync();
 
-                await KeyValueData.Insert(unitOfWork, adminUser);
-                await SubscriptionData.ShopProductsAsync(unitOfWork);
+                await keyValueData.Insert(unitOfWork, adminUser);
+                //await SubscriptionData.ShopProductsAsync(unitOfWork);
 
                 var clientSilkFlo = await SilkFloClientAsync(
                     unitOfWork,
@@ -525,11 +696,16 @@ namespace SilkFlo.Web
                 Console.ResetColor();
                 unitOfWork.Log(ex);
             }
+            //}
         }
 
 
-        private static async Task SetupEmail(IApplicationBuilder app)
+        private static async Task SetupEmail(IApplicationBuilder app, Data.Core.IUnitOfWork unitOfWork)
         {
+            //using (var scope = serviceProvider.CreateScope())
+            //{
+            //    var unitOfWork = scope.ServiceProvider.GetRequiredService<Data.Core.IUnitOfWork>();
+
             var domain = GetDomain(app);
 
             var isProduction = true;
@@ -538,7 +714,7 @@ namespace SilkFlo.Web
             {
                 isProduction = false;
 
-                using var unitOfWork = new Data.Persistence.UnitOfWork();
+                //using var unitOfWork = new Data.Persistence.UnitOfWork();
 
                 var id = Data.Core.Enumerators.Setting.TestEmailAccount.ToString();
                 var setting = await unitOfWork.ApplicationSettings.GetAsync(id);
@@ -547,7 +723,7 @@ namespace SilkFlo.Web
             }
 
             Email.Service.Setup(
-                true, //remove it and send true directly
+                true, //isProduction, //remove it and send true directly
                 testEmail,
                 domain);
         }
@@ -555,23 +731,21 @@ namespace SilkFlo.Web
 
         private static string GetDomain(IApplicationBuilder app)
         {
-            return "https://app.silkflo.com";
+            var str = "";
 
-            //var str = "";
+            var urls = app.ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
+            if (urls == null)
+                return str;
 
-            //var urls = app.ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
-            //if (urls == null)
-            //    return str;
+            foreach (var url in urls)
+            {
+                if (url.IndexOf("https://", StringComparison.CurrentCultureIgnoreCase) > -1)
+                    return url;
 
-            //foreach (var url in urls)
-            //{
-            //    if (url.IndexOf("https://", StringComparison.CurrentCultureIgnoreCase) > -1)
-            //        return url;
+                str = url;
+            }
 
-            //    str = url;
-            //}
-
-            //return str = "https://app.silkflo.com";
+            return str;
         }
     }
 }

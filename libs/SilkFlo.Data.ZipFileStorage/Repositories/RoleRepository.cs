@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (Role) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Roles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<Role> SingleOrDefaultAsync(Func<Role, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Roles.Where<Role>(predicate).FirstOrDefault<Role>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<Role>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Role>) dataSetAsync.Roles.OrderByDescending<Role, int>((Func<Role, int>) (m => m.Sort)).ThenBy<Role, string>((Func<Role, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<Role>> FindAsync(Func<Role, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Role>) dataSetAsync.Roles.Where<Role>(predicate).OrderByDescending<Role, int>((Func<Role, int>) (m => m.Sort)).ThenBy<Role, string>((Func<Role, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (string.IsNullOrEmpty(name))
         return (Role) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Roles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Name == name));
     }
 
@@ -110,10 +110,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         UserRole userRole1 = userRole;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userRole1.Role = dataSet.Roles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == userRole.RoleId));
         userRole1 = (UserRole) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -123,7 +123,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (string.IsNullOrEmpty(name))
         return (Role) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Roles.SingleOrDefault<Role>((Func<Role, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

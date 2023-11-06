@@ -40,7 +40,7 @@
 			var path = pathPrefix + "Business-Units";
 		}
 
-		<h3 id="idBusinessUnit" class="@cls"
+		<h3 class="@cls"
 			name="Settings.PlatformSetup.BusinessUnits.Tab"
 			displayPath="@path"
 			parentId="Settings.PlatformSetup">
@@ -64,7 +64,7 @@
 		}
 
 
-		<h3 id="idApplications" class="@cls"
+		<h3 class="@cls"
 			name="Settings.PlatformSetup.Applications.Tab"
 			displayPath="@path"
 			parentId="Settings.PlatformSetup">
@@ -88,7 +88,7 @@
 		}
 
 
-		<h3 id="idCostSetup" class="@cls"
+		<h3 class="@cls"
 			name="Settings.PlatformSetup.CostSetup.Tab"
 			displayPath="@path"
 			parentId="Settings.PlatformSetup">
@@ -106,13 +106,8 @@
             cls = clsInactive;
             displayDocuments = displayNone;
         }
-		@{
-			path = pathPrefix + "Documents";
-		}
-
-		<h3 id="idDocument" class="@cls" name="Document.Tab" parentId="Settings.PlatformSetup"
-			displayPath="@path"
-			onclick="isOnClickCalled()">
+        
+        <h3 class="@cls" name="Document.Tab" onclick="isOnClickCalled()">
             Document
         </h3>
 
@@ -169,11 +164,11 @@
 		</div>
 
         @{
-            path = apiPrefix + "Documents";
+            //path = apiPrefix + "CostSetup/Summary";
         }
         <div name="Document.Content" @Html.Raw(displayDocuments)>
-			<div name="Document.Content.SubContent" silkflo-url="@path">
-			   Loading Documents Content...
+            <div name="Document.Content.SubContent">
+                Loading Documents Content...
             </div>
         </div>
 

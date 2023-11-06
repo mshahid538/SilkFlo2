@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (DataInputPercentOfStructured) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDataInputPercentOfStructureds.SingleOrDefault<DataInputPercentOfStructured>((Func<DataInputPercentOfStructured, bool>) (x => x.Id == id));
     }
 
@@ -46,7 +46,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<DataInputPercentOfStructured> SingleOrDefaultAsync(
       Func<DataInputPercentOfStructured, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDataInputPercentOfStructureds.Where<DataInputPercentOfStructured>(predicate).FirstOrDefault<DataInputPercentOfStructured>();
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<DataInputPercentOfStructured>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DataInputPercentOfStructured>) dataSetAsync.SharedDataInputPercentOfStructureds.OrderByDescending<DataInputPercentOfStructured, Decimal>((Func<DataInputPercentOfStructured, Decimal>) (m => m.Weighting)).ThenBy<DataInputPercentOfStructured, string>((Func<DataInputPercentOfStructured, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<DataInputPercentOfStructured>> FindAsync(
       Func<DataInputPercentOfStructured, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<DataInputPercentOfStructured>) dataSetAsync.SharedDataInputPercentOfStructureds.Where<DataInputPercentOfStructured>(predicate).OrderByDescending<DataInputPercentOfStructured, Decimal>((Func<DataInputPercentOfStructured, Decimal>) (m => m.Weighting)).ThenBy<DataInputPercentOfStructured, string>((Func<DataInputPercentOfStructured, string>) (m => m.Name));
     }
 
@@ -98,7 +98,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DataInputPercentOfStructured) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDataInputPercentOfStructureds.SingleOrDefault<DataInputPercentOfStructured>((Func<DataInputPercentOfStructured, bool>) (x => x.Name == name));
     }
 
@@ -121,10 +121,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.DataInputPercentOfStructured = dataSet.SharedDataInputPercentOfStructureds.SingleOrDefault<DataInputPercentOfStructured>((Func<DataInputPercentOfStructured, bool>) (x => x.Id == idea.DataInputPercentOfStructuredId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -134,7 +134,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (DataInputPercentOfStructured) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedDataInputPercentOfStructureds.SingleOrDefault<DataInputPercentOfStructured>((Func<DataInputPercentOfStructured, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

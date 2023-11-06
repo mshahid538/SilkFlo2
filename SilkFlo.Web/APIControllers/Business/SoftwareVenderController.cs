@@ -49,7 +49,7 @@ namespace SilkFlo.Web.Controllers.Business
 
             // Is there a name conflict?
 
-            var message = await UnitOfWork.IsUniqueAsync(model.GetCore());
+            var message = await _unitOfWork.IsUniqueAsync(model.GetCore());
 
             if (!string.IsNullOrWhiteSpace(message))
             {

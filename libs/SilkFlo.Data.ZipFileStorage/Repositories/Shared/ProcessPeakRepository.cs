@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (ProcessPeak) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessPeaks.SingleOrDefault<ProcessPeak>((Func<ProcessPeak, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<ProcessPeak> SingleOrDefaultAsync(Func<ProcessPeak, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessPeaks.Where<ProcessPeak>(predicate).FirstOrDefault<ProcessPeak>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<ProcessPeak>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ProcessPeak>) dataSetAsync.SharedProcessPeaks.OrderByDescending<ProcessPeak, Decimal>((Func<ProcessPeak, Decimal>) (m => m.Weighting)).ThenBy<ProcessPeak, string>((Func<ProcessPeak, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<ProcessPeak>> FindAsync(Func<ProcessPeak, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ProcessPeak>) dataSetAsync.SharedProcessPeaks.Where<ProcessPeak>(predicate).OrderByDescending<ProcessPeak, Decimal>((Func<ProcessPeak, Decimal>) (m => m.Weighting)).ThenBy<ProcessPeak, string>((Func<ProcessPeak, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ProcessPeak) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessPeaks.SingleOrDefault<ProcessPeak>((Func<ProcessPeak, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.ProcessPeak = dataSet.SharedProcessPeaks.SingleOrDefault<ProcessPeak>((Func<ProcessPeak, bool>) (x => x.Id == idea.ProcessPeakId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -124,7 +124,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ProcessPeak) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessPeaks.SingleOrDefault<ProcessPeak>((Func<ProcessPeak, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

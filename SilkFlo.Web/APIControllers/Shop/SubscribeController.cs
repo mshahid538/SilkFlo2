@@ -413,7 +413,7 @@ namespace SilkFlo.Web.Controllers.Shop
 
 
 
-                var message = await Data.Persistence.UnitOfWork.IsUniqueAsync(core);
+                var message = await _unitOfWork.IsUniqueAsync(core);// Data.Persistence.UnitOfWork.IsUniqueAsync(core);
                 if (!string.IsNullOrWhiteSpace(message))
                 {
                     feedback.DangerMessage(message);

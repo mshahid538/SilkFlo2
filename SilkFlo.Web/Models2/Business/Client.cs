@@ -89,7 +89,7 @@ namespace SilkFlo.Web.Models.Business
             await unitOfWork.BusinessRoleIdeaAuthorisations.RemoveRangeAsync(old);
 
 
-            var businessRoleCustom = new Data.Core.Domain.Business.Role
+            var businessRoleCustom = new Data.Core.Domain.Business.BusinessRole
             {
                 Name = "Business Analyst",
                 Sort = 0,
@@ -105,7 +105,7 @@ namespace SilkFlo.Web.Models.Business
                                                 unitOfWork);
 
 
-            businessRoleCustom = new Data.Core.Domain.Business.Role
+            businessRoleCustom = new Data.Core.Domain.Business.BusinessRole
             {
                 Name = "Solution Architect",
                 Sort = 0,
@@ -118,7 +118,7 @@ namespace SilkFlo.Web.Models.Business
 
 
 
-            businessRoleCustom = new Data.Core.Domain.Business.Role
+            businessRoleCustom = new Data.Core.Domain.Business.BusinessRole
             {
                 Name = "Automation Developer",
                 Sort = 0,
@@ -199,7 +199,7 @@ namespace SilkFlo.Web.Models.Business
 
         }
 
-        private async Task AddRoleIdeaAuthorisationAsync(Data.Core.Domain.Business.Role businessRole,
+        private async Task AddRoleIdeaAuthorisationAsync(Data.Core.Domain.Business.BusinessRole businessRole,
                                                          string ideaAuthorisationId,
                                                          IUnitOfWork unitOfWork)
         {
@@ -891,7 +891,7 @@ namespace SilkFlo.Web.Models.Business
                 client.TenantSubscriptions.Add(msSubscription);
             }
 
-            message = await Data.Persistence.UnitOfWork.IsUniqueAsync(client);
+            message = await unitOfWork.IsUniqueAsync(client); //Data.Persistence.UnitOfWork.IsUniqueAsync(client);
             if (!string.IsNullOrWhiteSpace(message))
                 throw new Exception(
                     message);
@@ -904,7 +904,7 @@ namespace SilkFlo.Web.Models.Business
                 Email = email,
             };
 
-            message = await Data.Persistence.UnitOfWork.IsUniqueAsync(user);
+            message = await unitOfWork.IsUniqueAsync(user);// Data.Persistence.UnitOfWork.IsUniqueAsync(user);
             if (!string.IsNullOrWhiteSpace(message))
                 throw new Exception(
                     message);

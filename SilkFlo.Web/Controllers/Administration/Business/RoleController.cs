@@ -36,7 +36,7 @@ namespace SilkFlo.Web.Controllers.Administration.Business
         {
             try
             {
-                IEnumerable<Data.Core.Domain.Business.Role> cores;
+                IEnumerable<Data.Core.Domain.Business.BusinessRole> cores;
 
                 cores = (await _unitOfWork.BusinessRoles
                                          .GetAllAsync())
@@ -182,11 +182,11 @@ namespace SilkFlo.Web.Controllers.Administration.Business
         [Authorize(Policy = Policy.Administrator)]
         public async Task<IActionResult> Edit(string id)
         {
-            Data.Core.Domain.Business.Role role;
+            Data.Core.Domain.Business.BusinessRole role;
 
             if (string.IsNullOrWhiteSpace(id))
             {
-                role = new Data.Core.Domain.Business.Role
+                role = new Data.Core.Domain.Business.BusinessRole
                 {
                     Id = Guid.NewGuid().ToString(),
                 };

@@ -44,15 +44,15 @@ namespace SilkFlo.Web.Models.Business
 {
     public partial class Role : Abstract
     {
-        private SilkFlo.Data.Core.Domain.Business.Role _core;
+        private SilkFlo.Data.Core.Domain.Business.BusinessRole _core;
         #region Constructors
         
         // This constructor is used by HTTP posts 
         public Role ()
         {
-            _core = new SilkFlo.Data.Core.Domain.Business.Role();
+            _core = new SilkFlo.Data.Core.Domain.Business.BusinessRole();
         }
-        public Role(SilkFlo.Data.Core.Domain.Business.Role core)
+        public Role(SilkFlo.Data.Core.Domain.Business.BusinessRole core)
         {
             _core = core ??   
 	        throw new NullReferenceException("The SilkFlo.Data.Core.Domain.Business.Role cannot be null");
@@ -66,11 +66,11 @@ namespace SilkFlo.Web.Models.Business
             get => string.IsNullOrWhiteSpace(_displayText) ? Name : _displayText;
             set => _displayText = value;
         }
-        public SilkFlo.Data.Core.Domain.Business.Role GetCore()
+        public SilkFlo.Data.Core.Domain.Business.BusinessRole GetCore()
         {
             return _core;
         }
-        public void SetCore(SilkFlo.Data.Core.Domain.Business.Role core)
+        public void SetCore(SilkFlo.Data.Core.Domain.Business.BusinessRole core)
         {
             _core = core;
         }
@@ -445,7 +445,7 @@ namespace SilkFlo.Web.Models.Business
                 throw new NullReferenceException("Data.Core.IUnitOfWork cannot be null");
 
             // Check unique
-            var message = await Data.Persistence.UnitOfWork.IsUniqueAsync(GetCore());
+            var message = await unitOfWork.IsUniqueAsync(GetCore());// Data.Persistence.UnitOfWork.IsUniqueAsync(GetCore());
 
             if (string.IsNullOrWhiteSpace(message)) 
                 return feedback;
@@ -475,7 +475,7 @@ namespace SilkFlo.Web.Models.Business
 
             return Name;
         }
-        public static List<Models.Business.Role> Create(IEnumerable<Data.Core.Domain.Business.Role> cores, bool includeEmpty = false)
+        public static List<Models.Business.Role> Create(IEnumerable<Data.Core.Domain.Business.BusinessRole> cores, bool includeEmpty = false)
         {
             if (cores == null)
                 return null;
@@ -495,7 +495,7 @@ namespace SilkFlo.Web.Models.Business
             return cores.Select(core => new Models.Business.Role(core)).ToList();
         }
 
-        public static Models.Business.Role[] Create(Data.Core.Domain.Business.Role[] cores, bool includeEmpty = false)
+        public static Models.Business.Role[] Create(Data.Core.Domain.Business.BusinessRole[] cores, bool includeEmpty = false)
         {
             if (cores == null)
                 return null;

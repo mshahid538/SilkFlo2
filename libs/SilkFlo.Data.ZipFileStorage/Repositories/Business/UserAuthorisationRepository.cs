@@ -34,7 +34,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (UserAuthorisation) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessUserAuthorisations.SingleOrDefault<UserAuthorisation>((Func<UserAuthorisation, bool>) (x => x.Id == id));
     }
 
@@ -43,7 +43,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<UserAuthorisation> SingleOrDefaultAsync(
       Func<UserAuthorisation, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessUserAuthorisations.Where<UserAuthorisation>(predicate).FirstOrDefault<UserAuthorisation>();
     }
 
@@ -72,7 +72,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<UserAuthorisation>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<UserAuthorisation>) dataSetAsync.BusinessUserAuthorisations.OrderBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (m => m.UserId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (m => m.IdeaId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (m => m.IdeaAuthorisationId));
     }
 
@@ -81,7 +81,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     public async Task<IEnumerable<UserAuthorisation>> FindAsync(
       Func<UserAuthorisation, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<UserAuthorisation>) dataSetAsync.BusinessUserAuthorisations.Where<UserAuthorisation>(predicate).OrderBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (m => m.UserId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (m => m.IdeaId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (m => m.IdeaAuthorisationId));
     }
 
@@ -98,9 +98,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessUserAuthorisations.Where<UserAuthorisation>((Func<UserAuthorisation, bool>) (x => x.CollaboratorRoleId == collaboratorRole.Id)).OrderBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.UserId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaAuthorisationId)).ToList<UserAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserAuthorisation item in lst)
         {
           item.CollaboratorRoleId = collaboratorRole.Id;
@@ -134,9 +134,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessUserAuthorisations.Where<UserAuthorisation>((Func<UserAuthorisation, bool>) (x => x.IdeaAuthorisationId == ideaAuthorisation.Id)).OrderBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.UserId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaAuthorisationId)).ToList<UserAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserAuthorisation item in lst)
         {
           item.IdeaAuthorisationId = ideaAuthorisation.Id;
@@ -170,9 +170,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessUserAuthorisations.Where<UserAuthorisation>((Func<UserAuthorisation, bool>) (x => x.IdeaId == idea.Id)).OrderBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.UserId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaAuthorisationId)).ToList<UserAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserAuthorisation item in lst)
         {
           item.IdeaId = idea.Id;
@@ -206,9 +206,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessUserAuthorisations.Where<UserAuthorisation>((Func<UserAuthorisation, bool>) (x => x.UserId == user.Id)).OrderBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.UserId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaId)).ThenBy<UserAuthorisation, string>((Func<UserAuthorisation, string>) (x => x.IdeaAuthorisationId)).ToList<UserAuthorisation>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserAuthorisation item in lst)
         {
           item.UserId = user.Id;

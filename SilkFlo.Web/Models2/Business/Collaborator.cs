@@ -20,7 +20,7 @@ namespace SilkFlo.Web.Models.Business
             string ideaId,
             string invitedById = "")
         {
-            if (collaborators == null)
+            if (collaborators == null || collaborators.Count <= 0)
                 return;
 
             // Get the existing.

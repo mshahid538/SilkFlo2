@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (RunningCost) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRunningCosts.SingleOrDefault<RunningCost>((Func<RunningCost, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<RunningCost> SingleOrDefaultAsync(Func<RunningCost, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRunningCosts.Where<RunningCost>(predicate).FirstOrDefault<RunningCost>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<RunningCost>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<RunningCost>) dataSetAsync.BusinessRunningCosts;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<RunningCost>> FindAsync(Func<RunningCost, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRunningCosts.Where<RunningCost>(predicate);
     }
 
@@ -95,9 +95,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRunningCosts.Where<RunningCost>((Func<RunningCost, bool>) (x => x.AutomationTypeId == automationType.Id)).ToList<RunningCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RunningCost item in lst)
         {
           item.AutomationTypeId = automationType.Id;
@@ -131,9 +131,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRunningCosts.Where<RunningCost>((Func<RunningCost, bool>) (x => x.ClientId == client.Id)).ToList<RunningCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RunningCost item in lst)
         {
           item.ClientId = client.Id;
@@ -167,9 +167,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRunningCosts.Where<RunningCost>((Func<RunningCost, bool>) (x => x.FrequencyId == frequency.Id)).ToList<RunningCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RunningCost item in lst)
         {
           item.FrequencyId = frequency.Id;
@@ -203,9 +203,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRunningCosts.Where<RunningCost>((Func<RunningCost, bool>) (x => x.VenderId == vender.Id)).ToList<RunningCost>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (RunningCost item in lst)
         {
           item.VenderId = vender.Id;
@@ -245,10 +245,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.RunningCost = dataSet.BusinessRunningCosts.SingleOrDefault<RunningCost>((Func<RunningCost, bool>) (x => x.Id == idea.RunningCostId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -271,10 +271,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         IdeaRunningCost ideaRunningCost1 = ideaRunningCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaRunningCost1.RunningCost = dataSet.BusinessRunningCosts.SingleOrDefault<RunningCost>((Func<RunningCost, bool>) (x => x.Id == ideaRunningCost.RunningCostId));
         ideaRunningCost1 = (IdeaRunningCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 

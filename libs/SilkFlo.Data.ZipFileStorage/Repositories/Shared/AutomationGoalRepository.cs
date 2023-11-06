@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (AutomationGoal) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAutomationGoals.SingleOrDefault<AutomationGoal>((Func<AutomationGoal, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<AutomationGoal> SingleOrDefaultAsync(Func<AutomationGoal, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAutomationGoals.Where<AutomationGoal>(predicate).FirstOrDefault<AutomationGoal>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<AutomationGoal>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<AutomationGoal>) dataSetAsync.SharedAutomationGoals.OrderBy<AutomationGoal, int>((Func<AutomationGoal, int>) (m => m.Sort)).ThenBy<AutomationGoal, string>((Func<AutomationGoal, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<AutomationGoal>> FindAsync(Func<AutomationGoal, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<AutomationGoal>) dataSetAsync.SharedAutomationGoals.Where<AutomationGoal>(predicate).OrderBy<AutomationGoal, int>((Func<AutomationGoal, int>) (m => m.Sort)).ThenBy<AutomationGoal, string>((Func<AutomationGoal, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (AutomationGoal) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAutomationGoals.SingleOrDefault<AutomationGoal>((Func<AutomationGoal, bool>) (x => x.Name == name));
     }
 
@@ -111,10 +111,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.AutomationGoal = dataSet.SharedAutomationGoals.SingleOrDefault<AutomationGoal>((Func<AutomationGoal, bool>) (x => x.Id == idea.AutomationGoalId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -124,7 +124,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (AutomationGoal) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedAutomationGoals.SingleOrDefault<AutomationGoal>((Func<AutomationGoal, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

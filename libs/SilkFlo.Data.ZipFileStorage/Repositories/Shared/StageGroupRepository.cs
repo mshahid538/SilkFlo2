@@ -32,7 +32,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (StageGroup) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStageGroups.SingleOrDefault<StageGroup>((Func<StageGroup, bool>) (x => x.Id == id));
     }
 
@@ -40,7 +40,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<StageGroup> SingleOrDefaultAsync(Func<StageGroup, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStageGroups.Where<StageGroup>(predicate).FirstOrDefault<StageGroup>();
     }
 
@@ -69,7 +69,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<StageGroup>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<StageGroup>) dataSetAsync.SharedStageGroups.OrderBy<StageGroup, int>((Func<StageGroup, int>) (m => m.Sort)).ThenBy<StageGroup, string>((Func<StageGroup, string>) (m => m.Name));
     }
 
@@ -77,7 +77,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<StageGroup>> FindAsync(Func<StageGroup, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<StageGroup>) dataSetAsync.SharedStageGroups.Where<StageGroup>(predicate).OrderBy<StageGroup, int>((Func<StageGroup, int>) (m => m.Sort)).ThenBy<StageGroup, string>((Func<StageGroup, string>) (m => m.Name));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (StageGroup) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStageGroups.SingleOrDefault<StageGroup>((Func<StageGroup, bool>) (x => x.Name == name));
     }
 
@@ -110,10 +110,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Stage stage1 = stage;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         stage1.StageGroup = dataSet.SharedStageGroups.SingleOrDefault<StageGroup>((Func<StageGroup, bool>) (x => x.Id == stage.StageGroupId));
         stage1 = (Stage) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -123,7 +123,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (StageGroup) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedStageGroups.SingleOrDefault<StageGroup>((Func<StageGroup, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

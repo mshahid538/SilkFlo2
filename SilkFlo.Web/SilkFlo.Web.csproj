@@ -27,6 +27,8 @@
 
 		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
 
+		<PackageReference Include="EntityFramework" Version="6.4.4" />
+
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="6.0.16" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.6" />
@@ -41,16 +43,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="SilkFlo.Data.Core">
-			<HintPath>..\Library\SilkFlo.Data.Core.dll</HintPath>
-		</Reference>
 		<!--<Reference Include="SilkFlo.Data.Core">
+			<HintPath>..\Library\SilkFlo.Data.Core.dll</HintPath>
+		</Reference>-->
+		<Reference Include="SilkFlo.Data.Core">
 		  <HintPath>..\libs\SilkFlo.Data.Core\bin\Debug\SilkFlo.Data.Core.dll</HintPath>
 		  <Private>True</Private>
-		</Reference>-->
-		<Reference Include="SilkFlo.Data.ZipFileStorage">
-			<HintPath>..\Library\SilkFlo.Data.ZipFileStorage.dll</HintPath>
 		</Reference>
+		<Reference Include="SilkFlo.Data.ZipFileStorage">
+		  <HintPath>..\libs\SilkFlo.Data.ZipFileStorage\bin\Debug\SilkFlo.Data.ZipFileStorage.dll</HintPath>
+			<Private>True</Private>
+		</Reference>
+		<!--<Reference Include="SilkFlo.Data.ZipFileStorage">
+			<HintPath>..\Library\SilkFlo.Data.ZipFileStorage.dll</HintPath>
+		</Reference>-->
 		<Reference Include="SilkFlo.Email">
 		  <HintPath>..\libs\SilkFlo.Email\bin\Debug\SilkFlo.Email.dll</HintPath>
 		  <Private>True</Private>

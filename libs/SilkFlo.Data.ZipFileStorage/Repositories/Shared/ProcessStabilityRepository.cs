@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (ProcessStability) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessStabilities.SingleOrDefault<ProcessStability>((Func<ProcessStability, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<ProcessStability> SingleOrDefaultAsync(Func<ProcessStability, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessStabilities.Where<ProcessStability>(predicate).FirstOrDefault<ProcessStability>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<ProcessStability>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ProcessStability>) dataSetAsync.SharedProcessStabilities.OrderByDescending<ProcessStability, Decimal>((Func<ProcessStability, Decimal>) (m => m.Weighting)).ThenBy<ProcessStability, string>((Func<ProcessStability, string>) (m => m.Name));
     }
 
@@ -79,7 +79,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     public async Task<IEnumerable<ProcessStability>> FindAsync(
       Func<ProcessStability, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<ProcessStability>) dataSetAsync.SharedProcessStabilities.Where<ProcessStability>(predicate).OrderByDescending<ProcessStability, Decimal>((Func<ProcessStability, Decimal>) (m => m.Weighting)).ThenBy<ProcessStability, string>((Func<ProcessStability, string>) (m => m.Name));
     }
 
@@ -89,7 +89,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ProcessStability) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessStabilities.SingleOrDefault<ProcessStability>((Func<ProcessStability, bool>) (x => x.Name == name));
     }
 
@@ -112,10 +112,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.ProcessStability = dataSet.SharedProcessStabilities.SingleOrDefault<ProcessStability>((Func<ProcessStability, bool>) (x => x.Id == idea.ProcessStabilityId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -125,7 +125,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (ProcessStability) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedProcessStabilities.SingleOrDefault<ProcessStability>((Func<ProcessStability, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

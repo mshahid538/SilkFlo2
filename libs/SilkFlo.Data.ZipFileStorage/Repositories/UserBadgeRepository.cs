@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (UserBadge) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserBadges.SingleOrDefault<UserBadge>((Func<UserBadge, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<UserBadge> SingleOrDefaultAsync(Func<UserBadge, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserBadges.Where<UserBadge>(predicate).FirstOrDefault<UserBadge>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<UserBadge>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<UserBadge>) dataSetAsync.UserBadges;
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<UserBadge>> FindAsync(Func<UserBadge, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.UserBadges.Where<UserBadge>(predicate);
     }
 
@@ -95,9 +95,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.UserBadges.Where<UserBadge>((Func<UserBadge, bool>) (x => x.BadgeId == badge.Id)).ToList<UserBadge>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserBadge item in lst)
         {
           item.BadgeId = badge.Id;
@@ -131,9 +131,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.UserBadges.Where<UserBadge>((Func<UserBadge, bool>) (x => x.UserId == user.Id)).ToList<UserBadge>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (UserBadge item in lst)
         {
           item.UserId = user.Id;

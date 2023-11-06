@@ -26,27 +26,27 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public bool IncludeDeleted { get; set; }
 
-    public Role Get(string id) => this.GetAsync(id).Result;
+    public BusinessRole Get(string id) => this.GetAsync(id).Result;
 
-    public async Task<Role> GetAsync(string id)
+    public async Task<BusinessRole> GetAsync(string id)
     {
       if (id == null)
-        return (Role) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
-      return dataSetAsync.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == id));
+        return (BusinessRole) null;
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
+      return dataSetAsync.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => x.Id == id));
     }
 
-    public Role SingleOrDefault(Func<Role, bool> predicate) => this.SingleOrDefaultAsync(predicate).Result;
+    public BusinessRole SingleOrDefault(Func<BusinessRole, bool> predicate) => this.SingleOrDefaultAsync(predicate).Result;
 
-    public async Task<Role> SingleOrDefaultAsync(Func<Role, bool> predicate)
+    public async Task<BusinessRole> SingleOrDefaultAsync(Func<BusinessRole, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
-      return dataSetAsync.BusinessRoles.Where<Role>(predicate).FirstOrDefault<Role>();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
+      return dataSetAsync.BusinessRoles.Where<BusinessRole>(predicate).FirstOrDefault<BusinessRole>();
     }
 
-    public bool Add(Role entity) => this.AddAsync(entity).Result;
+    public bool Add(BusinessRole entity) => this.AddAsync(entity).Result;
 
-    public async Task<bool> AddAsync(Role entity)
+    public async Task<bool> AddAsync(BusinessRole entity)
     {
       if (entity == null)
         return false;
@@ -54,66 +54,66 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       return true;
     }
 
-    public bool AddRange(IEnumerable<Role> entities) => this.AddRangeAsync(entities).Result;
+    public bool AddRange(IEnumerable<BusinessRole> entities) => this.AddRangeAsync(entities).Result;
 
-    public async Task<bool> AddRangeAsync(IEnumerable<Role> entities)
+    public async Task<bool> AddRangeAsync(IEnumerable<BusinessRole> entities)
     {
       if (entities == null)
         return false;
-      foreach (Role entity in entities)
+      foreach (BusinessRole entity in entities)
         await this._unitOfWork.AddAsync(entity);
       return true;
     }
 
-    public IEnumerable<Role> GetAll() => this.GetAllAsync().Result;
+    public IEnumerable<BusinessRole> GetAll() => this.GetAllAsync().Result;
 
-    public async Task<IEnumerable<Role>> GetAllAsync()
+    public async Task<IEnumerable<BusinessRole>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
-      return (IEnumerable<Role>) dataSetAsync.BusinessRoles.OrderBy<Role, int>((Func<Role, int>) (m => m.Sort)).ThenBy<Role, string>((Func<Role, string>) (m => m.Name));
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
+      return (IEnumerable<BusinessRole>) dataSetAsync.BusinessRoles.OrderBy<BusinessRole, int>((Func<BusinessRole, int>) (m => m.Sort)).ThenBy<BusinessRole, string>((Func<BusinessRole, string>) (m => m.Name));
     }
 
-    public IEnumerable<Role> Find(Func<Role, bool> predicate) => this.FindAsync(predicate).Result;
+    public IEnumerable<BusinessRole> Find(Func<BusinessRole, bool> predicate) => this.FindAsync(predicate).Result;
 
-    public async Task<IEnumerable<Role>> FindAsync(Func<Role, bool> predicate)
+    public async Task<IEnumerable<BusinessRole>> FindAsync(Func<BusinessRole, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
-      return (IEnumerable<Role>) dataSetAsync.BusinessRoles.Where<Role>(predicate).OrderBy<Role, int>((Func<Role, int>) (m => m.Sort)).ThenBy<Role, string>((Func<Role, string>) (m => m.Name));
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
+      return (IEnumerable<BusinessRole>) dataSetAsync.BusinessRoles.Where<BusinessRole>(predicate).OrderBy<BusinessRole, int>((Func<BusinessRole, int>) (m => m.Sort)).ThenBy<BusinessRole, string>((Func<BusinessRole, string>) (m => m.Name));
     }
 
-    public Role GetUsingName(string name) => this.GetUsingNameAsync(name).Result;
+    public BusinessRole GetUsingName(string name) => this.GetUsingNameAsync(name).Result;
 
-    public async Task<Role> GetUsingNameAsync(string name)
+    public async Task<BusinessRole> GetUsingNameAsync(string name)
     {
       if (string.IsNullOrEmpty(name))
-        return (Role) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
-      return dataSetAsync.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Name == name));
+        return (BusinessRole) null;
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
+      return dataSetAsync.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => x.Name == name));
     }
 
     public void GetForClient(Client client) => this.GetForClientAsync(client).RunSynchronously();
 
     public async Task GetForClientAsync(Client client)
     {
-      List<Role> lst;
+      List<BusinessRole> lst;
       if (client == null)
-        lst = (List<Role>) null;
+        lst = (List<BusinessRole>) null;
       else if (string.IsNullOrWhiteSpace(client.Id))
       {
-        lst = (List<Role>) null;
+        lst = (List<BusinessRole>) null;
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
-        lst = dataSet.BusinessRoles.Where<Role>((Func<Role, bool>) (x => x.ClientId == client.Id)).OrderBy<Role, int>((Func<Role, int>) (x => x.Sort)).ThenBy<Role, string>((Func<Role, string>) (x => x.Name)).ToList<Role>();
-        dataSet = (DataSet) null;
-        foreach (Role item in lst)
+        var dataSet = await _unitOfWork.GetDataSetAsync();
+        lst = dataSet.BusinessRoles.Where<BusinessRole>((Func<BusinessRole, bool>) (x => x.ClientId == client.Id)).OrderBy<BusinessRole, int>((Func<BusinessRole, int>) (x => x.Sort)).ThenBy<BusinessRole, string>((Func<BusinessRole, string>) (x => x.Name)).ToList<BusinessRole>();
+        //dataSet = (DataSet) null;
+        foreach (BusinessRole item in lst)
         {
           item.ClientId = client.Id;
           item.Client = client;
         }
         client.Roles = lst;
-        lst = (List<Role>) null;
+        lst = (List<BusinessRole>) null;
       }
     }
 
@@ -146,10 +146,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         CollaboratorRole collaboratorRole1 = collaboratorRole;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
-        collaboratorRole1.Role = dataSet.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == collaboratorRole.RoleId));
+        var dataSet = await _unitOfWork.GetDataSetAsync();
+        collaboratorRole1.Role = dataSet.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => x.Id == collaboratorRole.RoleId));
         collaboratorRole1 = (CollaboratorRole) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -177,10 +177,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         ImplementationCost implementationCost1 = implementationCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
-        implementationCost1.Role = dataSet.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == implementationCost.RoleId));
+        var dataSet = await _unitOfWork.GetDataSetAsync();
+        implementationCost1.Role = dataSet.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => x.Id == implementationCost.RoleId));
         implementationCost1 = (ImplementationCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -203,10 +203,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         RoleCost roleCost1 = roleCost;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
-        roleCost1.Role = dataSet.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == roleCost.RoleId));
+        var dataSet = await _unitOfWork.GetDataSetAsync();
+        roleCost1.Role = dataSet.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => x.Id == roleCost.RoleId));
         roleCost1 = (RoleCost) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -234,21 +234,21 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         RoleIdeaAuthorisation ideaAuthorisation = roleIdeaAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
-        ideaAuthorisation.Role = dataSet.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => x.Id == roleIdeaAuthorisation.RoleId));
+        var dataSet = await _unitOfWork.GetDataSetAsync();
+        ideaAuthorisation.Role = dataSet.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => x.Id == roleIdeaAuthorisation.RoleId));
         ideaAuthorisation = (RoleIdeaAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
-    public Role GetByName(string name) => this.GetByNameAsync(name).Result;
+    public BusinessRole GetByName(string name) => this.GetByNameAsync(name).Result;
 
-    public async Task<Role> GetByNameAsync(string name)
+    public async Task<BusinessRole> GetByNameAsync(string name)
     {
       if (string.IsNullOrEmpty(name))
-        return (Role) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
-      return dataSetAsync.BusinessRoles.SingleOrDefault<Role>((Func<Role, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
+        return (BusinessRole) null;
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
+      return dataSetAsync.BusinessRoles.SingleOrDefault<BusinessRole>((Func<BusinessRole, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 
     public DataStoreResult Remove(string id) => this.RemoveAsync(id).Result;
@@ -257,16 +257,16 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return DataStoreResult.Success;
-      Role entity = await this.GetAsync(id);
+            BusinessRole entity = await this.GetAsync(id);
       if (entity == null)
         return DataStoreResult.Success;
       DataStoreResult dataStoreResult = await this.RemoveAsync(entity);
       return dataStoreResult;
     }
 
-    public DataStoreResult Remove(Role entity) => this.RemoveAsync(entity).Result;
+    public DataStoreResult Remove(BusinessRole entity) => this.RemoveAsync(entity).Result;
 
-    public async Task<DataStoreResult> RemoveAsync(Role entity)
+    public async Task<DataStoreResult> RemoveAsync(BusinessRole entity)
     {
       if (entity == null || entity.IsNew)
         return DataStoreResult.Success;
@@ -274,9 +274,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       return dataStoreResult;
     }
 
-    public DataStoreResult RemoveRange(IEnumerable<Role> entities) => this.RemoveRangeAsync(entities).Result;
+    public DataStoreResult RemoveRange(IEnumerable<BusinessRole> entities) => this.RemoveRangeAsync(entities).Result;
 
-    public async Task<DataStoreResult> RemoveRangeAsync(IEnumerable<Role> entities)
+    public async Task<DataStoreResult> RemoveRangeAsync(IEnumerable<BusinessRole> entities)
     {
       if (entities == null)
         throw new DuplicateException("The roles are present");

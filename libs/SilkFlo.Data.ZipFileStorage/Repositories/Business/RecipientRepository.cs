@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Recipient) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRecipients.SingleOrDefault<Recipient>((Func<Recipient, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Recipient> SingleOrDefaultAsync(Func<Recipient, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRecipients.Where<Recipient>(predicate).FirstOrDefault<Recipient>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Recipient>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Recipient>) dataSetAsync.BusinessRecipients;
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Recipient>> FindAsync(Func<Recipient, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessRecipients.Where<Recipient>(predicate);
     }
 
@@ -92,9 +92,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRecipients.Where<Recipient>((Func<Recipient, bool>) (x => x.CommentId == comment.Id)).ToList<Recipient>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Recipient item in lst)
         {
           item.CommentId = comment.Id;
@@ -128,9 +128,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessRecipients.Where<Recipient>((Func<Recipient, bool>) (x => x.UserId == user.Id)).ToList<Recipient>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Recipient item in lst)
         {
           item.UserId = user.Id;

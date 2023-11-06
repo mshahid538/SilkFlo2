@@ -34,7 +34,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (User) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == id));
     }
 
@@ -42,7 +42,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<User> SingleOrDefaultAsync(Func<User, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Users.Where<User>(predicate).FirstOrDefault<User>();
     }
 
@@ -71,7 +71,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<User>) dataSetAsync.Users.OrderBy<User, string>((Func<User, string>) (m => m.FirstName)).ThenBy<User, string>((Func<User, string>) (m => m.LastName));
     }
 
@@ -79,7 +79,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<User>> FindAsync(Func<User, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<User>) dataSetAsync.Users.Where<User>(predicate).OrderBy<User, string>((Func<User, string>) (m => m.FirstName)).ThenBy<User, string>((Func<User, string>) (m => m.LastName));
     }
 
@@ -87,7 +87,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<User> GetUsingEmailAsync(string email)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Email.ToLower() == email.ToLower()));
     }
 
@@ -104,9 +104,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Users.Where<User>((Func<User, bool>) (x => x.ClientId == client.Id)).OrderBy<User, string>((Func<User, string>) (x => x.FirstName)).ThenBy<User, string>((Func<User, string>) (x => x.LastName)).ToList<User>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (User item in lst)
         {
           item.ClientId = client.Id;
@@ -140,9 +140,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Users.Where<User>((Func<User, bool>) (x => x.DepartmentId == department.Id)).OrderBy<User, string>((Func<User, string>) (x => x.FirstName)).ThenBy<User, string>((Func<User, string>) (x => x.LastName)).ToList<User>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (User item in lst)
         {
           item.DepartmentId = department.Id;
@@ -176,9 +176,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Users.Where<User>((Func<User, bool>) (x => x.LocationId == location.Id)).OrderBy<User, string>((Func<User, string>) (x => x.FirstName)).ThenBy<User, string>((Func<User, string>) (x => x.LastName)).ToList<User>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (User item in lst)
         {
           item.LocationId = location.Id;
@@ -212,9 +212,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Users.Where<User>((Func<User, bool>) (x => x.ManagerId == manager.Id)).OrderBy<User, string>((Func<User, string>) (x => x.FirstName)).ThenBy<User, string>((Func<User, string>) (x => x.LastName)).ToList<User>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (User item in lst)
         {
           item.ManagerId = manager.Id;
@@ -254,10 +254,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Analytic analytic1 = analytic;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         analytic1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == analytic.UserId));
         analytic1 = (Analytic) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -280,10 +280,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Client client1 = client;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         client1.AccountOwner = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == client.AccountOwnerId));
         client1 = (Client) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -306,10 +306,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Collaborator collaborator1 = collaborator;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         collaborator1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == collaborator.UserId));
         collaborator1 = (Collaborator) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -332,10 +332,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Collaborator collaborator1 = collaborator;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         collaborator1.InvitedBy = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == collaborator.InvitedById));
         collaborator1 = (Collaborator) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -358,10 +358,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Comment comment1 = comment;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         comment1.Sender = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == comment.SenderId));
         comment1 = (Comment) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -384,10 +384,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Follow follow1 = follow;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         follow1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == follow.UserId));
         follow1 = (Follow) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -410,10 +410,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Idea idea1 = idea;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         idea1.ProcessOwner = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == idea.ProcessOwnerId));
         idea1 = (Idea) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -436,10 +436,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         ManageTenant manageTenant1 = manageTenant;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         manageTenant1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == manageTenant.UserId));
         manageTenant1 = (ManageTenant) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -462,10 +462,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Message message1 = message;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         message1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == message.UserId));
         message1 = (Message) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -488,10 +488,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Recipient recipient1 = recipient;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         recipient1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == recipient.UserId));
         recipient1 = (Recipient) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -514,10 +514,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         User user1 = user;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         user1.Manager = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == user.ManagerId));
         user1 = (User) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -540,10 +540,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         UserAchievement userAchievement1 = userAchievement;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userAchievement1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == userAchievement.UserId));
         userAchievement1 = (UserAchievement) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -566,10 +566,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         UserAuthorisation userAuthorisation1 = userAuthorisation;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userAuthorisation1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == userAuthorisation.UserId));
         userAuthorisation1 = (UserAuthorisation) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -592,10 +592,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         UserBadge userBadge1 = userBadge;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userBadge1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == userBadge.UserId));
         userBadge1 = (UserBadge) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -618,10 +618,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         UserRole userRole1 = userRole;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         userRole1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == userRole.UserId));
         userRole1 = (UserRole) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -644,10 +644,10 @@ namespace SilkFlo.Data.Persistence.Repositories
       else
       {
         Vote vote1 = vote;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         vote1.User = dataSet.Users.SingleOrDefault<User>((Func<User, bool>) (x => x.Id == vote.UserId));
         vote1 = (Vote) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -657,13 +657,13 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (string.IsNullOrEmpty(email))
         return (User) null;
-      DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+      var dataSet = await _unitOfWork.GetDataSetAsync();
       if (dataSet == null)
       {
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         return (User) null;
       }
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Users.SingleOrDefault<User>((Func<User, bool>) (x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase)));
     }
 

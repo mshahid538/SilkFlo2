@@ -5,7 +5,7 @@ namespace SilkFlo.Web.Insert
 {
     public class SubscriptionData
     {
-        public static async Task ShopProductsAsync(Data.Core.IUnitOfWork unitOfWork)
+        public async Task ShopProductsAsync(Data.Core.IUnitOfWork unitOfWork)
         {
             var sort = 0;
 
@@ -154,7 +154,7 @@ namespace SilkFlo.Web.Insert
                 true);
         }
 
-        public static async Task ProductAsync(
+        public async Task ProductAsync(
             Data.Core.IUnitOfWork unitOfWork,
             string id,
             string name,

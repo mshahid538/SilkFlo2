@@ -29,7 +29,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
     {
       if (id == null)
         return (Setting) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationSettings.SingleOrDefault<Setting>((Func<Setting, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +37,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<Setting> SingleOrDefaultAsync(Func<Setting, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationSettings.Where<Setting>(predicate).FirstOrDefault<Setting>();
     }
 
@@ -66,7 +66,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<IEnumerable<Setting>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Setting>) dataSetAsync.ApplicationSettings;
     }
 
@@ -74,7 +74,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Application
 
     public async Task<IEnumerable<Setting>> FindAsync(Func<Setting, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.ApplicationSettings.Where<Setting>(predicate);
     }
 

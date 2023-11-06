@@ -47,6 +47,19 @@ namespace SilkFlo.Web.Controllers.Business
 
                 await _unitOfWork.BusinessDocuments.GetForIdeaAsync(idea.GetCore());
 
+                if (idea.LastIdeaStage != null)
+                {
+                    await _unitOfWork.BusinessIdeaStageStatuses.GetForIdeaStageAsync(idea.LastIdeaStage.GetCore());
+                    var ideaStageStatus = idea.LastIdeaStage.IdeaStageStatuses.OrderBy(x => x.CreatedDate).LastOrDefault();
+                    if (ideaStageStatus != null)
+                    {
+                        await _unitOfWork.SharedIdeaStatuses.GetStatusForAsync(ideaStageStatus.GetCore());
+                        idea.LastIdeaStage.Status = ideaStageStatus.Status;
+                    }
+
+                    await _unitOfWork.SharedStages.GetStageForAsync(idea.LastIdeaStage.GetCore());
+                }
+
                 if (idea == null)
                     return Redirect("~/");
 

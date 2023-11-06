@@ -580,16 +580,57 @@ SilkFlo.ViewModels.Business.Idea.Modal = {
     // SilkFlo.ViewModels.Business.Idea.Modal.UpdateElements
     UpdateElements: function ()
     {
-        // Close the modal
         window.$('#ModalSubmitIdea').modal('hide');
 
+        $("#MyIdeas").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+        $("#MyTotalInBuild").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+        $("#MyTotalDeployed").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+        $("#MyCollaborations").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+        var myIdeasDiv = document.getElementById("Dashboard.Idaes");
+        $(myIdeasDiv).empty();
+        myIdeasDiv.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
 
-        SilkFlo.DataAccess.UpdateElementFromAttribute('totalIdeas');
-        SilkFlo.DataAccess.UpdateElementFromAttribute('Chart.AutomationProgramPerformance');
-        SilkFlo.DataAccess.UpdateElementFromAttribute('Chart.PipelineBenefitsByStage');
-        SilkFlo.DataAccess.UpdateElementFromAttribute('Business.Idea.Summary');
-        SilkFlo.DataAccess.UpdateElementFromAttribute('Dashboard.Idaes');
-        SilkFlo.DataAccess.UpdateElementFromAttribute('Dashboard.Collaborations');
+        var myCollaborationsDiv = document.getElementById("Dashboard.Collaborations");
+        $(myCollaborationsDiv).empty();
+        myCollaborationsDiv.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
+
+        $.when(
+            $.get("/api/Dashboard/Tile/GetMyIdeas"),
+            $.get("/api/Dashboard/Tile/GetMyTotalInBuild"),
+            $.get("/api/Dashboard/Tile/GetMyTotalDeployed"),
+            $.get("/api/Dashboard/Tile/GetMyCollaborations"),
+            $.get("/api/Dashboard/GetMyIdeas"),
+            $.get("/api/Dashboard/GetMyCollaborations")
+        ).done(function (totalIdeasResponse, totalInBuildResponse, totalDeployedResponse, myPCollaborations, myIdeas, myCollaborations) {
+            $("#MyIdeas").html(totalIdeasResponse[0]);
+            $("#MyTotalInBuild").html(totalInBuildResponse[0]);
+            $("#MyTotalDeployed").html(totalDeployedResponse[0]);
+            $("#MyCollaborations").html(myPCollaborations[0]);
+
+
+            var myIdeasDiv = document.getElementById("Dashboard.Idaes");
+            $(myIdeasDiv).empty();
+            myIdeasDiv.innerHTML = myIdeas[0];
+
+            var myCollaborationsDiv = document.getElementById("Dashboard.Collaborations");
+            $(myCollaborationsDiv).empty();
+            myCollaborationsDiv.innerHTML = myCollaborations[0];
+        });
+
+
+
+
+
+        //// Close the modal
+        //window.$('#ModalSubmitIdea').modal('hide');
+
+
+        //SilkFlo.DataAccess.UpdateElementFromAttribute('totalIdeas');
+        //SilkFlo.DataAccess.UpdateElementFromAttribute('Chart.AutomationProgramPerformance');
+        //SilkFlo.DataAccess.UpdateElementFromAttribute('Chart.PipelineBenefitsByStage');
+        //SilkFlo.DataAccess.UpdateElementFromAttribute('Business.Idea.Summary');
+        //SilkFlo.DataAccess.UpdateElementFromAttribute('Dashboard.Idaes');
+        //SilkFlo.DataAccess.UpdateElementFromAttribute('Dashboard.Collaborations');
     },
 
 

@@ -33,7 +33,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (id == null)
         return (IdeaStatus) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaStatuses.SingleOrDefault<IdeaStatus>((Func<IdeaStatus, bool>) (x => x.Id == id));
     }
 
@@ -41,7 +41,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IdeaStatus> SingleOrDefaultAsync(Func<IdeaStatus, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaStatuses.Where<IdeaStatus>(predicate).FirstOrDefault<IdeaStatus>();
     }
 
@@ -70,7 +70,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<IdeaStatus>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaStatus>) dataSetAsync.SharedIdeaStatuses.OrderBy<IdeaStatus, int>((Func<IdeaStatus, int>) (m => m.Sort)).ThenBy<IdeaStatus, string>((Func<IdeaStatus, string>) (m => m.Name));
     }
 
@@ -78,7 +78,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
 
     public async Task<IEnumerable<IdeaStatus>> FindAsync(Func<IdeaStatus, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<IdeaStatus>) dataSetAsync.SharedIdeaStatuses.Where<IdeaStatus>(predicate).OrderBy<IdeaStatus, int>((Func<IdeaStatus, int>) (m => m.Sort)).ThenBy<IdeaStatus, string>((Func<IdeaStatus, string>) (m => m.Name));
     }
 
@@ -88,7 +88,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (IdeaStatus) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaStatuses.SingleOrDefault<IdeaStatus>((Func<IdeaStatus, bool>) (x => x.Name == name));
     }
 
@@ -105,9 +105,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.SharedIdeaStatuses.Where<IdeaStatus>((Func<IdeaStatus, bool>) (x => x.StageId == stage.Id)).OrderBy<IdeaStatus, int>((Func<IdeaStatus, int>) (x => x.Sort)).ThenBy<IdeaStatus, string>((Func<IdeaStatus, string>) (x => x.Name)).ToList<IdeaStatus>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (IdeaStatus item in lst)
         {
           item.StageId = stage.Id;
@@ -147,10 +147,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
       else
       {
         IdeaStageStatus ideaStageStatus1 = ideaStageStatus;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         ideaStageStatus1.Status = dataSet.SharedIdeaStatuses.SingleOrDefault<IdeaStatus>((Func<IdeaStatus, bool>) (x => x.Id == ideaStageStatus.StatusId));
         ideaStageStatus1 = (IdeaStageStatus) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -160,7 +160,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Shared
     {
       if (string.IsNullOrEmpty(name))
         return (IdeaStatus) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.SharedIdeaStatuses.SingleOrDefault<IdeaStatus>((Func<IdeaStatus, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

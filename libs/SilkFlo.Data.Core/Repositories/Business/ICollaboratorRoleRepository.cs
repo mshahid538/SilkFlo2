@@ -25,9 +25,9 @@ namespace SilkFlo.Data.Core.Repositories.Business
 
     Task GetForCollaboratorAsync(IEnumerable<Collaborator> collaborators);
 
-    Task GetForRoleAsync(Role role);
+    Task GetForRoleAsync(BusinessRole role);
 
-    Task GetForRoleAsync(IEnumerable<Role> roles);
+    Task GetForRoleAsync(IEnumerable<BusinessRole> roles);
 
     Task GetCollaboratorRoleForAsync(UserAuthorisation userAuthorisation);
 

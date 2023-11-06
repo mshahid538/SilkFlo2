@@ -1,10 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: SilkFlo.Data.Persistence.Repositories.AnalyticRepository
-// Assembly: SilkFlo.Data.ZipFileStorage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: BC78CDC2-416F-4981-AF6D-F81E52FD30E4
-// Assembly location: C:\workspace\SilkFlo\Library\SilkFlo.Data.ZipFileStorage.dll
-
-using SilkFlo.Data.Core;
+﻿using SilkFlo.Data.Core;
 using SilkFlo.Data.Core.Domain;
 using SilkFlo.Data.Core.Repositories;
 using System;
@@ -29,7 +23,7 @@ namespace SilkFlo.Data.Persistence.Repositories
     {
       if (id == null)
         return (Analytic) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Analytics.SingleOrDefault<Analytic>((Func<Analytic, bool>) (x => x.Id == id));
     }
 
@@ -37,7 +31,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<Analytic> SingleOrDefaultAsync(Func<Analytic, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.Analytics.Where<Analytic>(predicate).FirstOrDefault<Analytic>();
     }
 
@@ -66,7 +60,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<Analytic>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Analytic>) dataSetAsync.Analytics.OrderBy<Analytic, DateTime>((Func<Analytic, DateTime>) (m => m.Date)).ThenBy<Analytic, string>((Func<Analytic, string>) (m => m.UserId));
     }
 
@@ -74,7 +68,7 @@ namespace SilkFlo.Data.Persistence.Repositories
 
     public async Task<IEnumerable<Analytic>> FindAsync(Func<Analytic, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Analytic>) dataSetAsync.Analytics.Where<Analytic>(predicate).OrderBy<Analytic, DateTime>((Func<Analytic, DateTime>) (m => m.Date)).ThenBy<Analytic, string>((Func<Analytic, string>) (m => m.UserId));
     }
 
@@ -91,9 +85,9 @@ namespace SilkFlo.Data.Persistence.Repositories
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.Analytics.Where<Analytic>((Func<Analytic, bool>) (x => x.UserId == user.Id)).OrderBy<Analytic, DateTime>((Func<Analytic, DateTime>) (x => x.Date)).ThenBy<Analytic, string>((Func<Analytic, string>) (x => x.UserId)).ToList<Analytic>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Analytic item in lst)
         {
           item.UserId = user.Id;

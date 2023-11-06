@@ -30,7 +30,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (id == null)
         return (Location) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessLocations.SingleOrDefault<Location>((Func<Location, bool>) (x => x.Id == id));
     }
 
@@ -38,7 +38,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<Location> SingleOrDefaultAsync(Func<Location, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessLocations.Where<Location>(predicate).FirstOrDefault<Location>();
     }
 
@@ -67,7 +67,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Location>> GetAllAsync()
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Location>) dataSetAsync.BusinessLocations.OrderBy<Location, string>((Func<Location, string>) (m => m.Name));
     }
 
@@ -75,7 +75,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
 
     public async Task<IEnumerable<Location>> FindAsync(Func<Location, bool> predicate)
     {
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return (IEnumerable<Location>) dataSetAsync.BusinessLocations.Where<Location>(predicate).OrderBy<Location, string>((Func<Location, string>) (m => m.Name));
     }
 
@@ -85,7 +85,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Location) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessLocations.SingleOrDefault<Location>((Func<Location, bool>) (x => x.Name == name));
     }
 
@@ -102,9 +102,9 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       }
       else
       {
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         lst = dataSet.BusinessLocations.Where<Location>((Func<Location, bool>) (x => x.ClientId == client.Id)).OrderBy<Location, string>((Func<Location, string>) (x => x.Name)).ToList<Location>();
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
         foreach (Location item in lst)
         {
           item.ClientId = client.Id;
@@ -144,10 +144,10 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
       else
       {
         User user1 = user;
-        DataSet dataSet = await UnitOfWork.GetDataSetAsync();
+        var dataSet = await _unitOfWork.GetDataSetAsync();
         user1.Location = dataSet.BusinessLocations.SingleOrDefault<Location>((Func<Location, bool>) (x => x.Id == user.LocationId));
         user1 = (User) null;
-        dataSet = (DataSet) null;
+        //dataSet = (DataSet) null;
       }
     }
 
@@ -157,7 +157,7 @@ namespace SilkFlo.Data.Persistence.Repositories.Business
     {
       if (string.IsNullOrEmpty(name))
         return (Location) null;
-      DataSet dataSetAsync = await UnitOfWork.GetDataSetAsync();
+      var dataSetAsync = await _unitOfWork.GetDataSetAsync();
       return dataSetAsync.BusinessLocations.SingleOrDefault<Location>((Func<Location, bool>) (x => string.Equals(x.Name, name, StringComparison.CurrentCultureIgnoreCase)));
     }
 

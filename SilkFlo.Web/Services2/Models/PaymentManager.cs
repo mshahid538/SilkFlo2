@@ -10,9 +10,9 @@ namespace SilkFlo.Web.Services2.Models
 {
     public class PaymentManager
     {
-        public static string StripePublicKey => "pk_live_51KUSwbAzFT9dgqImSufzYPlqOR3NA6yvk95A9yhwbceRL1vwjGsvncHz9e9d2fiZVW6wQm244sv757ytyZImFAhC00t6wUKipb";
+        public static string StripePublicKey => "pk_test_51KUSwbAzFT9dgqIm48jQQT7P7GTYB9kaWFtLyyVbm0s7CXkAoXFds5OxFsamBhNZUNx9qpn2qruLdCufCqvt2LXy00OyXhEWVR";
 
-        private static string StripeKey => "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";
+        private static string StripeKey => "sk_test_51KUSwbAzFT9dgqImObwaKoK6aYfwAvQLDvGnNJNgyHa8UgTqar2portOfGNzGpU4pOHLyXxVqVGhorjUpG8p3Odh00EWMGJpMY";
 
         public static string WebHookSecret => "whsec_29c409cbb889b8aa71426be2cff4eda89220ebfc8ce9fca92c02c260bb69e505";
 
