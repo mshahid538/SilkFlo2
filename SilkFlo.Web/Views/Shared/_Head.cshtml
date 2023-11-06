@@ -41,6 +41,8 @@
 
     <link href="~/development/css/bootstrap.css"
           rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <link href="~/development/css/Chart.css"
           rel="stylesheet"/>
     <link href="~/development/css/Account.css"
@@ -60,6 +62,7 @@
     <script src="~/development/js/Analytics.js"></script>
     <script src="~/development/js/Main.js"></script>
     <script src="~/development/js/Business/Idea/Summary.js"></script>
+    <script src="~/development/js/Business/Integration/StripeConstruct.js"></script>
 
     <script src="~/development/js/Application/Setting.js"></script>
     <script src="~/development/js/Models/Abstract.js"></script>
@@ -120,7 +123,6 @@
     <script src="~/development/js/Pages/Cards.js"></script>
     <script src="~/development/js/HotSpot.js"></script>
     <script src="~/development/js/FileUpload.js"></script>
-
 </environment>
 
 @* Online *@
@@ -148,7 +150,12 @@
     @*<link rel="stylesheet" href="/resources/demos/style.css">*@
   
 </environment>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link href="~/development/css/daterangepicker.css" rel="stylesheet" />
 <link href="/library/Delaney.UI/Delaney.UI.min.css?362" rel="stylesheet"></>
 <script src="/library/Delaney.UI/Delaney.UI.min.js?362"></script>
 <link href="/library/Slider/Slider.min.css" rel="stylesheet"></>
@@ -157,6 +164,7 @@
 <script src="/library/DropDown/DropDown.min.js"></script>
 <link href="/library/Gantt/Gantt.min.css?362" rel="stylesheet"></>
 <script src="/library/Gantt/Gantt.min.js?362"></script>
+
 
 @if (User.Identity.IsAuthenticated)
 {

@@ -26,6 +26,9 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using SilkFlo.Web.Insert;
 using static SilkFlo.Web.Insert.KeyValueData;
 using SilkFlo.Web.Controllers2.FileUpload;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http.Features;
 //using SilkFlo.ThirdPartyServices;
 
 namespace SilkFlo.Web
@@ -102,7 +105,7 @@ namespace SilkFlo.Web
                                                   "Program Manager",
                                                   "Idea Approver",
                                                   "Authorised User",
-                                                  "RPA Sponsor",
+                                                  "Automation Sponsor",
                                                   "Standard User",
                                                   "Agency User",
                                                   "Agency Administrator"));
@@ -114,7 +117,7 @@ namespace SilkFlo.Web
                                                               "Program Manager",
                                                               "Idea Approver",
                                                               "Authorised User",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Standard User",
                                                               "Agency User"));
 
@@ -125,7 +128,7 @@ namespace SilkFlo.Web
                                                               "Program Manager",
                                                               "Idea Approver",
                                                               "Authorised User",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Standard User",
                                                               "Agency User"));
 
@@ -193,7 +196,7 @@ namespace SilkFlo.Web
                                                               "Administrator",
                                                               "Account Owner",
                                                               "Program Manager",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Agency User"));
 
                 options.AddPolicy(Policy.ViewTenantDashboards,
@@ -201,7 +204,7 @@ namespace SilkFlo.Web
                                                               "Administrator",
                                                               "Account Owner",
                                                               "Program Manager",
-                                                              "RPA Sponsor",
+                                                              "Automation Sponsor",
                                                               "Agency User"));
 
                 options.AddPolicy(Policy.ViewCostInfoInAutomationPipeline,
@@ -210,7 +213,7 @@ namespace SilkFlo.Web
                                                                   "Account Owner",
                                                                   "Program Manager",
                                                                   "Authorised User",
-                                                                  "RPA Sponsor",
+                                                                  "Automation Sponsor",
                                                                   "Agency User"));
 
 
@@ -276,6 +279,7 @@ namespace SilkFlo.Web
             });
             #endregion
 
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -287,6 +291,20 @@ namespace SilkFlo.Web
                     options.LoginPath = "/account/signin";
                     options.LogoutPath = "/account/signout";
                 });
+
+            //services.AddAuthentication(options =>
+            //{
+            //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //options.DefaultSignInScheme = "AzureAD";
+            //options.DefaultScheme = "Cookies";
+            //options.SignInScheme = "AzureAD";
+            //});
+
+            //services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueCountLimit = 2048;
+            });
         }
 
 
@@ -348,7 +366,7 @@ namespace SilkFlo.Web
 
 
             SetupEmail(app).GetAwaiter();
-            Payment.Manager.SetUpWebHooks();
+            SilkFlo.Web.Services2.Models.PaymentManager.SetUpWebHooks(); // Payment.Manager.SetUpWebHooks();
         }
 
         private static async Task InsertData(IApplicationBuilder app)
@@ -529,7 +547,7 @@ namespace SilkFlo.Web
             }
 
             Email.Service.Setup(
-                isProduction,
+                true, //remove it and send true directly
                 testEmail,
                 domain);
         }
@@ -537,21 +555,23 @@ namespace SilkFlo.Web
 
         private static string GetDomain(IApplicationBuilder app)
         {
-            var str = "";
+            return "https://app.silkflo.com";
 
-            var urls = app.ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
-            if (urls == null)
-                return str;
+            //var str = "";
 
-            foreach (var url in urls)
-            {
-                if (url.IndexOf("https://", StringComparison.CurrentCultureIgnoreCase) > -1)
-                    return url;
+            //var urls = app.ServerFeatures.Get<IServerAddressesFeature>()?.Addresses;
+            //if (urls == null)
+            //    return str;
 
-                str = url;
-            }
+            //foreach (var url in urls)
+            //{
+            //    if (url.IndexOf("https://", StringComparison.CurrentCultureIgnoreCase) > -1)
+            //        return url;
 
-            return str;
+            //    str = url;
+            //}
+
+            //return str = "https://app.silkflo.com";
         }
     }
 }

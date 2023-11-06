@@ -472,7 +472,7 @@ namespace SilkFlo.Web.Controllers.Business
 
 
 
-                const string url = "/Views/Settings/Account.cshtml";
+                const string url = "/Views/Settings/Account2.cshtml";
                 if (returnStringContent)
                 {
                     model.AffiliateLink = $"&lt;a href=\"{model.AffiliateURL}\"&gt;Sign Up to SilkFlo&lt;/a&gt;";
@@ -864,8 +864,8 @@ namespace SilkFlo.Web.Controllers.Business
                 if (!changeStripeName && !changeStripeEmail)
                     return Ok();
 
-                await Payment.Manager.SaveAsync(core);
-
+                //await Payment.Manager.SaveAsync(core);
+                await SilkFlo.Web.Services2.Models.PaymentManager.SaveAsync(core);
 
                 return Ok();
 

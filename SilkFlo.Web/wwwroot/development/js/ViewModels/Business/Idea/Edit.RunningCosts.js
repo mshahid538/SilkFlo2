@@ -58,8 +58,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
 
 
 
-    UpdateTotals: function ()
-    {
+    UpdateTotals: function () {
         const logPrefix = 'SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts.UpdateTotals: ';
 
         const parent = SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts.GetParent();
@@ -143,8 +142,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         const humanRunningCostYearAfterElement = document.getElementById(id);
 
         // Guard Clause
-        if (!humanRunningCostYearAfterElement)
-        {
+        if (!humanRunningCostYearAfterElement) {
             console.log(`${logPrefix}Element with id ${id} missing`);
             return;
         }
@@ -152,7 +150,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         let runningCostsGrandTotalMonth = 0;
 
 
-        const humanRunningCostYearAfter = humanRunningCostYearAfterElement.getAttribute('value')*1;
+        const humanRunningCostYearAfter = humanRunningCostYearAfterElement.getAttribute('value') * 1;
         const humanRunningCostMonthAfter = humanRunningCostYearAfter / 12;
 
         grandTotalCostPerYear += humanRunningCostYearAfter;
@@ -162,8 +160,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         let name = 'Business.IdeaRunningCost.TotalCostPerYear';
         colElementYrTotals.IdeaRunningCost = parent.querySelectorAll(`[name="${name}"]`);
         let length = colElementYrTotals.IdeaRunningCost.length;
-        for (let i = 0; i < length; i++)
-        {
+        for (let i = 0; i < length; i++) {
             const element = colElementYrTotals.IdeaRunningCost[i];
             const value = element.getAttribute('value');
             rpaSoftwareCostsGrandTotalCostPerYear += value * 1;
@@ -178,8 +175,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
 
 
         length = colElementYrTotals.IdeaOtherRunningCost.length;
-        for (let i = 0; i < length; i++)
-        {
+        for (let i = 0; i < length; i++) {
             const element = colElementYrTotals.IdeaOtherRunningCost[i];
             const value = element.getAttribute('value');
             const costTypeId = element.getAttribute('costTypeId');
@@ -203,8 +199,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         name = 'Business.IdeaRunningCost.TotalCostPerMonth';
         colElementMthTotals.IdeaRunningCost = parent.querySelectorAll(`[name="${name}"]`);
         length = colElementMthTotals.IdeaRunningCost.length;
-        for (let i = 0; i < length; i++)
-        {
+        for (let i = 0; i < length; i++) {
             const element = colElementMthTotals.IdeaRunningCost[i];
             const value = element.getAttribute('value');
             rpaSoftwareCostsGrandTotalCostPerMonth += value * 1;
@@ -218,8 +213,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         colElementMthTotals.IdeaOtherRunningCost = parent.querySelectorAll(`[name="${name}"]`);
 
         length = colElementMthTotals.IdeaOtherRunningCost.length;
-        for (let i = 0; i < length; i++)
-        {
+        for (let i = 0; i < length; i++) {
             const element = colElementMthTotals.IdeaOtherRunningCost[i];
             const value = element.getAttribute('value');
             const costTypeId = element.getAttribute('costTypeId');
@@ -243,8 +237,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         const elementAnalysisTotal = parent.querySelector(`[name="${name}"]`);
 
         // Guard Clause
-        if (!elementAnalysisTotal)
-        {
+        if (!elementAnalysisTotal) {
             console.log(`${logPrefix}Element with name ${name} missing`);
             return;
         }
@@ -252,8 +245,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         const elementSolutionDesignTotal = parent.querySelector(`[name="${name}"]`);
 
         // Guard Clause
-        if (!elementSolutionDesignTotal)
-        {
+        if (!elementSolutionDesignTotal) {
             console.log(`${logPrefix}Element with name ${name} missing`);
             return;
         }
@@ -261,8 +253,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         const elementDevelopmentTotal = parent.querySelector(`[name="${name}"]`);
 
         // Guard Clause
-        if (!elementDevelopmentTotal)
-        {
+        if (!elementDevelopmentTotal) {
             console.log(`${logPrefix}Element with name ${name} missing`);
             return;
         }
@@ -270,8 +261,7 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
         const elementTestingTotal = parent.querySelector(`[name="${name}"]`);
 
         // Guard Clause
-        if (!elementTestingTotal)
-        {
+        if (!elementTestingTotal) {
             console.log(`${logPrefix}Element with name ${name} missing`);
             return;
         }
@@ -285,33 +275,62 @@ SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts = {
 
         const currency = SilkFlo.ViewModels.Business.Idea.Edit.RunningCosts.GetCurrency();
 
+        if (yearGrandTotalElements.HumanCosts)
+            yearGrandTotalElements.HumanCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(humanRunningCostYearAfter);
 
-        yearGrandTotalElements.HumanCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(humanRunningCostYearAfter);
-        monthGrandTotalElements.HumanCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(humanRunningCostMonthAfter);
+        if (yearGrandTotalElements.ImplementationPeopleCosts)
+            yearGrandTotalElements.ImplementationPeopleCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(totalImplementation);
 
-        yearGrandTotalElements.ImplementationPeopleCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(totalImplementation);
-        monthGrandTotalElements.ImplementationPeopleCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(totalImplementationMonth);
+        if (yearGrandTotalElements.RunningCosts)
+            yearGrandTotalElements.RunningCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(runningCostsGrandTotalYear);
+
+        if (yearGrandTotalElements.RpaSoftwareCosts)
+            yearGrandTotalElements.RpaSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(rpaSoftwareCostsGrandTotalCostPerYear);
+
+        if (yearGrandTotalElements.Infrastructure)
+            yearGrandTotalElements.Infrastructure.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.Infrastructure);
+
+        if (yearGrandTotalElements.OtherCosts)
+            yearGrandTotalElements.OtherCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.OtherCosts);
+
+        if (yearGrandTotalElements.OtherSoftwareCosts)
+            yearGrandTotalElements.OtherSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.OtherSoftware);
+
+        if (yearGrandTotalElements.SupportTeam)
+            yearGrandTotalElements.SupportTeam.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.SupportTeam);
+
+        if (yearGrandTotalElements.Total)
+            yearGrandTotalElements.Total.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(grandTotalCostPerYear);
 
 
-        yearGrandTotalElements.RunningCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(runningCostsGrandTotalYear);
-        monthGrandTotalElements.RunningCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(runningCostsGrandTotalMonth);
+        if (monthGrandTotalElements.HumanCosts)
+            monthGrandTotalElements.HumanCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(humanRunningCostMonthAfter);
 
-        yearGrandTotalElements.RpaSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(rpaSoftwareCostsGrandTotalCostPerYear);
-        monthGrandTotalElements.RpaSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(rpaSoftwareCostsGrandTotalCostPerMonth);
+        if (monthGrandTotalElements.ImplementationPeopleCosts)
+            monthGrandTotalElements.ImplementationPeopleCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(totalImplementationMonth);
+
+        if (monthGrandTotalElements.RunningCosts)
+            monthGrandTotalElements.RunningCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(runningCostsGrandTotalMonth);
+
+        if (monthGrandTotalElements.RpaSoftwareCosts)
+            monthGrandTotalElements.RpaSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(rpaSoftwareCostsGrandTotalCostPerMonth);
+
+        if (monthGrandTotalElements.Infrastructure)
+            monthGrandTotalElements.Infrastructure.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.Infrastructure);
+
+        if (monthGrandTotalElements.OtherCosts)
+            monthGrandTotalElements.OtherCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.OtherCosts);
+
+        if (monthGrandTotalElements.OtherSoftwareCosts)
+            monthGrandTotalElements.OtherSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.OtherSoftware);
+
+        if (monthGrandTotalElements.SupportTeam)
+            monthGrandTotalElements.SupportTeam.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.SupportTeam);
+
+        if (monthGrandTotalElements.Total)
+            monthGrandTotalElements.Total.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(grandTotalCostPerMonth);
 
 
-        yearGrandTotalElements.Infrastructure.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.Infrastructure);
-        monthGrandTotalElements.Infrastructure.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.Infrastructure);
-        yearGrandTotalElements.OtherCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.OtherCosts);
-        monthGrandTotalElements.OtherCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.OtherCosts);
-        yearGrandTotalElements.OtherSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.OtherSoftware);
-        monthGrandTotalElements.OtherSoftwareCosts.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.OtherSoftware);
-        yearGrandTotalElements.SupportTeam.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colYrTotal.SupportTeam);
-        monthGrandTotalElements.SupportTeam.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(colMthTotal.SupportTeam);
-
-        yearGrandTotalElements.Total.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(grandTotalCostPerYear);
-        monthGrandTotalElements.Total.innerHTML = currency + '&nbsp;' + SilkFlo.FormatNumber(grandTotalCostPerMonth);
-
-        SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.UpdateWorkloadSplitEstimations ();
+        SilkFlo.ViewModels.Business.Idea.Section.CostBenefit.UpdateWorkloadSplitEstimations();
     }
 }

@@ -350,7 +350,7 @@ namespace SilkFlo.Web.APIControllers.Business
             catch (Exception ex)
             {
                 Log(ex);
-                feedback.DangerMessage("Error saving the role");
+                feedback.DangerMessage("Role with the same name already exists.");
                 return BadRequest(feedback);
             }
         }

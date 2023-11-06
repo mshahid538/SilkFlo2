@@ -1,5 +1,22 @@
 ﻿
-function dateRangeClicked(event){
+function dateRangeClicked(event) {
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            showDropdowns: true,
+            minYear: 2010,
+            maxDate: moment(),
+            locale: {
+                format: 'DD-MM-YYYY', cancelLabel: 'Clear'
+            },
+        }, function (start, end, label) {
+            debugger
+            const startDatepicker = document.getElementById("startDatepicker");
+            startDatepicker.value = start.format('MM/DD/YYYY');
+            const endDatepicker = document.getElementById("endDatepicker");
+            endDatepicker.value = end.format('MM/DD/YYYY');
+            //console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+        });
+    });
     $('#exampleModalCenter').modal('show');
 }
 
@@ -32,12 +49,16 @@ function onRangeFilter() {
         startDatepicker.disabled = false;
         const endDatepicker = document.getElementById("endDatepicker");
         endDatepicker.disabled = false;
+        const daterange = document.getElementById("daterange");
+        daterange.disabled = false;
     }
-    else{
+    else {
         const startDatepicker = document.getElementById("startDatepicker");
         startDatepicker.disabled = true;
         const endDatepicker = document.getElementById("endDatepicker");
         endDatepicker.disabled = true;
+        const daterange = document.getElementById("daterange");
+        daterange.disabled = true;
     }
 }
 
@@ -280,6 +301,24 @@ function reRenderFilterOptionModal() {
 
 //workshops filters behaviours
 function showWorkshopModal() {
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            showDropdowns: true,
+            minYear: 2010,
+            maxDate: moment(),
+            locale: {
+                format: 'DD-MM-YYYY', cancelLabel: 'Clear'
+            }
+        }, function (start, end, label) {
+            debugger
+            const startDatepicker = document.getElementById("startDatepicker");
+            startDatepicker.value = start.format('MM/DD/YYYY');
+            const endDatepicker = document.getElementById("endDatepicker");
+            endDatepicker.value = end.format('MM/DD/YYYY');
+            //console.log("A new date selection was made: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+        });
+    });
     $('#workshopFilterModal').modal('show');
 }
 
@@ -1322,4 +1361,241 @@ function clearApplyFiltersAndAdjustWorkshopDeployedView() {
         $("#tilesViewer").html(tilesViewerHtml);
 
     });
+}
+
+
+//window.addEventListener('popstate',
+    function showTooltips() {
+    //if (window.location.href.includes('#new')) {
+
+        var modalViewCode = `
+      <div class="modal fade" id="SilkfloModal" tabindex="-1" aria-labelledby=" Message Box"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 446px;
+height: 527px;">
+          <div class="modal-content silkflo-modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body" name="Message">
+              <h2 class="modal-title" name="Title">Welcome to Silkflo!</h2>
+              <h3 class="header-modal-version">V.12.4</h3>
+              
+             
+              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">SilkFlo helps you adopt govern and manage automation and AI at scale. Let's take a quick tour to get your started.</p>
+            </div>
+            <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="showDashboardTooltip()"><span>Start Tour</span></button>
+          </div>
+        </div>
+      </div>`;
+
+        // Add the modal view code to the DOM
+        $(modalViewCode).appendTo("body");
+
+        // Open the modal
+        $("#SilkfloModal").modal("show");
+
+
+        //setTimeout(() => {
+        //    $('#SilkfloModal').modal('show');
+        //});
+    }
+//});
+
+function showExplore() {
+    //hide
+    // Open the modal
+    $("#SilkfloModal").modal("hide");
+
+    var modalViewCode = `
+      <div class="modal fade" id="SilkfloExploreModal" tabindex="-1" aria-labelledby=" Message Box"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 446px;
+height: 527px;">
+          <div class="modal-content silkflo-modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body" name="Message">
+              <h2 class="modal-title" name="Title">Welcome to Silkflo!</h2>
+              <h3 class="header-modal-version">V.12.4</h3>
+              
+              <h2 class="silkflo_modal_title" name="Title" style="margin-top:25px">Explore</h2>
+              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">Explore, like and follow the idea and automations shared from across the business and see the people who are part of your digital journey.</p>
+            </div>
+            <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="showWorkshop()"><span>Next</span></button>
+          </div>
+        </div>
+      </div>`;
+
+    // Add the modal view code to the DOM
+    $(modalViewCode).appendTo("body");
+
+    // Open the modal
+    $("#SilkfloExploreModal").modal("show");
+
+    // Get the element with id='SideBar.Explore.Container'
+    var element = document.getElementById("SideBar.Explore.Container");
+    // Set the modal position to be near the element
+    var modal = document.getElementById("SilkfloExploreModal");
+    modal.style.top = element.offsetTop + element.clientHeight + 10;
+    modal.style.left = element.offsetLeft;
+}
+
+function showWorkshop() {
+    //hide
+    // Open the modal
+    $("#SilkfloExploreModal").modal("hide");
+
+    var modalViewCode = `
+      <div class="modal fade" id="SilkfloWorkshopModal" tabindex="-1" aria-labelledby="Message Box"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 446px;
+height: 527px;">
+          <div class="modal-content silkflo-modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body" name="Message">
+              <h2 class="modal-title" name="Title">Welcome to Silkflo!</h2>
+              <h3 class="header-modal-version">V.12.4</h3>
+              
+              <h2 class="silkflo_modal_title" name="Title" style="margin-top:25px">Workshop</h2>
+              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">Provides you Automation teams with a standardized framework to review, qualify and priortize your automation and AI pipeline.</p>
+            </div>
+            <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="showPlatformSetup()"><span>Next</span></button>
+          </div>
+        </div>
+      </div>`;
+
+    // Add the modal view code to the DOM
+    $(modalViewCode).appendTo("body");
+
+    // Open the modal
+    $("#SilkfloWorkshopModal").modal("show");
+}
+
+function showPlatformSetup() {
+    //hide
+    // Open the modal
+    $(".tooltipWorkShop").css('display', 'none');
+    $('#menu li.active').removeClass('active');
+    var modalViewCode = `
+      <div class="modal fade" id="SilkfloPlatformSetupModal" tabindex="-1" aria-labelledby="Message Box"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="width: 446px;
+height: 527px;">
+          <div class="modal-content silkflo-modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body" name="Message">
+              <h2 class="modal-title" name="Title">Tour Complete!</h2>
+             
+              <p class="silkflo-modal-content-width" style="margin-top: 16px; margin-bottom: 10px;">You've finished the quick tour of SilkFlo. If you have any further questions, please visit our help docs or contact support@silkflo.com</p>
+            </div>
+            <button type="button" class="silkflo-modal-content-btn" style="margin:16px " onclick="hidePlatformSetupModal()"><span>Finish</span></button>
+          </div>
+        </div>
+      </div>`;
+
+    // Add the modal view code to the DOM
+    $(modalViewCode).appendTo("body");
+
+    // Open the modal
+    $("#SilkfloPlatformSetupModal").modal("show");
+}
+
+function hidePlatformSetupModal() {
+    const sidebarDashboardContainer = document.getElementById('SideBar.Dashboard.Container');
+
+    // Add the "active" class to the element
+    if (sidebarDashboardContainer) {
+        sidebarDashboardContainer.classList.add('active');
+    }
+    /*  $('#SideBar.Dashboard.Container').addClass('active');*/
+    $("#SilkfloPlatformSetupModal").modal("hide");
+}
+
+function showDashboardTooltip() {
+    //hide
+    // Open the modalconst 
+    liElement = document.getElementById('SideBar.Dashboard.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+
+    $("#SilkfloModal").modal("hide");
+    $('.tooltipDashboard').css('display', 'block');
+    const newTopPosition = top - 15;
+    $("#tooltip1arrow").css('top', top);
+    $("#tooltip1arrow").css('left', '175px');
+    $('#tooltip1').css('left', '182px');
+    $('#tooltip1').css('top', newTopPosition);
+
+
+}
+
+function showDashboardTourTooltip() {
+    //hide
+    // Open the modalconst 
+    liElement = document.getElementById('SideBar.Dashboard.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+
+    $("#SilkfloModal").modal("hide");
+    $('.tooltipDashboard').css('display', 'block');
+    const newTopPosition = top - 15;
+    $("#tooltip1arrow").css('top', top);
+    $("#tooltip1arrow").css('left', '175px');
+    $('#tooltip1').css('left', '182px');
+    $('#tooltip1').css('top', newTopPosition);
+
+
+}
+
+function showExploreTooltip() {
+    //hide
+    // Open the modal
+    $('.tooltipDashboard').css('display', 'none');
+    $('.tooltipExplore').css('display', 'block');
+    // Open the modalconst 
+    liElement = document.getElementById('SideBar.Explore.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+    const newTopPosition = top - 15;
+    $("#tooltip2arrow").css('top', top);
+    $('#tooltip2').css('top', newTopPosition);
+    $("#tooltip2arrow").css('left', '175px');
+    $('#tooltip2').css('left', '182px');
+
+    $('#menu li.active').removeClass('active');
+    const sidebarExploreContainer = document.getElementById('SideBar.Explore.Container');
+
+    // Add the "active" class to the element
+    if (sidebarExploreContainer) {
+        sidebarExploreContainer.classList.add('active');
+    }
+}
+function showWorkShopTooltip() {
+    //hide
+    // Open the modal
+    $(".tooltipExplore").css('display', 'none');
+    $('.tooltipWorkShop').css('display', 'block');
+    liElement = document.getElementById('SideBar.Workshop.Container'); // Replace 'li2' with the desired ID
+    // Get the position of the <li> element relative to the viewport
+    const boundingRect = liElement.getBoundingClientRect();
+    // Extract the position properties
+    const { top, left, right, bottom } = boundingRect;
+    const newTopPosition = top - 15;
+    $("#tooltip3arrow").css('top', top);
+    /* $("#tooltip3arrow").css('left', '178px');*/
+    $('#tooltip3').css('top', newTopPosition);
+    $("#tooltip3arrow").css('left', '193px');
+    $('#tooltip3').css('left', '200px');
+    $('#menu li.active').removeClass('active');
+    const sidebarExploreContainer = document.getElementById('SideBar.Workshop.Container');
+
+    // Add the "active" class to the element
+    if (sidebarExploreContainer) {
+        sidebarExploreContainer.classList.add('active');
+    }
+
 }

@@ -25,6 +25,61 @@
     align-self: flex-start;
 }
 
+.lbl-Right {
+    /* Your custom styles here */
+    text-align: right;
+}
+
+.lbl-Center {
+    text-align: center;
+}
+
+.lbl-Left {
+    text-align: left;
+}
+
+.billingtable tbody tr {
+    /* Your custom styles here */
+    text-align: center;
+}
+
+.lblBold {
+    font-weight: 700;
+    font-size: .89rem;
+    color: #383838;
+}
+
+.lblDate {
+    color: #b8b8c2;
+    font-weight: 700;
+    font-size: .8rem;
+}
+
+.billingtable tr, td {
+    border: none;
+}
+
+.spanStatus {
+    margin-left: 5px;
+}
+
+.btnSuccess.bg-success {
+    background-color: #8ce1b38f !important;
+    color: #45d888 !important;
+    font-size: .8rem !important;
+    margin: 10px 0px 10px 0px !important;
+    font-weight: 700 !important;
+    width: 79px;
+}
+
+.btnFailed.bg-danger {
+    background-color: #f3c9c9fa !important;
+    color: #d84545 !important;
+    font-size: .8rem !important;
+    margin: 10px 0px 10px 0px !important;
+    font-weight: 700 !important;
+    width: 79px;
+}
 
 
 .vertical-align-bottom {

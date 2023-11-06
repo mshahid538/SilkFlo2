@@ -6,9 +6,11 @@ if (!SilkFlo.ViewModels.Settings)
 
 
 SilkFlo.ViewModels.Settings.CollaboratorRole = {
+   
 
     // SilkFlo.ViewModels.Settings.CollaboratorRole.GetParent
     GetParent: function () {
+        debugger
         const id = 'Settings.Roles.Details';
         const parent = document.getElementById(id);
 
@@ -27,6 +29,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
     // SilkFlo.ViewModels.Settings.CollaboratorRole.Select
     Select: function (selectedElement)
     {
+        debugger
         const logPrefix = 'SilkFlo.ViewModels.Settings.CollaboratorRole.Select: ';
 
         const selectBar = document.getElementById('Settings.Roles.SelectBar');
@@ -108,6 +111,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
     // SilkFlo.ViewModels.Settings.CollaboratorRole.Search
     Search: function (searchText, targetElementId, selectedId)
     {
+        debugger
         if (!searchText)
         {
             const element = document.getElementById('Settings.Roles.Search');
@@ -152,6 +156,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
     // SilkFlo.ViewModels.Settings.CollaboratorRole.GetDetail
     GetDetail: function (id)
     {
+        debugger
         let url = '/api/Business/Role/GetDetail';
         if (id)
         {
@@ -177,6 +182,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
     // SilkFlo.ViewModels.Settings.CollaboratorRole.Save
     Save: function ()
     {
+        debugger
         const logPrefix = 'SilkFlo.ViewModels.Settings.CollaboratorRole.Save: ';
         const parent = SilkFlo.ViewModels.Settings.CollaboratorRole.GetParent();
         if (!parent)
@@ -216,12 +222,12 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
         const row = document.getElementById(model.Id);
 
         // Guard Clause
-        if (!row) {
-            console.log(`${logPrefix}tr element with id ${model.Id} missing`);
-            return;
-        }
+        //if (!row) {
+        //    console.log(`${logPrefix}tr element with id ${model.Id} missing`);
+        //    return;
+        //}
 
-        row.classList.remove ( 'pulse-background-green' );
+        //row.classList.remove ( 'pulse-background-green' );
 
         SilkFlo.Models.Business.Role.Save(
             model,
@@ -233,6 +239,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
 
     UpdateSummary: function (id)
     {
+        debugger
         const logPrefix = 'SilkFlo.ViewModels.Settings.CollaboratorRole.UpdateSummary: ';
 
 
@@ -318,6 +325,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
     // SilkFlo.ViewModels.Settings.CollaboratorRole.Delete
     Delete: function ()
     {
+        debugger
         const parent = SilkFlo.ViewModels.Settings.CollaboratorRole.GetParent();
         if (!parent)
             return;
@@ -359,6 +367,7 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
     // SilkFlo.ViewModels.Settings.CollaboratorRole.Delete_Callback
     Delete_Callback: function (ignored, roleId)
     {
+        debugger
         const logPrefix = 'SilkFlo.ViewModels.Settings.CollaboratorRole.Delete_Callback: ';
 
 
@@ -395,6 +404,37 @@ SilkFlo.ViewModels.Settings.CollaboratorRole = {
         SilkFlo.ViewModels.Settings.CollaboratorRole.Select(firstChild);
         SilkFlo.ViewModels.Settings.CollaboratorRole.GetDetail(firstChild.id);
 
-        role.remove ();
+        //role.remove();
+        SilkFlo.ViewModels.Settings.CollaboratorRole.deleteRow(ignored)
+    },
+
+
+    deleteRow: function (ignored) {
+        debugger
+        const logPrefix = 'SilkFlo.ViewModels.Settings.CollaboratorRole.deleteRow: ';
+        const rowToDelete = document.getElementById(ignored);
+        if (!rowToDelete) {
+            console.log(`${logPrefix}Element with id ${ignored} missing`);
+            return;
+        }
+        if (rowToDelete) {
+            // Remove the row from the parent (tbody) element
+            const parentElement = rowToDelete.parentNode;
+            parentElement.removeChild(rowToDelete);
+
+            if (parentElement) {
+                const firstRow = parentElement.closest('tbody').querySelector('tr:first-child');
+                if (!firstRow) {
+                    console.log(`${logPrefix}Element with empty row`);
+                    return;
+                }
+
+                SilkFlo.ViewModels.Settings.CollaboratorRole.Select(firstRow);
+                var id = firstRow.getAttribute('id');
+                SilkFlo.ViewModels.Settings.CollaboratorRole.GetDetail(id);
+                
+
+            }
+        }
     }
 };

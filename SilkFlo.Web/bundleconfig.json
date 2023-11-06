@@ -86,7 +86,8 @@
       "wwwroot/development/js/Explore/Ideas.js",
       "wwwroot/development/js/Pages/Cards.js",
       "wwwroot/development/js/HotSpot.js",
-      "wwwroot/development/js/FileUpload.js"
+      "wwwroot/development/js/FileUpload.js",
+      "wwwroot/development/js/Business/Integration/StripeConstruct.js"
 
     ],
     "minify": {

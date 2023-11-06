@@ -1,9 +1,57 @@
 @model SilkFlo.Web.ViewModels.Dashboard.Page.Home
-
+@await Html.PartialAsync("_tooltip")
 <div class="container"
      id="dashboard">
     
     <div class="TitleBar">
+        <h1>Dashboard</h1>
+        @*<h1 class="showtooltip">Dashboard</h1>*@
+        @*<div class="hide_div">
+            @await Html.PartialAsync("_tooltip")
+        </div>*@
+
+
+        @await Html.PartialAsync("Elements/_TabBar", Model.TabBar)
+    </div>
+
+    @await Html.PartialAsync("Elements/_TabBarContent", Model.TabBar)
+
+    @*@await Html.PartialAsync("_silkfloModal")*@
+</div>
+
+<script>
+    var hasNewHash = window.location.hash.includes("#new");
+
+    // Check if the current URL contains #new
+    if (hasNewHash) {
+        setTimeout(() => {
+            showTooltips();
+        }, 600)
+        // Perform actions or make API calls here
+    }
+
+    var hasNewHash = window.location.hash.includes("#tour");
+
+    // Check if the current URL contains #new
+    if (hasNewHash) {
+        setTimeout(() => {
+            showTourTooltips();
+        }, 600)
+        // Perform actions or make API calls here
+    }
+</script>
+
+
+
+@*<div class="container"
+     id="dashboard">
+    <div class="TitleBar">
+        <h1 class="showtooltip">Dashboard</h1>
+        <div class="hide_div">
+            @await Html.PartialAsync("_tooltip")
+        </div>
+    
+   
         <h1>Dashboard</h1>
 
         @await Html.PartialAsync("Elements/_TabBar", Model.TabBar)
@@ -12,4 +60,5 @@
 
     @await Html.PartialAsync("Elements/_TabBarContent", Model.TabBar)
 
+</div>*@
 </div>

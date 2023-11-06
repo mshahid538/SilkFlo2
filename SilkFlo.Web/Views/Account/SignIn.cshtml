@@ -6,9 +6,11 @@
      
     <div class="account_Right account_Right_SignIn">
         <div>
-            <div class="panel-heading">
-                <h1>Sign In</h1>
-                <p>Log in with your data that you entered during your registration</p>
+            <div class="panel-heading header-center">
+                <img src="~/Icons/logoround.png" class="silkflo-logo" alt="SilkFlo" />
+                <h1>Welcome to SilkFlo!</h1>
+                <p>Log in with your business e-mail</p>
+                <hr class="hr" />
             </div>
 
             <div class="panel-body">
@@ -48,14 +50,14 @@
 
 
                     <div class="silkFlo_flex_wrap_spaced">
-                            <div class="form-check form-switch" style="margin-right: 9px;">
+                            <div class="form-check" style="margin-right: 9px;">
                                 @Html.CheckBoxFor(model => model.RememberMe,
                                                     new { @class = "form-check-input", @id = "RememberMe" })
                                 <label class="form-check-label"
                                         for="RememberMe">Remember Me</label>
                             </div>
                         
-                            <div class="form-check form-switch">
+                            <div class="form-check">
                                 @Html.CheckBoxFor(model => model.StaySignedIn,
                                                     new { @class = "form-check-input", @id = "StaySignedIn" })
                                 <label class="form-check-label"
@@ -74,12 +76,30 @@
                         </div>
                     }
 
-                    <button style="width:100%" class="btn btn-brand btn-lg">Sign In</button>
+                    @*btn-brand btn-lg*@
+                    <button style="width:100%" class="btn btn_Login">Sign In</button>
 
-                        <div style="justify-content: center">
-                            <p>Do not have an account? <a href="/pricing">Subscribe</a> now.</p>
+                        <div class="link"> @*style="justify-content: center">*@
+                            @*<p>Do not have an account? <a href="/pricing">Subscribe</a> now.</p>*@
                             <p><a asp-controller="account" asp-action="ForgotPassword">Forgot your password?</a></p>
                         </div>
+
+                    <div class="or">
+                        <h2>
+                            <span>
+                                or
+                            </span>
+                        </h2>
+                    </div>
+
+                    <button style="width:100%" class="btn btn-Microsoft" onclick="gotoSignIn()" type="button">
+                        <img src="~/Icons/microsoft.png" width="19px" />
+                        <span>&nbsp; &nbsp; Continue with Microsoft</span>
+                    </button>
+                    @*<div class="link">
+                        <p style="margin-top: 3rem;">Don't have an account? <a href="~">Register</a></p>
+                    </div>*@
+
                 </form>
             </div>
         </div>

@@ -953,10 +953,29 @@ namespace SilkFlo.Web.Controllers
                         lastMonthCount++;
                 }
 
+				#region Change by Umair 
+				var tenant = await GetClientAsync();
 
 
+				var filter = new ViewModels.Business.Idea.FilterCriteria
+				{
+					UserRelationship = ViewModels.Business.Idea.UserRelationship.MyIdeas
+				};
 
-                var total = user.Ideas.Count();
+				var ideas = await Models.Business
+					.Idea
+					.GetForCardsAsync(_unitOfWork,
+						GetUserId(),
+						tenant,
+						filter,
+						this,
+						true);
+				
+				var total = ideas.Count();
+				#endregion
+
+
+				//var total = user.Ideas.Count();
                 var totalChargeIn = GetChangeIn(lastMonthCount, monthCount);
 
 

@@ -32,7 +32,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="strikeThrough">
                         <span class="signDiscount">@Model.Price.Currency.Symbol</span>
-                        <span class="priceDiscount">@Model.Price.MonthlyAmount.ToString("#,###.##")</span>
+                        <span class="priceDiscount">@(Model.Price.MonthlyAmount <= 0 ? 0 : Model.Price.MonthlyAmount.ToString("#,###.##"))</span>
                         <span class="monthDiscount">/ month</span>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             {
                 <div style="display: block; text-align: center;">
                     <span class="sign">@Model.Price.Currency.Symbol</span>
-                    <span class="price">@Model.Price.MonthlyAmount.ToString("#,###.##")</span>
+                    <span class="price">@(Model.Price.MonthlyAmount <= 0 ? 0 : Model.Price.MonthlyAmount.ToString("#,###.##"))</span>
                     <span class="month">/ month</span>
                 </div>
             }

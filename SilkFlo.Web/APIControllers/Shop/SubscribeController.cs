@@ -120,6 +120,11 @@ namespace SilkFlo.Web.Controllers.Shop
                     return BadRequest(feedback);
                 }
 
+                if (model.IsMsUser)
+                {
+                    model.Password = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{model.Email}-SILKFLOUserSecretKey-{model.IsMsUser}"));
+                }
+
                 // Check the ReCaptcha Token
                 var response = await _signUpService.SignUp(model.ReCaptchaToken);
 
@@ -133,7 +138,7 @@ namespace SilkFlo.Web.Controllers.Shop
                 }
 
 
-                feedback = GetFeedback(ModelState, feedback);
+                //feedback = GetFeedback(ModelState, feedback);
                 model.CompareEmail(feedback);
 
                 if (!model.TermsAgreed)
@@ -272,19 +277,18 @@ namespace SilkFlo.Web.Controllers.Shop
 
 
 
-
                 // Send welcome email
                 var callbackUrl =
                     Url.CompleteSignUp(
                         tenant.Id,
                         Request.Scheme);
 
-                await SendWelcomeEmailAsync(
-                    tenant.GetCore());
+                await SendWelcomeEmailAsync(tenant.GetCore());
 
 
                 // Save customer to Stripe
-                var customer = await Payment.Manager.SaveAsync(tenant.GetCore());
+                //var customer = await Payment.Manager.SaveAsync(tenant.GetCore());
+                var customer = await SilkFlo.Web.Services2.Models.PaymentManager.SaveAsync(tenant.GetCore());
 
                 if (customer == null)
                 {
@@ -299,8 +303,32 @@ namespace SilkFlo.Web.Controllers.Shop
 
                 await _unitOfWork.CompleteAsync();
 
+                #region Subscription against priceId
+                var clientforSubscription = await _unitOfWork.BusinessClients.GetAsync(tenant.Id);
+                var priceforSubscription = await _unitOfWork.ShopPrices.GetAsync(model.PriceId);
 
-                return Ok(tenant.Id);
+                Data.Core.Domain.Shop.Coupon coupon = null;
+                //if (!string.IsNullOrWhiteSpace(couponName))
+                //{
+                //    coupon = await _unitOfWork.ShopCoupons.GetByNameAsync(couponName);
+
+                //    if (coupon == null)
+                //        return ViewDanger($"Coupon with name {couponName} missing.");
+                //}
+
+                var sTrialPeriod = await GetApplicationSettingsAsync(Enumerators.Setting.TrialPeriod);
+                int.TryParse(sTrialPeriod, out var trialPeriod);
+
+                await Models.Shop.Subscription.CreateAsync(
+                    _unitOfWork,
+                    clientforSubscription,
+                    priceforSubscription,
+                    trialPeriod,
+                    coupon);
+                #endregion
+
+
+                return Ok(true); // tenant.Id);
             }
             catch (Exception ex)
             {
@@ -415,14 +443,14 @@ namespace SilkFlo.Web.Controllers.Shop
                 try
                 {
                     if (!string.IsNullOrWhiteSpace(core.StripeId))
-                        await Payment.Manager.SaveAsync(core);
+                        await SilkFlo.Web.Services2.Models.PaymentManager.SaveAsync(core); //await Payment.Manager.SaveAsync(core);
 
                     await _unitOfWork.AddAsync(core);
                     await _unitOfWork.CompleteAsync();
 
                     if (!string.IsNullOrWhiteSpace(core.StripeId))
                     {
-                        await Payment.Manager.SaveAsync(core);
+                        await SilkFlo.Web.Services2.Models.PaymentManager.SaveAsync(core); //Payment.Manager.SaveAsync(core);
                     }
                 }
                 catch (Exception ex)
@@ -684,7 +712,7 @@ namespace SilkFlo.Web.Controllers.Shop
             if (client == null)
                 return Ok();
 
-            var setupIntent = await Payment.Manager.CreateSetupIntent(client);
+            var setupIntent = await SilkFlo.Web.Services2.Models.PaymentManager.CreateSetupIntent(client); //Payment.Manager.CreateSetupIntent(client);
 
             if (setupIntent == null)
             {
@@ -777,7 +805,7 @@ namespace SilkFlo.Web.Controllers.Shop
              */
 
 
-            var subscription = await Payment.Manager.CreateSubscription(
+            var subscription = await SilkFlo.Web.Services2.Models.PaymentManager.CreateSubscription( //Payment.Manager.CreateSubscription(
                 subscriptionRequest.PriceId,
                 subscriptionRequest.CustomerId,
                 trialEnd);
@@ -862,7 +890,7 @@ namespace SilkFlo.Web.Controllers.Shop
                 var signatureHeader = Request.Headers["Stripe-Signature"];
                 var stripeEvent = EventUtility.ConstructEvent(
                     json,
-                    signatureHeader, Payment.Manager.WebHookSecret);
+                    signatureHeader, SilkFlo.Web.Services2.Models.PaymentManager.WebHookSecret); //Payment.Manager.WebHookSecret);
 
 
                 // Guard Clause

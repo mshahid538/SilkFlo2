@@ -14,31 +14,31 @@ function SettingsPeopleRowClick (element)
 };
 
 function isOnClickCalled() {
-
-    const element1 = document.querySelector("[name='Settings.PlatformSetup.CostSetup.Tab']");
+    debugger;
+    const element1 = document.querySelector("[id='idCostSetup']");
     element1.classList.remove("active");
 
-    const element2 = document.querySelector("[name='Settings.PlatformSetup.Applications.Tab']");
+    const element2 = document.querySelector("[id='idApplications']");
     element2.classList.remove("active"); 
 
-    const element3 = document.querySelector("[name='Settings.PlatformSetup.BusinessUnits.Tab']");
+    const element3 = document.querySelector("[id='idBusinessUnit']");
     element3.classList.remove("active"); 
 
-    const element4 = document.querySelector("[name='Document.Tab']");
+    const element4 = document.querySelector("[id='idDocument']");
     element4.classList.add("active"); 
 
 
-    const element5 = document.querySelector("[name='Settings.PlatformSetup.BusinessUnits.Content']");
-    element5.style.display = "none"; 
+    //const element5 = document.querySelector("[id='idBusinessUnit']");
+    //element5.style.display = "none"; 
 
-    const element6 = document.querySelector("[name='Settings.PlatformSetup.Applications.Content']");
-    element6.style.display = "none";
+    //const element6 = document.querySelector("[id='idApplications']");
+    //element6.style.display = "none";
 
-    const element7 = document.querySelector("[name='Settings.PlatformSetup.CostSetup.Content']");
-    element7.style.display = "none";
+    //const element7 = document.querySelector("[id='idCostSetup']");
+    //element7.style.display = "none";
 
-    const element8 = document.querySelector("[name='Document.Content']");
-    element8.style.display = "";
+    //const element8 = document.querySelector("[id='idDocument']");
+    //element8.style.display = "none";
 
     $.get("/api/business/idea/detail/TemplateDocumentation/ideaId/GetTemplates", function (response) {
         const element9 = document.querySelector("[name='Document.Content.SubContent']");

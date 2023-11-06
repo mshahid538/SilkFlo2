@@ -120,7 +120,7 @@ namespace SilkFlo.Web.Models.Business
 
             businessRoleCustom = new Data.Core.Domain.Business.Role
             {
-                Name = "RPA Developer",
+                Name = "Automation Developer",
                 Sort = 0,
                 Client = this.GetCore(),
             };
@@ -610,7 +610,7 @@ namespace SilkFlo.Web.Models.Business
             else
             {
                 if (!string.IsNullOrWhiteSpace(core.StripeId))
-                    await Payment.Manager.SaveAsync(core);
+                    await SilkFlo.Web.Services2.Models.PaymentManager.SaveAsync(core); // Payment.Manager.SaveAsync(core);
             }
 
             await unitOfWork.CompleteAsync();
@@ -672,7 +672,7 @@ namespace SilkFlo.Web.Models.Business
                     Email.Service.ApplicationEmailAddress),
                 new Email.MailBox(user.Fullname,
                     user.Email),
-                bookmarks);
+                bookmarks, true);
 
 
             return message;
@@ -734,7 +734,7 @@ namespace SilkFlo.Web.Models.Business
             decimal amount = 0;
             foreach (var agencySubscription in AgencySubscriptions)
             {
-                var stripeInvoice = await Payment.Manager.GetInvoiceAsync(agencySubscription.InvoiceId);
+                var stripeInvoice = await SilkFlo.Web.Services2.Models.PaymentManager.GetInvoiceAsync(agencySubscription.InvoiceId); // Payment.Manager.GetInvoiceAsync(agencySubscription.InvoiceId);
                 if (stripeInvoice == null)
                     continue;
 
@@ -814,7 +814,8 @@ namespace SilkFlo.Web.Models.Business
             string postCode,
             int freeTrialDay,
             Client agency,
-            bool isEmailConfirmed)
+            bool isEmailConfirmed,
+            Subscription msSubscription = null)
         {
             #region Guard Clauses
             // Guard Clause
@@ -881,6 +882,14 @@ namespace SilkFlo.Web.Models.Business
                 LanguageId = "en-gb",
                 IsActive = true,
             };
+
+            if (msSubscription != null)
+            {
+                if (client.TenantSubscriptions == null || client.TenantSubscriptions.Count <= 0)
+                    client.TenantSubscriptions = new List<Subscription>();
+
+                client.TenantSubscriptions.Add(msSubscription);
+            }
 
             message = await Data.Persistence.UnitOfWork.IsUniqueAsync(client);
             if (!string.IsNullOrWhiteSpace(message))

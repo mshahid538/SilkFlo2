@@ -213,7 +213,7 @@ namespace SilkFlo.Web.Models.Shop
                 trialEnd = dateStart.AddDays((double) trialDay);
 
 
-            var stripeSubscription = await Payment.Manager.CreateSubscription(
+            var stripeSubscription = await SilkFlo.Web.Services2.Models.PaymentManager.CreateSubscription( //Payment.Manager.CreateSubscription(
                 price.Id,
                 client.StripeId,
                 trialEnd);

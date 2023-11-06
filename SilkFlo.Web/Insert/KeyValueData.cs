@@ -1777,7 +1777,7 @@ namespace SilkFlo.Web.Insert
 
 
 
-            description = "<p>Authorised Users target Subject Matter Experts, Process Owners, RPA Business Analysts, Process Consultants who know the process in detail, and have access to Submit a CoE-driven idea, in order to submit their idea by directly filling in the detailed assessment.</p>" +
+            description = "<p>Authorised Users target Subject Matter Experts, Process Owners, Automation Business Analysts, Process Consultants who know the process in detail, and have access to Submit a CoE-driven idea, in order to submit their idea by directly filling in the detailed assessment.</p>" +
                 "<h3 style=\"margin-top:0 !important;\">3 Features</h3>" +
                 "<div><ul>" +
                 "<li>View Ideas</li>" +
@@ -1796,7 +1796,7 @@ namespace SilkFlo.Web.Insert
 
 
 
-            description = "<p>RPA Sponsors have read-only rights for viewing all the information around the ideas and access to the built-in Dashboards and Reports.</p>" +
+            description = "<p>Automation Sponsors have read-only rights for viewing all the information around the ideas and access to the built-in Dashboards and Reports.</p>" +
                 "<h3 style=\"margin-top:0 !important;\">4 Features</h3>" +
                 "<div><ul>" +
                 "<li>View Ideas</li>" +
@@ -1808,7 +1808,7 @@ namespace SilkFlo.Web.Insert
             core = await Data.Persistence.UnitOfWork.InsertRoleAsync(
                 unitOfWork,
                 ((int)Data.Core.Enumerators.Role.RPASponsor).ToString(),
-                "RPA Sponsor",
+                "Automation Sponsor",
                 description,
                 50);
 

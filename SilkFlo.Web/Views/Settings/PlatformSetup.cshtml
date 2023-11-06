@@ -6,7 +6,7 @@
 		<h3 style="color:#FF8A00">Settings > Platform Setup</h3>
 	</div>
 	<div class="d-flex justify-content-between" style="width: 441px;height: 25px;left: 263px;top: 173px;font-style: normal;font-weight: 650;font-size: 32px;line-height: 48px;display: flex;align-items: center;color: #363853; margin: 20px 0px 20px 0px;">
-		<h1 style="font-weight: bold;">Platfrom Setup</h1>
+		<h1 style="font-weight: bold;">Platform Setup</h1>
 	</div>
 
 	@{
@@ -40,7 +40,7 @@
 			var path = pathPrefix + "Business-Units";
 		}
 
-		<h3 class="@cls"
+		<h3 id="idBusinessUnit" class="@cls"
 			name="Settings.PlatformSetup.BusinessUnits.Tab"
 			displayPath="@path"
 			parentId="Settings.PlatformSetup">
@@ -64,7 +64,7 @@
 		}
 
 
-		<h3 class="@cls"
+		<h3 id="idApplications" class="@cls"
 			name="Settings.PlatformSetup.Applications.Tab"
 			displayPath="@path"
 			parentId="Settings.PlatformSetup">
@@ -88,7 +88,7 @@
 		}
 
 
-		<h3 class="@cls"
+		<h3 id="idCostSetup" class="@cls"
 			name="Settings.PlatformSetup.CostSetup.Tab"
 			displayPath="@path"
 			parentId="Settings.PlatformSetup">
@@ -106,8 +106,13 @@
             cls = clsInactive;
             displayDocuments = displayNone;
         }
-        
-        <h3 class="@cls" name="Document.Tab" onclick="isOnClickCalled()">
+		@{
+			path = pathPrefix + "Documents";
+		}
+
+		<h3 id="idDocument" class="@cls" name="Document.Tab" parentId="Settings.PlatformSetup"
+			displayPath="@path"
+			onclick="isOnClickCalled()">
             Document
         </h3>
 
@@ -164,11 +169,11 @@
 		</div>
 
         @{
-            //path = apiPrefix + "CostSetup/Summary";
+            path = apiPrefix + "Documents";
         }
         <div name="Document.Content" @Html.Raw(displayDocuments)>
-            <div name="Document.Content.SubContent">
-                Loading Documents Content...
+			<div name="Document.Content.SubContent" silkflo-url="@path">
+			   Loading Documents Content...
             </div>
         </div>
 

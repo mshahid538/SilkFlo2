@@ -14,6 +14,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SVGChartTools.DataSet;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -30,12 +31,22 @@ namespace SilkFlo.Web.Controllers
         [Route("")]
         public async Task<IActionResult> Index()
         {
+            // Get the select tenantId
+            var userId = GetUserId();
+            int? difference = 0;
+            // Guard Clause
+            if (userId != null)
+            {
+                var user = await _unitOfWork.Users.GetAsync(userId);
+                difference = user.CreatedDate?.Subtract(DateTime.Now).Days;
+            }
+
             if (!Data.Persistence.UnitOfWork.IsLoaded)
                 //return Redirect("maintenance");
                 return View("/Views/Home/maintenance.cshtml");
 
             if ((await AuthorizeAsync(Policy.Subscriber)).Succeeded)
-                return IndexView(false);
+                return IndexView(false, difference == 0 ? "new" : "");
 
 
             if (!(await _authorization.AuthorizeAsync(User, Policy.Subscriber)).Succeeded)

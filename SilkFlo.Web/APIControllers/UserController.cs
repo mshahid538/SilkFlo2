@@ -1343,7 +1343,7 @@ namespace SilkFlo.Web.APIControllers
 
 
                 // Send
-                var message = await Service.InviteTeamMemberAsync(proposer, invitee);
+                var message = await Service.InviteTeamMemberAsync(proposer, invitee, true);
 
                 if (!string.IsNullOrWhiteSpace(message))
                     return BadRequest("<span class=\"text-danger\">" + message + "</span>");
