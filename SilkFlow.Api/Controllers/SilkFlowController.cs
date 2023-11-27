@@ -26,7 +26,7 @@ namespace SilkFlow.Api.Controllers
             return res;
         }
 
-        [HttpPost(nameof(GetIdeasByUserId))]
+        [HttpGet(nameof(GetIdeasByUserId))]
         public async Task<ResponseModel> GetIdeasByUserId(int UserId)
         {
             var res = await _SilkFlowRepository.GetIdeasByUserId(UserId);
