@@ -31,6 +31,11 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http.Features;
 using SilkFlo.Security;
 using SilkFlo.Data.Core;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using Microsoft.OpenApi.Models;
 //using SilkFlo.ThirdPartyServices;
 
 namespace SilkFlo.Web
@@ -60,15 +65,22 @@ namespace SilkFlo.Web
         {
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); // This is need for SilkFlo.Services.Authorization.AuthorizeTagHelper
-                                                                                // services.AddThirdPartyServices(Configuration);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SilkFloApi", Version = "v1" });
+            });                                                          // services.AddThirdPartyServices(Configuration);
 
             services.AddScoped<Data.Core.Persistence.ApplicationDbContext>();
             services.AddTransient<IAuthorizationHandler, Services.Authorization.DifferentUserHandler>();
             services.AddTransient<IAuthorizationHandler, Services.Authorization.AnyRoleHandler>();
             services.AddTransient<SilkFlo.Security.API.ReCaptcha.Interfaces.ISignUpService, SilkFlo.Security.API.ReCaptcha.SignUpService>();
-
+            services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+            services.AddEndpointsApiExplorer();
             services.AddBlobServices(Configuration);
-
+     
             services.AddAntiforgery(o => o.SuppressXFrameOptionsHeader = true);
 
             services.AddViewToString();
@@ -309,7 +321,8 @@ namespace SilkFlo.Web
                 options.ValueCountLimit = 2048;
             });
         }
-
+        
+            
 
         /// <summary>
         /// This method gets called by the runtime.
@@ -329,8 +342,17 @@ namespace SilkFlo.Web
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SilkFloApi V1");
+            //});
+        
 
             app.UseAuthentication();
+            app.UseRouting(); // Add this line before UseEndpoints
+
 
             app.UseMvc(routes =>
             {
@@ -747,5 +769,7 @@ namespace SilkFlo.Web
 
             return str;
         }
+
+
     }
 }

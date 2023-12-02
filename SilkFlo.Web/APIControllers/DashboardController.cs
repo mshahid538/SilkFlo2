@@ -1253,5 +1253,141 @@ namespace SilkFlo.Web.Controllers
 
             return false;
         }
+
+
+
+
+
+
+
+        //////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        ///
+      
+        [HttpGet("/api/Dashboard/GetAllIdeas")]
+        public async Task<IActionResult> GetAllIdeas(DateTime? startDate, DateTime? endDate, bool? isWeekly, bool? isMonthly, bool? isYearly, string processOwners, string ideaSubmitters, string departmentsId, string teamsId)
+        {
+            try
+            {
+                // Check Authorization
+                const string unauthorizedMessage = "Error: Unauthorised";
+
+                if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+                    return await PageApiAsync(unauthorizedMessage);
+
+                var clientCore = await GetClientAsync();
+
+                if (clientCore == null)
+                    return Content("Unauthorised");
+
+                var client = new Models.Business.Client(clientCore);
+
+                await _unitOfWork.BusinessIdeas.GetForClientAsync(client.GetCore());
+                await _unitOfWork.BusinessIdeaStages.GetForIdeaAsync(client.GetCore().Ideas);
+
+                var monthCount = 0;
+                var lastMonthCount = 0;
+
+                var date = DateTime.Now;
+                var month = date.Month;
+                var year = date.Year;
+
+                date = date.AddMonths(-1);
+                var monthLast = date.Month;
+                var yearLast = date.Year;
+
+                var ideas = new List<Models.Business.Idea>();
+
+                var ideaList = client.Ideas.Where(x => !x.IsDraft && x.IdeaStages.Any());
+
+
+                if (isWeekly.HasValue && isWeekly.Value)
+                {
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
+                {
+                    var previousMonthStartDate = DateTime.Now.AddMonths(-1);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
+                }
+                else if (isYearly.HasValue && isYearly.Value)
+                {
+                    var previousYearStartDate = DateTime.Now.AddYears(-1);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
+                }
+                else if (startDate.HasValue && endDate.HasValue)
+                {
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date);
+                }
+
+                if (!String.IsNullOrWhiteSpace(ideaSubmitters))
+                {
+                    var isList = ideaSubmitters.Split(",");
+                    ideaList = ideaList.Where(x => isList.Contains(x.ProcessOwnerId));
+                }
+
+                if (!String.IsNullOrWhiteSpace(processOwners))
+                {
+                    var poList = processOwners.Split(",");
+                    ideaList = ideaList.Where(x => poList.Contains(x.ProcessOwnerId));
+                }
+
+                if (!String.IsNullOrWhiteSpace(departmentsId))
+                {
+                    var departmentsIdList = departmentsId.Split(",");
+                    ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId));
+                }
+
+                if (!String.IsNullOrWhiteSpace(teamsId))
+                {
+                    var teamsIdList = teamsId.Split(",");
+                    ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId));
+                }
+
+
+                foreach (var idea in ideaList)
+                {
+                    var ideaStage = idea.LastIdeaStage;
+
+                    if (ideaStage == null)
+                        continue;
+
+                    await _unitOfWork.SharedStages.GetStageForAsync(ideaStage.GetCore());
+
+                    if (ideaStage.Stage.StageGroupId == Data.Core.Enumerators.StageGroup.n03_Build.ToString()
+                        || ideaStage.Stage.StageGroupId == Data.Core.Enumerators.StageGroup.n04_Deployed.ToString())
+                        continue;
+
+                    ideas.Add(idea);
+
+                    var createdDate = idea.CreatedDate ?? DateTime.MinValue;
+                    if (createdDate.Month == month && createdDate.Year == year)
+                        monthCount++;
+
+                    else if (createdDate.Month == monthLast && createdDate.Year == yearLast)
+                        lastMonthCount++;
+                }
+
+                var total = ideas.Count();
+                var totalChangeIn = GetChangeIn(lastMonthCount, monthCount);
+
+                var result = new
+                {
+                    TotalIdeas = total.ToString(),
+                    TotalChangeIn = totalChangeIn,
+                    // Add any other properties you want to include in the JSON response
+                };
+
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
     }
 }
