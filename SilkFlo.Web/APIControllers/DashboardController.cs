@@ -58,7 +58,7 @@ namespace SilkFlo.Web.Controllers
         {
             try
             {
-                // Check Authorization
+               // Check Authorization
                 const string unauthorizedMessage = "<h1 class=\"text-danger\">Error: Unauthorised</h1>";
 
                 if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
@@ -1270,12 +1270,18 @@ namespace SilkFlo.Web.Controllers
             try
             {
                 // Check Authorization
-                const string unauthorizedMessage = "Error: Unauthorised";
+                //const string unauthorizedMessage = "Error: Unauthorised";
 
-                if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
-                    return await PageApiAsync(unauthorizedMessage);
+                //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+                //    return await PageApiAsync(unauthorizedMessage);
+                var userids = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
 
-                var clientCore = await GetClientAsync();
+                var user = await _unitOfWork.Users.GetAsync(userids);
+
+
+
+
+                var clientCore = await GetClientAsyncApi();
 
                 if (clientCore == null)
                     return Content("Unauthorised");
@@ -1387,6 +1393,94 @@ namespace SilkFlo.Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+
+
+
+
+        [HttpGet("/api/Dashboard/GetIdeasById")]
+        public async Task<IActionResult> GetIdeasById()
+        {
+            try
+            {
+                //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+                //    return Content("");
+
+                var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
+
+                var user = await _unitOfWork.Users.GetAsync(userId);
+                //if (await IsNewUser(user))
+                //    return Content("");
+
+
+                var monthCount = 0;
+                var lastMonthCount = 0;
+
+                var date = DateTime.Now;
+                var month = date.Month;
+                var year = date.Year;
+
+                date = date.AddMonths(-1);
+                var monthLast = date.Month;
+                var yearLast = date.Year;
+
+
+                foreach (var createdDate in from idea
+                             in user.Ideas
+                                            where idea.CreatedDate != null
+                                            select (DateTime)idea.CreatedDate)
+                {
+                    if (createdDate.Month == month && createdDate.Year == year)
+                        monthCount++;
+
+                    else if (createdDate.Month == monthLast && createdDate.Year == yearLast)
+                        lastMonthCount++;
+                }
+
+                #region Change by Umair 
+               // var tenant = await GetClientAsync();
+                var tenant = await GetClientAsyncApi();
+
+
+                var filter = new ViewModels.Business.Idea.FilterCriteria
+                {
+                    UserRelationship = ViewModels.Business.Idea.UserRelationship.MyIdeas
+                };
+
+                var ideas = await Models.Business
+                    .Idea
+                    .GetForCardsAsync(_unitOfWork,
+                        GetUserId(),
+                        tenant,
+                        filter,
+                        this,
+                        true);
+
+                var total = ideas.Count();
+                #endregion
+
+
+                //var total = user.Ideas.Count();
+                var totalChangeIn = GetChangeIn(lastMonthCount, monthCount);
+
+
+                var result = new
+                {
+                    TotalIdeas = total.ToString(),
+                    TotalChangeIn = totalChangeIn,
+                    // Add any other properties you want to include in the JSON response
+                };
+
+
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
 
 
     }

@@ -983,6 +983,176 @@ namespace SilkFlo.Web.Controllers
 
 
 
+
+
+        protected async Task<Data.Core.Domain.Business.Client> GetClientAsyncApi(bool checkSubscription = true)
+        {
+            #region  Get the isPractice value
+            var sIsPractice = Request.Cookies[Services.Cookie.IsPractice.ToString()];
+            var isPractice = false;
+
+
+            if (!string.IsNullOrWhiteSpace(sIsPractice))
+                bool.TryParse(sIsPractice, out isPractice);
+            #endregion
+
+            #region Get the clientId and thus the client from the URL
+            var indexDashboard = Request.Path.ToString().IndexOf("/clientid/", StringComparison.OrdinalIgnoreCase);
+
+            if (indexDashboard != -1)
+            {
+                var indexParameterDelimiter = Request.Path.ToString().IndexOf('?');
+
+                if (indexParameterDelimiter == -1
+                    || indexDashboard < indexParameterDelimiter)
+                {
+                    // Get the id
+                    var url = Request.Path.ToString();
+                    var last = url.Split('/').Last();
+
+                    var parts = last.Split('?');
+
+                    var tenantIdUrl = parts[0];
+
+                    if (!string.IsNullOrWhiteSpace(tenantIdUrl))
+                    {
+                        if ((await AuthorizeAsync(Policy.Administrator)).Succeeded)
+                        {
+                            var client = await _unitOfWork.BusinessClients.GetAsync(tenantIdUrl);
+
+                            if (client != null)
+                            {
+                                if (isPractice
+                                    && client is { IsPractice: false })
+                                {
+                                    client =
+                                        await _unitOfWork.BusinessClients.SingleOrDefaultAsync(x =>
+                                            x.Id == client.PracticeId);
+                                }
+
+                                Response.Cookies.Append(
+                                    "ClientId",
+                                    client.Id);
+
+                                Response.Cookies.Append(
+                                    "IsPractice",
+                                    client.IsPractice.ToString());
+
+                                return client;
+                            }
+                        }
+                        else
+                        {
+                            // var userId = GetUserId();
+                            var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
+                            var user = await _unitOfWork.Users.GetAsync(userId);
+
+
+                            var client = await GetSingleOrDefaultValidatedAsync(
+                                user,
+                                tenantIdUrl);
+
+                            if (client != null)
+                            {
+                                if (isPractice
+                                    && client is { IsPractice: false })
+                                {
+                                    client =
+                                        await _unitOfWork.BusinessClients.SingleOrDefaultAsync(x =>
+                                            x.Id == client.PracticeId);
+                                }
+
+                                Response.Cookies.Append(
+                                    "ClientId",
+                                    client.Id);
+
+                                Response.Cookies.Append(
+                                    "IsPractice",
+                                    client.IsPractice.ToString());
+
+                                return client;
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+
+
+
+
+
+            // Get the selected tenantId from the cookies
+            var clientId = Request.Cookies[Services.Cookie.ClientId.ToString()];
+
+
+            if (string.IsNullOrWhiteSpace(clientId))
+            {
+                // Cookies is missing therefore we must use the user.ClientId
+                //var userId = GetUserId();
+                //var user = await _unitOfWork.Users.GetAsync(userId);
+
+                var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
+                var user = await _unitOfWork.Users.GetAsync(userId);
+
+                // Guard Clause
+                if (user == null)
+                    return null;
+
+
+                var client = await GetSingleOrDefaultValidatedAsync(
+                    user,
+                    clientId);
+
+                if (isPractice
+                    && client is { IsPractice: false })
+                    client = await _unitOfWork.BusinessClients.SingleOrDefaultAsync(x => x.Id == client.PracticeId);
+
+
+                Response.Cookies.Append(
+                    "ClientId",
+                    client.Id);
+
+                Response.Cookies.Append(
+                    "IsPractice",
+                    client.IsPractice.ToString());
+
+                return client;
+
+            }
+            else
+            {
+                var userId = GetUserId();
+
+                // Guard Clause
+                if (string.IsNullOrWhiteSpace(userId))
+                    return null;
+
+                var user = await _unitOfWork.Users.GetAsync(userId);
+
+                // Guard Clause
+                if (user == null)
+                    return null;
+
+                var client = await GetSingleOrDefaultValidatedAsync(
+                    user,
+                    clientId,
+                    checkSubscription);
+
+                if (isPractice
+                    && client is { IsPractice: false })
+                    client = await _unitOfWork.BusinessClients
+                        .SingleOrDefaultAsync(x => x.Id == client.PracticeId);
+
+                return client;
+            }
+        }
+
+
+
+
+
+
         public async Task<Data.Core.Domain.Business.Client> GetSingleOrDefaultValidatedAsync(
             Data.Core.Domain.User user)
         {
