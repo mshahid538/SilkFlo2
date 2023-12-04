@@ -1260,10 +1260,12 @@ namespace SilkFlo.Web.Controllers
 
 
 
-        //////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        ///
-      
+        /////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////    Api implementations    /////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////
+
+
+
         [HttpGet("/api/Dashboard/GetAllIdeas")]
         public async Task<IActionResult> GetAllIdeas(DateTime? startDate, DateTime? endDate, bool? isWeekly, bool? isMonthly, bool? isYearly, string processOwners, string ideaSubmitters, string departmentsId, string teamsId)
         {
@@ -1382,6 +1384,7 @@ namespace SilkFlo.Web.Controllers
                 {
                     TotalIdeas = total.ToString(),
                     TotalChangeIn = totalChangeIn,
+                    Ideas= ideas,
                     // Add any other properties you want to include in the JSON response
                 };
 
@@ -1398,8 +1401,8 @@ namespace SilkFlo.Web.Controllers
 
 
 
-        [HttpGet("/api/Dashboard/GetIdeasById")]
-        public async Task<IActionResult> GetIdeasById()
+        [HttpGet("/api/Dashboard/GetIdeasByUserId")]
+        public async Task<IActionResult> GetIdeasByUserId()
         {
             try
             {
@@ -1459,7 +1462,7 @@ namespace SilkFlo.Web.Controllers
                 var total = ideas.Count();
                 #endregion
 
-
+                
                 //var total = user.Ideas.Count();
                 var totalChangeIn = GetChangeIn(lastMonthCount, monthCount);
 
@@ -1468,11 +1471,38 @@ namespace SilkFlo.Web.Controllers
                 {
                     TotalIdeas = total.ToString(),
                     TotalChangeIn = totalChangeIn,
+                    Ideas = ideas,
                     // Add any other properties you want to include in the JSON response
                 };
-
-
                 return Json(result);
+            }
+            catch (Exception ex)
+            {
+                Log(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+
+
+
+        [HttpGet("/api/Dashboard/GetIdeaById")]
+        public async Task<IActionResult> GetIdeaById(string Id)
+        {
+            try
+            {
+              var objs= await _unitOfWork.BusinessIdeas.GetAsync(Id);
+                if (objs != null)
+                {
+                    return Json(objs);
+
+                }
+                else
+                {
+                    return Json(new { });
+                }
+
             }
             catch (Exception ex)
             {
