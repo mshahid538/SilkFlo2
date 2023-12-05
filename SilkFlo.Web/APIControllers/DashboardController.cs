@@ -1385,7 +1385,6 @@ namespace SilkFlo.Web.Controllers
                     TotalIdeas = total.ToString(),
                     TotalChangeIn = totalChangeIn,
                     Ideas= ideas,
-                    // Add any other properties you want to include in the JSON response
                 };
 
                 return Json(result);
@@ -1402,18 +1401,21 @@ namespace SilkFlo.Web.Controllers
 
 
         [HttpGet("/api/Dashboard/GetIdeasByUserId")]
-        public async Task<IActionResult> GetIdeasByUserId()
+        public async Task<IActionResult> GetIdeasByUserId([FromForm] string UserId)
         {
             try
             {
                 //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
                 //    return Content("");
 
-                var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
+             //   var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
 
-                var user = await _unitOfWork.Users.GetAsync(userId);
-                //if (await IsNewUser(user))
-                //    return Content("");
+               // var user = await _unitOfWork.Users.GetAsync(userId);
+              //  var userId = GetUserId();
+
+                var user = await _unitOfWork.Users.GetAsync(UserId);
+                if (await IsNewUser(user))
+                    return Content("");
 
 
                 var monthCount = 0;
@@ -1427,7 +1429,6 @@ namespace SilkFlo.Web.Controllers
                 var monthLast = date.Month;
                 var yearLast = date.Year;
 
-
                 foreach (var createdDate in from idea
                              in user.Ideas
                                             where idea.CreatedDate != null
@@ -1439,40 +1440,16 @@ namespace SilkFlo.Web.Controllers
                     else if (createdDate.Month == monthLast && createdDate.Year == yearLast)
                         lastMonthCount++;
                 }
-
-                #region Change by Umair 
-               // var tenant = await GetClientAsync();
-                var tenant = await GetClientAsyncApi();
+                var ideas = user.Ideas.ToList();
 
 
-                var filter = new ViewModels.Business.Idea.FilterCriteria
-                {
-                    UserRelationship = ViewModels.Business.Idea.UserRelationship.MyIdeas
-                };
-
-                var ideas = await Models.Business
-                    .Idea
-                    .GetForCardsAsync(_unitOfWork,
-                        GetUserId(),
-                        tenant,
-                        filter,
-                        this,
-                        true);
-
-                var total = ideas.Count();
-                #endregion
-
-                
-                //var total = user.Ideas.Count();
+                var total = ideas.Count;
                 var totalChangeIn = GetChangeIn(lastMonthCount, monthCount);
-
-
                 var result = new
                 {
                     TotalIdeas = total.ToString(),
                     TotalChangeIn = totalChangeIn,
                     Ideas = ideas,
-                    // Add any other properties you want to include in the JSON response
                 };
                 return Json(result);
             }
@@ -1484,18 +1461,15 @@ namespace SilkFlo.Web.Controllers
         }
 
 
-
-
-
         [HttpGet("/api/Dashboard/GetIdeaById")]
-        public async Task<IActionResult> GetIdeaById(string Id)
+        public async Task<IActionResult> GetIdeaById([FromForm]string Id)
         {
             try
             {
-              var objs= await _unitOfWork.BusinessIdeas.GetAsync(Id);
-                if (objs != null)
+              var obj= await _unitOfWork.BusinessIdeas.GetAsync(Id);
+                if (obj != null)
                 {
-                    return Json(objs);
+                    return Json(obj);
 
                 }
                 else
