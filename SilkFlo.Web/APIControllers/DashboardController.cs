@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using SilkFlo.Data.Core.Domain.Business;
 using System.Globalization;
 using SilkFlo.Web.Models.Business;
+using SilkFlo.Web.ViewModels;
+using SilkFlo.Data.Persistence;
 
 namespace SilkFlo.Web.Controllers
 {
@@ -1486,6 +1488,735 @@ namespace SilkFlo.Web.Controllers
         }
 
 
+
+
+
+
+        [HttpPost("/api/Dashboard/AddEmployeeIdea")]
+        public async Task<IActionResult> AddEmployeeIdea([FromBody] ViewModels.Business.Idea.Modal model)
+        {
+            var feedback = new Feedback();
+
+
+            // Guard Clause
+            if (model == null)
+            {
+                feedback.DangerMessage("The model is missing");
+                return BadRequest(feedback);
+            }
+
+            // Permission Clause
+            if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+            {
+                feedback.DangerMessage("Unauthorised");
+                return BadRequest(feedback);
+            }
+
+
+            var id = Guid.NewGuid().ToString();
+
+            foreach (var collaborator in model.Collaborators)
+            {
+                collaborator.IdeaId = id;
+            }
+
+            ModelState.Clear();
+            TryValidateModel(model);
+
+            if (!ModelState.IsValid)
+            {
+                feedback = GetFeedback(ModelState, feedback);
+                var messageElement = "<ul>";
+                foreach (var (_, value) in feedback.Elements)
+                {
+                    messageElement += $"<li class=\"text-danger\">{value}</li>";
+                }
+
+                messageElement += "</ul";
+
+                feedback.Message = messageElement;
+                return BadRequest(feedback);
+            }
+
+
+            var message = CanAddCollaborator(model.Collaborators);
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                feedback.Message = message;
+                return BadRequest(feedback);
+            }
+
+
+            var tenant = await GetClientAsync();
+
+            message = await CanAddProcess(
+                new Models.Business.Client(tenant),
+                "Cannot add additional process ideas.");
+
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                feedback.WarningMessage(message);
+                return BadRequest(feedback);
+            }
+
+
+            var idea = new Data.Core.Domain.Business.Idea
+            {
+                Id = id,
+                IsDraft = false,
+                SubmissionPathId = Data.Core.Enumerators.SubmissionPath.StandardUser.ToString(),
+                ClientId = tenant.Id,
+                Name = model.Name,
+                Summary = model.Summary,
+                DepartmentId = model.DepartmentId,
+                TeamId = model.TeamId,
+                ProcessId = model.ProcessId,
+                RuleId = model.RuleId,
+                InputId = model.InputId,
+                InputDataStructureId = model.InputDataStructureId,
+                ProcessStabilityId = model.ProcessStabilityId,
+                DocumentationPresentId = model.DocumentationPresentId,
+                ProcessOwnerId = model.ProcessOwnerId,
+                Rating = model.Rating
+            };
+
+            var uniqueMessage = await _unitOfWork.IsUniqueAsync(idea);// UnitOfWork.IsUniqueAsync(idea);
+            if (!string.IsNullOrWhiteSpace(uniqueMessage))
+            {
+                feedback.WarningMessage(uniqueMessage);
+                return BadRequest(feedback);
+            }
+
+            await _unitOfWork.AddAsync(idea);
+            await _unitOfWork.CompleteAsync();
+
+            // Models.Business.IdeaStage.AddWorkFlow(
+            //    _unitOfWork, 
+            //    idea);
+            #region AddWorkflow
+            var firstStage = Data.Core.Enumerators.Stage.n00_Idea;
+            if (idea.SubmissionPathId == Data.Core.Enumerators.SubmissionPath.COEUser.ToString())
+                firstStage = Data.Core.Enumerators.Stage.n01_Assess;
+
+            var date = DateTime.Now;
+            var ideaStage = new Data.Core.Domain.Business.IdeaStage
+            {
+                Idea = idea,
+                StageId = firstStage.ToString(),
+                DateStartEstimate = date,
+                DateStart = date,
+                IsInWorkFlow = true,
+            };
+
+            await _unitOfWork.AddAsync(ideaStage);
+            await _unitOfWork.CompleteAsync();
+
+            if (firstStage == Data.Core.Enumerators.Stage.n00_Idea)
+            {
+                var ideaStageStatus = new Data.Core.Domain.Business.IdeaStageStatus
+                {
+                    IdeaStageId = ideaStage.Id,
+                    StatusId = Data.Core.Enumerators.IdeaStatus.n00_Idea_AwaitingReview.ToString(),
+                    Date = date
+                };
+                await _unitOfWork.AddAsync(ideaStageStatus);
+                await _unitOfWork.CompleteAsync();
+            }
+            else
+            {
+                var ideaStageStatus = new Data.Core.Domain.Business.IdeaStageStatus
+                {
+                    IdeaStageId = ideaStage.Id,
+                    StatusId = Data.Core.Enumerators.IdeaStatus.n04_Assess_AwaitingReview.ToString(),
+                    Date = date
+                };
+                await _unitOfWork.AddAsync(ideaStageStatus);
+                await _unitOfWork.CompleteAsync();
+            }
+
+            var stages = (await _unitOfWork.SharedStages.FindAsync(x => x.Id != firstStage.ToString())).ToArray();
+            if (firstStage == Data.Core.Enumerators.Stage.n01_Assess)
+                stages = stages.Where(x => x.Id != Data.Core.Enumerators.Stage.n00_Idea.ToString()).ToArray();
+
+            var now = DateTime.Now;
+            foreach (var stage in stages)
+            {
+                ideaStage = new Data.Core.Domain.Business.IdeaStage
+                {
+                    Idea = idea,
+                    DateStartEstimate = now,
+                    Stage = stage
+                };
+
+                now = now.AddSeconds(1);
+                await _unitOfWork.AddAsync(ideaStage);
+            }
+            await _unitOfWork.CompleteAsync();
+            #endregion
+
+            //await Models.Business.Collaborator.UpdateAsync(
+            //    _unitOfWork,
+            //    model.Collaborators,
+            //    idea.Id,
+            //    userId);
+            #region Collaborators UpdateAsync
+            if (model.Collaborators == null || model.Collaborators.Count <= 0)
+            {
+                //await _unitOfWork.CompleteAsync();
+                return Ok();
+            }
+
+            var userId = GetUserId();
+
+            // Get the existing.
+            // We need some field content, before deleting them
+            var cores = (await _unitOfWork
+                    .BusinessCollaborators
+                    .FindAsync(x => x.IdeaId == idea.Id))
+                    .ToArray();
+
+
+
+            // Prepare
+            foreach (var modelC in model.Collaborators)
+            {
+                var core = cores.SingleOrDefault(x => x.UserId == modelC.UserId
+                                                      && x.IdeaId == idea.Id);
+                if (core == null)
+                    continue;
+
+                modelC.IsInvitationConfirmed = core.IsInvitationConfirmed;
+                modelC.InvitedById = core.InvitedById;
+            }
+
+
+
+            // Remove existing
+            // This will also remove connected Business.CollaboratorRole rows
+            await _unitOfWork.BusinessCollaborators.RemoveRangeAsync(cores);
+
+            // The content of this will be used to populate the Business.UserAuthorisation table.
+            var newUserAuthorisation = new List<Data.Core.Domain.Business.UserAuthorisation>();
+
+            foreach (var collaborator in model.Collaborators)
+            {
+                if (collaborator.CollaboratorRoles == null)
+                    continue;
+
+                var collaboratorRoles = new List<Models.Business.CollaboratorRole>();
+
+                var core = collaborator.GetCore();
+                core.IdeaId = idea.Id;
+
+                if (string.IsNullOrWhiteSpace(core.InvitedById))
+                    core.InvitedById = userId;
+
+                await _unitOfWork.AddAsync(core);
+                foreach (var collaboratorRole in collaborator.CollaboratorRoles)
+                {
+                    var collaboratorRoleCore = collaboratorRole.GetCore();
+                    collaboratorRoleCore.Collaborator = collaborator.GetCore();
+                    await _unitOfWork.AddAsync(collaboratorRoleCore);
+
+                    // This will be used to add userAuthorisations
+                    if (collaboratorRoles.All(x => x.RoleId != collaboratorRole.RoleId))
+                        collaboratorRoles.Add(collaboratorRole);
+                }
+
+
+
+                // Remove the userAuthorisation from the de-normalized table
+                var userAuthorisations =
+                    (await _unitOfWork.BusinessUserAuthorisations
+                        .FindAsync(x => x.UserId == collaborator.UserId && x.IdeaId == idea.Id)).ToList();
+
+                await _unitOfWork.BusinessUserAuthorisations.RemoveRangeAsync(userAuthorisations);
+
+
+                // Create Business.UserAuthorisation records
+                foreach (var collaboratorRole in collaboratorRoles)
+                {
+                    var roleIdeaAuthorisation =
+                        await _unitOfWork
+                            .BusinessRoleIdeaAuthorisations
+                            .SingleOrDefaultAsync(x => x.RoleId == collaboratorRole.RoleId);
+
+                    if (newUserAuthorisation
+                        .Any(x => x.UserId == collaborator.UserId
+                                  && x.IdeaId == idea.Id
+                                  && x.IdeaAuthorisationId == roleIdeaAuthorisation.IdeaAuthorisationId))
+                        continue;
+
+                    var userAuthorisation = new Data.Core.Domain.Business.UserAuthorisation
+                    {
+                        UserId = collaborator.UserId,
+                        IdeaId = idea.Id,
+                        CollaboratorRoleId = collaboratorRole.Id,
+                        IdeaAuthorisationId = roleIdeaAuthorisation.IdeaAuthorisationId
+                    };
+
+                    // Add the userAuthorisation to the de-normalized table
+                    newUserAuthorisation.Add(userAuthorisation);
+                }
+            }
+
+            // Add the userAuthorisations to the de-normalized table
+            await _unitOfWork.AddAsync(newUserAuthorisation);
+            #endregion
+
+            await _unitOfWork.CompleteAsync();
+
+            return Ok();
+        }
+
+
+
+
+
+
+
+        [HttpPost("/api/Dashboard/AddCeoIdea")]
+        public async Task<IActionResult> Post([FromBody] Models.Business.Idea model)
+        {
+            //var errors = new List<FieldError>();
+            var feedback = new Feedback
+            {
+                NamePrefix = "Business.Idea."
+            };
+
+            try
+            {
+                // Guard Clause
+                if (model == null)
+                {
+                    feedback.DangerMessage("The model is missing.");
+                    return BadRequest(feedback);
+                }
+
+                // Permission Clause
+                if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+                {
+                    feedback.DangerMessage("You are not authorised save an idea.");
+                    return BadRequest(feedback);
+                }
+
+                // Permission Clause
+                if (string.IsNullOrWhiteSpace(model.Id)
+                    && !(await AuthorizeAsync(Policy.SubmitCoEDrivenIdeas)).Succeeded)
+                {
+                    feedback.DangerMessage(
+                        "You do not have permission to save a centre of excellence driven automation idea.");
+                    return BadRequest(feedback);
+                }
+
+                // Permission Clause
+                if (!(await AuthorizeAsync(Policy.ReviewNewIdeas)).Succeeded
+                    && !(await AuthorizeAsync(Policy.ReviewAssessedIdeas)).Succeeded
+                    && !(await AuthorizeAsync(Policy.EditAllIdeaFields)).Succeeded)
+                {
+                    feedback.DangerMessage("You do not have permission to save this idea.");
+                    return BadRequest(feedback);
+                }
+
+
+                var tenant = await GetClientAsync();
+
+
+                // Can add process permissions Clause
+                var message = await CanAddProcess(
+                    new Models.Business.Client(tenant),
+                    "Cannot add additional process ideas.");
+
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    feedback.WarningMessage(message);
+                    return BadRequest(feedback);
+                }
+
+
+
+                // Can add Collaborators permissions Clause
+                message = CanAddCollaborator(model.Collaborators);
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    feedback.WarningMessage(message);
+                    return BadRequest(feedback);
+                }
+
+
+
+
+                model.ClientId = tenant.Id;
+
+                // Prepare the IdeaApplicationVersions for validation, by Idea.Id
+                foreach (var ideaApplicationVersion in model.IdeaApplicationVersions)
+                    ideaApplicationVersion.IdeaId = model.Id;
+
+
+
+                if (!model.IsNew)
+                {
+                    // Not new? Check if the idea already on the database?
+                    var coreOnDataStore = await _unitOfWork.BusinessIdeas.GetAsync(model.Id);
+
+                    // The model was not found on the database.
+                    // Log a hack and return view.
+                    if (coreOnDataStore == null)
+                    {
+                        _unitOfWork.Log("The user attempted to save an idea with an incorrect Id.");
+
+                        feedback.DangerMessage("The id is not valid");
+                        return BadRequest(feedback);
+                    }
+                }
+
+
+                // Validate
+                if (string.IsNullOrWhiteSpace(model.Name))
+                    feedback.Add("Name", "The name of your idea is missing");
+                else if (model.Name.Length > 100)
+                    feedback.Add("Name", "Name must be between 1 and 100 in length");
+
+
+                if (string.IsNullOrWhiteSpace(model.Summary))
+                    feedback.Add("Summary", "Summary is missing");
+                else if (model.Summary.Length > 750)
+                    feedback.Add("Summary", "Name must be between 1 and 750 in length");
+
+
+                var uniqueMessage = await _unitOfWork.IsUniqueAsync(model.GetCore());
+                if (!string.IsNullOrWhiteSpace(uniqueMessage))
+                    feedback.Add("Name", "Your idea name is not unique");
+
+
+                if (!model.IsDraft
+                    && model.SubmissionPathId != Data.Core.Enumerators.SubmissionPath.StandardUser.ToString())
+                    feedback = Validate(model, feedback);
+
+
+
+                // Is NOT valid?
+                if (!feedback.IsValid)
+                    return BadRequest(feedback);
+
+
+
+                var core = model.GetCore();
+
+                if (!core.IsDraft)
+                {
+                    // Add stage if the idea is not draft
+                    if (!core.IsNew)
+                        await _unitOfWork.BusinessIdeaStages.GetForIdeaAsync(core);
+
+                    if (!core.IdeaStages.Any())
+                    {
+                        //First save ideaa
+                        await _unitOfWork.AddAsync(core);
+
+                        //then it's stages and status
+                        await Models.Business.IdeaStage.AddWorkFlow(_unitOfWork, core);
+
+
+                        await _unitOfWork.CompleteAsync();
+
+                        //continue
+                        // Add Applications
+                        await SaveApplicationsListAsync(
+                            model.IdeaApplicationVersions,
+                            model.Id);
+
+                        var userId = GetUserId();
+
+                        await Models.Business.Collaborator.UpdateAsync(
+                            _unitOfWork,
+                            model.Collaborators,
+                            model.Id,
+                            userId);
+
+
+                        await _unitOfWork.CompleteAsync();
+                    }
+                }
+                else
+                {
+
+
+                    await _unitOfWork.AddAsync(core);
+
+                    await _unitOfWork.CompleteAsync();
+
+                    // Add Applications
+                    await SaveApplicationsListAsync(
+                        model.IdeaApplicationVersions,
+                        model.Id);
+
+                    var userId = GetUserId();
+
+                    await Models.Business.Collaborator.UpdateAsync(
+                        _unitOfWork,
+                        model.Collaborators,
+                        model.Id,
+                        userId);
+
+
+                    await _unitOfWork.CompleteAsync();
+
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.Log(ex);
+
+                var message = Security.Settings.GetEnvironment() == Security.Environment.Production
+                    ? "Error saving ideas. Error logged."
+                    : ex.Message;
+
+                feedback.DangerMessage(message);
+                return BadRequest(feedback);
+            }
+        }
+
+
+
+
+
+
+        private Feedback Validate(
+      Models.Business.Idea model,
+      Feedback feedback)
+        {
+            if (string.IsNullOrWhiteSpace(model.PainPointComment))
+            {
+                feedback.Add(
+                    "PainPointComment",
+                    "Pain Point Comment is missing");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.NegativeImpactComment))
+            {
+                feedback.Add(
+                    "NegativeImpactComment",
+                    "Negative Impact Comment is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.DepartmentId))
+            {
+                feedback.Add(
+                    "DepartmentId",
+                    "Business Unit is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.RuleId))
+            {
+                feedback.Add(
+                    "RuleId",
+                    "Rule is missing");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.InputId))
+            {
+                feedback.Add(
+                    "InputId",
+                    "Input Data Structure is missing");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.InputDataStructureId))
+            {
+                feedback.Add(
+                    "InputDataStructureId",
+                    "Input is missing");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.ProcessStabilityId))
+            {
+                feedback.Add(
+                    "ProcessStabilityId",
+                    "Process Stability is missing");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.DocumentationPresentId))
+            {
+                feedback.Add(
+                    "DocumentationPresentId",
+                    "Documentation Present is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.AutomationGoalId))
+            {
+                feedback.Add(
+                    "AutomationGoalId",
+                    "Automation Goal is missing");
+            }
+
+
+
+
+            if (string.IsNullOrWhiteSpace(model.ApplicationStabilityId))
+            {
+                feedback.Add(
+                    "ApplicationStabilityId",
+                    "Application Stability is missing");
+            }
+
+
+            if (model.AverageWorkingDay == null)
+            {
+                feedback.Add(
+                    "AverageWorkingDay",
+                    "Average Working Day is missing");
+            }
+
+
+            if (model.WorkingHour == null)
+            {
+                feedback.Add(
+                    "WorkingHour",
+                    "Working Hour is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.TaskFrequencyId))
+            {
+                feedback.Add(
+                    "TaskFrequencyId",
+                    "Task Frequency is missing");
+            }
+
+
+            if (model.ActivityVolumeAverage == null || model.ActivityVolumeAverage == 0)
+            {
+                feedback.Add(
+                    "ActivityVolumeAverage",
+                    "Activity Volume Average is missing");
+            }
+
+
+            if (model.EmployeeCount == null || model.EmployeeCount == 0)
+            {
+                feedback.Add(
+                    "EmployeeCount",
+                    "Employee Count is missing");
+            }
+
+
+            if (model.AverageProcessingTime == null || model.AverageProcessingTime == 0)
+            {
+                feedback.Add(
+                    "AverageProcessingTime",
+                    "Average Processing Time is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.ProcessPeakId))
+            {
+                feedback.Add(
+                    "ProcessPeakId",
+                    "Process Peak is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.AverageNumberOfStepId))
+            {
+                feedback.Add(
+                    "AverageNumberOfStepId",
+                    "Average Number of Step is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.DataInputPercentOfStructuredId))
+            {
+                feedback.Add(
+                    "DataInputPercentOfStructuredId",
+                    "Data Input Percent of Structured is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.NumberOfWaysToCompleteProcessId))
+            {
+                feedback.Add(
+                    "NumberOfWaysToCompleteProcessId",
+                    "Number of Ways to Complete Process is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.DecisionCountId))
+            {
+                feedback.Add(
+                    "DecisionCountId",
+                    "Decision Count is missing");
+            }
+
+
+            if (string.IsNullOrWhiteSpace(model.DecisionDifficultyId))
+            {
+                feedback.Add(
+                    "DecisionDifficultyId",
+                    "How difficult are the decisions that you must take to complete the process? is missing");
+            }
+
+
+            if (model.IdeaApplicationVersions.Count == 0)
+            {
+                feedback.Add(
+                    "IdeaApplicationVersion",
+                    "No applications are selected.");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.ProcessOwnerId))
+            {
+                feedback.Add(
+                    "ProcessOwnerId",
+                    "Process Owner is missing");
+            }
+            return feedback;
+        }
+
+
+
+
+        private async Task SaveApplicationsListAsync(
+     IReadOnlyCollection<Models.Business.IdeaApplicationVersion> ideaApplicationVersions,
+     string id)
+        {
+            // Guard Clause
+            if (ideaApplicationVersions == null)
+                return;
+
+            // Guard Clause
+            if (string.IsNullOrWhiteSpace(id))
+                return;
+
+            if (!(await AuthorizeAsync(Policy.EditAllIdeaFields)).Succeeded)
+                return;
+
+            // Remove old
+            var oldItems =
+                (await _unitOfWork.BusinessIdeaApplicationVersions.FindAsync(x => x.IdeaId == id)).ToArray();
+
+            await _unitOfWork.BusinessIdeaApplicationVersions.RemoveRangeAsync(oldItems);
+
+
+
+            // Add new
+            foreach (var ideaApplication in from application in ideaApplicationVersions
+                                            where application.IsSelected
+                                            select new Data.Core.Domain.Business.IdeaApplicationVersion
+                                            {
+                                                IdeaId = id,
+                                                VersionId = application.VersionId,
+                                                LanguageId = application.LanguageId,
+                                                IsThinClient = application.IsThinClient,
+                                            })
+            {
+                await _unitOfWork.AddAsync(ideaApplication);
+            }
+        }
 
     }
 }
