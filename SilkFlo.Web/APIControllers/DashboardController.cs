@@ -60,7 +60,7 @@ namespace SilkFlo.Web.Controllers
         {
             try
             {
-               // Check Authorization
+                // Check Authorization
                 const string unauthorizedMessage = "<h1 class=\"text-danger\">Error: Unauthorised</h1>";
 
                 if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
@@ -71,7 +71,7 @@ namespace SilkFlo.Web.Controllers
                 var clientCore = await GetClientAsync();
 
                 if (clientCore == null)
-                    return  Content("<h1 class=\"text-danger\">Unauthorised</h1>");
+                    return Content("<h1 class=\"text-danger\">Unauthorised</h1>");
 
                 var client = new Models.Business.Client(clientCore);
 
@@ -96,23 +96,23 @@ namespace SilkFlo.Web.Controllers
                 var ideas = new List<Models.Business.Idea>();
 
                 var ideaList = client.Ideas.Where(x => !x.IsDraft && x.IdeaStages.Any());
-                
-                if(isWeekly.HasValue && isWeekly.Value)
+
+                if (isWeekly.HasValue && isWeekly.Value)
                 {
-					var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
-				}
-                else if(isMonthly.HasValue && isMonthly.Value)
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
                 {
                     var previousMonthStartDate = DateTime.Now.AddMonths(-1);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
-				}
-                else if(isYearly.HasValue && isYearly.Value)
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
+                }
+                else if (isYearly.HasValue && isYearly.Value)
                 {
                     var previousYearStartDate = DateTime.Now.AddYears(-1);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
-				}
-                else if(startDate.HasValue && endDate.HasValue)
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date);
+                }
+                else if (startDate.HasValue && endDate.HasValue)
                 {
                     ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date);
                 }
@@ -131,18 +131,18 @@ namespace SilkFlo.Web.Controllers
 
                 if (!String.IsNullOrWhiteSpace(departmentsId))
                 {
-					var departmentsIdList = departmentsId.Split(",");
-					ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId));
-				}
+                    var departmentsIdList = departmentsId.Split(",");
+                    ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId));
+                }
 
-				if (!String.IsNullOrWhiteSpace(teamsId))
-				{
-					var teamsIdList = teamsId.Split(",");
-					ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId));
-				}
+                if (!String.IsNullOrWhiteSpace(teamsId))
+                {
+                    var teamsIdList = teamsId.Split(",");
+                    ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId));
+                }
 
 
-				foreach (var idea in ideaList)
+                foreach (var idea in ideaList)
                 {
                     var ideaStage = idea.LastIdeaStage;
 
@@ -151,13 +151,13 @@ namespace SilkFlo.Web.Controllers
 
                     await _unitOfWork.SharedStages.GetStageForAsync(ideaStage.GetCore());
 
-                    if (ideaStage.Stage.StageGroupId == Data.Core.Enumerators.StageGroup.n03_Build.ToString() 
+                    if (ideaStage.Stage.StageGroupId == Data.Core.Enumerators.StageGroup.n03_Build.ToString()
                         || ideaStage.Stage.StageGroupId == Data.Core.Enumerators.StageGroup.n04_Deployed.ToString())
                         continue;
 
                     ideas.Add(idea);
 
-                    var createdDate = idea.CreatedDate?? DateTime.MinValue;
+                    var createdDate = idea.CreatedDate ?? DateTime.MinValue;
                     if (createdDate.Month == month && createdDate.Year == year)
                         monthCount++;
 
@@ -225,27 +225,27 @@ namespace SilkFlo.Web.Controllers
 
                 var ideas = new List<Models.Business.Idea>();
 
-				var ideaList = client.Ideas;
+                var ideaList = client.Ideas;
 
-				if (isWeekly.HasValue && isWeekly.Value)
-				{
-					var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
-				}
-				else if (isMonthly.HasValue && isMonthly.Value)
-				{
-					var previousMonthStartDate = DateTime.Now.AddMonths(-1);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
-				}
-				else if (isYearly.HasValue && isYearly.Value)
-				{
-					var previousYearStartDate = DateTime.Now.AddYears(-1);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
-				}
-				else if (startDate.HasValue && endDate.HasValue)
-				{
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToList();
-				}
+                if (isWeekly.HasValue && isWeekly.Value)
+                {
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
+                {
+                    var previousMonthStartDate = DateTime.Now.AddMonths(-1);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
+                }
+                else if (isYearly.HasValue && isYearly.Value)
+                {
+                    var previousYearStartDate = DateTime.Now.AddYears(-1);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
+                }
+                else if (startDate.HasValue && endDate.HasValue)
+                {
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToList();
+                }
 
                 if (!String.IsNullOrWhiteSpace(ideaSubmitters))
                 {
@@ -259,20 +259,20 @@ namespace SilkFlo.Web.Controllers
                     ideaList = ideaList.Where(x => poList.Contains(x.ProcessOwnerId)).ToList();
                 }
 
-				if (!String.IsNullOrWhiteSpace(departmentsId))
-				{
-					var departmentsIdList = departmentsId.Split(",");
-					ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToList();
-				}
+                if (!String.IsNullOrWhiteSpace(departmentsId))
+                {
+                    var departmentsIdList = departmentsId.Split(",");
+                    ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToList();
+                }
 
-				if (!String.IsNullOrWhiteSpace(teamsId))
-				{
-					var teamsIdList = teamsId.Split(",");
-					ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId)).ToList();
-				}
+                if (!String.IsNullOrWhiteSpace(teamsId))
+                {
+                    var teamsIdList = teamsId.Split(",");
+                    ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId)).ToList();
+                }
 
 
-				foreach (var idea in ideaList)
+                foreach (var idea in ideaList)
                 {
                     if (idea.IsDraft)
                         continue;
@@ -371,27 +371,27 @@ namespace SilkFlo.Web.Controllers
 
                 var ideas = new List<Models.Business.Idea>();
 
-				var ideaList = client.Ideas;
+                var ideaList = client.Ideas;
 
-				if (isWeekly.HasValue && isWeekly.Value)
-				{
-					var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
-				}
-				else if (isMonthly.HasValue && isMonthly.Value)
-				{
-					var previousMonthStartDate = DateTime.Now.AddMonths(-1);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
-				}
-				else if (isYearly.HasValue && isYearly.Value)
-				{
-					var previousYearStartDate = DateTime.Now.AddYears(-1);
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
-				}
-				else if (startDate.HasValue && endDate.HasValue)
-				{
-					ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToList();
-				}
+                if (isWeekly.HasValue && isWeekly.Value)
+                {
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
+                {
+                    var previousMonthStartDate = DateTime.Now.AddMonths(-1);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
+                }
+                else if (isYearly.HasValue && isYearly.Value)
+                {
+                    var previousYearStartDate = DateTime.Now.AddYears(-1);
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToList();
+                }
+                else if (startDate.HasValue && endDate.HasValue)
+                {
+                    ideaList = ideaList.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToList();
+                }
 
                 if (!String.IsNullOrWhiteSpace(ideaSubmitters))
                 {
@@ -405,20 +405,20 @@ namespace SilkFlo.Web.Controllers
                     ideaList = ideaList.Where(x => poList.Contains(x.ProcessOwnerId)).ToList();
                 }
 
-				if (!String.IsNullOrWhiteSpace(departmentsId))
-				{
-					var departmentsIdList = departmentsId.Split(",");
-					ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToList();
-				}
+                if (!String.IsNullOrWhiteSpace(departmentsId))
+                {
+                    var departmentsIdList = departmentsId.Split(",");
+                    ideaList = ideaList.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToList();
+                }
 
-				if (!String.IsNullOrWhiteSpace(teamsId))
-				{
-					var teamsIdList = teamsId.Split(",");
-					ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId)).ToList();
-				}
+                if (!String.IsNullOrWhiteSpace(teamsId))
+                {
+                    var teamsIdList = teamsId.Split(",");
+                    ideaList = ideaList.Where(x => teamsIdList.Contains(x.TeamId)).ToList();
+                }
 
 
-				foreach (var idea in ideaList)
+                foreach (var idea in ideaList)
                 {
                     if (idea.IsDraft)
                         continue;
@@ -487,9 +487,9 @@ namespace SilkFlo.Web.Controllers
         {
             decimal chargeIn;
 
-            if(previous == current)
+            if (previous == current)
                 return 0;
-            
+
             if (current > previous)
             {
                 if (previous == 0)
@@ -531,25 +531,25 @@ namespace SilkFlo.Web.Controllers
                 decimal totalValue = 0;
                 decimal totalHoursValue = 0;
 
-				if (isWeekly.HasValue && isWeekly.Value)
-				{
-					var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
-					ideas = ideas.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
-				}
-				else if (isMonthly.HasValue && isMonthly.Value)
-				{
-					var previousMonthStartDate = DateTime.Now.AddMonths(-1);
-					ideas = ideas.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
-				}
-				else if (isYearly.HasValue && isYearly.Value)
-				{
-					var previousYearStartDate = DateTime.Now.AddYears(-1);
-					ideas = ideas.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
-				}
-				else if (startDate.HasValue && endDate.HasValue)
-				{
-					ideas = ideas.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToArray();
-				}
+                if (isWeekly.HasValue && isWeekly.Value)
+                {
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                    ideas = ideas.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
+                {
+                    var previousMonthStartDate = DateTime.Now.AddMonths(-1);
+                    ideas = ideas.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
+                }
+                else if (isYearly.HasValue && isYearly.Value)
+                {
+                    var previousYearStartDate = DateTime.Now.AddYears(-1);
+                    ideas = ideas.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
+                }
+                else if (startDate.HasValue && endDate.HasValue)
+                {
+                    ideas = ideas.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToArray();
+                }
 
                 if (!String.IsNullOrWhiteSpace(ideaSubmitters))
                 {
@@ -563,20 +563,20 @@ namespace SilkFlo.Web.Controllers
                     ideas = ideas.Where(x => poList.Contains(x.ProcessOwnerId)).ToArray();
                 }
 
-				if (!String.IsNullOrWhiteSpace(departmentsId))
-				{
-					var departmentsIdList = departmentsId.Split(",");
-					ideas = ideas.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToArray();
-				}
+                if (!String.IsNullOrWhiteSpace(departmentsId))
+                {
+                    var departmentsIdList = departmentsId.Split(",");
+                    ideas = ideas.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToArray();
+                }
 
-				if (!String.IsNullOrWhiteSpace(teamsId))
-				{
-					var teamsIdList = teamsId.Split(",");
-					ideas = ideas.Where(x => teamsIdList.Contains(x.TeamId)).ToArray();
-				}
+                if (!String.IsNullOrWhiteSpace(teamsId))
+                {
+                    var teamsIdList = teamsId.Split(",");
+                    ideas = ideas.Where(x => teamsIdList.Contains(x.TeamId)).ToArray();
+                }
 
 
-				foreach (var idea in ideas)
+                foreach (var idea in ideas)
                 {
                     var model = new Models.Business.Idea(idea)
                     {
@@ -607,9 +607,9 @@ namespace SilkFlo.Web.Controllers
                         "",
                         totalChargeIn,
                         "Deployed-Benefits")
-                    {
-                        Title2 = totalHoursValue.ToString("#,###") + " hrs"
-                    };
+                {
+                    Title2 = totalHoursValue.ToString("#,###") + " hrs"
+                };
 
                 var html = await _viewToString.PartialAsync(
                     "Shared/Dashboard/_SummaryButton.cshtml",
@@ -649,25 +649,25 @@ namespace SilkFlo.Web.Controllers
 
                 var models = Models.Business.Idea.Create(cores);
 
-				if (isWeekly.HasValue && isWeekly.Value)
-				{
-					var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
-					models = models.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
-				}
-				else if (isMonthly.HasValue && isMonthly.Value)
-				{
-					var previousMonthStartDate = DateTime.Now.AddMonths(-1);
-					models = models.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
-				}
-				else if (isYearly.HasValue && isYearly.Value)
-				{
-					var previousYearStartDate = DateTime.Now.AddYears(-1);
-					models = models.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
-				}
-				else if (startDate.HasValue && endDate.HasValue)
-				{
-					models = models.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToArray();
-				}
+                if (isWeekly.HasValue && isWeekly.Value)
+                {
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                    models = models.Where(x => x.CreatedDate.Value.Date >= previousWeekStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
+                {
+                    var previousMonthStartDate = DateTime.Now.AddMonths(-1);
+                    models = models.Where(x => x.CreatedDate.Value.Date >= previousMonthStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
+                }
+                else if (isYearly.HasValue && isYearly.Value)
+                {
+                    var previousYearStartDate = DateTime.Now.AddYears(-1);
+                    models = models.Where(x => x.CreatedDate.Value.Date >= previousYearStartDate && x.CreatedDate.Value.Date <= DateTime.Now.Date).ToArray();
+                }
+                else if (startDate.HasValue && endDate.HasValue)
+                {
+                    models = models.Where(x => x.CreatedDate.Value.Date >= startDate.Value.Date && x.CreatedDate.Value.Date <= endDate.Value.Date).ToArray();
+                }
 
                 if (!String.IsNullOrWhiteSpace(ideaSubmitters))
                 {
@@ -681,19 +681,19 @@ namespace SilkFlo.Web.Controllers
                     models = models.Where(x => poList.Contains(x.ProcessOwnerId)).ToArray();
                 }
 
-				if (!String.IsNullOrWhiteSpace(departmentsId))
-				{
-					var departmentsIdList = departmentsId.Split(",");
-					models = models.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToArray();
-				}
+                if (!String.IsNullOrWhiteSpace(departmentsId))
+                {
+                    var departmentsIdList = departmentsId.Split(",");
+                    models = models.Where(x => departmentsIdList.Contains(x.DepartmentId)).ToArray();
+                }
 
-				if (!String.IsNullOrWhiteSpace(teamsId))
-				{
-					var teamsIdList = teamsId.Split(",");
-					models = models.Where(x => teamsIdList.Contains(x.TeamId)).ToArray();
-				}
+                if (!String.IsNullOrWhiteSpace(teamsId))
+                {
+                    var teamsIdList = teamsId.Split(",");
+                    models = models.Where(x => teamsIdList.Contains(x.TeamId)).ToArray();
+                }
 
-				var discoverIdeas = new List<Models.Business.Idea>();
+                var discoverIdeas = new List<Models.Business.Idea>();
                 var buildIdeas = new List<Models.Business.Idea>();
                 var deployedIdeas = new List<Models.Business.Idea>();
 
@@ -706,10 +706,10 @@ namespace SilkFlo.Web.Controllers
 
                     var ideaStage = model.LastIdeaStage;
 
-                    if(ideaStage == null)
+                    if (ideaStage == null)
                         continue;
 
-                    
+
                     if ((ideaStage.StageId == Data.Core.Enumerators.Stage.n00_Idea.ToString()
                          || ideaStage.StageId == Data.Core.Enumerators.Stage.n01_Assess.ToString()
                          || ideaStage.StageId == Data.Core.Enumerators.Stage.n02_Qualify.ToString()))
@@ -813,7 +813,7 @@ namespace SilkFlo.Web.Controllers
                 };
 
 
-                var html = await  _viewToString.PartialAsync("Shared/Dashboard/Component/_AutomationProgramPerformance.cshtml",
+                var html = await _viewToString.PartialAsync("Shared/Dashboard/Component/_AutomationProgramPerformance.cshtml",
                                                              new ViewModels.Dashboard.Component.AutomationProgramPerformance
                                                              {
                                                                  BarChart = barChart,
@@ -828,7 +828,7 @@ namespace SilkFlo.Web.Controllers
             }
         }
 
-        
+
 
 
         [HttpGet("/api/Dashboard/GetPipelineBenefitsByStage")]
@@ -841,7 +841,7 @@ namespace SilkFlo.Web.Controllers
 
                 var client = await GetClientAsync();
 
-                if(client == null)
+                if (client == null)
                     return Content("Unauthorised");
 
                 var model = new Models.Business.Client(client);
@@ -850,21 +850,21 @@ namespace SilkFlo.Web.Controllers
 
                 SVGChartTools.DataSet.PieChart data = new SVGChartTools.DataSet.PieChart(new List<SVGChartTools.DataSet.PieChartSlice>());
 
-				if (isWeekly.HasValue && isWeekly.Value)
-				{
-					var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
+                if (isWeekly.HasValue && isWeekly.Value)
+                {
+                    var previousWeekStartDate = DateTime.Now - TimeSpan.FromDays(7);
                     data = await model.GetPieCharPipelineBenefitByDifficultyDataSetByDateRangeAsync(previousWeekStartDate, DateTime.Now.Date);
-				}
-				else if (isMonthly.HasValue && isMonthly.Value)
-				{
-					var previousMonthStartDate = DateTime.Now.AddMonths(-1);
+                }
+                else if (isMonthly.HasValue && isMonthly.Value)
+                {
+                    var previousMonthStartDate = DateTime.Now.AddMonths(-1);
                     data = await model.GetPieCharPipelineBenefitByDifficultyDataSetByDateRangeAsync(previousMonthStartDate, DateTime.Now.Date);
-				}
-				else if (isYearly.HasValue && isYearly.Value)
-				{
-					var previousYearStartDate = DateTime.Now.AddYears(-1);
+                }
+                else if (isYearly.HasValue && isYearly.Value)
+                {
+                    var previousYearStartDate = DateTime.Now.AddYears(-1);
                     data = await model.GetPieCharPipelineBenefitByDifficultyDataSetByDateRangeAsync(previousYearStartDate, DateTime.Now.Date);
-				}
+                }
                 else
                 {
                     data = await model.GetPieCharPipelineBenefitByDifficultyDataSetByDateRangeAsync(null, null);
@@ -872,9 +872,9 @@ namespace SilkFlo.Web.Controllers
 
                 //var data = ViewModels.Chart.Doughnut.TestData();
                 var chart = new ViewModels.Chart.Doughnut(data);
-                
 
-                var html = await  _viewToString.PartialAsync("Shared/Dashboard/Component/_PipelineBenefitsByStage.cshtml",
+
+                var html = await _viewToString.PartialAsync("Shared/Dashboard/Component/_PipelineBenefitsByStage.cshtml",
                                                          new ViewModels.Dashboard.Component.PipelineBenefitsByStage
                                                          {
                                                              Year = 1,
@@ -943,10 +943,10 @@ namespace SilkFlo.Web.Controllers
                 var yearLast = date.Year;
 
 
-                foreach (var createdDate in from idea 
-                             in user.Ideas 
-                             where idea.CreatedDate != null 
-                             select (DateTime)idea.CreatedDate)
+                foreach (var createdDate in from idea
+                             in user.Ideas
+                                            where idea.CreatedDate != null
+                                            select (DateTime)idea.CreatedDate)
                 {
                     if (createdDate.Month == month && createdDate.Year == year)
                         monthCount++;
@@ -955,29 +955,29 @@ namespace SilkFlo.Web.Controllers
                         lastMonthCount++;
                 }
 
-				#region Change by Umair 
-				var tenant = await GetClientAsync();
+                #region Change by Umair 
+                var tenant = await GetClientAsync();
 
 
-				var filter = new ViewModels.Business.Idea.FilterCriteria
-				{
-					UserRelationship = ViewModels.Business.Idea.UserRelationship.MyIdeas
-				};
+                var filter = new ViewModels.Business.Idea.FilterCriteria
+                {
+                    UserRelationship = ViewModels.Business.Idea.UserRelationship.MyIdeas
+                };
 
-				var ideas = await Models.Business
-					.Idea
-					.GetForCardsAsync(_unitOfWork,
-						GetUserId(),
-						tenant,
-						filter,
-						this,
-						true);
-				
-				var total = ideas.Count();
-				#endregion
+                var ideas = await Models.Business
+                    .Idea
+                    .GetForCardsAsync(_unitOfWork,
+                        GetUserId(),
+                        tenant,
+                        filter,
+                        this,
+                        true);
+
+                var total = ideas.Count();
+                #endregion
 
 
-				//var total = user.Ideas.Count();
+                //var total = user.Ideas.Count();
                 var totalChargeIn = GetChangeIn(lastMonthCount, monthCount);
 
 
@@ -1055,7 +1055,7 @@ namespace SilkFlo.Web.Controllers
                         && createdDate.Year == year)
                         monthCount++;
 
-                    else if (createdDate.Month == monthLast 
+                    else if (createdDate.Month == monthLast
                              && createdDate.Year == yearLast)
                         lastMonthCount++;
                 }
@@ -1134,7 +1134,7 @@ namespace SilkFlo.Web.Controllers
 
                     if (ideaStage.CreatedDate == null) continue;
 
-                    var dateStart = ideaStage.DateStart?? ideaStage.DateStartEstimate;
+                    var dateStart = ideaStage.DateStart ?? ideaStage.DateStartEstimate;
 
                     if (dateStart.Month == month && dateStart.Year == year)
                         monthCount++;
@@ -1197,8 +1197,8 @@ namespace SilkFlo.Web.Controllers
                 var yearLast = date.Year;
 
                 foreach (var createdDate in from collaborator in user.Collaborators
-                    where collaborator.CreatedDate != null && !collaborator.Idea.IsDraft
-                    select (DateTime)collaborator.CreatedDate)
+                                            where collaborator.CreatedDate != null && !collaborator.Idea.IsDraft
+                                            select (DateTime)collaborator.CreatedDate)
                 {
                     if (createdDate.Month == month && createdDate.Year == year)
                         monthCount++;
@@ -1386,7 +1386,7 @@ namespace SilkFlo.Web.Controllers
                 {
                     TotalIdeas = total.ToString(),
                     TotalChangeIn = totalChangeIn,
-                    Ideas= ideas,
+                    Ideas = ideas,
                 };
 
                 return Json(result);
@@ -1410,10 +1410,10 @@ namespace SilkFlo.Web.Controllers
                 //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
                 //    return Content("");
 
-             //   var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
+                //   var userId = "ea65f7fc-ad04-4fe6-ac6c-eb57d84e4217";
 
-               // var user = await _unitOfWork.Users.GetAsync(userId);
-              //  var userId = GetUserId();
+                // var user = await _unitOfWork.Users.GetAsync(userId);
+                //  var userId = GetUserId();
 
                 var user = await _unitOfWork.Users.GetAsync(UserId);
                 if (await IsNewUser(user))
@@ -1464,11 +1464,11 @@ namespace SilkFlo.Web.Controllers
 
 
         [HttpGet("/api/Dashboard/GetIdeaById")]
-        public async Task<IActionResult> GetIdeaById([FromForm]string Id)
+        public async Task<IActionResult> GetIdeaById([FromForm] string Id)
         {
             try
             {
-              var obj= await _unitOfWork.BusinessIdeas.GetAsync(Id);
+                var obj = await _unitOfWork.BusinessIdeas.GetAsync(Id);
                 if (obj != null)
                 {
                     return Json(obj);
@@ -1493,10 +1493,9 @@ namespace SilkFlo.Web.Controllers
 
 
         [HttpPost("/api/Dashboard/AddEmployeeIdea")]
-        public async Task<IActionResult> AddEmployeeIdea([FromBody] ViewModels.Business.Idea.Modal model)
+        public async Task<IActionResult> AddEmployeeIdea([FromBody] ViewModels.Business.Idea.Modal model, [FromQuery] string UserId, [FromQuery] string ClientId, bool isPractice)
         {
             var feedback = new Feedback();
-
 
             // Guard Clause
             if (model == null)
@@ -1505,12 +1504,12 @@ namespace SilkFlo.Web.Controllers
                 return BadRequest(feedback);
             }
 
-            // Permission Clause
-            if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
-            {
-                feedback.DangerMessage("Unauthorised");
-                return BadRequest(feedback);
-            }
+            //// Permission Clause
+            //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+            //{
+            //    feedback.DangerMessage("Unauthorised");
+            //    return BadRequest(feedback);
+            //}
 
 
             var id = Guid.NewGuid().ToString();
@@ -1540,24 +1539,24 @@ namespace SilkFlo.Web.Controllers
 
 
             var message = CanAddCollaborator(model.Collaborators);
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                feedback.Message = message;
-                return BadRequest(feedback);
-            }
+            //if (!string.IsNullOrWhiteSpace(message))
+            //{
+            //    feedback.Message = message;
+            //    return BadRequest(feedback);
+            //}
 
 
-            var tenant = await GetClientAsync();
+            var tenant = await GetClient(ClientId, UserId, isPractice);
 
-            message = await CanAddProcess(
-                new Models.Business.Client(tenant),
-                "Cannot add additional process ideas.");
+            //message = await CanAddProcess(
+            //    new Models.Business.Client(tenant),
+            //    "Cannot add additional process ideas.");
 
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                feedback.WarningMessage(message);
-                return BadRequest(feedback);
-            }
+            //if (!string.IsNullOrWhiteSpace(message))
+            //{
+            //    feedback.WarningMessage(message);
+            //    return BadRequest(feedback);
+            //}
 
 
             var idea = new Data.Core.Domain.Business.Idea
@@ -1663,10 +1662,10 @@ namespace SilkFlo.Web.Controllers
             if (model.Collaborators == null || model.Collaborators.Count <= 0)
             {
                 //await _unitOfWork.CompleteAsync();
-                return Ok();
+                return Ok(new { Message = "Employee Idea saved successfully." });
             }
 
-            var userId = GetUserId();
+            //  var userId = GetUserId();
 
             // Get the existing.
             // We need some field content, before deleting them
@@ -1709,7 +1708,7 @@ namespace SilkFlo.Web.Controllers
                 core.IdeaId = idea.Id;
 
                 if (string.IsNullOrWhiteSpace(core.InvitedById))
-                    core.InvitedById = userId;
+                    core.InvitedById = UserId;
 
                 await _unitOfWork.AddAsync(core);
                 foreach (var collaboratorRole in collaborator.CollaboratorRoles)
@@ -1766,7 +1765,7 @@ namespace SilkFlo.Web.Controllers
 
             await _unitOfWork.CompleteAsync();
 
-            return Ok();
+            return Ok(new { Message = "Employee Idea saved successfully." });
         }
 
 
@@ -1776,7 +1775,7 @@ namespace SilkFlo.Web.Controllers
 
 
         [HttpPost("/api/Dashboard/AddCeoIdea")]
-        public async Task<IActionResult> Post([FromBody] Models.Business.Idea model)
+        public async Task<IActionResult> Post([FromBody] Models.Business.Idea model, [FromQuery] string UserId, [FromQuery] string ClientId, bool isPractice)
         {
             //var errors = new List<FieldError>();
             var feedback = new Feedback
@@ -1793,55 +1792,55 @@ namespace SilkFlo.Web.Controllers
                     return BadRequest(feedback);
                 }
 
-                // Permission Clause
-                if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
-                {
-                    feedback.DangerMessage("You are not authorised save an idea.");
-                    return BadRequest(feedback);
-                }
+                //// Permission Clause
+                //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+                //{
+                //    feedback.DangerMessage("You are not authorised save an idea.");
+                //    return BadRequest(feedback);
+                //}
 
                 // Permission Clause
-                if (string.IsNullOrWhiteSpace(model.Id)
-                    && !(await AuthorizeAsync(Policy.SubmitCoEDrivenIdeas)).Succeeded)
-                {
-                    feedback.DangerMessage(
-                        "You do not have permission to save a centre of excellence driven automation idea.");
-                    return BadRequest(feedback);
-                }
+                //if (string.IsNullOrWhiteSpace(model.Id)
+                //    && !(await AuthorizeAsync(Policy.SubmitCoEDrivenIdeas)).Succeeded)
+                //{
+                //    feedback.DangerMessage(
+                //        "You do not have permission to save a centre of excellence driven automation idea.");
+                //    return BadRequest(feedback);
+                //}
 
                 // Permission Clause
-                if (!(await AuthorizeAsync(Policy.ReviewNewIdeas)).Succeeded
-                    && !(await AuthorizeAsync(Policy.ReviewAssessedIdeas)).Succeeded
-                    && !(await AuthorizeAsync(Policy.EditAllIdeaFields)).Succeeded)
-                {
-                    feedback.DangerMessage("You do not have permission to save this idea.");
-                    return BadRequest(feedback);
-                }
+                //if (!(await AuthorizeAsync(Policy.ReviewNewIdeas)).Succeeded
+                //    && !(await AuthorizeAsync(Policy.ReviewAssessedIdeas)).Succeeded
+                //    && !(await AuthorizeAsync(Policy.EditAllIdeaFields)).Succeeded)
+                //{
+                //    feedback.DangerMessage("You do not have permission to save this idea.");
+                //    return BadRequest(feedback);
+                //}
 
 
-                var tenant = await GetClientAsync();
+                var tenant = await GetClient(ClientId, UserId, isPractice);
 
 
                 // Can add process permissions Clause
-                var message = await CanAddProcess(
-                    new Models.Business.Client(tenant),
-                    "Cannot add additional process ideas.");
+                //var message = await CanAddProcess(
+                //    new Models.Business.Client(tenant),
+                //    "Cannot add additional process ideas.");
 
-                if (!string.IsNullOrWhiteSpace(message))
-                {
-                    feedback.WarningMessage(message);
-                    return BadRequest(feedback);
-                }
+                //if (!string.IsNullOrWhiteSpace(message))
+                //{
+                //    feedback.WarningMessage(message);
+                //    return BadRequest(feedback);
+                //}
 
 
 
-                // Can add Collaborators permissions Clause
-                message = CanAddCollaborator(model.Collaborators);
-                if (!string.IsNullOrWhiteSpace(message))
-                {
-                    feedback.WarningMessage(message);
-                    return BadRequest(feedback);
-                }
+                //// Can add Collaborators permissions Clause
+                //message = CanAddCollaborator(model.Collaborators);
+                //if (!string.IsNullOrWhiteSpace(message))
+                //{
+                //    feedback.WarningMessage(message);
+                //    return BadRequest(feedback);
+                //}
 
 
 
@@ -1889,15 +1888,15 @@ namespace SilkFlo.Web.Controllers
                     feedback.Add("Name", "Your idea name is not unique");
 
 
-                if (!model.IsDraft
-                    && model.SubmissionPathId != Data.Core.Enumerators.SubmissionPath.StandardUser.ToString())
-                    feedback = Validate(model, feedback);
+                //if (!model.IsDraft
+                //    && model.SubmissionPathId != Data.Core.Enumerators.SubmissionPath.StandardUser.ToString())
+                //    feedback = Validate(model, feedback);
 
 
 
-                // Is NOT valid?
-                if (!feedback.IsValid)
-                    return BadRequest(feedback);
+                //// Is NOT valid?
+                //if (!feedback.IsValid)
+                //    return BadRequest(feedback);
 
 
 
@@ -1926,13 +1925,13 @@ namespace SilkFlo.Web.Controllers
                             model.IdeaApplicationVersions,
                             model.Id);
 
-                        var userId = GetUserId();
+                       // var userId = GetUserId();
 
                         await Models.Business.Collaborator.UpdateAsync(
                             _unitOfWork,
                             model.Collaborators,
                             model.Id,
-                            userId);
+                            UserId);
 
 
                         await _unitOfWork.CompleteAsync();
@@ -1951,20 +1950,20 @@ namespace SilkFlo.Web.Controllers
                         model.IdeaApplicationVersions,
                         model.Id);
 
-                    var userId = GetUserId();
+                    //var userId = GetUserId();
 
                     await Models.Business.Collaborator.UpdateAsync(
                         _unitOfWork,
                         model.Collaborators,
                         model.Id,
-                        userId);
+                        UserId);
 
 
                     await _unitOfWork.CompleteAsync();
 
                 }
 
-                return Ok();
+                return Ok(new { Message = "CEO Idea saved successfully." });
             }
             catch (Exception ex)
             {
@@ -2218,5 +2217,58 @@ namespace SilkFlo.Web.Controllers
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+        public async Task<Data.Core.Domain.Business.Client> GetClient(string ClientId, string UserId, bool isPractice, bool checkSubscription = false)
+        {
+
+            if (string.IsNullOrWhiteSpace(ClientId))
+            {
+                // Cookies are missing; therefore, we must use the user.ClientId
+
+                var user = await _unitOfWork.Users.GetAsync(UserId);
+
+                // Guard Clause
+                if (user == null)
+                    return null;
+
+                var client = await GetSingleOrDefaultValidatedAsync(user, ClientId);
+
+                if (isPractice && client is { IsPractice: false })
+                    client = await _unitOfWork.BusinessClients.SingleOrDefaultAsync(x => x.Id == client.PracticeId);
+
+                return client;
+            }
+            else
+            {
+                // Guard Clause
+                if (string.IsNullOrWhiteSpace(UserId))
+                    return null;
+
+                var user = await _unitOfWork.Users.GetAsync(UserId);
+
+                // Guard Clause
+                if (user == null)
+                    return null;
+
+                var client = await GetSingleOrDefaultValidatedAsync(user, ClientId, checkSubscription);
+
+
+                //problem of cookies
+
+                if (isPractice && client is { IsPractice: false })
+                    client = await _unitOfWork.BusinessClients.SingleOrDefaultAsync(x => x.Id == client.PracticeId);
+
+                return client;
+            }
+        }
     }
 }
