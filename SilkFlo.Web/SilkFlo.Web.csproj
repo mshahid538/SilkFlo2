@@ -29,6 +29,10 @@
 
 		<PackageReference Include="EntityFramework" Version="6.4.4" />
 
+		<PackageReference Include="ExcelDataReader" Version="3.6.0" />
+
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="6.0.16" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.6" />
@@ -91,6 +95,7 @@
 
 	<ItemGroup>
 		<Folder Include="Views\Idea\" />
+		<Folder Include="wwwroot\IdeaFiles\" />
 	</ItemGroup>
 
 </Project>

@@ -9,6 +9,13 @@ using System.Globalization;
 using SilkFlo.Web.Models.Business;
 using SilkFlo.Web.ViewModels;
 using SilkFlo.Data.Persistence;
+using System.IO;
+using System.Text;
+using Azure;
+using System.Data.Entity;
+using ExcelDataReader;
+using System.Data;
+
 
 namespace SilkFlo.Web.Controllers
 {
@@ -2270,5 +2277,103 @@ namespace SilkFlo.Web.Controllers
                 return client;
             }
         }
+
+
+
+
+
+
+
+
+
+        [HttpPost("/api/Dashboard/UploadBulkData")]
+
+        public async Task<IActionResult> UploadBulkData([FromForm] IFormFile File)
+        {
+            try
+            {
+                string fileName = File.FileName;
+                string uniqueName = Guid.NewGuid().ToString() + "-" + fileName.Replace(' ', '_');
+                string filePath = "wwwroot/IdeaFiles/" + uniqueName;
+                using (FileStream stream = new FileStream(filePath, FileMode.CreateNew))
+                {
+                    await File.CopyToAsync(stream);
+                }
+
+                List<ViewModels.Business.Idea.Modal> rows = new List<ViewModels.Business.Idea.Modal>();
+                if (File.FileName.ToLower().Contains(".xlsx") || File.FileName.ToLower().Contains(".xls"))
+                {
+                    rows = await UploadExcelFile(File,filePath);
+                }
+                else
+                {
+                    return Ok();
+                }
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return Ok();
+            }
+        }
+
+        public async Task<List<ViewModels.Business.Idea.Modal>> UploadExcelFile(IFormFile  File, string filepath)
+        {
+            List<ViewModels.Business.Idea.Modal> rows = new List<ViewModels.Business.Idea.Modal>();
+            try
+            {
+                FileStream fileStream = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                Encoding.GetEncoding(1252);
+                IExcelDataReader reader = ExcelReaderFactory.CreateReader(fileStream);
+                System.Data.DataSet dataSet = reader.AsDataSet(
+                    new ExcelDataSetConfiguration()
+                    {
+                        UseColumnDataType = false,
+                        ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = false,
+                        }
+                    });
+
+                for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+                {
+
+                    ViewModels.Business.Idea.Modal fileReader = new ViewModels.Business.Idea.Modal
+                    {
+                        Name = dataSet.Tables[0].Rows[i].ItemArray[0] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[0]) : string.Empty,
+                        Summary = dataSet.Tables[0].Rows[i].ItemArray[1] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[1]) : string.Empty,
+                        DepartmentId = dataSet.Tables[0].Rows[i].ItemArray[2] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[2]) : string.Empty,
+                        TeamId = dataSet.Tables[0].Rows[i].ItemArray[3] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[3]) : string.Empty,
+                        ProcessId = dataSet.Tables[0].Rows[i].ItemArray[4] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[4]) : string.Empty,
+                        RuleId = dataSet.Tables[0].Rows[i].ItemArray[5] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[5]) : string.Empty,
+                        InputId = dataSet.Tables[0].Rows[i].ItemArray[6] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[6]) : string.Empty,
+                        InputDataStructureId = dataSet.Tables[0].Rows[i].ItemArray[7] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[7]) : string.Empty,
+                        ProcessStabilityId = dataSet.Tables[0].Rows[i].ItemArray[8] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[8]) : string.Empty,
+                        DocumentationPresentId = dataSet.Tables[0].Rows[i].ItemArray[9] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[9]) : string.Empty,
+                        ProcessOwnerId = dataSet.Tables[0].Rows[i].ItemArray[10] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[10]) : string.Empty,
+                        Rating = dataSet.Tables[0].Rows[i].ItemArray[11] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[11].ToString()) : 0
+
+                    };
+
+                    rows.Add(fileReader);
+
+                }
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                return rows;
+            }
+
+
+
+
+
+        }
+
+
     }
 }
