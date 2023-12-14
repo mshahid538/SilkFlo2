@@ -275,7 +275,7 @@ namespace SilkFlo.Web.Models.Business
                 _core.ActivityVolumeAverageComment = value;
             }
         }
-
+        public string UserId { get; set; }
         public string ActivityVolumeAverageComment_ErrorMessage { get; set; }
         public bool ActivityVolumeAverageComment_IsInValid { get; set; }
         #endregion
@@ -3082,5 +3082,6 @@ namespace SilkFlo.Web.Models.Business
 
             return cores.Select(core => new Models.Business.Idea(core)).ToArray();
         }
+
     }
 }
