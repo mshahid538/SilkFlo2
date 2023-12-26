@@ -177,6 +177,9 @@ SilkFlo.SideBar = {
             id = 'SideBar.Settings.Tenant.People.Container';
         else if (url.toLowerCase().indexOf ('/settings/tenant/platform-setup') > -1)
             id = 'SideBar.Settings.Tenant.PlatformSetup.Container';
+
+        else if (url.toLowerCase().indexOf('/apiscontroller/upload-pipeline') > -1)
+            id = 'SideBar.Settings.Tenant.UploadPipeline.Container';
         // Setting Agent
         else if (url.toLowerCase().indexOf ('/settings/agency/account') > -1)
             id = 'SideBar.Settings.Agency.Account.Container';
@@ -186,6 +189,10 @@ SilkFlo.SideBar = {
             id = 'SideBar.Settings.Agency.Tenants.Container';
         else if (url.toLowerCase().indexOf ('/settings/agency/platformsetup') > -1)
             id = 'SideBar.Settings.Agency.PlatformSetup.Container';
+
+        else if (url.toLowerCase().indexOf('/apiscontroller/upload-pipeline') > -1)
+            id = 'SideBar.Settings.Agency.UploadPipeline.Container';
+
         else if (url.toLowerCase().indexOf ('/settings') > -1)
             id = 'SideBar.Settings.Tenant.Container';
         else if (url.toLowerCase().indexOf ('/agencysettings') > -1)

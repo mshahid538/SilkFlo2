@@ -1291,232 +1291,274 @@ namespace SilkFlo.Web.APIControllers.SilkFloApis
 
 
 
-        [HttpPost("/api/ApisController/UploadCeoBulkData")]
+        //[HttpPost("/api/ApisController/UploadCeoBulkData")]
 
-        public async Task<IActionResult> UploadCeoBulkData([FromForm] IFormFile File)
-        {
-            try
-            {
-                string fileName = File.FileName;
-                string uniqueName = Guid.NewGuid().ToString() + "-" + fileName.Replace(' ', '_');
-                string filePath = "wwwroot/IdeaFiles/" + uniqueName;
-                using (FileStream stream = new FileStream(filePath, FileMode.CreateNew))
-                {
-                    await File.CopyToAsync(stream);
-                }
+        //public async Task<IActionResult> UploadCeoBulkData([FromForm] IFormFile File)
+        //{
+        //    try
+        //    {
+        //        string fileName = File.FileName;
+        //        string uniqueName = Guid.NewGuid().ToString() + "-" + fileName.Replace(' ', '_');
+        //        string filePath = "wwwroot/IdeaFiles/" + uniqueName;
+        //        using (FileStream stream = new FileStream(filePath, FileMode.CreateNew))
+        //        {
+        //            await File.CopyToAsync(stream);
+        //        }
 
-                List<Models.Business.Idea> rows = new List<Models.Business.Idea>();
-                if (File.FileName.ToLower().Contains(".xlsx") || File.FileName.ToLower().Contains(".xls"))
-                {
-                    rows = await UploadCeoExcelFile(File, filePath);
-                }
-                else
-                {
-                    return Ok(new { status = false, message = "Invalid Data!", });
-                }
+        //        List<Models.Business.Idea> rows = new List<Models.Business.Idea>();
+        //        if (File.FileName.ToLower().Contains(".xlsx") || File.FileName.ToLower().Contains(".xls"))
+        //        {
+        //            rows = await UploadCeoExcelFile(File, filePath);
+        //        }
+        //        else
+        //        {
+        //            return Ok(new { status = false, message = "Invalid Data!", });
+        //        }
 
              
 
 
-                var feedback = new Feedback();
+        //        var feedback = new Feedback();
 
 
 
-                foreach (var model in rows)
-                {
+        //        foreach (var model in rows)
+        //        {
 
-                    // Guard Clause
-                    //if (model == null)
-                    //{
-                    //    feedback.DangerMessage("The model is missing.");
-                    //    return BadRequest(feedback);
-                    //}
+        //            // Guard Clause
+        //            //if (model == null)
+        //            //{
+        //            //    feedback.DangerMessage("The model is missing.");
+        //            //    return BadRequest(feedback);
+        //            //}
 
-                    //// Permission Clause
-                    //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
-                    //{
-                    //    feedback.DangerMessage("You are not authorised save an idea.");
-                    //    return BadRequest(feedback);
-                    //}
+        //            //// Permission Clause
+        //            //if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+        //            //{
+        //            //    feedback.DangerMessage("You are not authorised save an idea.");
+        //            //    return BadRequest(feedback);
+        //            //}
 
-                    //// Permission Clause
-                    //if (string.IsNullOrWhiteSpace(model.Id)
-                    //    && !(await AuthorizeAsync(Policy.SubmitCoEDrivenIdeas)).Succeeded)
-                    //{
-                    //    feedback.DangerMessage(
-                    //        "You do not have permission to save a centre of excellence driven automation idea.");
-                    //    return BadRequest(feedback);
-                    //}
+        //            //// Permission Clause
+        //            //if (string.IsNullOrWhiteSpace(model.Id)
+        //            //    && !(await AuthorizeAsync(Policy.SubmitCoEDrivenIdeas)).Succeeded)
+        //            //{
+        //            //    feedback.DangerMessage(
+        //            //        "You do not have permission to save a centre of excellence driven automation idea.");
+        //            //    return BadRequest(feedback);
+        //            //}
 
-                    //// Permission Clause
-                    //if (!(await AuthorizeAsync(Policy.ReviewNewIdeas)).Succeeded
-                    //    && !(await AuthorizeAsync(Policy.ReviewAssessedIdeas)).Succeeded
-                    //    && !(await AuthorizeAsync(Policy.EditAllIdeaFields)).Succeeded)
-                    //{
-                    //    feedback.DangerMessage("You do not have permission to save this idea.");
-                    //    return BadRequest(feedback);
-                    //}
-
-
-                    var tenant = await GetClient(model.ClientId, model.UserId, true);
+        //            //// Permission Clause
+        //            //if (!(await AuthorizeAsync(Policy.ReviewNewIdeas)).Succeeded
+        //            //    && !(await AuthorizeAsync(Policy.ReviewAssessedIdeas)).Succeeded
+        //            //    && !(await AuthorizeAsync(Policy.EditAllIdeaFields)).Succeeded)
+        //            //{
+        //            //    feedback.DangerMessage("You do not have permission to save this idea.");
+        //            //    return BadRequest(feedback);
+        //            //}
 
 
-                    //// Can add process permissions Clause
-                    //var message = await CanAddProcess(
-                    //    new Models.Business.Client(tenant),
-                    //    "Cannot add additional process ideas.");
-
-                    //if (!string.IsNullOrWhiteSpace(message))
-                    //{
-                    //    feedback.WarningMessage(message);
-                    //    return BadRequest(feedback);
-                    //}
+        //            var tenant = await GetClient(model.ClientId, model.UserId, true);
 
 
+        //            //// Can add process permissions Clause
+        //            //var message = await CanAddProcess(
+        //            //    new Models.Business.Client(tenant),
+        //            //    "Cannot add additional process ideas.");
 
-                    //// Can add Collaborators permissions Clause
-                    //message = CanAddCollaborator(model.Collaborators);
-                    //if (!string.IsNullOrWhiteSpace(message))
-                    //{
-                    //    feedback.WarningMessage(message);
-                    //    return BadRequest(feedback);
-                    //}
+        //            //if (!string.IsNullOrWhiteSpace(message))
+        //            //{
+        //            //    feedback.WarningMessage(message);
+        //            //    return BadRequest(feedback);
+        //            //}
 
 
 
-
-                    model.ClientId = tenant.Id;
-
-                    // Prepare the IdeaApplicationVersions for validation, by Idea.Id
-                    foreach (var ideaApplicationVersion in model.IdeaApplicationVersions)
-                        ideaApplicationVersion.IdeaId = model.Id;
-
-
-
-                    if (!model.IsNew)
-                    {
-                        // Not new? Check if the idea already on the database?
-                        var coreOnDataStore = await _unitOfWork.BusinessIdeas.GetAsync(model.Id);
-
-                        // The model was not found on the database.
-                        // Log a hack and return view.
-                        if (coreOnDataStore == null)
-                        {
-                            _unitOfWork.Log("The user attempted to save an idea with an incorrect Id.");
-
-                            feedback.DangerMessage("The id is not valid");
-                            return BadRequest(feedback);
-                        }
-                    }
-
-
-                    // Validate
-                    if (string.IsNullOrWhiteSpace(model.Name))
-                        feedback.Add("Name", "The name of your idea is missing");
-                    else if (model.Name.Length > 100)
-                        feedback.Add("Name", "Name must be between 1 and 100 in length");
-
-
-                    if (string.IsNullOrWhiteSpace(model.Summary))
-                        feedback.Add("Summary", "Summary is missing");
-                    else if (model.Summary.Length > 750)
-                        feedback.Add("Summary", "Name must be between 1 and 750 in length");
-
-
-                    var uniqueMessage = await _unitOfWork.IsUniqueAsync(model.GetCore());
-                    if (!string.IsNullOrWhiteSpace(uniqueMessage))
-                        feedback.Add("Name", "Your idea name is not unique");
-
-
-                    //if (!model.IsDraft
-                    //    && model.SubmissionPathId != Data.Core.Enumerators.SubmissionPath.StandardUser.ToString())
-                    //    feedback = Validate(model, feedback);
+        //            //// Can add Collaborators permissions Clause
+        //            //message = CanAddCollaborator(model.Collaborators);
+        //            //if (!string.IsNullOrWhiteSpace(message))
+        //            //{
+        //            //    feedback.WarningMessage(message);
+        //            //    return BadRequest(feedback);
+        //            //}
 
 
 
-                    // Is NOT valid?
-                    if (!feedback.IsValid)
-                        return BadRequest(feedback);
+
+        //            model.ClientId = tenant.Id;
+
+        //            // Prepare the IdeaApplicationVersions for validation, by Idea.Id
+        //            foreach (var ideaApplicationVersion in model.IdeaApplicationVersions)
+        //                ideaApplicationVersion.IdeaId = model.Id;
 
 
 
-                    var core = model.GetCore();
+        //            if (!model.IsNew)
+        //            {
+        //                // Not new? Check if the idea already on the database?
+        //                var coreOnDataStore = await _unitOfWork.BusinessIdeas.GetAsync(model.Id);
 
-                    if (!core.IsDraft)
-                    {
-                        // Add stage if the idea is not draft
-                        if (!core.IsNew)
-                            await _unitOfWork.BusinessIdeaStages.GetForIdeaAsync(core);
+        //                // The model was not found on the database.
+        //                // Log a hack and return view.
+        //                if (coreOnDataStore == null)
+        //                {
+        //                    _unitOfWork.Log("The user attempted to save an idea with an incorrect Id.");
 
-                        if (!core.IdeaStages.Any())
-                        {
-                            //First save ideaa
-                            await _unitOfWork.AddAsync(core);
-
-                            //then it's stages and status
-                            await Models.Business.IdeaStage.AddWorkFlow(_unitOfWork, core);
-
-
-                            await _unitOfWork.CompleteAsync();
-
-                            //continue
-                            // Add Applications
-                            await SaveApplicationsListAsync(
-                                model.IdeaApplicationVersions,
-                                model.Id);
-
-                            var userId = model.UserId;
-
-                            await Models.Business.Collaborator.UpdateAsync(
-                                _unitOfWork,
-                                model.Collaborators,
-                                model.Id,
-                                userId);
+        //                    feedback.DangerMessage("The id is not valid");
+        //                    return BadRequest(feedback);
+        //                }
+        //            }
 
 
-                            await _unitOfWork.CompleteAsync();
-                        }
-                    }
-                    else
-                    {
+        //            // Validate
+        //            if (string.IsNullOrWhiteSpace(model.Name))
+        //                feedback.Add("Name", "The name of your idea is missing");
+        //            else if (model.Name.Length > 100)
+        //                feedback.Add("Name", "Name must be between 1 and 100 in length");
 
 
-                        await _unitOfWork.AddAsync(core);
-
-                        await _unitOfWork.CompleteAsync();
-
-                        // Add Applications
-                        await SaveApplicationsListAsync(
-                            model.IdeaApplicationVersions,
-                            model.Id);
-
-                        var userId = model.UserId;
-
-                        await Models.Business.Collaborator.UpdateAsync(
-                            _unitOfWork,
-                            model.Collaborators,
-                            model.Id,
-                            userId);
+        //            if (string.IsNullOrWhiteSpace(model.Summary))
+        //                feedback.Add("Summary", "Summary is missing");
+        //            else if (model.Summary.Length > 750)
+        //                feedback.Add("Summary", "Name must be between 1 and 750 in length");
 
 
-                        await _unitOfWork.CompleteAsync();
+        //            var uniqueMessage = await _unitOfWork.IsUniqueAsync(model.GetCore());
+        //            if (!string.IsNullOrWhiteSpace(uniqueMessage))
+        //                feedback.Add("Name", "Your idea name is not unique");
 
-                    }
 
-                }
+        //            //if (!model.IsDraft
+        //            //    && model.SubmissionPathId != Data.Core.Enumerators.SubmissionPath.StandardUser.ToString())
+        //            //    feedback = Validate(model, feedback);
 
-                return Ok(new { Message = "Ceo Ideas Added successfully." });
 
-            }
-            catch (Exception ex)
-            {
-                return Ok();
-            }
-        }
 
-        public async Task<List<Models.Business.Idea>> UploadCeoExcelFile(IFormFile File, string filepath)
+        //            // Is NOT valid?
+        //            if (!feedback.IsValid)
+        //                return BadRequest(feedback);
+
+
+
+        //            var core = model.GetCore();
+
+        //            if (!core.IsDraft)
+        //            {
+        //                // Add stage if the idea is not draft
+        //                if (!core.IsNew)
+        //                    await _unitOfWork.BusinessIdeaStages.GetForIdeaAsync(core);
+
+        //                if (!core.IdeaStages.Any())
+        //                {
+        //                    //First save ideaa
+        //                    await _unitOfWork.AddAsync(core);
+
+        //                    //then it's stages and status
+        //                    await Models.Business.IdeaStage.AddWorkFlow(_unitOfWork, core);
+
+
+        //                    await _unitOfWork.CompleteAsync();
+
+        //                    //continue
+        //                    // Add Applications
+        //                    await SaveApplicationsListAsync(
+        //                        model.IdeaApplicationVersions,
+        //                        model.Id);
+
+        //                    var userId = model.UserId;
+
+        //                    await Models.Business.Collaborator.UpdateAsync(
+        //                        _unitOfWork,
+        //                        model.Collaborators,
+        //                        model.Id,
+        //                        userId);
+
+
+        //                    await _unitOfWork.CompleteAsync();
+        //                }
+        //            }
+        //            else
+        //            {
+
+
+        //                await _unitOfWork.AddAsync(core);
+
+        //                await _unitOfWork.CompleteAsync();
+
+        //                // Add Applications
+        //                await SaveApplicationsListAsync(
+        //                    model.IdeaApplicationVersions,
+        //                    model.Id);
+
+        //                var userId = model.UserId;
+
+        //                await Models.Business.Collaborator.UpdateAsync(
+        //                    _unitOfWork,
+        //                    model.Collaborators,
+        //                    model.Id,
+        //                    userId);
+
+
+        //                await _unitOfWork.CompleteAsync();
+
+        //            }
+
+        //        }
+
+        //        return Ok(new { Message = "Ceo Ideas Added successfully." });
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Ok();
+        //    }
+        //}
+
+
+
+
+		[HttpPost("/api/ApisController/UploadCeoBulkData")]
+
+		public async Task<IActionResult> UploadCeoBulkData([FromForm] IFormFile File)
+		{
+			try
+			{
+				string fileName = File.FileName;
+				string uniqueName = Guid.NewGuid().ToString() + "-" + fileName.Replace(' ', '_');
+				string filePath = "wwwroot/IdeaFiles/" + uniqueName;
+				using (FileStream stream = new FileStream(filePath, FileMode.CreateNew))
+				{
+					await File.CopyToAsync(stream);
+				}
+
+				List<APIControllers.SilkFloApis.COEBulkIdeaModel> rows = new List<APIControllers.SilkFloApis.COEBulkIdeaModel>();
+				if (File.FileName.ToLower().Contains(".xlsx") || File.FileName.ToLower().Contains(".xls"))
+				{
+					rows = await UploadCeoExcelFile(File, filePath);
+				}
+				else
+				{
+					return Ok(new { status = false, message = "Invalid Data!", });
+				}
+
+
+
+
+				var feedback = new Feedback();
+
+				return Ok(new { status = true, message = "Ceo Ideas Added successfully." , data=rows});
+
+			}
+			catch (Exception ex)
+			{
+				return Ok();
+			}
+		}
+
+
+		public async Task<List<APIControllers.SilkFloApis.COEBulkIdeaModel>> UploadCeoExcelFile(IFormFile File, string filepath)
         {
-            List<Models.Business.Idea> rows = new List<Models.Business.Idea>();
+            List<APIControllers.SilkFloApis.COEBulkIdeaModel> rows = new List<APIControllers.SilkFloApis.COEBulkIdeaModel>();
             try
             {
                 FileStream fileStream = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -1533,29 +1575,69 @@ namespace SilkFlo.Web.APIControllers.SilkFloApis
                         }
                     });
 
-                for (int i = 1; i < dataSet.Tables[0].Rows.Count; i++)
+                for (int i = 4; i < dataSet.Tables[0].Rows.Count; i++)
                 {
 
-                    Models.Business.Idea fileReader = new
-                   Models.Business.Idea
-                    {
+					APIControllers.SilkFloApis.COEBulkIdeaModel fileReader = new
+				   APIControllers.SilkFloApis.COEBulkIdeaModel
+					{
                         Name = dataSet.Tables[0].Rows[i].ItemArray[0] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[0]) : string.Empty,
-                        Summary = dataSet.Tables[0].Rows[i].ItemArray[1] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[1]) : string.Empty,
-                        DepartmentId = dataSet.Tables[0].Rows[i].ItemArray[2] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[2]) : string.Empty,
-                        TeamId = dataSet.Tables[0].Rows[i].ItemArray[3] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[3]) : string.Empty,
-                        ProcessId = dataSet.Tables[0].Rows[i].ItemArray[4] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[4]) : string.Empty,
-                        RuleId = dataSet.Tables[0].Rows[i].ItemArray[5] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[5]) : string.Empty,
-                        InputId = dataSet.Tables[0].Rows[i].ItemArray[6] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[6]) : string.Empty,
-                        InputDataStructureId = dataSet.Tables[0].Rows[i].ItemArray[7] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[7]) : string.Empty,
-                        ProcessStabilityId = dataSet.Tables[0].Rows[i].ItemArray[8] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[8]) : string.Empty,
-                        DocumentationPresentId = dataSet.Tables[0].Rows[i].ItemArray[9] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[9]) : string.Empty,
-                        ProcessOwnerId = dataSet.Tables[0].Rows[i].ItemArray[10] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[10]) : string.Empty,
-                        Rating = dataSet.Tables[0].Rows[i].ItemArray[11] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[11].ToString()) : 0,
-                        ClientId = dataSet.Tables[0].Rows[i].ItemArray[12] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[12]) : string.Empty,                      
-                        UserId = dataSet.Tables[0].Rows[i].ItemArray[13] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[13]) : string.Empty,
-                        SubmissionPathId = dataSet.Tables[0].Rows[i].ItemArray[14] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[14]) : string.Empty,
+						CreatedDate = DateTime.TryParse(Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[1]), out DateTime parsedDate) ? parsedDate : DateTime.MinValue,
+						SubmitterEmailAddress = dataSet.Tables[0].Rows[i].ItemArray[2] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[2]) : string.Empty,
+						ProcessOwnerEmailAddress = dataSet.Tables[0].Rows[i].ItemArray[3] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[3]) : string.Empty,
+						AutomationId = dataSet.Tables[0].Rows[i].ItemArray[4] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[4]) : string.Empty,
+						Description = dataSet.Tables[0].Rows[i].ItemArray[5] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[5]) : string.Empty,
+                        DepartmentId = dataSet.Tables[0].Rows[i].ItemArray[6] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[6]) : string.Empty,
+                       TeamId = dataSet.Tables[0].Rows[i].ItemArray[7] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[7]) : string.Empty,
+                        ProcessId = dataSet.Tables[0].Rows[i].ItemArray[8] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[8]) : string.Empty,
+						Stage = dataSet.Tables[0].Rows[i].ItemArray[9] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[9]) : string.Empty,
+						Status = dataSet.Tables[0].Rows[i].ItemArray[10] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[10]) : string.Empty,
+						DeployeementDate = DateTime.TryParse(Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[11]), out DateTime deployeementDate) ? deployeementDate : DateTime.MinValue,
+						RuleId = dataSet.Tables[0].Rows[i].ItemArray[12] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[12]) : string.Empty,
+                       InputId = dataSet.Tables[0].Rows[i].ItemArray[13] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[13]) : string.Empty,
+                       InputDataStructureId = dataSet.Tables[0].Rows[i].ItemArray[14] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[14]) : string.Empty,
+                       ProcessStabilityId = dataSet.Tables[0].Rows[i].ItemArray[15] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[15]) : string.Empty,
+                       DocumentationPresentId = dataSet.Tables[0].Rows[i].ItemArray[16] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[16]) : string.Empty,
+                       AutomationGoalId= dataSet.Tables[0].Rows[i].ItemArray[17] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[17]) : string.Empty,
+						ApplicationStabilityId = dataSet.Tables[0].Rows[i].ItemArray[18] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[18]) : string.Empty,
+						AverageWorkingDay = dataSet.Tables[0].Rows[i].ItemArray[19] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[19].ToString()) : 0,
+						WorkingHour = decimal.TryParse(dataSet.Tables[0].Rows[i].ItemArray[20]?.ToString(), out decimal workingHourResult) ? workingHourResult : 0.0m,
+					    AverageEmployeeFullCost = dataSet.Tables[0].Rows[i].ItemArray[21] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[21].ToString()) : 0,
+						EmployeeCount = dataSet.Tables[0].Rows[i].ItemArray[22] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[22].ToString()) : 0,
+						TaskFrequencyId = dataSet.Tables[0].Rows[i].ItemArray[23] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[23]) : string.Empty,
+						ActivityVolumeAverage= dataSet.Tables[0].Rows[i].ItemArray[24] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[24].ToString()) : 0,
+						AverageProcessingTime = decimal.TryParse(dataSet.Tables[0].Rows[i].ItemArray[25]?.ToString(), out decimal averageProcessingTimeResult) ? averageProcessingTimeResult : 0.0m,
+					    AverageErrorRate = dataSet.Tables[0].Rows[i].ItemArray[26] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[26].ToString()) : 0,
+						AverageReworkTime = decimal.TryParse(dataSet.Tables[0].Rows[i].ItemArray[27]?.ToString(), out decimal averageReworkTimeResult) ? averageReworkTimeResult : 0.0m,
+						AverageWorkToBeReviewed = decimal.TryParse(dataSet.Tables[0].Rows[i].ItemArray[28]?.ToString(), out decimal averageWorkToBeReviewedResult) ? averageWorkToBeReviewedResult : 0.0m,
+					AverageReviewTimeComment = dataSet.Tables[0].Rows[i].ItemArray[29] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[29]) : string.Empty,
+					    ProcessPeakId = dataSet.Tables[0].Rows[i].ItemArray[30] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[30]) : string.Empty,
+					    AverageNumberOfStepId= dataSet.Tables[0].Rows[i].ItemArray[31] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[31]) : string.Empty,
+					    NumberOfWaysToCompleteProcessId= dataSet.Tables[0].Rows[i].ItemArray[32] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[32]) : string.Empty,
+					    DataInputPercentOfStructuredId = dataSet.Tables[0].Rows[i].ItemArray[33] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[33]) : string.Empty,
+					    DecisionCountId = dataSet.Tables[0].Rows[i].ItemArray[34] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[34]) : string.Empty,
+					    DecisionDifficultyId = dataSet.Tables[0].Rows[i].ItemArray[35] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[35]) : string.Empty,
+                        PotentialFineAmount = decimal.TryParse(dataSet.Tables[0].Rows[i].ItemArray[36]?.ToString(), out decimal potentialFineAmountResult) ? potentialFineAmountResult : 0.0m,
+					PotentialFineProbability = decimal.TryParse(dataSet.Tables[0].Rows[i].ItemArray[37]?.ToString(), out decimal potentialFineProbabilityResult) ? potentialFineProbabilityResult : 0.0m,
+					IsHighRisk = int.TryParse(dataSet.Tables[0].Rows[i].ItemArray[38]?.ToString(), out int highRiskValue) && highRiskValue != 0,
+					IsDataSensitive = int.TryParse(dataSet.Tables[0].Rows[i].ItemArray[39]?.ToString(), out int sensitiveValue) && sensitiveValue != 0,
+					IsAlternative = int.TryParse(dataSet.Tables[0].Rows[i].ItemArray[40]?.ToString(), out int alternativeValue) && alternativeValue != 0,
+					IsHostUpgrade = int.TryParse(dataSet.Tables[0].Rows[i].ItemArray[41]?.ToString(), out int hostUpgradeValue) && hostUpgradeValue != 0,
+					IsDataInputScanned = int.TryParse(dataSet.Tables[0].Rows[i].ItemArray[42]?.ToString(), out int dataInputScannedValue) && dataInputScannedValue != 0,
 
-                    };
+
+
+
+					//////////////
+					///
+
+					//ProcessOwnerId = dataSet.Tables[0].Rows[i].ItemArray[10] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[10]) : string.Empty,
+					//                  Rating = dataSet.Tables[0].Rows[i].ItemArray[11] != null ? int.Parse(dataSet.Tables[0].Rows[i].ItemArray[11].ToString()) : 0,
+					//                  ClientId = dataSet.Tables[0].Rows[i].ItemArray[12] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[12]) : string.Empty,                      
+					//                  UserId = dataSet.Tables[0].Rows[i].ItemArray[13] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[13]) : string.Empty,
+					//                  SubmissionPathId = dataSet.Tables[0].Rows[i].ItemArray[14] != null ? Convert.ToString(dataSet.Tables[0].Rows[i].ItemArray[14]) : string.Empty,
+
+				};
 
                     rows.Add(fileReader);
 
@@ -1576,6 +1658,106 @@ namespace SilkFlo.Web.APIControllers.SilkFloApis
 
 
 
+        [HttpGet("/ApisController/Upload-Pipeline/{tab}")]
+        //[HttpGet("/Settings/tenant/Platform-Setup/{tab}/Software-Vendor")]
+        //[HttpGet("/Settings/tenant/Platform-Setup/{tab}/Initial-Costs")]
+        //[HttpGet("/Settings/tenant/Platform-Setup/{tab}/Running-Costs")]
+        //[HttpGet("/Settings/tenant/Platform-Setup/{tab}/Other-Running-Costs")]
+        public async Task<IActionResult> GetPipelinesetupcost(string tab)
+        {
+            return await CreateUploadPipelineSetupView(false, tab);
+        }
+
+
+
+        [HttpGet("/api/ApisController/Upload-Pipeline/{tab}")]
+		public async Task<IActionResult> GetPipelineApi(string tab)
+		{
+			return await CreateUploadPipelineSetupView(true, tab);
+		}
+
+
+        [HttpGet("/ApisController/Upload-Pipeline")]
+        public IActionResult GetPlatformSetup()
+        {
+            return Redirect("/ApisController/Upload-Pipeline/Business-Units");
+        }
+
+
+        private async Task<IActionResult> CreateUploadPipelineSetupView(
+		   bool returnStringContent,
+		   string tab)
+		{
+			if (!(await AuthorizeAsync(Policy.ManageTenantSettings)).Succeeded)
+			{
+				if (!(await AuthorizeAsync(Policy.Subscriber)).Succeeded)
+				{
+					if (returnStringContent)
+						return NegativeFeedback();
+
+					return Redirect("/account/signin");
+				}
+
+				return View("../home/Page", "<h1 class=\"text-warning\">You do not have permissions to manage platform settings.</h1>");
+			}
+
+			try
+			{
+				var client = await GetClientAsync();
+
+				if (client == null)
+				{
+					if (returnStringContent)
+						return NegativeFeedback();
+
+					return Redirect("/account/signin");
+				}
+
+
+				if (string.IsNullOrWhiteSpace(tab))
+					tab = "business-units";
+
+				var uploadPipeline = new ViewModels.Settings.UploadPipeline(
+					tab,
+					client.IsPractice);
+
+
+				const string url = "/Views/Settings/UploadPipeline.cshtml";
+				if (returnStringContent)
+				{
+					var html = await _viewToString.PartialAsync(url, uploadPipeline);
+					return Content(html);
+				}
+
+				return View("/Views/Settings/UploadPipeline.cshtml", uploadPipeline);
+			}
+			catch (Exception ex)
+			{
+				Log(ex);
+
+				if (returnStringContent)
+					return Content("Error fetching data");
+
+
+				return View("/Views/Home/maintenance.cshtml", "CreatePlatformSetupView");
+			}
+		}
+
+
+
+
+
+
+		//[HttpGet("/api/ApisController/Upload-Pipeline")]
+  //      public async Task<IActionResult> GetPipeline()
+  //      {
+  //          //// Authorization Clause
+  //          //if (!(await AuthorizeAsync(Policy.ManageAgencySettings)).Succeeded)
+  //          //    return NegativeFeedback();
+       
+  //          //return await CreateTenantsView(true);
+  //          return View("/Views/Settings/UploadPipeline.cshtml");
+  //      }
 
 
         private async Task<bool> IsNewUser(Data.Core.Domain.User user = null)

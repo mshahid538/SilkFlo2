@@ -1,0 +1,188 @@
+﻿<h3 style="margin-bottom: 2rem; color:#FF8A00;">Upload > Pipeline</h3>
+
+@* <div class="d-flex justify-content-end"  style="margin-bottom: 1rem">
+	<button type="button" class="btn btn-warning" id="ShowCOEPipelineModal">
+		<img src="~/Icons/Plus.svg"
+			 style="height: 10px" />
+		<span> Upload COE Pipeline</span>
+	</button>
+</div>
+
+<div style="margin-bottom: 2rem">
+	<button type="button" class="btn btn-warning" id="ShowEmployeePipelineModal">
+		<img src="~/Icons/Plus.svg"
+		style="height: 10px" />
+		<span> Upload Employee Pipeline</span>
+	</button>
+</div> *@
+
+
+<div class="d-flex justify-content-end">
+	<div style="display: inline-block; margin-bottom: 1rem; margin-right: 10px;">
+		<button type="button" class="btn btn-warning" id="ShowCOEPipelineModal">
+			<img src="~/Icons/Plus.svg" style="height: 10px" />
+			<span> Upload COE Pipeline</span>
+		</button>
+	</div>
+
+	<div style="display: inline-block; margin-bottom: 2rem">
+		<button type="button" class="btn btn-warning" id="ShowEmployeePipelineModal">
+			<img src="~/Icons/Plus.svg" style="height: 10px" />
+			<span> Upload Employee Pipeline</span>
+		</button>
+	</div>
+</div>
+
+
+
+
+<div class="modal fade"
+	 id="UploadPipelineModal"
+	 tabindex="-1"
+	 aria-labelledby="myModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog modal-content" style="border-radius:3px;padding: 25px;max-width: 580px">
+		<form class="row" style="margin-top:0 !important">
+			<div class="col-12">
+				<button type="button"
+						data-dismiss="modal"
+						class="btn-close"
+						style="float: right"
+						data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				<h2 class="modal-title"
+					id="myModalLabel"
+					style="font-weight: bold;font-size: 1rem; margin-bottom: 16px;">
+					Upload COE Pipeline
+				</h2>
+			</div>
+
+			<div class="col-12" style="margin-top: 25px;">
+				<div id="dropZone" style="margin-inline: auto; margin-top: 0; flex: 0.5; height: 200px;" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+					<div>
+						<svg width="82"
+							 height="82"
+							 viewBox="0 0 82 82"
+							 fill="none"
+							 xmlns="http://www.w3.org/2000/svg">
+							<path d="M6.83301 41.0002H13.6663V58.0835H68.333V41.0002H75.1663V58.0835C75.1663 61.876 72.1255
+                        64.9168 68.333 64.9168H13.6663C11.854 64.9168 10.1159 64.1969 8.83444
+                        62.9154C7.55295 61.6339 6.83301 59.8958 6.83301 58.0835V41.0002ZM40.9997
+                        6.8335L22.0713 25.4885L26.923 30.3402L37.583 19.646V51.2502H44.4163V19.646L55.1105
+                        30.3402L59.9622 25.4543L40.9997 6.8335Z"
+								  fill="#FF8A00" />
+						</svg>
+						<h3 class="dropZoneTitle">Browse your files here..</h3>
+						<div class="browse-btn-container">
+							<input id="fileElem" type="file" style="display: none;" onchange="onFileElemChange()" multiple="multiple" />
+							<label id="btn-label" for="fileElem">Browse</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
+					<button type="button"
+							id="btnTFilesUpload"
+							onclick="documentsTUpload()"
+							class="btn btn-primary"
+							style="background: #ff8a00; border: 0; border-radius: 8px">
+						Next
+					</button>
+				</div>
+			</div>
+			<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
+			</div>
+			<div id="usrFilesContainer" style="display: none;" class="table-responsive" style="margin-top:20px">
+				<table class="table table-hover .table-sm .table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">File Name</th>
+						</tr>
+					</thead>
+					<tbody id="filesTempViewer">
+					</tbody>
+				</table>
+			</div>
+
+			<div id="noFilesTextTDiv">
+				<b>No files selected</b>
+			</div>
+
+			<div id="alrtBlobInfo"></div>
+		</form>
+	</div>
+
+	<div id="employeeDataContainer">
+
+	</div>
+</div>
+
+<script>
+	$('#ShowCOEPipelineModal').click(function () {
+
+		$("#UploadPipelineModal").modal("show");
+	});
+
+
+
+	$('#btnTFilesUpload').click(function () {
+		var formData = new FormData();
+		var file = document.getElementById('fileElem').files[0];
+		formData.append('File', file);
+
+		$.ajax({
+			type: 'POST',
+			url: '/api/ApisController/UploadCeoBulkData',
+			data: formData,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				if (response.status==true) {
+					debugger
+					var employeeData = response.data;
+
+					// Perform actions with the employee data as needed
+					console.log(employeeData);
+
+					// Append the rows to a container element (adjust the selector as needed)
+					var container = $('#employeeDataContainer');
+					container.empty(); // Clear previous content
+
+					// Append each row to the container
+					$.each(employeeData, function (index, row) {
+						debugger
+						var rowHtml = '<div>' +
+							'<p>Name: ' + row.name + '</p>' +
+							'<p>Summary: ' + row.Summary + '</p>' +
+							'<p>DepartmentId: ' + row.DepartmentId + '</p>' +
+							'<p>TeamId: ' + row.TeamId + '</p>' +
+							'<p>ProcessId: ' + row.ProcessId + '</p>' +
+							'<p>RuleId: ' + row.RuleId + '</p>' +
+							'<p>InputId: ' + row.InputId + '</p>' +
+							'<p>InputDataStructureId: ' + row.InputDataStructureId + '</p>' +
+							'<p>ProcessStabilityId: ' + row.ProcessStabilityId + '</p>' +
+							'<p>DocumentationPresentId: ' + row.DocumentationPresentId + '</p>' +
+							'<p>ProcessOwnerId: ' + row.ProcessOwnerId + '</p>' +
+							'<p>Rating: ' + row.Rating + '</p>' +
+							'<p>ClientId: ' + row.ClientId + '</p>' +
+							'<p>UserId: ' + row.UserId + '</p>' +
+							'</div>';
+
+						container.append(rowHtml);
+					});
+
+					container.show();
+				} else {
+					// Handle the case when the server returns an error
+					console.error(response.message);
+				}
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
+	});
+
+
+
+</script>
