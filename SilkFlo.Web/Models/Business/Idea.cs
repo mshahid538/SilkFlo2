@@ -333,7 +333,7 @@ namespace SilkFlo.Web.Models.Business
             }
         }
 
-        public string AverageEmployeeFullCost_ErrorMessage { get; set; }
+		public string AverageEmployeeFullCost_ErrorMessage { get; set; }
         public bool AverageEmployeeFullCost_IsInValid { get; set; }
         #endregion
 

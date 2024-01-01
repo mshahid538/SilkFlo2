@@ -933,5 +933,8 @@ namespace SilkFlo.Web.Models.Business
 
             return ideas;
         }
-    }
+
+		public string? Stage { get; set; }
+		public string? Status { get; set; }
+	}
 }

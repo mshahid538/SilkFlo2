@@ -1,22 +1,5 @@
 ﻿<h3 style="margin-bottom: 2rem; color:#FF8A00;">Upload > Pipeline</h3>
 
-@* <div class="d-flex justify-content-end"  style="margin-bottom: 1rem">
-	<button type="button" class="btn btn-warning" id="ShowCOEPipelineModal">
-		<img src="~/Icons/Plus.svg"
-			 style="height: 10px" />
-		<span> Upload COE Pipeline</span>
-	</button>
-</div>
-
-<div style="margin-bottom: 2rem">
-	<button type="button" class="btn btn-warning" id="ShowEmployeePipelineModal">
-		<img src="~/Icons/Plus.svg"
-		style="height: 10px" />
-		<span> Upload Employee Pipeline</span>
-	</button>
-</div> *@
-
-
 <div class="d-flex justify-content-end">
 	<div style="display: inline-block; margin-bottom: 1rem; margin-right: 10px;">
 		<button type="button" class="btn btn-warning" id="ShowCOEPipelineModal">
@@ -33,15 +16,12 @@
 	</div>
 </div>
 
-
-
-
 <div class="modal fade"
 	 id="UploadPipelineModal"
 	 tabindex="-1"
 	 aria-labelledby="myModalLabel"
 	 aria-hidden="true">
-	<div class="modal-dialog modal-content" style="border-radius:3px;padding: 25px;max-width: 580px">
+	<div class="modal-dialog modal-content" style="border-radius:3px;padding: 25px;max-width: 1100px">
 		<form class="row" style="margin-top:0 !important">
 			<div class="col-12">
 				<button type="button"
@@ -58,7 +38,7 @@
 			</div>
 
 			<div class="col-12" style="margin-top: 25px;">
-				<div id="dropZone" style="margin-inline: auto; margin-top: 0; flex: 0.5; height: 200px;" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+				<div id="dropZone" style="margin-inline: auto; margin-top: 0; flex: 0.5; height: 200px; width: 700px;" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
 					<div>
 						<svg width="82"
 							 height="82"
@@ -82,12 +62,12 @@
 				<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
 					<button type="button"
 							id="btnTFilesUpload"
-							onclick="documentsTUpload()"
+							onclick=""
 							class="btn btn-primary"
 							style="background: #ff8a00; border: 0; border-radius: 8px">
 						Next
 					</button>
-				</div>
+                </div>
 			</div>
 			<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
 			</div>
@@ -110,79 +90,184 @@
 
 			<div id="alrtBlobInfo"></div>
 		</form>
+
+
+		<hr />
+		<div style="overflow-y: auto; max-height: 400px;">
+			<table id="Coedatalist" class="table table-striped dataTable table-bordered">
+				<thead>
+					<tr>
+						<td><strong>Name</strong></td>
+						<td><strong>CreatedDate</strong></td>
+						<td><strong>SubmitterEmailAddress</strong></td>
+						<td><strong>ProcessOwnerEmailAddress</strong></td>
+						<td><strong>AutomationId</strong></td>
+						<td><strong>Description</strong></td>
+						<td><strong>DepartmentId</strong></td>
+						<td><strong>TeamId</strong></td>
+						<td><strong>ProcessId</strong></td>
+						<td><strong>Stage</strong></td>
+						<td><strong>Status</strong></td>
+						<td><strong>DeployeementDate</strong></td>
+						<td><strong>RuleId</strong></td>
+						<td><strong>InputId</strong></td>
+						<td><strong>InputDataStructureId</strong></td>
+						<td><strong>ProcessStabilityId</strong></td>
+						<td><strong>DocumentationPresentId</strong></td>
+						<td><strong>AutomationGoalId</strong></td>
+						<td><strong>ApplicationStabilityId</strong></td>
+						<td><strong>TaskFrequencyId</strong></td>
+						<td><strong>AverageReviewTimeComment</strong></td>
+						<td><strong>ProcessPeakId</strong></td>
+						<td><strong>AverageNumberOfStepId</strong></td>
+						<td><strong>NumberOfWaysToCompleteProcessId</strong></td>
+						<td><strong>DataInputPercentOfStructuredId</strong></td>
+						<td><strong>DecisionCountId</strong></td>
+						<td><strong>DecisionDifficultyId</strong></td>
+						<td><strong>AverageWorkingDay</strong></td>
+						<td><strong>AverageEmployeeFullCost</strong></td>
+						<td><strong>ActivityVolumeAverage</strong></td>
+						<td><strong>EmployeeCount</strong></td>
+						<td><strong>AverageErrorRate</strong></td>
+						<td><strong>WorkingHour</strong></td>
+						<td><strong>AverageProcessingTime</strong></td>
+						<td><strong>AverageReworkTime</strong></td>
+						<td><strong>AverageWorkToBeReviewed</strong></td>
+						<td><strong>PotentialFineAmount</strong></td>
+						<td><strong>PotentialFineProbability</strong></td>
+						<td><strong>IsHighRisk</strong></td>
+						<td><strong>IsDataSensitive</strong></td>
+						<td><strong>IsAlternative</strong></td>
+						<td><strong>IsHostUpgrade</strong></td>
+						<td><strong>IsDataInputScanned</strong></td>
+
+					</tr>
+				</thead>
+				<tbody id="Coedata">
+					<!-- Add your table body content here -->
+				</tbody>
+			</table>
+
+		</div>
+
+
+		<hr />
+		<div class="col-12" style="margin-top: 20px; justify-content: flex-end;display: flex;">
+			<button type="button"
+					id="saveCOEData"
+					onclick=""
+					class="btn btn-primary"
+					style="background: #ff8a00; border: 0; border-radius: 8px">
+				Save
+			</button>
+		</div>
 	</div>
 
-	<div id="employeeDataContainer">
-
-	</div>
+	
 </div>
-
 <script>
-	$('#ShowCOEPipelineModal').click(function () {
-
-		$("#UploadPipelineModal").modal("show");
-	});
 
 
+	$(document).ready(function () {
 
-	$('#btnTFilesUpload').click(function () {
-		var formData = new FormData();
-		var file = document.getElementById('fileElem').files[0];
-		formData.append('File', file);
+		$('#ShowCOEPipelineModal').click(function () {
 
-		$.ajax({
-			type: 'POST',
-			url: '/api/ApisController/UploadCeoBulkData',
-			data: formData,
-			contentType: false,
-			processData: false,
-			success: function (response) {
-				if (response.status==true) {
-					debugger
-					var employeeData = response.data;
-
-					// Perform actions with the employee data as needed
-					console.log(employeeData);
-
-					// Append the rows to a container element (adjust the selector as needed)
-					var container = $('#employeeDataContainer');
-					container.empty(); // Clear previous content
-
-					// Append each row to the container
-					$.each(employeeData, function (index, row) {
-						debugger
-						var rowHtml = '<div>' +
-							'<p>Name: ' + row.name + '</p>' +
-							'<p>Summary: ' + row.Summary + '</p>' +
-							'<p>DepartmentId: ' + row.DepartmentId + '</p>' +
-							'<p>TeamId: ' + row.TeamId + '</p>' +
-							'<p>ProcessId: ' + row.ProcessId + '</p>' +
-							'<p>RuleId: ' + row.RuleId + '</p>' +
-							'<p>InputId: ' + row.InputId + '</p>' +
-							'<p>InputDataStructureId: ' + row.InputDataStructureId + '</p>' +
-							'<p>ProcessStabilityId: ' + row.ProcessStabilityId + '</p>' +
-							'<p>DocumentationPresentId: ' + row.DocumentationPresentId + '</p>' +
-							'<p>ProcessOwnerId: ' + row.ProcessOwnerId + '</p>' +
-							'<p>Rating: ' + row.Rating + '</p>' +
-							'<p>ClientId: ' + row.ClientId + '</p>' +
-							'<p>UserId: ' + row.UserId + '</p>' +
-							'</div>';
-
-						container.append(rowHtml);
-					});
-
-					container.show();
-				} else {
-					// Handle the case when the server returns an error
-					console.error(response.message);
-				}
-			},
-			error: function (error) {
-				console.log(error);
-			}
+			$("#UploadPipelineModal").modal("show");
 		});
+
+
+		$('#btnTFilesUpload').click(function () {
+			var formData = new FormData();
+			var file = document.getElementById('fileElem').files[0];
+			formData.append('File', file);
+
+			$.ajax({
+				type: 'POST',
+				url: '/api/ApisController/UploadCeoBulkData',
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function (response) {
+					if (response.status == true) {
+						var employeeData = response.data;
+
+						// Clear previous content in the table
+						$('#Coedata').empty();
+
+						// Append each row to the table
+						$.each(employeeData, function (index, row) {
+							var newRow = '<tr>';
+							// Loop through each property in the row
+							for (var prop in row) {
+								if (row.hasOwnProperty(prop)) {
+									newRow += '<td>' + row[prop] + '</td>';
+								}
+							}
+							newRow += '</tr>';
+
+							// Append the new row to the table body
+							$('#Coedata').append(newRow);
+						});
+
+						// Show the table
+						$('#Coedatalist').show();
+					} else {
+						// Handle the case when the server returns an error
+						console.error(response.message);
+					}
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+		});
+
+
+
+
+		$('#saveCOEData').click(function () {
+			var tableData = [];
+
+			$("#Coedatalist tbody tr").each(function () {
+				var rowData = {};
+				var $row = $(this);
+
+				$row.find('td').each(function (index) {
+					var columnName = $("#Coedatalist thead tr td").eq(index).text();
+
+					var cellValue = $(this).text();
+
+					rowData[columnName] = cellValue;
+				});
+
+				tableData.push(rowData);
+			});
+
+			console.log(tableData);
+
+
+
+
+			$.ajax({
+				type: 'POST',
+				url: '/api/ApisController/SaveCOEData',
+				data: JSON.stringify(tableData),
+				contentType: 'application/json',
+				success: function (response) {
+					if (response.status == true) {
+						$("#UploadPipelineModal").modal("hide");
+
+					} else {
+						console.error(response.message);
+					}
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+		});
+
 	});
-
-
+	
 
 </script>

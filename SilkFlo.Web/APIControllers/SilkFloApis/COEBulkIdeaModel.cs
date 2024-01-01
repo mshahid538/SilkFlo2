@@ -42,11 +42,11 @@ namespace SilkFlo.Web.APIControllers.SilkFloApis
 		public decimal? AverageWorkToBeReviewed {  get; set; }
 		public decimal? PotentialFineAmount {  get; set; }
 		public decimal? PotentialFineProbability {  get; set; }
-		public bool? IsHighRisk {  get; set; }
-		public bool? IsDataSensitive {  get; set; }
-		public bool? IsAlternative {  get; set; }
-		public bool? IsHostUpgrade {  get; set; }
-		public bool? IsDataInputScanned {  get; set; }
+		public string? IsHighRisk {  get; set; }
+		public string? IsDataSensitive {  get; set; }
+		public string? IsAlternative {  get; set; }
+		public string? IsHostUpgrade {  get; set; }
+		public string? IsDataInputScanned {  get; set; }
 
 
 	}
