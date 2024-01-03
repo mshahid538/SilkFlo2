@@ -1948,7 +1948,7 @@ namespace SilkFlo.Web.APIControllers.SilkFloApis
                     });
 
 				// for (int i = 4; i < dataSet.Tables[0].Rows.Count; i++)
-				 for (int i = 4; i < 5; i++)
+				 for (int i = 3; i < dataSet.Tables[0].Rows.Count; i++)
 
 				{
 
@@ -2089,7 +2089,7 @@ namespace SilkFlo.Web.APIControllers.SilkFloApis
 
 
 				if (string.IsNullOrWhiteSpace(tab))
-					tab = "business-units";
+					tab = "Pipeline-Units";
 
 				var uploadPipeline = new ViewModels.Settings.UploadPipeline(
 					tab,
